@@ -1,26 +1,5 @@
-**README.md preview 단축키**  
+**[Cursor] README.md preview 단축키**  
 command + shift + v
 
-**prettier Cursor 세팅**  
+**[Cursor] prettier 세팅**  
 https://dudghsx.tistory.com/entry/ESLint-Prettier-%EC%A0%81%EC%9A%A9%ED%95%98%EA%B8%B0
-
-**.prettierrc 코드 설명**
-
-```
-{
-  "semi": true,                       // 문장 끝에 세미콜론
-  "singleQuote": true,                // 문자열에 ' ' 사용
-  "trailingComma": "all",             // 가능하면 항상 마지막에 쉼표
-  "printWidth": 100,                  // 한 줄 최대 길이
-  "tabWidth": 2,                      // 들여쓰기 2칸
-  "useTabs": false,                   // 탭 대신 스페이스
-  "bracketSpacing": true,             // { foo: bar } 중괄호 안에 공백
-  "arrowParens": "always",            // 화살표 함수 파라미터 항상 괄호
-  "endOfLine": "lf",                  // 줄바꿈 방식 (LF)
-  "jsxSingleQuote": false,            // JSX에서는 " " 사용
-  "proseWrap": "preserve",            // 마크다운 자동 줄바꿈 안함
-  "htmlWhitespaceSensitivity": "css", // HTML 공백 CSS 규칙에 맞춤
-  "quoteProps": "as-needed",          // 객체 키에 필요할 때만 따옴표
-  "bracketSameLine": false            // JSX 닫는 꺾쇠는 새 줄
-}
-```

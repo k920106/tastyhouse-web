@@ -1,6 +1,6 @@
 /** @type {import('prettier').Config} */
 module.exports = {
-  semi: true, // 문장 끝에 세미콜론
+  semi: false, // 문장 끝에 세미콜론 제거
   singleQuote: true, // 문자열에 ' ' 사용
   trailingComma: 'all', // 가능하면 항상 마지막에 쉼표
   printWidth: 100, // 한 줄 최대 길이
@@ -14,5 +14,4 @@ module.exports = {
   htmlWhitespaceSensitivity: 'css', // HTML 공백 CSS 규칙에 맞춤
   quoteProps: 'as-needed', // 객체 키에 필요할 때만 따옴표
   bracketSameLine: false, // JSX 닫는 꺾쇠는 새 줄
-};
-
+}
