@@ -1,7 +1,7 @@
-import { dirname } from 'path'
-import { fileURLToPath } from 'url'
 import { FlatCompat } from '@eslint/eslintrc'
 import unusedImports from 'eslint-plugin-unused-imports'
+import { dirname } from 'path'
+import { fileURLToPath } from 'url'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
@@ -29,6 +29,22 @@ const eslintConfig = [
           argsIgnorePattern: '^_',
         },
       ],
+      // 세미콜론 관련 규칙
+      semi: ['error', 'never'],
+      'no-extra-semi': 'error',
+      // 따옴표 관련 규칙
+      quotes: ['error', 'single'],
+      'jsx-quotes': ['error', 'prefer-double'],
+      // 쉼표 관련 규칙
+      'comma-dangle': ['error', 'always-multiline'],
+      // 공백 관련 규칙
+      'no-trailing-spaces': 'error',
+      'eol-last': 'error',
+      // 자동 수정 가능한 규칙들
+      'prefer-const': 'error',
+      'no-var': 'error',
+      'object-shorthand': 'error',
+      'prefer-template': 'error',
     },
   },
 ]

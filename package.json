@@ -10,9 +10,13 @@
     "lint:fix": "next lint --fix",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "clean-imports": "eslint . --fix --rule 'unused-imports/no-unused-imports: error'"
+    "clean-imports": "eslint . --fix --rule 'unused-imports/no-unused-imports: error'",
+    "type-check": "tsc --noEmit",
+    "code-quality": "npm run lint:fix && npm run format && npm run type-check",
+    "prepare": "husky install"
   },
   "dependencies": {
+    "axios": "^1.11.0",
     "next": "15.4.6",
     "react": "19.1.0",
     "react-dom": "19.1.0",

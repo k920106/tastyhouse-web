@@ -14,4 +14,12 @@ module.exports = {
   htmlWhitespaceSensitivity: 'css', // HTML 공백 CSS 규칙에 맞춤
   quoteProps: 'as-needed', // 객체 키에 필요할 때만 따옴표
   bracketSameLine: false, // JSX 닫는 꺾쇠는 새 줄
+  overrides: [
+    {
+      files: '*.ts,*.tsx',
+      options: {
+        parser: 'typescript',
+      },
+    },
+  ],
 }
