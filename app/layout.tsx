@@ -1,4 +1,4 @@
-import "./globals.css";
+import './globals.css'
 
 export default function RootLayout({
   children,
@@ -7,8 +7,8 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body>
-        {children}
+      <body className="flex justify-center min-h-screen bg-white">
+        <div className="w-full max-w-[500px]">{children}</div>
       </body>
     </html>
   )
