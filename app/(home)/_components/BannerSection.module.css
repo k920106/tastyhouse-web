@@ -1,0 +1,12 @@
+.bannerSwiper :global(.swiper-pagination) {
+  bottom: 24px;
+  right: 24px;
+  left: auto;
+  width: auto;
+  background-color: rgba(0, 0, 0, 0.5);
+  color: white;
+  padding: 6px 16px;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: 500;
+}

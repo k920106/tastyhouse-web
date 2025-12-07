@@ -1,3 +1,36 @@
-export default function HomePage() {
-  return <div>HomePage</div>
+import { ApiClient } from '@/components/commons/ApiClient'
+import { Banner } from '@/types/api/banner'
+import { PagedApiResponse } from '@/types/api/common'
+import BannerSection from './_components/BannerSection'
+
+async function getBanners(): Promise<Banner[]> {
+  try {
+    const response = await ApiClient.get<PagedApiResponse<Banner>>('/banners/v1', {
+      page: 0,
+      size: 5,
+    })
+
+    if (response.success && response.data) {
+      return response.data.sort((a, b) => a.sort - b.sort)
+    }
+
+    return []
+  } catch (error) {
+    console.error('Failed to fetch banners:', error)
+    return []
+  }
+}
+
+export default async function HomePage() {
+  const banners = await getBanners()
+
+  return (
+    <>
+      <BannerSection banners={banners} />
+      <section>베스트 리뷰</section>
+      <section>베스트 플레이스</section>
+      <section>오늘의 할인</section>
+      <section>테하 초이스</section>
+    </>
+  )
 }
