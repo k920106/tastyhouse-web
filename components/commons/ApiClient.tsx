@@ -6,8 +6,14 @@ interface ApiClientOptions {
 }
 
 export class ApiClient {
-  private static baseUrl =
-    process.env.NODE_ENV === 'production' ? process.env.NEXT_PUBLIC_API_URL || '/api' : '/api'
+  private static getBaseUrl(): string {
+    // 서버 사이드에서는 완전한 URL 필요
+    if (typeof window === 'undefined') {
+      return process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:8080'
+    }
+    // 클라이언트 사이드에서는 상대 경로 사용 (rewrites가 처리)
+    return ''
+  }
 
   static async request<T = unknown>(endpoint: string, options: ApiClientOptions = {}): Promise<T> {
     const { method = 'GET', body, headers = {}, timeout = 10000 } = options
@@ -35,7 +41,9 @@ export class ApiClient {
     }
 
     try {
-      const response = await fetch(`${this.baseUrl}${endpoint}`, config)
+      const baseUrl = this.getBaseUrl()
+      const url = baseUrl ? `${baseUrl}/api${endpoint}` : `/api${endpoint}`
+      const response = await fetch(url, config)
 
       // 타임아웃 클리어
       clearTimeout(timeoutId)
@@ -74,10 +82,24 @@ export class ApiClient {
 
   static async get<T = unknown>(
     endpoint: string,
+    params?: Record<string, string | number | boolean | undefined>,
     headers?: Record<string, string>,
     timeout?: number,
   ): Promise<T> {
-    return this.request<T>(endpoint, { method: 'GET', headers, timeout })
+    let url = endpoint
+    if (params) {
+      const searchParams = new URLSearchParams()
+      Object.entries(params).forEach(([key, value]) => {
+        if (value !== undefined && value !== null) {
+          searchParams.append(key, String(value))
+        }
+      })
+      const queryString = searchParams.toString()
+      if (queryString) {
+        url = `${endpoint}?${queryString}`
+      }
+    }
+    return this.request<T>(url, { method: 'GET', headers, timeout })
   }
 
   static async post<T = unknown>(
