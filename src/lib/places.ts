@@ -1,11 +1,11 @@
 import axios from 'axios'
 
-interface PlaceNearProps {
+interface PlaceNearParams {
   latitude: number
   longitude: number
 }
 
-export default async function PlaceNear({ latitude, longitude }: PlaceNearProps) {
+export async function getPlacesNear({ latitude, longitude }: PlaceNearParams) {
   try {
     const response = await axios.get('/api/places', {
       params: {

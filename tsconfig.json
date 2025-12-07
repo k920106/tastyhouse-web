@@ -23,7 +23,7 @@
       }
     ],
     "paths": {
-      "@/*": ["./*"]
+      "@/*": ["./src/*"]
     },
     "baseUrl": ".",
     "types": ["node"]
@@ -33,9 +33,7 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-    "components/**/*",
-    "app/**/*",
-    "types/**/*"
+    "src/**/*"
   ],
   "exclude": ["node_modules", ".next", "out"]
 }

@@ -1,7 +1,7 @@
 'use client'
 
-import { PlaceData } from '@/app/api/places/interface'
-import fetchPlaces from '@/app/api/places/PlaceNear'
+import { PlaceData } from '@/types/api/place'
+import { getPlacesNear } from '@/lib/places'
 import Script from 'next/script'
 import { useCallback, useRef, useState } from 'react'
 
@@ -129,7 +129,7 @@ export default function KakaoMap() {
   const fetchAndUpdatePlaces = useCallback(
     async (lat: number, lng: number, mapInstance: KakaoMap) => {
       try {
-        const responseData = await fetchPlaces({ latitude: lat, longitude: lng })
+        const responseData = await getPlacesNear({ latitude: lat, longitude: lng })
         const placesData: PlaceData[] = responseData
 
         // 기존 마커 제거

@@ -1,4 +1,4 @@
-import { ApiClient } from '@/components/commons/ApiClient'
+import { ApiClient } from '@/lib/api-client'
 import { Banner } from '@/types/api/banner'
 import { PagedApiResponse } from '@/types/api/common'
 import BannerSection from './_components/BannerSection'

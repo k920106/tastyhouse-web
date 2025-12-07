@@ -1,4 +1,4 @@
-import { ApiClient } from '@/components/commons/ApiClient'
+import { ApiClient } from '@/lib/api-client'
 
 interface SubmitButtonProps {
   form: {
