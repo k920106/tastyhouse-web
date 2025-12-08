@@ -31,7 +31,7 @@ export default function BestReviewSection({ reviews }: BestReviewSectionProps) {
   }
 
   return (
-    <section className="w-full bg-white pt-[50px] pb-[60px]">
+    <section className="w-full pt-[50px] pb-[60px]">
       <div className="mx-auto max-w-[1200px] px-4">
         <header className="mb-[30px] text-center">
           <h2 className="mb-[15px] text-[23px] text-gray-900 font-[family-name:var(--font-nanum-myeongjo-bold)] font-bold">
