@@ -1,4 +1,4 @@
-import axios from 'axios'
+import { ApiClient } from './api-client'
 
 interface PlaceNearParams {
   latitude: number
@@ -7,13 +7,11 @@ interface PlaceNearParams {
 
 export async function getPlacesNear({ latitude, longitude }: PlaceNearParams) {
   try {
-    const response = await axios.get('/api/places', {
-      params: {
-        latitude,
-        longitude,
-      },
+    const response = await ApiClient.get('/places', {
+      latitude,
+      longitude,
     })
-    return response.data
+    return response
   } catch (err) {
     console.error('주변 장소 조회 실패:', err)
     return []

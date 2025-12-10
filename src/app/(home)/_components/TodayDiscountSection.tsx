@@ -21,14 +21,11 @@ export default function TodayDiscountSection({ discounts }: TodayDiscountSection
         </header>
         <div className="mb-10 space-y-0 divide-y divide-[#eeeeee] border-y border-[#eeeeee]">
           {discounts.map((discount) => (
-            <div
-              key={discount.id}
-              className="flex items-center gap-4 py-[15px] cursor-pointer transition-colors"
-            >
-              <div className="relative w-[75px] h-[75px] flex-shrink-0 rounded-lg overflow-hidden">
+            <div key={discount.id} className="flex items-center gap-4 py-[15px] cursor-pointer">
+              <div className="relative w-[75px] h-[75px] flex-shrink-0 overflow-hidden">
                 <Image
                   src={discount.imageUrl}
-                  alt={discount.productName}
+                  alt={discount.name}
                   fill
                   className="object-cover"
                   sizes="160px"
@@ -36,7 +33,7 @@ export default function TodayDiscountSection({ discounts }: TodayDiscountSection
               </div>
               <div className="flex-1 min-w-0 h-[75px] flex flex-col">
                 <p className="text-xs mb-1.5">{discount.placeName}</p>
-                <h3 className="text-base font-medium mb-auto truncate">{discount.productName}</h3>
+                <h3 className="text-base font-medium mb-auto truncate">{discount.name}</h3>
                 <div className="flex justify-between mt-auto">
                   <div className="flex items-end gap-2">
                     <span className="text-base">{discount.discountPrice.toLocaleString()}원</span>
