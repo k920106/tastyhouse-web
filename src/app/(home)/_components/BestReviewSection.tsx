@@ -8,6 +8,7 @@ import type { Swiper as SwiperType } from 'swiper'
 import { Navigation } from 'swiper/modules'
 import { Swiper, SwiperSlide } from 'swiper/react'
 
+import { formatDecimal } from '@/lib/number'
 import 'swiper/css'
 import 'swiper/css/navigation'
 import 'swiper/css/pagination'
@@ -150,7 +151,7 @@ export default function BestReviewSection({ reviews }: BestReviewSectionProps) {
                       <div className="mb-1.5 flex items-center justify-between">
                         <span className="text-xs text-[#999999]">{review.stationName}</span>
                         <span className="text-[19px] text-main">
-                          {review.totalRating.toFixed(1)}
+                          {formatDecimal(review.totalRating, 1)}
                         </span>
                       </div>
                       <h3 className="mb-[19px] text-base text-gray-900 truncate">{review.title}</h3>
@@ -167,7 +168,7 @@ export default function BestReviewSection({ reviews }: BestReviewSectionProps) {
             <div className="relative flex items-center justify-center pt-4">
               <button
                 onClick={() => swiperRef.current?.slidePrev()}
-                className="absolute left-1/2 -translate-x-[100px] rounded-full p-2 transition-all hover:bg-gray-100"
+                className="absolute left-1/2 -translate-x-[100px] rounded-full p-2 transition-all"
                 aria-label="이전 슬라이드"
               >
                 <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -184,7 +185,7 @@ export default function BestReviewSection({ reviews }: BestReviewSectionProps) {
               </div>
               <button
                 onClick={() => swiperRef.current?.slideNext()}
-                className="absolute left-1/2 translate-x-[70px] rounded-full p-2 transition-all hover:bg-gray-100"
+                className="absolute left-1/2 translate-x-[70px] rounded-full p-2 transition-all"
                 aria-label="다음 슬라이드"
               >
                 <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">

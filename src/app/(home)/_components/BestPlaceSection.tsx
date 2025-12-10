@@ -1,3 +1,4 @@
+import { formatDecimal } from '@/lib/number'
 import { BestPlace } from '@/types/api/place'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -29,13 +30,13 @@ export default function BestPlaceSection({ places }: BestPlaceSectionProps) {
                     alt={place.placeName}
                     fill
                     sizes="(max-width: 768px) 50vw, 33vw"
-                    className="object-cover group-hover:scale-105 transition-transform duration-300"
+                    className="object-cover transition-transform duration-300"
                   />
                 </div>
                 <div className="py-[15px]">
                   <div className="mb-1.5 flex items-center justify-between">
                     <span className="text-xs text-[#999999]">{place.stationName}</span>
-                    <span className="text-[19px] text-main">{place.rating.toFixed(1)}</span>
+                    <span className="text-[19px] text-main">{formatDecimal(place.rating, 1)}</span>
                   </div>
                   <h3 className="mb-[15px] truncate">{place.placeName}</h3>
                   <div className="flex gap-1.5 overflow-hidden">
@@ -56,7 +57,7 @@ export default function BestPlaceSection({ places }: BestPlaceSectionProps) {
         <div className="flex justify-center">
           <Link
             href="/places/best"
-            className="inline-block w-3/5 py-3 text-sm text-center bg-white border border-[#eeeeee] hover:bg-gray-50 transition-colors"
+            className="inline-block w-3/5 py-3 text-sm text-center bg-white border border-[#eeeeee] transition-colors"
           >
             더보러가기
           </Link>
