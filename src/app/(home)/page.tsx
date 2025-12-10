@@ -4,7 +4,11 @@ import { ApiResponse } from '@/types/api/common'
 import { BestPlace } from '@/types/api/place'
 import { ChoicePlace, TodayDiscountProduct } from '@/types/api/product'
 import { BestReview } from '@/types/api/review'
+import BannerSection from './_components/BannerSection'
+import BestPlaceSection from './_components/BestPlaceSection'
+import BestReviewSection from './_components/BestReviewSection'
 import ChoiceSection from './_components/ChoiceSection'
+import TodayDiscountSection from './_components/TodayDiscountSection'
 
 async function getBanners(): Promise<Banner[]> {
   try {
@@ -108,18 +112,18 @@ async function getEditorChoices(): Promise<ChoicePlace[]> {
 }
 
 export default async function HomePage() {
-  // const banners = await getBanners()
-  // const bestReviews = await getBestReviews()
-  // const bestPlaces = await getBestPlaces()
-  // const todayDiscounts = await getTodayDiscounts()
+  const banners = await getBanners()
+  const bestReviews = await getBestReviews()
+  const bestPlaces = await getBestPlaces()
+  const todayDiscounts = await getTodayDiscounts()
   const editorChoices = await getEditorChoices()
 
   return (
     <>
-      {/* <BannerSection banners={banners} />
+      <BannerSection banners={banners} />
       <BestReviewSection reviews={bestReviews} />
       <BestPlaceSection places={bestPlaces} />
-      <TodayDiscountSection discounts={todayDiscounts} /> */}
+      <TodayDiscountSection discounts={todayDiscounts} />
       <ChoiceSection choices={editorChoices} />
     </>
   )
