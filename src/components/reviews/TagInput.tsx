@@ -83,7 +83,7 @@ export default function TagInput({ value, onChange }: TagInputProps) {
             {dropdownList.map((kw, index) => (
               <li
                 key={index}
-                className="px-3 py-2 hover:bg-gray-100 cursor-pointer text-sm"
+                className="px-3 py-2 cursor-pointer text-sm"
                 onMouseDown={() => handleTagAdd(kw)}
               >
                 {kw}

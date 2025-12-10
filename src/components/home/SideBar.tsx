@@ -13,7 +13,7 @@ export default function SideBar({ isOpen, closePanel }: TabAsideProps) {
     >
       <div className="p-4 flex justify-between items-center border-b">
         <h2 className="text-lg font-bold">사이드바</h2>
-        <button onClick={closePanel} className="p-1 rounded hover:bg-gray-100">
+        <button onClick={closePanel} className="p-1 rounded">
           ✕
         </button>
       </div>
