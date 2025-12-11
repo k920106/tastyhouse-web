@@ -121,7 +121,7 @@ export default async function HomePage() {
       <BannerSection banners={banners} />
       <BestReviewSection reviews={bestReviews} />
       <BestPlaceSection places={bestPlaces} />
-      <TodayDiscountSection discounts={todayDiscounts} />
+      <TodayDiscountSection products={todayDiscounts} />
       <ChoiceSection choices={editorChoices} />
     </>
   )
