@@ -1,3 +1,4 @@
+import Footer from '@/components/layouts/Footer'
 import Image from 'next/image'
 import { RxHamburgerMenu } from 'react-icons/rx'
 
@@ -26,7 +27,8 @@ export default function HomeLayout({ children }: { children: React.ReactNode }) 
           </div>
         </button>
       </div>
-      <div>{children}</div>
+      <main className="pb-[70px]">{children}</main>
+      <Footer />
     </>
   )
 }

@@ -1,5 +1,5 @@
-import { Nanum_Myeongjo } from 'next/font/google'
 import '@/styles/globals.css'
+import { Nanum_Myeongjo } from 'next/font/google'
 
 const nanumMyeongjo = Nanum_Myeongjo({
   weight: ['400', '700', '800'],
@@ -16,7 +16,9 @@ export default function RootLayout({
   return (
     <html lang="en" className={nanumMyeongjo.variable}>
       <body className="flex justify-center min-h-screen bg-white">
-        <div className="relative w-full max-w-[500px] overflow-hidden">{children}</div>
+        <div className="relative w-full max-w-[500px] overflow-hidden border border-[#eeeeee] box-border">
+          {children}
+        </div>
       </body>
     </html>
   )
