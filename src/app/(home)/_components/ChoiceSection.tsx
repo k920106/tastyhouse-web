@@ -1,8 +1,9 @@
 'use client'
 
 import ProductListItem from '@/components/products/ProductListItem'
-import { ChoicePlace } from '@/types/api/product'
+import { ChoicePlace } from '@/types/api/place'
 import Image from 'next/image'
+import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import 'swiper/css'
 import 'swiper/css/navigation'
@@ -13,7 +14,7 @@ interface ChoiceSectionProps {
   choices: ChoicePlace[]
 }
 
-export default function ChoiceSection({ choices }: ChoiceSectionProps) {
+export default function ChoiceSection({ choices: places }: ChoiceSectionProps) {
   const [isMounted, setIsMounted] = useState(false)
 
   useEffect(() => {
@@ -33,24 +34,26 @@ export default function ChoiceSection({ choices }: ChoiceSectionProps) {
       <div className="mx-auto max-w-[1200px] px-4">
         {isMounted ? (
           <Swiper spaceBetween={32} slidesPerView={1.15} className="pb-12">
-            {choices.map((choice) => (
-              <SwiperSlide key={choice.id}>
-                <div className="relative w-full aspect-[2/3] overflow-hidden">
-                  <Image
-                    src={choice.imageUrl}
-                    alt={choice.placeName}
-                    fill
-                    className="object-cover"
-                    sizes="100vw"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
-                  <div className="absolute bottom-0 left-0 right-0 p-8 text-white">
-                    <h3 className="text-[17px] font-medium mb-3">{choice.title}</h3>
-                    <p className="text-xs opacity-90 leading-relaxed">{choice.content}</p>
+            {places.map((place) => (
+              <SwiperSlide key={place.id}>
+                <Link href={`/places/${place.id}`}>
+                  <div className="relative w-full aspect-[2/3] overflow-hidden">
+                    <Image
+                      src={place.imageUrl}
+                      alt={place.name}
+                      fill
+                      className="object-cover"
+                      sizes="100vw"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
+                    <div className="absolute bottom-0 left-0 right-0 p-8 text-white">
+                      <h3 className="text-[17px] font-medium mb-3">{place.title}</h3>
+                      <p className="text-xs opacity-90 leading-relaxed">{place.content}</p>
+                    </div>
                   </div>
-                </div>
+                </Link>
                 <div className="mb-10 space-y-0 divide-y divide-[#eeeeee] border-b border-[#eeeeee]">
-                  {choice.products?.map((product) => (
+                  {place.products?.map((product) => (
                     <ProductListItem
                       key={product.id}
                       id={product.id}

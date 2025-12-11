@@ -1,7 +1,7 @@
 'use client'
 
-import { PlaceData } from '@/types/api/place'
 import { getPlacesNear } from '@/lib/places'
+import { PlaceData } from '@/types/api/place'
 import Script from 'next/script'
 import { useCallback, useRef, useState } from 'react'
 
@@ -108,7 +108,7 @@ export default function KakaoMap() {
 
       const content = `
         <div class="label" style="padding: 0 13px; background-color: white; border: 1px solid silver; border-radius: 10px">
-          <span class="center" style="font-size: 13px!important; font-weight: bold">${place.placeName}</span>
+          <span class="center" style="font-size: 13px!important; font-weight: bold">${place.name}</span>
         </div>
       `
 

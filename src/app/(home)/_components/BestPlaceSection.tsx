@@ -25,7 +25,7 @@ export default function BestPlaceSection({ places }: BestPlaceSectionProps) {
                 <div className="relative aspect-square overflow-hidden">
                   <Image
                     src={place.imageUrl}
-                    alt={place.placeName}
+                    alt={place.name}
                     fill
                     sizes="(max-width: 768px) 50vw, 33vw"
                     className="object-cover transition-transform duration-300"
@@ -36,7 +36,7 @@ export default function BestPlaceSection({ places }: BestPlaceSectionProps) {
                     <span className="text-xs text-[#999999]">{place.stationName}</span>
                     <span className="text-[19px] text-main">{formatDecimal(place.rating, 1)}</span>
                   </div>
-                  <h3 className="mb-[15px] truncate">{place.placeName}</h3>
+                  <h3 className="mb-[15px] truncate">{place.name}</h3>
                   <div className="flex gap-1.5 overflow-hidden">
                     {place.tags.map((tag, index) => (
                       <span
