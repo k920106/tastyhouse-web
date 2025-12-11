@@ -1,9 +1,8 @@
 'use client'
 
-import { formatDecimal } from '@/lib/number'
+import ProductListItem from '@/components/products/ProductListItem'
 import { ChoicePlace } from '@/types/api/product'
 import Image from 'next/image'
-import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import 'swiper/css'
 import 'swiper/css/navigation'
@@ -52,50 +51,16 @@ export default function ChoiceSection({ choices }: ChoiceSectionProps) {
                 </div>
                 <div className="mb-10 space-y-0 divide-y divide-[#eeeeee] border-b border-[#eeeeee]">
                   {choice.products?.map((product) => (
-                    <Link
+                    <ProductListItem
                       key={product.id}
-                      href={`/products/${product.id}`}
-                      className="flex items-center gap-4 py-[15px]"
-                    >
-                      <div className="relative w-[75px] h-[75px] flex-shrink-0 overflow-hidden">
-                        <Image
-                          src={product.imageUrl}
-                          alt={product.name}
-                          fill
-                          className="object-cover"
-                          sizes="160px"
-                        />
-                      </div>
-                      <div className="flex-1 min-w-0 h-[75px] flex flex-col">
-                        <p className="text-xs mb-1.5">{product.placeName}</p>
-                        <h3 className="text-base font-medium mb-auto truncate">{product.name}</h3>
-                        <div className="flex justify-between mt-auto">
-                          {product.discountRate == null ? (
-                            <div className="flex items-end gap-2">
-                              <span className="text-base">
-                                {product.originalPrice.toLocaleString()}원
-                              </span>
-                            </div>
-                          ) : (
-                            <>
-                              <div className="flex items-end gap-2">
-                                <span className="text-base">
-                                  {product.discountPrice?.toLocaleString()}원
-                                </span>
-                                <span className="pb-0.5 text-xs text-[#aaaaaa] line-through">
-                                  {product.originalPrice.toLocaleString()}원
-                                </span>
-                              </div>
-                              <div className="text-right flex-shrink-0">
-                                <span className="text-base text-main">
-                                  {formatDecimal(product.discountRate, 0)}%
-                                </span>
-                              </div>
-                            </>
-                          )}
-                        </div>
-                      </div>
-                    </Link>
+                      id={product.id}
+                      placeName={product.placeName}
+                      name={product.name}
+                      imageUrl={product.imageUrl}
+                      originalPrice={product.originalPrice}
+                      discountPrice={product.discountPrice}
+                      discountRate={product.discountRate}
+                    />
                   ))}
                 </div>
               </SwiperSlide>
