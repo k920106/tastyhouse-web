@@ -1,3 +1,4 @@
+import QuickReviewButton from '@/components/home/QuickReviewButton'
 import Footer from '@/components/layouts/Footer'
 import Image from 'next/image'
 import { RxHamburgerMenu } from 'react-icons/rx'
@@ -28,6 +29,9 @@ export default function HomeLayout({ children }: { children: React.ReactNode }) 
         </button>
       </div>
       <main className="pb-[70px]">{children}</main>
+      <div className="fixed bottom-18 left-1/2 -translate-x-1/2 w-full max-w-[500px] z-[60]">
+        <QuickReviewButton />
+      </div>
       <Footer />
     </>
   )

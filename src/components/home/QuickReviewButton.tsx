@@ -1,0 +1,22 @@
+import Image from 'next/image'
+import Link from 'next/link'
+
+export default function QuickReviewButton() {
+  return (
+    <Link
+      href="/reviews/create"
+      className="absolute bottom-5 right-5 flex items-center justify-center w-[50px] h-[50px] bg-white rounded-full shadow-md hover:shadow-lg transition-all duration-200 active:scale-95 pointer-events-auto"
+      aria-label="빠른 리뷰 작성하기"
+    >
+      <div className="relative flex items-center justify-center">
+        <Image
+          src="/images/home/icon-fast-reveiw.png"
+          alt="빠른 리뷰"
+          width={26}
+          height={24}
+          priority
+        />
+      </div>
+    </Link>
+  )
+}
