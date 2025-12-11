@@ -53,7 +53,7 @@ export default function BestPlaceSection({ places }: BestPlaceSectionProps) {
           ))}
         </ul>
         <div className="flex justify-center">
-          <ViewMoreButton href="/product/best-places" />
+          <ViewMoreButton href="/places/best-places" />
         </div>
       </div>
     </section>

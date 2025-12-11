@@ -33,7 +33,7 @@ export default function TodayDiscountSection({ products }: TodayDiscountSectionP
           ))}
         </div>
         <div className="flex justify-center">
-          <ViewMoreButton href="/product/today-discount" />
+          <ViewMoreButton href="/products/today-discount" />
         </div>
       </div>
     </section>
