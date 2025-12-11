@@ -89,8 +89,6 @@ export async function mockEditorChoice(): Promise<ChoicePlace[]> {
       size: 4,
     })
 
-    console.log(response.data)
-
     if (response.success && response.data) {
       return response.data
     }
