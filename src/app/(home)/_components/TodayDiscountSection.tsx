@@ -24,7 +24,7 @@ export default function TodayDiscountSection({ products }: TodayDiscountSectionP
             <Link
               key={product.id}
               href={`/products/${product.id}`}
-              className="flex items-center gap-4 py-[15px] transition-colors"
+              className="flex items-center gap-4 py-[15px]"
             >
               <div className="relative w-[75px] h-[75px] flex-shrink-0 overflow-hidden">
                 <Image
@@ -39,17 +39,27 @@ export default function TodayDiscountSection({ products }: TodayDiscountSectionP
                 <p className="text-xs mb-1.5">{product.placeName}</p>
                 <h3 className="text-base font-medium mb-auto truncate">{product.name}</h3>
                 <div className="flex justify-between mt-auto">
-                  <div className="flex items-end gap-2">
-                    <span className="text-base">{product.discountPrice.toLocaleString()}원</span>
-                    <span className="pb-0.5 text-xs text-[#aaaaaa] line-through">
-                      {product.originalPrice.toLocaleString()}원
-                    </span>
-                  </div>
-                  <div className="text-right flex-shrink-0">
-                    <span className="text-base text-main">
-                      {formatDecimal(product.discountRate, 0)}%
-                    </span>
-                  </div>
+                  {product.discountRate == null ? (
+                    <div className="flex items-end gap-2">
+                      <span className="text-base">{product.originalPrice.toLocaleString()}원</span>
+                    </div>
+                  ) : (
+                    <>
+                      <div className="flex items-end gap-2">
+                        <span className="text-base">
+                          {product.discountPrice?.toLocaleString()}원
+                        </span>
+                        <span className="pb-0.5 text-xs text-[#aaaaaa] line-through">
+                          {product.originalPrice.toLocaleString()}원
+                        </span>
+                      </div>
+                      <div className="text-right flex-shrink-0">
+                        <span className="text-base text-main">
+                          {formatDecimal(product.discountRate, 0)}%
+                        </span>
+                      </div>
+                    </>
+                  )}
                 </div>
               </div>
             </Link>
@@ -58,9 +68,9 @@ export default function TodayDiscountSection({ products }: TodayDiscountSectionP
         <div className="flex justify-center">
           <Link
             href="/product/today-discount"
-            className="inline-block w-3/5 py-3 text-sm text-center bg-white border border-[#eeeeee] transition-colors"
+            className="inline-block w-1/2 py-[11.5px] text-sm text-center border border-[#eeeeee]"
           >
-            더보러가기
+            더 보러가기
           </Link>
         </div>
       </div>

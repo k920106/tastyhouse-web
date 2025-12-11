@@ -8,9 +8,6 @@ interface BestPlaceSectionProps {
 }
 
 export default function BestPlaceSection({ places }: BestPlaceSectionProps) {
-  if (places.length === 0) {
-    return null
-  }
   return (
     <section className="w-full pt-[40px] pb-[30px] bg-[#f9f9f9]">
       <header className="mb-[30px] text-center">
@@ -57,9 +54,9 @@ export default function BestPlaceSection({ places }: BestPlaceSectionProps) {
         <div className="flex justify-center">
           <Link
             href="/places/best"
-            className="inline-block w-3/5 py-3 text-sm text-center bg-white border border-[#eeeeee] transition-colors"
+            className="inline-block w-1/2 py-[11.5px] text-sm text-center border border-[#eeeeee]"
           >
-            더보러가기
+            더 보러가기
           </Link>
         </div>
       </div>
