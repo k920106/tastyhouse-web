@@ -1,3 +1,4 @@
+import ViewMoreButton from '@/components/ui/ViewMoreButton'
 import { formatDecimal } from '@/lib/number'
 import { TodayDiscountProduct } from '@/types/api/product'
 import Image from 'next/image'
@@ -66,12 +67,7 @@ export default function TodayDiscountSection({ products }: TodayDiscountSectionP
           ))}
         </div>
         <div className="flex justify-center">
-          <Link
-            href="/product/today-discount"
-            className="inline-block w-1/2 py-[11.5px] text-sm text-center border border-[#eeeeee]"
-          >
-            더 보러가기
-          </Link>
+          <ViewMoreButton href="/product/today-discount" />
         </div>
       </div>
     </section>

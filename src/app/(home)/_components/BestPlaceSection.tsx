@@ -1,3 +1,4 @@
+import ViewMoreButton from '@/components/ui/ViewMoreButton'
 import { formatDecimal } from '@/lib/number'
 import { BestPlace } from '@/types/api/place'
 import Image from 'next/image'
@@ -52,12 +53,7 @@ export default function BestPlaceSection({ places }: BestPlaceSectionProps) {
           ))}
         </ul>
         <div className="flex justify-center">
-          <Link
-            href="/places/best"
-            className="inline-block w-1/2 py-[11.5px] text-sm text-center border border-[#eeeeee]"
-          >
-            더 보러가기
-          </Link>
+          <ViewMoreButton href="/product/best-places" />
         </div>
       </div>
     </section>
