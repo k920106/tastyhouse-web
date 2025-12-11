@@ -9,6 +9,7 @@ import { Navigation } from 'swiper/modules'
 import { Swiper, SwiperSlide } from 'swiper/react'
 
 import { formatDecimal } from '@/lib/number'
+import { SlArrowLeft, SlArrowRight } from 'react-icons/sl'
 import 'swiper/css'
 import 'swiper/css/navigation'
 import 'swiper/css/pagination'
@@ -155,37 +156,19 @@ export default function BestReviewSection({ reviews }: BestReviewSectionProps) {
           )}
           {isMounted && (
             <div className="relative flex items-center justify-center pt-4">
-              <button
+              <SlArrowLeft
+                className="absolute left-1/2 -translate-x-[85px] cursor-pointer"
+                size={15}
                 onClick={() => swiperRef.current?.slidePrev()}
-                className="absolute left-1/2 -translate-x-[100px] p-2 cursor-pointer"
-                aria-label="이전 슬라이드"
-              >
-                <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M15 19l-7-7 7-7"
-                  />
-                </svg>
-              </button>
+              />
               <div className="absolute left-1/2 -translate-x-1/2 text-sm">
                 {currentSlide} <span className="text-[#aaaaaa]"> / {totalSlides}</span>
               </div>
-              <button
+              <SlArrowRight
+                className="absolute left-1/2 translate-x-[70px] cursor-pointer"
+                size={15}
                 onClick={() => swiperRef.current?.slideNext()}
-                className="absolute left-1/2 translate-x-[70px] p-2 cursor-pointer"
-                aria-label="다음 슬라이드"
-              >
-                <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M9 5l7 7-7 7"
-                  />
-                </svg>
-              </button>
+              />
             </div>
           )}
         </div>
