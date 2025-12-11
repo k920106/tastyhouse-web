@@ -19,7 +19,7 @@ interface BestReviewSectionProps {
 
 export default function BestReviewSection({ reviews }: BestReviewSectionProps) {
   const swiperRef = useRef<SwiperType | null>(null)
-  const [currentSlide, setCurrentSlide] = useState(1)
+  const [currentSlide, setCurrentSlide] = useState(2)
   const [totalSlides, setTotalSlides] = useState(reviews.length)
   const [isMounted, setIsMounted] = useState(false)
 
@@ -46,7 +46,7 @@ export default function BestReviewSection({ reviews }: BestReviewSectionProps) {
               <div
                 className="flex gap-4"
                 style={{
-                  transform: 'translateX(calc(50% - (100% / 1.5 / 2) - 8px))',
+                  transform: 'translateX(calc(50% - (100% / 1.5 / 2) - 8px - (100% / 1.5) - 16px))',
                 }}
               >
                 <div
@@ -102,32 +102,21 @@ export default function BestReviewSection({ reviews }: BestReviewSectionProps) {
             </div>
           ) : (
             <Swiper
-              modules={[Navigation]}
-              spaceBetween={16}
-              slidesPerView={1.5}
-              centeredSlides={true}
+              modules={[Navigation]} // 사용할 Swiper 모듈 (네비게이션 버튼 기능)
+              spaceBetween={15} // 슬라이드 간격 (px)
+              slidesPerView={1.5} // 한 화면에 보이는 슬라이드 개수 (1.5개 = 다음 슬라이드가 살짝 보임)
+              centeredSlides={true} // 활성 슬라이드를 중앙에 배치
+              initialSlide={1} // 처음 시작할 슬라이드 인덱스 (0부터 시작하므로 1은 두 번째 슬라이드)
               onSwiper={(swiper) => {
-                swiperRef.current = swiper
-                setTotalSlides(swiper.slides.length)
+                // Swiper 인스턴스가 생성될 때 실행
+                swiperRef.current = swiper // Swiper 인스턴스를 ref에 저장하여 외부에서 제어 가능하도록 함
+                setTotalSlides(swiper.slides.length) // 전체 슬라이드 개수 상태 업데이트
               }}
               onSlideChange={(swiper) => {
-                setCurrentSlide(swiper.realIndex + 1)
+                // 슬라이드가 변경될 때마다 실행
+                setCurrentSlide(swiper.realIndex + 1) // 현재 슬라이드 인덱스 상태 업데이트 (화면 표시용으로 +1)
               }}
-              breakpoints={{
-                640: {
-                  slidesPerView: 1.5,
-                  spaceBetween: 16,
-                },
-                768: {
-                  slidesPerView: 2,
-                  spaceBetween: 20,
-                },
-                1024: {
-                  slidesPerView: 2.5,
-                  spaceBetween: 24,
-                },
-              }}
-              className="!pb-[53px]"
+              className="!pb-[53px]" // 하단 패딩 (네비게이션 버튼 공간 확보)
             >
               {reviews.map((review, index) => (
                 <SwiperSlide key={review.id} className="transition-all duration-300">
