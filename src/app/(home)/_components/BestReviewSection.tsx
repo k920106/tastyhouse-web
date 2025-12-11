@@ -157,7 +157,7 @@ export default function BestReviewSection({ reviews }: BestReviewSectionProps) {
             <div className="relative flex items-center justify-center pt-4">
               <button
                 onClick={() => swiperRef.current?.slidePrev()}
-                className="absolute left-1/2 -translate-x-[100px] rounded-full p-2 transition-all"
+                className="absolute left-1/2 -translate-x-[100px] p-2 cursor-pointer"
                 aria-label="이전 슬라이드"
               >
                 <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -169,12 +169,12 @@ export default function BestReviewSection({ reviews }: BestReviewSectionProps) {
                   />
                 </svg>
               </button>
-              <div className="absolute left-1/2 -translate-x-1/2 text-sm text-gray-600">
-                {currentSlide} / {totalSlides}
+              <div className="absolute left-1/2 -translate-x-1/2 text-sm">
+                {currentSlide} <span className="text-[#aaaaaa]"> / {totalSlides}</span>
               </div>
               <button
                 onClick={() => swiperRef.current?.slideNext()}
-                className="absolute left-1/2 translate-x-[70px] rounded-full p-2 transition-all"
+                className="absolute left-1/2 translate-x-[70px] p-2 cursor-pointer"
                 aria-label="다음 슬라이드"
               >
                 <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
