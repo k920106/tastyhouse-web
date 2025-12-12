@@ -257,7 +257,7 @@ export default function RankPage() {
                     </p>
                   </div>
                 </div>
-                <div className="text-base text-[#666666]">{user.reviewCount}개</div>
+                <div className="text-xs text-[#666666]">{user.reviewCount}개</div>
               </div>
             ))}
           </section>
@@ -298,7 +298,7 @@ export default function RankPage() {
               </div>
             </div>
             <div className="flex-shrink-0 text-right">
-              <div className="text-base text-[#666666]">22개</div>
+              <div className="text-xs text-[#666666]">22개</div>
             </div>
           </div>
         </section>
