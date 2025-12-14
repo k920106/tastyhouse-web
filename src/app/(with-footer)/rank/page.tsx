@@ -5,6 +5,7 @@ import { ApiClient } from '@/lib/api-client'
 import { ApiResponse } from '@/types/api/common'
 import { MemberGrade, MemberRankItem, RankType } from '@/types/api/rank'
 import Image from 'next/image'
+import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import { MdInfo } from 'react-icons/md'
 
@@ -20,19 +21,19 @@ const TOP_PRODUCTS: RankingProduct[] = [
     rank: 1,
     name: 'Airpod Pro',
     brand: 'APPLE',
-    image: '/images/rank/sample-airpod-pro.png',
+    image: '/images/sample/prize/airpod-pro.png',
   },
   {
     rank: 2,
     name: '돌체구스토 커피머신',
     brand: '네슬레 네스카페',
-    image: '/images/rank/sample-nescafe.png',
+    image: '/images/sample/prize/nescafe.png',
   },
   {
     rank: 3,
     name: '아이스 아메리카노 Tall',
     brand: '스타벅스',
-    image: '/images/rank/sample-starbucks.png',
+    image: '/images/sample/prize/starbucks.png',
   },
 ]
 
@@ -108,12 +109,12 @@ export default function RankPage() {
             {TOP_PRODUCTS.map((product) => (
               <div key={product.rank} className="flex flex-col items-center flex-1 min-w-0">
                 <div className="relative w-full mb-[15px] max-w-[144px] aspect-square">
-                  <div className="absolute top-0 left-2 z-10 w-[20%] max-w-[70px]">
+                  <div className="absolute top-0 left-0 z-10 w-[25%]">
                     <Image
                       src={`/images/rank/icon-rank-0${product.rank}.png`}
                       alt={`${product.rank}등`}
-                      width={60}
-                      height={60}
+                      width={70}
+                      height={70}
                       className="w-full h-auto"
                     />
                   </div>
@@ -127,7 +128,7 @@ export default function RankPage() {
                     />
                   </div>
                 </div>
-                <div className="flex flex-col gap-1 text-center w-full px-1">
+                <div className="flex flex-col gap-0.5 w-full px-1 text-center">
                   <p className="text-[11px] truncate">{product.brand}</p>
                   <p className="text-[11px] truncate">{product.name}</p>
                 </div>
@@ -141,7 +142,7 @@ export default function RankPage() {
               <div className="flex gap-4">
                 <button
                   onClick={() => setActiveTab('all')}
-                  className={`text-lg font-bold ${
+                  className={`text-lg font-bold cursor-pointer ${
                     activeTab === 'all' ? '#333333' : 'text-[#333333]/50'
                   }`}
                 >
@@ -152,7 +153,7 @@ export default function RankPage() {
                   className="flex items-center gap-2.5"
                 >
                   <span
-                    className={`text-lg font-bold ${activeTab === 'monthly' ? '#333333' : 'text-[#333333]/50'}`}
+                    className={`text-lg font-bold cursor-pointer ${activeTab === 'monthly' ? '#333333' : 'text-[#333333]/50'}`}
                   >
                     이번 달
                   </span>
@@ -177,47 +178,46 @@ export default function RankPage() {
                 const gradeColor = getMemberGradeColor(item.grade)
 
                 return (
-                  <div
-                    key={item.memberId}
-                    className="flex justify-between items-center py-[15px] pl-4 pr-5 bg-[#fcfcfc] border border-[#eeeeee] rounded-[2.5px]"
-                  >
-                    <div className="flex items-center gap-2.5">
-                      <div className="flex-shrink-0 w-[22px] flex flex-col items-center">
-                        {item.rankNo <= 3 ? (
+                  <Link key={item.memberId} href={`/members/${item.memberId}`}>
+                    <div className="flex justify-between items-center py-[15px] pl-4 pr-5 bg-[#fcfcfc] border border-[#eeeeee] rounded-[2.5px]">
+                      <div className="flex items-center gap-2.5">
+                        <div className="flex-shrink-0 w-[22px] flex flex-col items-center">
+                          {item.rankNo <= 3 ? (
+                            <Image
+                              src={`/images/rank/icon-rank-0${item.rankNo}.png`}
+                              alt={`${item.rankNo}등`}
+                              width={22}
+                              height={30}
+                            />
+                          ) : (
+                            <p className="text-xs">{item.rankNo}</p>
+                          )}
+                        </div>
+                        <div className="flex-shrink-0">
                           <Image
-                            src={`/images/rank/icon-rank-0${item.rankNo}.png`}
-                            alt={`${item.rankNo}등`}
-                            width={22}
-                            height={30}
+                            src={item.profileImageUrl || '/images/sample/profile-default.png'}
+                            alt={item.nickname}
+                            width={40}
+                            height={40}
+                            className="rounded-full"
                           />
-                        ) : (
-                          <p className="text-xs">{item.rankNo}</p>
-                        )}
+                        </div>
+                        <div className="flex flex-col gap-0.5 min-w-0">
+                          <p className="text-sm font-bold truncate">{item.nickname}</p>
+                          <p className="flex items-center gap-[5px]">
+                            <Image
+                              src={`/images/rank/icon-level-${gradeIcon}-40.png`}
+                              alt=""
+                              width={14}
+                              height={14}
+                            />
+                            <span className={`text-xs ${gradeColor}`}>{gradeDisplayName}</span>
+                          </p>
+                        </div>
                       </div>
-                      <div className="flex-shrink-0">
-                        <Image
-                          src={item.profileImageUrl || '/images/sample/profile-default.png'}
-                          alt={item.nickname}
-                          width={40}
-                          height={40}
-                          className="rounded-full"
-                        />
-                      </div>
-                      <div className="flex flex-col gap-0.5 min-w-0">
-                        <p className="text-sm font-bold truncate">{item.nickname}</p>
-                        <p className="flex items-center gap-[5px]">
-                          <Image
-                            src={`/images/rank/icon-level-${gradeIcon}-40.png`}
-                            alt=""
-                            width={14}
-                            height={14}
-                          />
-                          <span className={`text-xs ${gradeColor}`}>{gradeDisplayName}</span>
-                        </p>
-                      </div>
+                      <div className="text-xs text-[#666666]">{item.reviewCount}개</div>
                     </div>
-                    <div className="text-xs text-[#666666]">{item.reviewCount}개</div>
-                  </div>
+                  </Link>
                 )
               })
             )}
