@@ -1,8 +1,11 @@
 'use client'
 
 import Header from '@/components/layouts/Header'
+import { ApiClient } from '@/lib/api-client'
+import { ApiResponse } from '@/types/api/common'
+import { MemberGrade, MemberRankItem, RankType } from '@/types/api/rank'
 import Image from 'next/image'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { MdInfo } from 'react-icons/md'
 
 interface RankingProduct {
@@ -10,14 +13,6 @@ interface RankingProduct {
   name: string
   brand: string
   image: string
-}
-
-interface RankingUser {
-  rank: number
-  nickname: string
-  memberLevel: string
-  reviewCount: number
-  avatar: string
 }
 
 const TOP_PRODUCTS: RankingProduct[] = [
@@ -41,110 +36,66 @@ const TOP_PRODUCTS: RankingProduct[] = [
   },
 ]
 
-const MOCK_USERS: RankingUser[] = [
-  {
-    rank: 1,
-    nickname: '먹는게제일좋아',
-    memberLevel: '테하멤버',
-    reviewCount: 132,
-    avatar: '/images/sample/profile-default.png',
-  },
-  {
-    rank: 2,
-    nickname: '낙네임이길어진다나네...',
-    memberLevel: '미식멤버',
-    reviewCount: 82,
-    avatar: '/images/sample/profile-default.png',
-  },
-  {
-    rank: 3,
-    nickname: '먹는게제일좋아',
-    memberLevel: '인싸멤버',
-    reviewCount: 82,
-    avatar: '/images/sample/profile-default.png',
-  },
-  {
-    rank: 4,
-    nickname: '낙네임01',
-    memberLevel: '열심멤버',
-    reviewCount: 22,
-    avatar: '/images/sample/profile-default.png',
-  },
-  {
-    rank: 5,
-    nickname: '오늘도맛집탐험',
-    memberLevel: '신입멤버',
-    reviewCount: 51,
-    avatar: '/images/sample/profile-default.png',
-  },
-  {
-    rank: 6,
-    nickname: '스시러버77',
-    memberLevel: '신입멤버',
-    reviewCount: 46,
-    avatar: '/images/sample/profile-default.png',
-  },
-  {
-    rank: 7,
-    nickname: '달고나좋아',
-    memberLevel: '신입멤버',
-    reviewCount: 34,
-    avatar: '/images/sample/profile-default.png',
-  },
-  {
-    rank: 8,
-    nickname: '주말은맛집투어',
-    memberLevel: '신입멤버',
-    reviewCount: 29,
-    avatar: '/images/sample/profile-default.png',
-  },
-  {
-    rank: 9,
-    nickname: '맛집수집가',
-    memberLevel: '신입멤버',
-    reviewCount: 18,
-    avatar: '/images/sample/profile-default.png',
-  },
-  {
-    rank: 10,
-    nickname: '커피사랑러',
-    memberLevel: '신입멤버',
-    reviewCount: 14,
-    avatar: '/images/sample/profile-default.png',
-  },
-  {
-    rank: 11,
-    nickname: '푸드헌터',
-    memberLevel: '신입멤버',
-    reviewCount: 9,
-    avatar: '/images/sample/profile-default.png',
-  },
-]
-
-const getMemberLevelIcon = (memberLevel: string): string => {
-  const levelMap: { [key: string]: string } = {
-    신입멤버: '01', // #4a6db3
-    열심멤버: '02', // #ed771f
-    인싸멤버: '03', // #a5a5a5
-    미식멤버: '04', // #a5a5a5
-    테하멤버: '05', // --main-color
+// 멤버 등급을 한글 이름으로 변환
+const getMemberGradeDisplayName = (grade: MemberGrade): string => {
+  const gradeMap: Record<MemberGrade, string> = {
+    NEWCOMER: '신입멤버',
+    ACTIVE: '열심멤버',
+    INSIDER: '인싸멤버',
+    GOURMET: '미식멤버',
+    TEHA: '테하멤버',
   }
-  return levelMap[memberLevel] || '03'
+  return gradeMap[grade]
 }
 
-const getMemberLevelColor = (memberLevel: string): string => {
-  const colorMap: { [key: string]: string } = {
-    신입멤버: 'text-[#4a6db3]',
-    열심멤버: 'text-[#ed771f]',
-    인싸멤버: 'text-[#a5a5a5]',
-    미식멤버: 'text-[#f4aa14]',
-    테하멤버: 'text-main',
+// 멤버 등급에 따른 아이콘 번호 반환
+const getMemberGradeIcon = (grade: MemberGrade): string => {
+  const iconMap: Record<MemberGrade, string> = {
+    NEWCOMER: '01',
+    ACTIVE: '02',
+    INSIDER: '03',
+    GOURMET: '04',
+    TEHA: '05',
   }
-  return colorMap[memberLevel] || 'text-[#a5a5a5]'
+  return iconMap[grade]
+}
+
+// 멤버 등급에 따른 색상 반환
+const getMemberGradeColor = (grade: MemberGrade): string => {
+  const colorMap: Record<MemberGrade, string> = {
+    NEWCOMER: 'text-[#4a6db3]',
+    ACTIVE: 'text-[#ed771f]',
+    INSIDER: 'text-[#a5a5a5]',
+    GOURMET: 'text-[#f4aa14]',
+    TEHA: 'text-main',
+  }
+  return colorMap[grade]
 }
 
 export default function RankPage() {
   const [activeTab, setActiveTab] = useState<'all' | 'monthly'>('all')
+  const [rankings, setRankings] = useState<MemberRankItem[]>([])
+  const [isLoading, setIsLoading] = useState(true)
+
+  useEffect(() => {
+    const fetchRankings = async () => {
+      setIsLoading(true)
+      try {
+        const type: RankType = activeTab === 'all' ? 'ALL' : 'MONTHLY'
+        const response = await ApiClient.get<ApiResponse<MemberRankItem[]>>('/ranks/v1/members', {
+          type,
+          limit: 100,
+        })
+        setRankings(response.data)
+      } catch (error) {
+        console.error('Failed to fetch rankings:', error)
+      } finally {
+        setIsLoading(false)
+      }
+    }
+
+    fetchRankings()
+  }, [activeTab])
 
   return (
     <>
@@ -215,51 +166,61 @@ export default function RankPage() {
             </div>
           </section>
           <section className="flex flex-col gap-2.5">
-            {MOCK_USERS.map((user) => (
-              <div
-                key={`${user.rank}-${user.nickname}`}
-                className="flex justify-between items-center py-[15px] pl-4 pr-5 bg-[#fcfcfc] border border-[#eeeeee] rounded-[2.5px]"
-              >
-                <div className="flex items-center gap-2.5">
-                  <div className="flex-shrink-0 w-[22px] flex flex-col items-center">
-                    {user.rank <= 3 ? (
-                      <Image
-                        src={`/images/rank/icon-rank-0${user.rank}.png`}
-                        alt={`${user.rank}등`}
-                        width={22}
-                        height={30}
-                      />
-                    ) : (
-                      <p className="text-xs">{user.rank}</p>
-                    )}
+            {isLoading ? (
+              <div className="text-center py-10 text-[#999999]">로딩 중...</div>
+            ) : rankings.length === 0 ? (
+              <div className="text-center py-10 text-[#999999]">랭킹 데이터가 없습니다.</div>
+            ) : (
+              rankings.map((item) => {
+                const gradeDisplayName = getMemberGradeDisplayName(item.grade)
+                const gradeIcon = getMemberGradeIcon(item.grade)
+                const gradeColor = getMemberGradeColor(item.grade)
+
+                return (
+                  <div
+                    key={item.memberId}
+                    className="flex justify-between items-center py-[15px] pl-4 pr-5 bg-[#fcfcfc] border border-[#eeeeee] rounded-[2.5px]"
+                  >
+                    <div className="flex items-center gap-2.5">
+                      <div className="flex-shrink-0 w-[22px] flex flex-col items-center">
+                        {item.rankNo <= 3 ? (
+                          <Image
+                            src={`/images/rank/icon-rank-0${item.rankNo}.png`}
+                            alt={`${item.rankNo}등`}
+                            width={22}
+                            height={30}
+                          />
+                        ) : (
+                          <p className="text-xs">{item.rankNo}</p>
+                        )}
+                      </div>
+                      <div className="flex-shrink-0">
+                        <Image
+                          src={item.profileImageUrl || '/images/sample/profile-default.png'}
+                          alt={item.nickname}
+                          width={40}
+                          height={40}
+                          className="rounded-full"
+                        />
+                      </div>
+                      <div className="flex flex-col gap-0.5 min-w-0">
+                        <p className="text-sm font-bold truncate">{item.nickname}</p>
+                        <p className="flex items-center gap-[5px]">
+                          <Image
+                            src={`/images/rank/icon-level-${gradeIcon}-40.png`}
+                            alt=""
+                            width={14}
+                            height={14}
+                          />
+                          <span className={`text-xs ${gradeColor}`}>{gradeDisplayName}</span>
+                        </p>
+                      </div>
+                    </div>
+                    <div className="text-xs text-[#666666]">{item.reviewCount}개</div>
                   </div>
-                  <div className="flex-shrink-0">
-                    <Image
-                      src={user.avatar}
-                      alt={user.nickname}
-                      width={40}
-                      height={40}
-                      className="rounded-full"
-                    />
-                  </div>
-                  <div className="flex flex-col gap-0.5 min-w-0">
-                    <p className="text-sm font-bold truncate">{user.nickname}</p>
-                    <p className="flex items-center gap-[5px]">
-                      <Image
-                        src={`/images/rank/icon-level-${getMemberLevelIcon(user.memberLevel)}-40.png`}
-                        alt=""
-                        width={14}
-                        height={14}
-                      />
-                      <span className={`text-xs ${getMemberLevelColor(user.memberLevel)}`}>
-                        {user.memberLevel}
-                      </span>
-                    </p>
-                  </div>
-                </div>
-                <div className="text-xs text-[#666666]">{user.reviewCount}개</div>
-              </div>
-            ))}
+                )
+              })
+            )}
           </section>
         </section>
       </div>
@@ -272,7 +233,7 @@ export default function RankPage() {
               </div>
               <div className="flex-shrink-0">
                 <Image
-                  src="/images/sample/profile-user.png"
+                  src="/images/sample/profile/minji.png"
                   alt="프로필"
                   width={40}
                   height={40}
@@ -288,12 +249,12 @@ export default function RankPage() {
                 </div>
                 <p className="flex items-center gap-[5px]">
                   <Image
-                    src={`/images/rank/icon-level-${getMemberLevelIcon('테하멤버')}-40.png`}
+                    src={`/images/rank/icon-level-${getMemberGradeIcon('TEHA')}-40.png`}
                     alt="계급"
                     width={14}
                     height={14}
                   />
-                  <span className={`text-xs ${getMemberLevelColor('테하멤버')}`}>테하멤버</span>
+                  <span className={`text-xs ${getMemberGradeColor('TEHA')}`}>테하멤버</span>
                 </p>
               </div>
             </div>
