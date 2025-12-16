@@ -1,0 +1,43 @@
+import { PrizeItem } from '@/types/api/rank'
+import Image from 'next/image'
+
+interface TopPrizesSectionProps {
+  prizes: PrizeItem[]
+}
+
+export default function TopPrizesSection({ prizes }: TopPrizesSectionProps) {
+  return (
+    <section className="px-7 py-[30px] bg-white">
+      <div className="flex justify-between items-end gap-2">
+        {prizes.map((product) => (
+          <div key={product.id} className="flex flex-col items-center flex-1 min-w-0">
+            <div className="relative w-full mb-[15px] max-w-[144px] aspect-square">
+              <div className="absolute top-0 left-0 z-10 w-[25%]">
+                <Image
+                  src={`/images/rank/icon-rank-0${product.prizeRank}.png`}
+                  alt={`${product.prizeRank}등`}
+                  width={70}
+                  height={70}
+                  className="w-full h-auto"
+                />
+              </div>
+              <div className="w-full h-full flex items-center justify-center bg-white border border-[#eeeeee] rounded-full">
+                <Image
+                  src={product.imageUrl}
+                  alt={product.name}
+                  width={80}
+                  height={80}
+                  className="w-[55%] h-auto"
+                />
+              </div>
+            </div>
+            <div className="flex flex-col gap-0.5 w-full px-1 text-center">
+              <p className="text-[11px] truncate">{product.brand}</p>
+              <p className="text-[11px] truncate">{product.name}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
+  )
+}
