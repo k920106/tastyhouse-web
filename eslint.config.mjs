@@ -32,9 +32,6 @@ const eslintConfig = [
       // 세미콜론 관련 규칙
       semi: ['error', 'never'],
       'no-extra-semi': 'error',
-      // 따옴표 관련 규칙
-      quotes: ['error', 'single'],
-      'jsx-quotes': ['error', 'prefer-double'],
       // 쉼표 관련 규칙
       'comma-dangle': ['error', 'always-multiline'],
       // 공백 관련 규칙

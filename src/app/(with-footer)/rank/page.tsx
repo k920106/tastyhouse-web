@@ -1,41 +1,29 @@
 'use client'
 
 import Header from '@/components/layouts/Header'
+import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { ApiClient } from '@/lib/api-client'
 import { ApiResponse } from '@/types/api/common'
-import { MemberGrade, MemberRankItem, RankType } from '@/types/api/rank'
+import { MemberGrade, MemberRankItem, PrizeItem, RankType } from '@/types/api/rank'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import { MdInfo } from 'react-icons/md'
 
-interface RankingProduct {
-  rank: number
-  name: string
-  brand: string
-  image: string
-}
+async function getTopPrizes(): Promise<PrizeItem[]> {
+  try {
+    const { success, data } = await ApiClient.get<ApiResponse<PrizeItem[]>>('/prizes/v1')
 
-const TOP_PRODUCTS: RankingProduct[] = [
-  {
-    rank: 1,
-    name: 'Airpod Pro',
-    brand: 'APPLE',
-    image: '/images/sample/prize/airpod-pro.png',
-  },
-  {
-    rank: 2,
-    name: '돌체구스토 커피머신',
-    brand: '네슬레 네스카페',
-    image: '/images/sample/prize/nescafe.png',
-  },
-  {
-    rank: 3,
-    name: '아이스 아메리카노 Tall',
-    brand: '스타벅스',
-    image: '/images/sample/prize/starbucks.png',
-  },
-]
+    if (success && data) {
+      return data
+    }
+
+    return []
+  } catch (error) {
+    console.error('Failed to fetch top prizes:', error)
+    return []
+  }
+}
 
 // 멤버 등급을 한글 이름으로 변환
 const getMemberGradeDisplayName = (grade: MemberGrade): string => {
@@ -76,26 +64,32 @@ const getMemberGradeColor = (grade: MemberGrade): string => {
 export default function RankPage() {
   const [activeTab, setActiveTab] = useState<'all' | 'monthly'>('all')
   const [rankings, setRankings] = useState<MemberRankItem[]>([])
+  const [topPrizes, setTopPrizes] = useState<PrizeItem[]>([])
   const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
-    const fetchRankings = async () => {
+    const fetchData = async () => {
       setIsLoading(true)
       try {
         const type: RankType = activeTab === 'all' ? 'ALL' : 'MONTHLY'
-        const response = await ApiClient.get<ApiResponse<MemberRankItem[]>>('/ranks/v1/members', {
-          type,
-          limit: 100,
-        })
-        setRankings(response.data)
+        const [rankingsResponse, prizesResponse] = await Promise.all([
+          ApiClient.get<ApiResponse<MemberRankItem[]>>('/ranks/v1/members', {
+            type,
+            limit: 100,
+          }),
+          getTopPrizes(),
+        ])
+
+        setRankings(rankingsResponse.data || [])
+        setTopPrizes(prizesResponse || [])
       } catch (error) {
-        console.error('Failed to fetch rankings:', error)
+        console.error('Failed to fetch data:', error)
       } finally {
         setIsLoading(false)
       }
     }
 
-    fetchRankings()
+    fetchData()
   }, [activeTab])
 
   return (
@@ -106,13 +100,13 @@ export default function RankPage() {
       <div className="flex flex-col gap-2.5 min-h-screen bg-[#f9f9f9] pb-[140px]">
         <section className="px-7 py-[30px] bg-white">
           <div className="flex justify-between items-end gap-2">
-            {TOP_PRODUCTS.map((product) => (
-              <div key={product.rank} className="flex flex-col items-center flex-1 min-w-0">
+            {topPrizes.map((product) => (
+              <div key={product.id} className="flex flex-col items-center flex-1 min-w-0">
                 <div className="relative w-full mb-[15px] max-w-[144px] aspect-square">
                   <div className="absolute top-0 left-0 z-10 w-[25%]">
                     <Image
-                      src={`/images/rank/icon-rank-0${product.rank}.png`}
-                      alt={`${product.rank}등`}
+                      src={`/images/rank/icon-rank-0${product.prizeRank}.png`}
+                      alt={`${product.prizeRank}등`}
                       width={70}
                       height={70}
                       className="w-full h-auto"
@@ -120,7 +114,7 @@ export default function RankPage() {
                   </div>
                   <div className="w-full h-full flex items-center justify-center bg-white border border-[#eeeeee] rounded-full">
                     <Image
-                      src={product.image}
+                      src={product.imageUrl}
                       alt={product.name}
                       width={80}
                       height={80}
@@ -138,33 +132,34 @@ export default function RankPage() {
         </section>
         <section className="bg-white px-4 py-5">
           <section className="mb-[25px]">
-            <div className="flex items-center justify-between">
-              <div className="flex gap-4">
-                <button
-                  onClick={() => setActiveTab('all')}
-                  className={`text-lg font-bold cursor-pointer ${
-                    activeTab === 'all' ? '#333333' : 'text-[#333333]/50'
-                  }`}
-                >
-                  전체
-                </button>
-                <button
-                  onClick={() => setActiveTab('monthly')}
-                  className="flex items-center gap-2.5"
-                >
-                  <span
-                    className={`text-lg font-bold cursor-pointer ${activeTab === 'monthly' ? '#333333' : 'text-[#333333]/50'}`}
+            <Tabs
+              value={activeTab}
+              onValueChange={(value) => setActiveTab(value as 'all' | 'monthly')}
+            >
+              <div className="flex justify-between">
+                <TabsList className="flex gap-3 p-0 bg-white">
+                  <TabsTrigger
+                    className="items-start p-0 font-bold text-[#333333]/50 data-[state=active]:text-black data-[state=active]:shadow-none"
+                    value="all"
                   >
-                    이번 달
-                  </span>
-                  <MdInfo size="20" color="#dddddd" />
-                </button>
+                    <p className="text-lg">전체</p>
+                  </TabsTrigger>
+                  <TabsTrigger
+                    className="items-start p-0 font-bold text-[#333333]/50 data-[state=active]:text-black data-[state=active]:shadow-none"
+                    value="monthly"
+                  >
+                    <div className="flex items-center gap-1">
+                      <p className="text-lg">이번 달</p>
+                      <MdInfo size="20" color="#dddddd" />
+                    </div>
+                  </TabsTrigger>
+                </TabsList>
+                <div className="flex flex-col gap-0.5 items-end">
+                  <div className="text-sm">남은기간 : 8일 1시간 25분</div>
+                  <div className="text-sm text-[#aaaaaa]">(2020.07.01 - 12.31)</div>
+                </div>
               </div>
-              <div className="flex flex-col gap-1 items-end">
-                <div className="text-sm">남은기간 : 8일 1시간 25분</div>
-                <div className="text-sm text-[#aaaaaa]">(2020.07.01 - 12.31)</div>
-              </div>
-            </div>
+            </Tabs>
           </section>
           <section className="flex flex-col gap-2.5">
             {isLoading ? (

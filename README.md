@@ -69,22 +69,27 @@ tastyhouse-web/
 ### 주요 구조 특징
 
 #### 1. `src/` 폴더 사용 ✅
+
 - 애플리케이션 코드와 설정 파일을 분리
 - 프로젝트가 깔끔하고 체계적으로 유지됨
 - `tsconfig.json`의 paths 설정: `@/*` → `./src/*`
 
 #### 2. Route Groups 활용
+
 - `(home)`, `(auth)` 등 괄호로 그룹화
 - URL에 영향 없이 레이아웃을 다르게 적용 가능
 - 관련 라우트를 논리적으로 구조화
 
 #### 3. Private Folders (`_폴더명`)
+
 - `_components`, `_lib`, `_utils` 등
 - 라우팅에서 제외되며, 내부 구현 전용
 - 해당 라우트 그룹에서만 사용되는 컴포넌트
 
 #### 4. Colocation 전략
+
 **현재 적용된 방식**: 기능별 분리 (중소규모 프로젝트)
+
 ```
 src/
 ├── app/              # 라우팅만
@@ -94,6 +99,7 @@ src/
 ```
 
 **향후 대규모 프로젝트 시 권장 방식**:
+
 ```
 src/
 ├── app/
@@ -106,6 +112,7 @@ src/
 ```
 
 #### 5. 파일명 컨벤션
+
 - `page.tsx` - 페이지
 - `layout.tsx` - 레이아웃
 - `loading.tsx` - 로딩 UI
@@ -114,6 +121,7 @@ src/
 - `route.ts` - API 라우트
 
 ### Import 경로
+
 - 절대 경로 사용: `@/` → `src/` 폴더
 - 예시: `import { ApiClient } from '@/lib/api-client'`
 

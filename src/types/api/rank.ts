@@ -9,4 +9,12 @@ export interface MemberRankItem {
   grade: MemberGrade
 }
 
+export interface PrizeItem {
+  id: number
+  prizeRank: number
+  name: string
+  brand: string
+  imageUrl: string
+}
+
 export type RankType = 'ALL' | 'MONTHLY' | 'WEEKLY'

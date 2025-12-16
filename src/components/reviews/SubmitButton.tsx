@@ -2,15 +2,16 @@ import { ApiClient } from '@/lib/api-client'
 
 interface SubmitButtonProps {
   form: {
-    placeName: string
-    menuName: string
+    placeName?: string
+    menuName?: string
     content: string
     photos: File[]
     tags: string[]
   }
+  disabled?: boolean
 }
 
-export default function SubmitButton({ form }: SubmitButtonProps) {
+export default function SubmitButton({ form, disabled = false }: SubmitButtonProps) {
   const handleSubmit = async () => {
     if (!form.placeName) {
       alert('상호명은 필수 입력 사항입니다.')
@@ -39,7 +40,15 @@ export default function SubmitButton({ form }: SubmitButtonProps) {
     }
   }
   return (
-    <button className="w-full bg-main text-white py-3 text-base" onClick={handleSubmit}>
+    <button
+      className={`w-full py-3 text-base ${
+        disabled
+          ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
+          : 'bg-main text-white cursor-pointer'
+      }`}
+      onClick={handleSubmit}
+      disabled={disabled}
+    >
       등록하기
     </button>
   )

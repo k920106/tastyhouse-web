@@ -130,7 +130,7 @@ export default function BestReviewSection({ reviews }: BestReviewSectionProps) {
                     >
                       <div className="relative mb-[15px] w-full bg-gray-100 pt-[75%]">
                         <Image
-                          src={review.image}
+                          src={review.imageUrl}
                           alt={review.title}
                           fill
                           sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, (max-width: 1024px) 40vw, 33vw"

@@ -130,7 +130,7 @@ export default function KakaoMap() {
     async (lat: number, lng: number, mapInstance: KakaoMap) => {
       try {
         const responseData = await getPlacesNear({ latitude: lat, longitude: lng })
-        const placesData: PlaceData[] = responseData
+        const placesData: PlaceData[] = responseData as PlaceData[]
 
         // 기존 마커 제거
         clearMarkers()
