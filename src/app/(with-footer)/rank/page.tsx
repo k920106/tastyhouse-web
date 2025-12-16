@@ -2,7 +2,7 @@
 
 import Header from '@/components/layouts/Header'
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import { ApiClient } from '@/lib/api-client'
+import { api } from '@/lib/api'
 import { ApiResponse } from '@/types/api/common'
 import { MemberGrade, MemberRankItem, PrizeItem, RankType } from '@/types/api/rank'
 import Image from 'next/image'
@@ -12,10 +12,15 @@ import { MdInfo } from 'react-icons/md'
 
 async function getTopPrizes(): Promise<PrizeItem[]> {
   try {
-    const { success, data } = await ApiClient.get<ApiResponse<PrizeItem[]>>('/prizes/v1')
+    const { data, error } = await api.get<ApiResponse<PrizeItem[]>>('/api/prizes/v1')
 
-    if (success && data) {
-      return data
+    if (error) {
+      console.error('Failed to fetch top prizes:', error)
+      return []
+    }
+
+    if (data?.data) {
+      return data.data
     }
 
     return []
@@ -73,14 +78,18 @@ export default function RankPage() {
       try {
         const type: RankType = activeTab === 'all' ? 'ALL' : 'MONTHLY'
         const [rankingsResponse, prizesResponse] = await Promise.all([
-          ApiClient.get<ApiResponse<MemberRankItem[]>>('/ranks/v1/members', {
-            type,
-            limit: 100,
+          api.get<ApiResponse<MemberRankItem[]>>('/api/ranks/v1/members', {
+            params: {
+              type,
+              limit: 100,
+            },
           }),
           getTopPrizes(),
         ])
 
-        setRankings(rankingsResponse.data || [])
+        if (rankingsResponse.data?.data) {
+          setRankings(rankingsResponse.data.data)
+        }
         setTopPrizes(prizesResponse || [])
       } catch (error) {
         console.error('Failed to fetch data:', error)

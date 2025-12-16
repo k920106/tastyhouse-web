@@ -1,4 +1,4 @@
-import { ApiClient } from '@/lib/api-client'
+import { api } from '@/lib/api'
 import { Banner } from '@/types/api/banner'
 import { ApiResponse } from '@/types/api/common'
 import { BestPlace, ChoicePlace } from '@/types/api/place'
@@ -12,10 +12,15 @@ import TodayDiscountSection from './_components/TodayDiscountSection'
 
 async function getBanners(): Promise<Banner[]> {
   try {
-    const response = await ApiClient.get<ApiResponse<Banner[]>>('/banners/v1')
+    const { data, error } = await api.get<ApiResponse<Banner[]>>('/banners/v1')
 
-    if (response.success && response.data) {
-      return response.data
+    if (error) {
+      console.error('Failed to fetch banners:', error)
+      return []
+    }
+
+    if (data?.data) {
+      return data.data
     }
 
     return []
@@ -27,13 +32,20 @@ async function getBanners(): Promise<Banner[]> {
 
 async function getBestReviews(): Promise<BestReview[]> {
   try {
-    const response = await ApiClient.get<ApiResponse<BestReview[]>>('/reviews/v1/best', {
-      page: 0,
-      size: 5,
+    const { data, error } = await api.get<ApiResponse<BestReview[]>>('/reviews/v1/best', {
+      params: {
+        page: 0,
+        size: 5,
+      },
     })
 
-    if (response.success && response.data) {
-      return response.data
+    if (error) {
+      console.error('Failed to fetch best reviews:', error)
+      return []
+    }
+
+    if (data?.data) {
+      return data.data
     }
 
     return []
@@ -45,13 +57,20 @@ async function getBestReviews(): Promise<BestReview[]> {
 
 async function getBestPlaces(): Promise<BestPlace[]> {
   try {
-    const response = await ApiClient.get<ApiResponse<BestPlace[]>>('/places/v1/best', {
-      page: 0,
-      size: 4,
+    const { data, error } = await api.get<ApiResponse<BestPlace[]>>('/places/v1/best', {
+      params: {
+        page: 0,
+        size: 4,
+      },
     })
 
-    if (response.success && response.data) {
-      return response.data
+    if (error) {
+      console.error('Failed to fetch best places:', error)
+      return []
+    }
+
+    if (data?.data) {
+      return data.data
     }
 
     return []
@@ -63,16 +82,23 @@ async function getBestPlaces(): Promise<BestPlace[]> {
 
 async function getTodayDiscounts(): Promise<TodayDiscountProduct[]> {
   try {
-    const response = await ApiClient.get<ApiResponse<TodayDiscountProduct[]>>(
+    const { data, error } = await api.get<ApiResponse<TodayDiscountProduct[]>>(
       '/products/v1/today-discounts',
       {
-        page: 0,
-        size: 4,
+        params: {
+          page: 0,
+          size: 4,
+        },
       },
     )
 
-    if (response.success && response.data) {
-      return response.data
+    if (error) {
+      console.error('Failed to fetch today discounts:', error)
+      return []
+    }
+
+    if (data?.data) {
+      return data.data
     }
 
     return []
@@ -84,18 +110,25 @@ async function getTodayDiscounts(): Promise<TodayDiscountProduct[]> {
 
 export async function mockEditorChoice(): Promise<ChoicePlace[]> {
   try {
-    const response = await ApiClient.get<ApiResponse<ChoicePlace[]>>('/places/v1/editor-choice', {
-      page: 0,
-      size: 4,
+    const { data, error } = await api.get<ApiResponse<ChoicePlace[]>>('/places/v1/editor-choice', {
+      params: {
+        page: 0,
+        size: 4,
+      },
     })
 
-    if (response.success && response.data) {
-      return response.data
+    if (error) {
+      console.error('Failed to fetch editor choices:', error)
+      return []
+    }
+
+    if (data?.data) {
+      return data.data
     }
 
     return []
   } catch (error) {
-    console.error('Failed to fetch today discounts:', error)
+    console.error('Failed to fetch editor choices:', error)
     return []
   }
 }
