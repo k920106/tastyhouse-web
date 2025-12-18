@@ -31,7 +31,7 @@ export default function MyRankSection() {
       <section className="bg-[#eeeeee] border border-[#cccccc]">
         <div className="flex justify-between items-center py-[15px] pl-8 pr-[35px] bg-[#eeeeee] border border-[#eeeeee] rounded-[2.5px]">
           <div className="flex items-center gap-2.5">
-            <div className="flex-shrink-0 w-[22px] flex flex-col items-center">
+            <div className="flex flex-col items-center flex-shrink-0 w-[22px]">
               <p className="text-xs">127</p>
             </div>
             <div className="flex-shrink-0">

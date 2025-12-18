@@ -57,7 +57,7 @@ export default function RankSection({ rankings, initialTab }: RankSectionProps) 
   }
 
   return (
-    <section className="bg-white px-4 py-5">
+    <section className="px-4 py-5 bg-white">
       <section className="mb-[25px]">
         <Tabs value={initialTab} onValueChange={handleTabChange}>
           <div className="flex justify-between">
@@ -98,7 +98,7 @@ export default function RankSection({ rankings, initialTab }: RankSectionProps) 
               <Link key={item.memberId} href={`/members/${item.memberId}`}>
                 <div className="flex justify-between items-center py-[15px] pl-4 pr-5 bg-[#fcfcfc] border border-[#eeeeee] rounded-[2.5px]">
                   <div className="flex items-center gap-2.5">
-                    <div className="flex-shrink-0 w-[22px] flex flex-col items-center">
+                    <div className="flex flex-col items-center flex-shrink-0 w-[22px]">
                       {item.rankNo <= 3 ? (
                         <Image
                           src={`/images/rank/icon-rank-0${item.rankNo}.png`}

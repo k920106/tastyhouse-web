@@ -12,7 +12,7 @@ import {
 import { Suspense } from 'react'
 import MyRankSection from './_components/MyRankSection'
 import RankSection from './_components/RankSection'
-import TopPrizesSection from './_components/TopPrizesSection'
+import TopPrizesSection, { TopPrizesSectionLayout } from './_components/TopPrizesSection'
 import { retryRankPage } from './actions'
 
 async function Prizelists() {
@@ -74,6 +74,30 @@ async function Ranklists({ rankPeriod }: { rankPeriod: RankPeriod }) {
   return <RankSection rankings={data.data} initialTab={rankPeriod} />
 }
 
+function TopPrizesSkeletonItem() {
+  return (
+    <div className="flex flex-col items-center flex-1 min-w-0">
+      <div className="relative w-full mb-[15px] max-w-[144px] aspect-square">
+        <Skeleton className="w-full h-full flex items-center justify-center border border-[#eeeeee] rounded-full" />
+      </div>
+      <div className="flex flex-col items-center gap-2 w-full text-center">
+        <Skeleton className="h-3 w-14" />
+        <Skeleton className="h-3 w-20" />
+      </div>
+    </div>
+  )
+}
+
+function TopPrizesSectionSkeleton() {
+  return (
+    <TopPrizesSectionLayout>
+      {[...Array(3)].map((_, i) => (
+        <TopPrizesSkeletonItem key={i} />
+      ))}
+    </TopPrizesSectionLayout>
+  )
+}
+
 const isValidRankType = (type: string | undefined): type is RankPeriod => {
   return type === 'all' || type === 'monthly'
 }
@@ -88,23 +112,12 @@ export default async function RankPage({
 
   return (
     <>
-      <Suspense
-        fallback={
-          <div className="bg-white p-4 space-y-3">
-            <Skeleton className="h-6 w-32" />
-            <div className="flex gap-3 overflow-hidden">
-              {[...Array(3)].map((_, i) => (
-                <Skeleton key={i} className="h-24 w-24 flex-shrink-0 rounded-lg" />
-              ))}
-            </div>
-          </div>
-        }
-      >
+      <Suspense fallback={<TopPrizesSectionSkeleton />}>
         <Prizelists />
       </Suspense>
       <Suspense
         fallback={
-          <div className="bg-white p-4 space-y-4">
+          <div className="p-4 space-y-4 bg-white">
             <div className="flex gap-2">
               <Skeleton className="h-10 w-20" />
               <Skeleton className="h-10 w-20" />
@@ -112,6 +125,7 @@ export default async function RankPage({
             <div className="space-y-3">
               {[...Array(10)].map((_, i) => (
                 <div key={i} className="flex items-center gap-3">
+                  <Skeleton className="h-6 w-6" />
                   <Skeleton className="h-12 w-12 rounded-full" />
                   <div className="flex-1 space-y-2">
                     <Skeleton className="h-4 w-32" />
