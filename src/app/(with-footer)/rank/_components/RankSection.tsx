@@ -1,7 +1,7 @@
 'use client'
 
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import { MemberGrade, MemberRankItem } from '@/types/api/rank'
+import { MemberGrade, MemberRankItem, RankPeriod } from '@/types/api/rank'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
@@ -45,7 +45,7 @@ const getMemberGradeColor = (grade: MemberGrade): string => {
 
 interface RankSectionProps {
   rankings: MemberRankItem[]
-  initialTab: 'all' | 'monthly'
+  initialTab: RankPeriod
 }
 
 export default function RankSection({ rankings, initialTab }: RankSectionProps) {
@@ -63,13 +63,13 @@ export default function RankSection({ rankings, initialTab }: RankSectionProps) 
           <div className="flex justify-between">
             <TabsList className="flex gap-3 p-0 bg-white">
               <TabsTrigger
-                className="items-start p-0 font-bold text-[#333333]/50 data-[state=active]:text-black data-[state=active]:shadow-none"
+                className="items-start p-0 font-bold text-[#333333]/50 data-[state=active]:text-black data-[state=active]:shadow-none cursor-pointer"
                 value="all"
               >
                 <p className="text-lg">전체</p>
               </TabsTrigger>
               <TabsTrigger
-                className="items-start p-0 font-bold text-[#333333]/50 data-[state=active]:text-black data-[state=active]:shadow-none"
+                className="items-start p-0 font-bold text-[#333333]/50 data-[state=active]:text-black data-[state=active]:shadow-none cursor-pointer"
                 value="monthly"
               >
                 <div className="flex items-center gap-1">

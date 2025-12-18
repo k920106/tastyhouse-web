@@ -17,4 +17,19 @@ export interface PrizeItem {
   imageUrl: string
 }
 
-export type RankType = 'ALL' | 'MONTHLY' | 'WEEKLY'
+export type RankPeriod = 'all' | 'monthly'
+
+type RankType = 'ALL' | 'MONTHLY' | 'WEEKLY'
+
+export const rankPeriodToRankType = (period: RankPeriod): RankType => {
+  const periodMap: Record<RankPeriod, RankType> = {
+    all: 'ALL',
+    monthly: 'MONTHLY',
+  }
+  return periodMap[period]
+}
+
+export type RankMemberQuery = {
+  type: RankType
+  limit: number
+}

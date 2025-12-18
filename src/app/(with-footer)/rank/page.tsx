@@ -1,45 +1,81 @@
+import ErrorFallback from '@/components/ui/error-fallback'
+import { Skeleton } from '@/components/ui/skeleton'
 import { api } from '@/lib/api'
 import { ApiResponse } from '@/types/api/common'
-import { MemberRankItem, PrizeItem, RankType } from '@/types/api/rank'
+import {
+  MemberRankItem,
+  PrizeItem,
+  RankMemberQuery,
+  RankPeriod,
+  rankPeriodToRankType,
+} from '@/types/api/rank'
+import { Suspense } from 'react'
 import MyRankSection from './_components/MyRankSection'
 import RankSection from './_components/RankSection'
 import TopPrizesSection from './_components/TopPrizesSection'
+import { retryRankPage } from './actions'
 
-async function getTopPrizes(): Promise<PrizeItem[]> {
-  const { data, error } = await api.get<ApiResponse<PrizeItem[]>>('/api/prizes/v1')
+async function Prizelists() {
+  // API 호출
+  const { error, data } = await api.get<ApiResponse<PrizeItem[]>>('/api/prizes/v1')
 
+  // Expected Error: API 호출 실패 (네트워크 오류, timeout 등)
   if (error) {
-    console.error('[상품 조회 실패]', error)
-    return []
+    return (
+      <ErrorFallback
+        message={'네트워크 연결이 원활하지 않습니다. 인터넷 상태를 확인해주세요.'}
+        showRetry
+        onRetry={retryRankPage}
+      />
+    )
   }
 
+  // Expected Error: API 응답은 받았지만 데이터가 없거나 실패 응답
   if (!data?.success || !data.data) {
-    console.warn('[상품 조회 실패] API 응답:', data?.message || '알 수 없는 오류')
-    return []
+    const errorMessage =
+      data?.message || '경품 정보를 불러오지 못했어요. 잠시 후 다시 시도해주세요.'
+    return <ErrorFallback message={errorMessage} showRetry onRetry={retryRankPage} />
   }
 
-  return data.data
+  return <TopPrizesSection prizes={data.data} />
 }
 
-async function getRankings(type: RankType): Promise<MemberRankItem[]> {
-  const { data, error } = await api.get<ApiResponse<MemberRankItem[]>>('/api/ranks/v1/members', {
+async function Ranklists({ rankPeriod }: { rankPeriod: RankPeriod }) {
+  // API 호출
+  const query = {
     params: {
-      type,
+      type: rankPeriodToRankType(rankPeriod),
       limit: 100,
-    },
-  })
+    } satisfies RankMemberQuery,
+  }
+  const { error, data } = await api.get<ApiResponse<MemberRankItem[]>>(
+    '/api/ranks/v1/members',
+    query,
+  )
 
+  // Expected Error: API 호출 실패 (네트워크 오류, timeout 등)
   if (error) {
-    console.error('[랭킹 조회 실패]', error)
-    return []
+    return (
+      <ErrorFallback
+        message={'네트워크 연결이 원활하지 않습니다. 인터넷 상태를 확인해주세요.'}
+        showRetry
+        onRetry={retryRankPage}
+      />
+    )
   }
 
+  // Expected Error: API 응답은 받았지만 데이터가 없거나 실패 응답
   if (!data?.success || !data.data) {
-    console.warn('[랭킹 조회 실패] API 응답:', data?.message || '알 수 없는 오류')
-    return []
+    const errorMessage =
+      data?.message || '랭킹 정보를 불러오지 못했어요. 잠시 후 다시 시도해주세요.'
+    return <ErrorFallback message={errorMessage} showRetry onRetry={retryRankPage} />
   }
 
-  return data.data
+  return <RankSection rankings={data.data} initialTab={rankPeriod} />
+}
+
+const isValidRankType = (type: string | undefined): type is RankPeriod => {
+  return type === 'all' || type === 'monthly'
 }
 
 export default async function RankPage({
@@ -47,18 +83,49 @@ export default async function RankPage({
 }: {
   searchParams: Promise<{ type?: string }>
 }) {
-  const { type } = await searchParams
-  const rankType: RankType = type === 'monthly' ? 'MONTHLY' : 'ALL'
-
-  const topPrizes = await getTopPrizes()
-  const rankings = await getRankings(rankType)
+  const params = await searchParams
+  const rankPeriod: RankPeriod = isValidRankType(params.type) ? params.type : 'all'
 
   return (
     <>
-      <div className="flex flex-col gap-2.5 min-h-screen bg-[#f9f9f9] pb-[140px]">
-        <TopPrizesSection prizes={topPrizes} />
-        <RankSection rankings={rankings} initialTab={type === 'monthly' ? 'monthly' : 'all'} />
-      </div>
+      <Suspense
+        fallback={
+          <div className="bg-white p-4 space-y-3">
+            <Skeleton className="h-6 w-32" />
+            <div className="flex gap-3 overflow-hidden">
+              {[...Array(3)].map((_, i) => (
+                <Skeleton key={i} className="h-24 w-24 flex-shrink-0 rounded-lg" />
+              ))}
+            </div>
+          </div>
+        }
+      >
+        <Prizelists />
+      </Suspense>
+      <Suspense
+        fallback={
+          <div className="bg-white p-4 space-y-4">
+            <div className="flex gap-2">
+              <Skeleton className="h-10 w-20" />
+              <Skeleton className="h-10 w-20" />
+            </div>
+            <div className="space-y-3">
+              {[...Array(10)].map((_, i) => (
+                <div key={i} className="flex items-center gap-3">
+                  <Skeleton className="h-12 w-12 rounded-full" />
+                  <div className="flex-1 space-y-2">
+                    <Skeleton className="h-4 w-32" />
+                    <Skeleton className="h-3 w-20" />
+                  </div>
+                  <Skeleton className="h-6 w-16" />
+                </div>
+              ))}
+            </div>
+          </div>
+        }
+      >
+        <Ranklists rankPeriod={rankPeriod} />
+      </Suspense>
       <MyRankSection />
     </>
   )
