@@ -4,11 +4,9 @@ import PrizeList, { PrizeListSkeleton } from './PrizeList'
 export default function PrizeSection() {
   return (
     <section className="px-7 py-[30px] bg-white">
-      <div className="flex justify-between items-end gap-2">
-        <Suspense fallback={<PrizeListSkeleton />}>
-          <PrizeList />
-        </Suspense>
-      </div>
+      <Suspense fallback={<PrizeListSkeleton />}>
+        <PrizeList />
+      </Suspense>
     </section>
   )
 }

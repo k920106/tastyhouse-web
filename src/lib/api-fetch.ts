@@ -46,17 +46,19 @@ async function baseFetch<T>(
 ): Promise<T> {
   const { params, headers, ...restOptions } = options || {}
 
-  const url = `${API_BASE_URL}${endpoint}${createQueryString(params)}`
-
-  const defaultHeaders: HeadersInit = {
-    'Content-Type': 'application/json',
-    ...headers,
-  }
-
-  try {
-    const response = await fetch(url, {
-      ...restOptions,
-      headers: defaultHeaders,
+      const url = `${API_BASE_URL}${endpoint}${createQueryString(params)}`
+  
+      const defaultHeaders: HeadersInit = {
+        'Content-Type': 'application/json',
+        ...headers,
+      }
+  
+      // Introduce a 5-second delay before the fetch call
+      await new Promise(resolve => setTimeout(resolve, 5000));
+  
+      try {
+        const response = await fetch(url, {
+          ...restOptions,      headers: defaultHeaders,
     })
 
     if (!response.ok) {

@@ -78,7 +78,7 @@ export default async function RankList({ rankPeriod }: { rankPeriod: RankPeriod 
   const list = data.data
 
   return (
-    <>
+    <div className="flex flex-col gap-2.5 pt-[25px]">
       {data.data.length === 0 ? (
         <div className="py-10 text-[#999999] text-center">랭킹 데이터가 없습니다.</div>
       ) : (
@@ -96,6 +96,6 @@ export default async function RankList({ rankPeriod }: { rankPeriod: RankPeriod 
           </Link>
         ))
       )}
-    </>
+    </div>
   )
 }

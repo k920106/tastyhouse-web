@@ -15,11 +15,9 @@ export default function RankSection({ rankPeriod }: RankSectionProps) {
           <RankHeader rankPeriod={rankPeriod} />
         </Suspense>
       </section>
-      <section className="flex flex-col gap-2.5 pt-[25px]">
-        <Suspense fallback={<RankListSkeleton />}>
-          <RankList rankPeriod={rankPeriod} />
-        </Suspense>
-      </section>
+      <Suspense fallback={<RankListSkeleton />}>
+        <RankList rankPeriod={rankPeriod} />
+      </Suspense>
     </section>
   )
 }

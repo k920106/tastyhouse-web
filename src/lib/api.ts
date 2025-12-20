@@ -42,6 +42,9 @@ class ApiClient {
       url += `?${queryString}`
     }
 
+    // Introduce a 5-second delay before the fetch call
+    await new Promise(resolve => setTimeout(resolve, 5000));
+
     try {
       const response = await fetch(url, {
         headers: {

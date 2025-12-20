@@ -42,7 +42,7 @@ export default function RankHeaderContent({ eventInfo, initialTab }: RankHeaderC
   }
 
   return (
-    <>
+    <div>
       <div className="flex justify-between items-center">
         <div className="flex items-center gap-2.5">
           <Tabs value={initialTab} onValueChange={handleTabChange}>
@@ -66,6 +66,6 @@ export default function RankHeaderContent({ eventInfo, initialTab }: RankHeaderC
         <p className="text-sm">남은 기간 : {remainingTime}</p>
       </div>
       <p className="text-sm text-[#aaaaaa] text-right">({dateRange})</p>
-    </>
+    </div>
   )
 }

@@ -55,7 +55,7 @@ export default async function PrizeList() {
   const prizes = data.data
 
   return (
-    <>
+    <div className="flex justify-between items-end gap-2">
       {prizes.map((product) => (
         <div key={product.id} className="flex flex-col flex-1 items-center min-w-0">
           <div className="relative w-full max-w-[144px] mb-[15px] aspect-square">
@@ -84,6 +84,6 @@ export default async function PrizeList() {
           </div>
         </div>
       ))}
-    </>
+    </div>
   )
 }
