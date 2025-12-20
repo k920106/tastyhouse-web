@@ -1,10 +1,6 @@
-import Image from 'next/image'
-import {
-  getMemberGradeColor,
-  getMemberGradeDisplayName,
-  getMemberGradeIcon,
-} from '@/lib/rank'
+import { getMemberGradeColor, getMemberGradeDisplayName, getMemberGradeIcon } from '@/lib/rank'
 import { MemberGrade } from '@/types/api/rank'
+import Image from 'next/image'
 
 interface RankItemProps {
   rankNo: number

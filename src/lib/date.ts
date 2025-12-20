@@ -32,7 +32,10 @@ export function getTimeDifference(end: string | Date): TimeDifference {
 /**
  * Formats a date according to the specified format string.
  */
-export function formatDate(date: string | Date, format: 'YYYY.MM.DD' | 'MM.DD' | 'YYYY-MM-DD' | 'MM-DD'): string {
+export function formatDate(
+  date: string | Date,
+  format: 'YYYY.MM.DD' | 'MM.DD' | 'YYYY-MM-DD' | 'MM-DD',
+): string {
   const d = new Date(date)
   const year = d.getFullYear()
   const month = String(d.getMonth() + 1).padStart(2, '0')
