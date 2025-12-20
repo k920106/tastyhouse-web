@@ -1,6 +1,11 @@
+export type RankEventInfo = {
+  startAt: Date
+  endAt: Date
+}
+
 export type MemberGrade = 'NEWCOMER' | 'ACTIVE' | 'INSIDER' | 'GOURMET' | 'TEHA'
 
-export interface MemberRankItem {
+export type MemberRankItem = {
   memberId: number
   nickname: string
   profileImageUrl: string
@@ -9,7 +14,7 @@ export interface MemberRankItem {
   grade: MemberGrade
 }
 
-export interface PrizeItem {
+export type PrizeItem = {
   id: number
   prizeRank: number
   name: string

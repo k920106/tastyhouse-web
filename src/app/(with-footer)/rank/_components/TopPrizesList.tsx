@@ -1,13 +1,13 @@
 import { PrizeItem } from '@/types/api/rank'
 import Image from 'next/image'
 
-interface TopPrizesSectionProps {
+interface TopPrizesListProps {
   prizes: PrizeItem[]
 }
 
-export default function TopPrizesSection({ prizes }: TopPrizesSectionProps) {
+export default function TopPrizesList({ prizes }: TopPrizesListProps) {
   return (
-    <TopPrizesSectionLayout>
+    <>
       {prizes.map((product) => (
         <div key={product.id} className="flex flex-col flex-1 items-center min-w-0">
           <div className="relative w-full max-w-[144px] mb-[15px] aspect-square">
@@ -36,18 +36,6 @@ export default function TopPrizesSection({ prizes }: TopPrizesSectionProps) {
           </div>
         </div>
       ))}
-    </TopPrizesSectionLayout>
-  )
-}
-
-export function TopPrizesSectionLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode
-}>) {
-  return (
-    <section className="px-7 py-[30px] bg-white">
-      <div className="flex justify-between items-end gap-2">{children}</div>
-    </section>
+    </>
   )
 }

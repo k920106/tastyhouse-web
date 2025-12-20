@@ -389,3 +389,8 @@ npm run dev
 npm run build
 npm start
 ```
+
+Empty / Error 상태 메시지 마크업 기준  
+UI에서 데이터가 없거나(Error, Empty State) 상태 메시지를 표시할 때는 p나 span 대신 div를 사용한다.  
+이는 해당 메시지가 문단(paragraph)이 아닌 레이아웃을 포함한 UI 상태 블록이며, padding, 정렬, 추후 버튼·아이콘 추가 등 확장 가능성을 고려한 선택이다.  
+p 태그는 설명용 문장에, span 태그는 문장 내부의 인라인 텍스트 강조에만 사용한다.
