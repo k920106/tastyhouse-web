@@ -1,9 +1,7 @@
-import ErrorFallback from '@/components/ui/error-fallback'
 import { Skeleton } from '@/components/ui/skeleton'
 import { api } from '@/lib/api'
 import { ApiResponse } from '@/types/api/common'
 import { RankEventInfo, RankPeriod } from '@/types/api/rank'
-import { retryRankPage } from '../actions'
 import RankHeaderContent from './RankHeaderContent'
 
 export function RankHeaderSkeleton() {
@@ -33,11 +31,9 @@ export default async function RankHeader({ rankPeriod }: { rankPeriod: RankPerio
   // Expected Error: API 호출 실패 (네트워크 오류, timeout 등)
   if (error) {
     return (
-      <ErrorFallback
-        message={'네트워크 연결이 원활하지 않습니다. 인터넷 상태를 확인해주세요.'}
-        showRetry
-        onRetry={retryRankPage}
-      />
+      <div className="w-full text-sm text-[#999999] text-center whitespace-pre-line">
+        {`일시적인 오류로 데이터를 불러오지 못했어요.\n잠시 후 다시 시도해주세요.`}
+      </div>
     )
   }
 
@@ -45,7 +41,11 @@ export default async function RankHeader({ rankPeriod }: { rankPeriod: RankPerio
   if (!data?.success || !data.data) {
     const errorMessage =
       data?.message || '이벤트 정보를 불러오지 못했어요. 잠시 후 다시 시도해주세요.'
-    return <ErrorFallback message={errorMessage} showRetry onRetry={retryRankPage} />
+    return (
+      <div className="w-full text-sm text-[#999999] text-center whitespace-pre-line">
+        {errorMessage}
+      </div>
+    )
   }
 
   return <RankHeaderContent eventInfo={data.data} initialTab={rankPeriod} />

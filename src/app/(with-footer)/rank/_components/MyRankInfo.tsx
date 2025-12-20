@@ -1,8 +1,6 @@
-import ErrorFallback from '@/components/ui/error-fallback'
 import { api } from '@/lib/api'
 import { ApiResponse } from '@/types/api/common'
 import { MyRankItem, RankPeriod, rankPeriodToRankType } from '@/types/api/rank'
-import { retryRankPage } from '../actions'
 import RankItem from './RankItem'
 
 export default async function MyRankInfo({ rankPeriod }: { rankPeriod: RankPeriod }) {
@@ -17,19 +15,21 @@ export default async function MyRankInfo({ rankPeriod }: { rankPeriod: RankPerio
   // Expected Error: API 호출 실패 (네트워크 오류, timeout 등)
   if (error) {
     return (
-      <ErrorFallback
-        message={'네트워크 연결이 원활하지 않습니다. 인터넷 상태를 확인해주세요.'}
-        showRetry
-        onRetry={retryRankPage}
-      />
+      <div className="w-full text-sm text-[#999999] text-center whitespace-pre-line">
+        {`일시적인 오류로 데이터를 불러오지 못했어요.\n잠시 후 다시 시도해주세요.`}
+      </div>
     )
   }
 
   // Expected Error: API 응답은 받았지만 데이터가 없거나 실패 응답
   if (!data?.success || !data.data) {
     const errorMessage =
-      data?.message || '내 랭킹 정보를 불러오지 못했어요. 잠시 후 다시 시도해주세요.'
-    return <ErrorFallback message={errorMessage} showRetry onRetry={retryRankPage} />
+      data?.message || '내 랭킹 정보를 불러오지 못했어요.\n잠시 후 다시 시도해주세요.'
+    return (
+      <div className="w-full text-sm text-[#999999] text-center whitespace-pre-line">
+        {errorMessage}
+      </div>
+    )
   }
 
   const info = data.data

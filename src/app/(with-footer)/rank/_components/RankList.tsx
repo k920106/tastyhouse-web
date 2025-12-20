@@ -1,10 +1,8 @@
-import ErrorFallback from '@/components/ui/error-fallback'
 import { Skeleton } from '@/components/ui/skeleton'
 import { api } from '@/lib/api'
 import { ApiResponse } from '@/types/api/common'
 import { MemberRankItem, RankMemberQuery, RankPeriod, rankPeriodToRankType } from '@/types/api/rank'
 import Link from 'next/link'
-import { retryRankPage } from '../actions'
 import RankItem from './RankItem'
 
 export function RankListSkeleton() {
@@ -60,11 +58,9 @@ export default async function RankList({ rankPeriod }: { rankPeriod: RankPeriod 
   // Expected Error: API 호출 실패 (네트워크 오류, timeout 등)
   if (error) {
     return (
-      <ErrorFallback
-        message={'네트워크 연결이 원활하지 않습니다. 인터넷 상태를 확인해주세요.'}
-        showRetry
-        onRetry={retryRankPage}
-      />
+      <div className="w-full text-sm text-[#999999] text-center whitespace-pre-line">
+        {`일시적인 오류로 데이터를 불러오지 못했어요.\n잠시 후 다시 시도해주세요.`}
+      </div>
     )
   }
 
@@ -72,30 +68,34 @@ export default async function RankList({ rankPeriod }: { rankPeriod: RankPeriod 
   if (!data?.success || !data.data) {
     const errorMessage =
       data?.message || '랭킹 정보를 불러오지 못했어요. 잠시 후 다시 시도해주세요.'
-    return <ErrorFallback message={errorMessage} showRetry onRetry={retryRankPage} />
+    return (
+      <div className="w-full text-sm text-[#999999] text-center whitespace-pre-line">
+        {errorMessage}
+      </div>
+    )
   }
 
   const memberRankItems = data.data
 
-  return (
-    <>
-      {memberRankItems.length === 0 ? (
-        <div className="py-10 text-[#999999] text-center">랭킹 데이터가 없습니다.</div>
-      ) : (
-        memberRankItems.map((item) => (
-          <Link key={item.memberId} href={`/members/${item.memberId}`}>
-            <div className="flex justify-between items-center py-[15px] pl-4 pr-5 bg-[#fcfcfc] border border-[#eeeeee] rounded-[2.5px]">
-              <RankItem
-                rankNo={item.rankNo}
-                profileImageUrl={item.profileImageUrl}
-                nickname={item.nickname}
-                grade={item.grade}
-                reviewCount={item.reviewCount}
-              />
-            </div>
-          </Link>
-        ))
-      )}
-    </>
-  )
+  if (memberRankItems.length === 0) {
+    return (
+      <div className="w-full text-sm text-[#999999] text-center whitespace-pre-line">
+        랭킹 데이터가 없습니다.
+      </div>
+    )
+  }
+
+  return memberRankItems.map((item) => (
+    <Link key={item.memberId} href={`/members/${item.memberId}`}>
+      <div className="flex justify-between items-center py-[15px] pl-4 pr-5 bg-[#fcfcfc] border border-[#eeeeee] rounded-[2.5px]">
+        <RankItem
+          rankNo={item.rankNo}
+          profileImageUrl={item.profileImageUrl}
+          nickname={item.nickname}
+          grade={item.grade}
+          reviewCount={item.reviewCount}
+        />
+      </div>
+    </Link>
+  ))
 }
