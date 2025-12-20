@@ -4,16 +4,17 @@ import { api } from '@/lib/api'
 import { ApiResponse } from '@/types/api/common'
 import {
   MemberRankItem,
+  MyRankItem,
   PrizeItem,
   RankEventInfo,
   RankMemberQuery,
   RankPeriod,
   rankPeriodToRankType,
 } from '@/types/api/rank'
+import Link from 'next/link'
 import { Suspense } from 'react'
-import MyRankSection from './_components/MyRankSection'
 import RankHeaderInfo from './_components/RankHeaderInfo'
-import RankList from './_components/RankList'
+import RankItem from './_components/RankItem'
 import TopPrizesList from './_components/TopPrizesList'
 import { retryRankPage } from './actions'
 
@@ -42,8 +43,6 @@ function TopPrizesSkeletonItem() {
 }
 
 async function Prizelists() {
-  await new Promise((resolve) => setTimeout(resolve, 3000))
-
   // API 호출
   const { error, data } = await api.get<ApiResponse<PrizeItem[]>>('/api/prizes/v1')
 
@@ -87,8 +86,6 @@ function RankHeaderSkeleton() {
 }
 
 async function RankHeader({ rankPeriod }: { rankPeriod: RankPeriod }) {
-  await new Promise((resolve) => setTimeout(resolve, 3000))
-
   // API 호출
   const { error, data } = await api.get<ApiResponse<RankEventInfo>>(
     '/api/event/v1/ranking/duration',
@@ -119,7 +116,12 @@ function RankListSkeleton() {
   return (
     <>
       {[...Array(10)].map((_, i) => (
-        <RankListSkeletonItem key={i} />
+        <div
+          key={i}
+          className="flex justify-between items-center py-[15px] pl-4 pr-5 bg-[#fcfcfc] border border-[#eeeeee] rounded-[2.5px]"
+        >
+          <RankListSkeletonItem />
+        </div>
       ))}
     </>
   )
@@ -127,7 +129,7 @@ function RankListSkeleton() {
 
 function RankListSkeletonItem() {
   return (
-    <div className="flex justify-between items-center py-[15px] pl-4 pr-5 bg-[#fcfcfc] border border-[#eeeeee] rounded-[2.5px]">
+    <>
       <div className="flex items-center gap-2.5">
         <div className="flex flex-col items-center flex-shrink-0 w-[22px]">
           <Skeleton className="w-4 h-3" />
@@ -143,13 +145,11 @@ function RankListSkeletonItem() {
         </div>
       </div>
       <Skeleton className="w-10 h-3" />
-    </div>
+    </>
   )
 }
 
 async function Ranklists({ rankPeriod }: { rankPeriod: RankPeriod }) {
-  await new Promise((resolve) => setTimeout(resolve, 3000))
-
   // API 호출
   const query = {
     params: {
@@ -180,7 +180,65 @@ async function Ranklists({ rankPeriod }: { rankPeriod: RankPeriod }) {
     return <ErrorFallback message={errorMessage} showRetry onRetry={retryRankPage} />
   }
 
-  return <RankList rankings={data.data} />
+  const list = data.data
+
+  return (
+    <>
+      {data.data.length === 0 ? (
+        <div className="py-10 text-[#999999] text-center">랭킹 데이터가 없습니다.</div>
+      ) : (
+        list.map((item) => (
+          <Link key={item.memberId} href={`/members/${item.memberId}`}>
+            <div className="flex justify-between items-center py-[15px] pl-4 pr-5 bg-[#fcfcfc] border border-[#eeeeee] rounded-[2.5px]">
+              <RankItem
+                rankNo={item.rankNo}
+                profileImageUrl={item.profileImageUrl}
+                nickname={item.nickname}
+                grade={item.grade}
+                reviewCount={item.reviewCount}
+              />
+            </div>
+          </Link>
+        ))
+      )}
+    </>
+  )
+}
+
+async function MyRank() {
+  // API 호출
+  const { error, data } = await api.get<ApiResponse<MyRankItem>>('/api/ranks/v1/members/me')
+
+  // Expected Error: API 호출 실패 (네트워크 오류, timeout 등)
+  if (error) {
+    return (
+      <ErrorFallback
+        message={'네트워크 연결이 원활하지 않습니다. 인터넷 상태를 확인해주세요.'}
+        showRetry
+        onRetry={retryRankPage}
+      />
+    )
+  }
+
+  // Expected Error: API 응답은 받았지만 데이터가 없거나 실패 응답
+  if (!data?.success || !data.data) {
+    const errorMessage =
+      data?.message || '이벤트 정보를 불러오지 못했어요. 잠시 후 다시 시도해주세요.'
+    return <ErrorFallback message={errorMessage} showRetry onRetry={retryRankPage} />
+  }
+
+  const info = data.data
+
+  return (
+    <RankItem
+      rankNo={info.rankNo}
+      profileImageUrl={info.profileImageUrl}
+      nickname={info.nickname}
+      grade={info.grade}
+      reviewCount={info.reviewCount}
+      isMe
+    />
+  )
 }
 
 const isValidRankType = (type: string | undefined): type is RankPeriod => {
@@ -216,7 +274,15 @@ export default async function RankPage({
           </Suspense>
         </section>
       </section>
-      <MyRankSection />
+      <div className="fixed bottom-[70px] left-1/2 -translate-x-1/2 w-full max-w-[500px]">
+        <section className="bg-[#eeeeee] border border-[#cccccc]">
+          <div className="flex justify-between items-center py-[15px] pl-8 pr-[35px] bg-[#eeeeee] border border-[#eeeeee] rounded-[2.5px]">
+            <Suspense fallback={<RankListSkeletonItem />}>
+              <MyRank />
+            </Suspense>
+          </div>
+        </section>
+      </div>
     </>
   )
 }

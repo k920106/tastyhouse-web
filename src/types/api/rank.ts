@@ -1,3 +1,11 @@
+export type MyRankItem = {
+  nickname: string
+  profileImageUrl: string
+  reviewCount: number
+  rankNo: number
+  grade: MemberGrade
+}
+
 export type RankEventInfo = {
   startAt: Date
   endAt: Date
