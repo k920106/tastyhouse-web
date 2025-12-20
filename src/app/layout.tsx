@@ -15,6 +15,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={nanumMyeongjo.variable}>
+      <head>
+        <link rel="icon" href="/favicon.ico" sizes="any" />
+      </head>
       <body className="flex justify-center min-h-screen bg-white">
         <div className="relative w-full max-w-[500px] overflow-hidden border border-[#eeeeee] box-border">
           {children}
