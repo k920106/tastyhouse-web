@@ -1,7 +1,7 @@
 'use client'
 
 import Image from 'next/image'
-import { useParams, useRouter } from 'next/navigation'
+import { useRouter } from 'next/navigation'
 import { IoChevronBackOutline } from 'react-icons/io5'
 
 const mockEvent = {
@@ -47,8 +47,6 @@ const mockWinnerEvent = {
 
 export default function EventDetailPage() {
   const router = useRouter()
-  const params = useParams()
-  const eventId = params.id
 
   // 실제로는 eventId와 타입에 따라 다른 데이터를 가져와야 합니다
   const isWinnerPage = true // 임시로 당첨자 발표 페이지로 설정

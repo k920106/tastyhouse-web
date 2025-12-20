@@ -1,10 +1,10 @@
 'use client'
 
-import Image from 'next/image'
 import { Review } from '@/types/api/review'
+import Image from 'next/image'
 import { useState } from 'react'
+import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai'
 import { BsThreeDotsVertical } from 'react-icons/bs'
-import { AiOutlineHeart, AiFillHeart } from 'react-icons/ai'
 import { FaRegComment } from 'react-icons/fa'
 
 interface ReviewCardProps {
@@ -29,7 +29,7 @@ function formatTimeAgo(dateString: string) {
 
 export default function ReviewCard({ review }: ReviewCardProps) {
   const [isLiked, setIsLiked] = useState(false)
-  const [currentImageIndex, setCurrentImageIndex] = useState(0)
+  const [currentImageIndex] = useState(0)
 
   const handleLike = () => {
     setIsLiked(!isLiked)
