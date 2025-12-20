@@ -1,4 +1,4 @@
-import ApiClient from '@/lib/api'
+import { api } from '@/lib/api'
 
 interface SubmitButtonProps {
   form: {
@@ -32,7 +32,7 @@ export default function SubmitButton({ form, disabled = false }: SubmitButtonPro
         tags: form.tags,
       }
 
-      await ApiClient.post('/reviews', data)
+      await api.post('/reviews', data)
       alert('리뷰가 등록되었습니다.')
     } catch (error) {
       console.error('리뷰 등록 실패:', error)

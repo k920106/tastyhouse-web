@@ -1,4 +1,4 @@
-import ApiClient from './api'
+import { api } from './api'
 
 interface PlaceNearParams {
   latitude: number
@@ -7,9 +7,11 @@ interface PlaceNearParams {
 
 export async function getPlacesNear({ latitude, longitude }: PlaceNearParams) {
   try {
-    const response = await ApiClient.get('/places', {
-      latitude,
-      longitude,
+    const response = await api.get('/places', {
+      params: {
+        latitude,
+        longitude,
+      },
     })
     return response
   } catch (err) {

@@ -4,17 +4,33 @@ import { formatDate, formatRemainingTime, getTimeDifference } from '@/lib/date'
 import { RankEventInfo, RankPeriod } from '@/types/api/rank'
 import { Tabs, TabsList, TabsTrigger } from '@radix-ui/react-tabs'
 import { useRouter } from 'next/navigation'
+import { useEffect, useState } from 'react'
 import { MdInfo } from 'react-icons/md'
 
-interface RankHeaderInfoProps {
+interface RankHeaderContentProps {
   eventInfo: RankEventInfo
   initialTab: RankPeriod
 }
 
-export default function RankHeaderInfo({ eventInfo, initialTab }: RankHeaderInfoProps) {
+export default function RankHeaderContent({ eventInfo, initialTab }: RankHeaderContentProps) {
   const router = useRouter()
-  const timeDifference = getTimeDifference(eventInfo.endAt)
-  const remainingTime = formatRemainingTime(timeDifference)
+  const [remainingTime, setRemainingTime] = useState('')
+
+  useEffect(() => {
+    // Initial calculation
+    const calculateAndSetRemainingTime = () => {
+      const timeDifference = getTimeDifference(eventInfo.endAt)
+      setRemainingTime(formatRemainingTime(timeDifference))
+    }
+
+    calculateAndSetRemainingTime() // Set initial value
+
+    // Update every second
+    const intervalId = setInterval(calculateAndSetRemainingTime, 1000)
+
+    // Cleanup interval on component unmount
+    return () => clearInterval(intervalId)
+  }, [eventInfo.endAt]) // Recalculate if eventEndAt changes
 
   const startDateFormatted = formatDate(eventInfo.startAt, 'YYYY.MM.DD')
   const endDateFormatted = formatDate(eventInfo.endAt, 'MM.DD')
