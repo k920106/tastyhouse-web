@@ -6,6 +6,16 @@ import { PrizeItem } from '@/types/api/rank'
 import Image from 'next/image'
 import { retryRankPage } from '../actions'
 
+export function PrizeListSkeleton() {
+  return (
+    <>
+      {[...Array(3)].map((_, i) => (
+        <PrizeListSkeletonItem key={i} />
+      ))}
+    </>
+  )
+}
+
 export function PrizeListSkeletonItem() {
   return (
     <div className="flex flex-col items-center flex-1 min-w-0">
@@ -17,16 +27,6 @@ export function PrizeListSkeletonItem() {
         <Skeleton className="w-20 h-3" />
       </div>
     </div>
-  )
-}
-
-export function PrizeListSkeleton() {
-  return (
-    <>
-      {[...Array(3)].map((_, i) => (
-        <PrizeListSkeletonItem key={i} />
-      ))}
-    </>
   )
 }
 
@@ -55,35 +55,39 @@ export default async function PrizeList() {
   const prizes = data.data
 
   return (
-    <div className="flex justify-between items-end gap-2">
-      {prizes.map((product) => (
-        <div key={product.id} className="flex flex-col flex-1 items-center min-w-0">
-          <div className="relative w-full max-w-[144px] mb-[15px] aspect-square">
-            <div className="absolute top-0 left-0 z-10 w-[25%]">
-              <Image
-                src={`/images/rank/icon-rank-0${product.prizeRank}.png`}
-                alt={`${product.prizeRank}등`}
-                width={70}
-                height={70}
-                className="w-full h-auto"
-              />
+    <>
+      {prizes.length === 0 ? (
+        <div className="w-full py-10 text-[#999999] text-center">경품 데이터가 없습니다.</div>
+      ) : (
+        prizes.map((product) => (
+          <div key={product.id} className="flex flex-col flex-1 items-center min-w-0">
+            <div className="relative w-full max-w-[144px] mb-[15px] aspect-square">
+              <div className="absolute top-0 left-0 z-10 w-[25%]">
+                <Image
+                  src={`/images/rank/icon-rank-0${product.prizeRank}.png`}
+                  alt={`${product.prizeRank}등`}
+                  width={70}
+                  height={70}
+                  className="w-full h-auto"
+                />
+              </div>
+              <div className="flex items-center justify-center w-full h-full bg-white border border-[#eeeeee] rounded-full">
+                <Image
+                  src={product.imageUrl}
+                  alt={product.name}
+                  width={80}
+                  height={80}
+                  className="w-[55%] h-auto"
+                />
+              </div>
             </div>
-            <div className="flex items-center justify-center w-full h-full bg-white border border-[#eeeeee] rounded-full">
-              <Image
-                src={product.imageUrl}
-                alt={product.name}
-                width={80}
-                height={80}
-                className="w-[55%] h-auto"
-              />
+            <div className="flex flex-col gap-0.5 w-full text-center">
+              <p className="text-[11px] truncate">{product.brand}</p>
+              <p className="text-[11px] truncate">{product.name}</p>
             </div>
           </div>
-          <div className="flex flex-col gap-0.5 w-full text-center">
-            <p className="text-[11px] truncate">{product.brand}</p>
-            <p className="text-[11px] truncate">{product.name}</p>
-          </div>
-        </div>
-      ))}
-    </div>
+        ))
+      )}
+    </>
   )
 }

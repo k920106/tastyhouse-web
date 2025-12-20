@@ -14,23 +14,18 @@ interface RankHeaderContentProps {
 
 export default function RankHeaderContent({ eventInfo, initialTab }: RankHeaderContentProps) {
   const router = useRouter()
+
   const [remainingTime, setRemainingTime] = useState('')
 
   useEffect(() => {
-    // Initial calculation
     const calculateAndSetRemainingTime = () => {
       const timeDifference = getTimeDifference(eventInfo.endAt)
       setRemainingTime(formatRemainingTime(timeDifference))
     }
-
-    calculateAndSetRemainingTime() // Set initial value
-
-    // Update every second
+    calculateAndSetRemainingTime()
     const intervalId = setInterval(calculateAndSetRemainingTime, 1000)
-
-    // Cleanup interval on component unmount
     return () => clearInterval(intervalId)
-  }, [eventInfo.endAt]) // Recalculate if eventEndAt changes
+  }, [eventInfo.endAt])
 
   const startDateFormatted = formatDate(eventInfo.startAt, 'YYYY.MM.DD')
   const endDateFormatted = formatDate(eventInfo.endAt, 'MM.DD')
@@ -42,7 +37,7 @@ export default function RankHeaderContent({ eventInfo, initialTab }: RankHeaderC
   }
 
   return (
-    <div>
+    <>
       <div className="flex justify-between items-center">
         <div className="flex items-center gap-2.5">
           <Tabs value={initialTab} onValueChange={handleTabChange}>
@@ -66,6 +61,6 @@ export default function RankHeaderContent({ eventInfo, initialTab }: RankHeaderC
         <p className="text-sm">남은 기간 : {remainingTime}</p>
       </div>
       <p className="text-sm text-[#aaaaaa] text-right">({dateRange})</p>
-    </div>
+    </>
   )
 }

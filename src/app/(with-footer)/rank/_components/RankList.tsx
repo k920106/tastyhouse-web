@@ -7,28 +7,6 @@ import Link from 'next/link'
 import { retryRankPage } from '../actions'
 import RankItem from './RankItem'
 
-export function RankListSkeletonItem() {
-  return (
-    <>
-      <div className="flex items-center gap-2.5">
-        <div className="flex flex-col items-center flex-shrink-0 w-[22px]">
-          <Skeleton className="w-4 h-3" />
-        </div>
-        <div className="flex-shrink-0">
-          <Skeleton className="w-10 h-10 rounded-full" />
-        </div>
-        <div className="flex flex-col gap-1 min-w-0">
-          <p className="flex items-center gap-[5px]">
-            <Skeleton className="w-5 h-4" />
-            <Skeleton className="w-15 h-3" />
-          </p>
-        </div>
-      </div>
-      <Skeleton className="w-10 h-3" />
-    </>
-  )
-}
-
 export function RankListSkeleton() {
   return (
     <>
@@ -40,6 +18,28 @@ export function RankListSkeleton() {
           <RankListSkeletonItem />
         </div>
       ))}
+    </>
+  )
+}
+
+export function RankListSkeletonItem() {
+  return (
+    <>
+      <div className="flex items-center gap-2.5">
+        <div className="flex flex-col items-center flex-shrink-0 w-[22px]">
+          <Skeleton className="w-4 h-3" />
+        </div>
+        <div className="flex-shrink-0">
+          <Skeleton className="w-10 h-10 rounded-full" />
+        </div>
+        <div className="flex flex-col gap-1 min-w-0">
+          <div className="flex items-center gap-[5px]">
+            <Skeleton className="w-5 h-4" />
+            <Skeleton className="w-15 h-3" />
+          </div>
+        </div>
+      </div>
+      <Skeleton className="w-10 h-3" />
     </>
   )
 }
@@ -75,14 +75,14 @@ export default async function RankList({ rankPeriod }: { rankPeriod: RankPeriod 
     return <ErrorFallback message={errorMessage} showRetry onRetry={retryRankPage} />
   }
 
-  const list = data.data
+  const memberRankItems = data.data
 
   return (
-    <div className="flex flex-col gap-2.5 pt-[25px]">
-      {data.data.length === 0 ? (
+    <>
+      {memberRankItems.length === 0 ? (
         <div className="py-10 text-[#999999] text-center">랭킹 데이터가 없습니다.</div>
       ) : (
-        list.map((item) => (
+        memberRankItems.map((item) => (
           <Link key={item.memberId} href={`/members/${item.memberId}`}>
             <div className="flex justify-between items-center py-[15px] pl-4 pr-5 bg-[#fcfcfc] border border-[#eeeeee] rounded-[2.5px]">
               <RankItem
@@ -96,6 +96,6 @@ export default async function RankList({ rankPeriod }: { rankPeriod: RankPeriod 
           </Link>
         ))
       )}
-    </div>
+    </>
   )
 }
