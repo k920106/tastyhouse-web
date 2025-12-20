@@ -75,8 +75,9 @@ export default function Footer() {
                     <Image
                       src={active ? item.iconOn : item.iconOff}
                       alt=""
-                      width={24}
-                      height={24}
+                      fill
+                      style={{ objectFit: 'contain' }}
+                      sizes="24px"
                     />
                   </div>
                   <span

@@ -26,13 +26,14 @@ export default function RankItem({
   return (
     <div className="flex justify-between items-center w-full">
       <div className="flex items-center gap-2.5">
-        <div className="flex flex-col items-center flex-shrink-0 w-[22px]">
+        <div className="relative flex flex-col items-center flex-shrink-0 w-[22px] h-[30px]">
           {rankNo <= 3 ? (
             <Image
               src={`/images/rank/icon-rank-0${rankNo}.png`}
               alt={`${rankNo}등`}
-              width={22}
-              height={30}
+              fill
+              style={{ objectFit: 'contain' }}
+              sizes="22px"
             />
           ) : (
             <p className="text-xs">{rankNo}</p>
@@ -56,15 +57,18 @@ export default function RankItem({
             )}
             <p className="text-sm font-bold truncate">{nickname}</p>
           </div>
-          <p className="flex items-center gap-[5px]">
-            <Image
-              src={`/images/rank/icon-level-${gradeIcon}-40.png`}
-              alt={gradeDisplayName}
-              width={14}
-              height={14}
-            />
+          <div className="flex items-center gap-[5px]">
+            <div className="relative w-[14px] h-[14px]">
+              <Image
+                src={`/images/rank/icon-level-${gradeIcon}-40.png`}
+                alt={gradeDisplayName}
+                fill
+                style={{ objectFit: 'contain' }}
+                sizes="14px"
+              />
+            </div>
             <span className={`text-xs ${gradeColor}`}>{gradeDisplayName}</span>
-          </p>
+          </div>
         </div>
       </div>
       <div className="text-xs text-[#666666]">{reviewCount}개</div>
