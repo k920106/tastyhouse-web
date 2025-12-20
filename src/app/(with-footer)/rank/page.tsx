@@ -19,7 +19,7 @@ export default async function RankPage({
     <>
       <PrizeSection />
       <RankSection rankPeriod={rankPeriod} />
-      <MyRankFixedSection />
+      <MyRankFixedSection rankPeriod={rankPeriod} />
     </>
   )
 }

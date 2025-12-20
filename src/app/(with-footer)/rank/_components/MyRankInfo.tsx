@@ -1,13 +1,18 @@
 import ErrorFallback from '@/components/ui/error-fallback'
 import { api } from '@/lib/api'
 import { ApiResponse } from '@/types/api/common'
-import { MyRankItem } from '@/types/api/rank'
+import { MyRankItem, RankPeriod, rankPeriodToRankType } from '@/types/api/rank'
 import { retryRankPage } from '../actions'
 import RankItem from './RankItem'
 
-export default async function MyRankInfo() {
+export default async function MyRankInfo({ rankPeriod }: { rankPeriod: RankPeriod }) {
   // API 호출
-  const { error, data } = await api.get<ApiResponse<MyRankItem>>('/api/ranks/v1/members/me')
+  const query = {
+    params: {
+      type: rankPeriodToRankType(rankPeriod),
+    },
+  }
+  const { error, data } = await api.get<ApiResponse<MyRankItem>>('/api/ranks/v1/members/me', query)
 
   // Expected Error: API 호출 실패 (네트워크 오류, timeout 등)
   if (error) {
