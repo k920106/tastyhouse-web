@@ -40,25 +40,20 @@ function createQueryString(params?: Record<string, string | number | boolean>): 
 }
 
 // 기본 fetch 래퍼
-async function baseFetch<T>(
-  endpoint: string,
-  options?: FetchOptions,
-): Promise<T> {
+async function baseFetch<T>(endpoint: string, options?: FetchOptions): Promise<T> {
   const { params, headers, ...restOptions } = options || {}
 
-      const url = `${API_BASE_URL}${endpoint}${createQueryString(params)}`
-  
-      const defaultHeaders: HeadersInit = {
-        'Content-Type': 'application/json',
-        ...headers,
-      }
-  
-      // Introduce a 5-second delay before the fetch call
-      await new Promise(resolve => setTimeout(resolve, 5000));
-  
-      try {
-        const response = await fetch(url, {
-          ...restOptions,      headers: defaultHeaders,
+  const url = `${API_BASE_URL}${endpoint}${createQueryString(params)}`
+
+  const defaultHeaders: HeadersInit = {
+    'Content-Type': 'application/json',
+    ...headers,
+  }
+
+  try {
+    const response = await fetch(url, {
+      ...restOptions,
+      headers: defaultHeaders,
     })
 
     if (!response.ok) {
@@ -84,15 +79,14 @@ async function baseFetch<T>(
 }
 
 // GET 요청 (cache 적용)
-export const get = cache(async <T>(
-  endpoint: string,
-  options?: Omit<FetchOptions, 'method' | 'body'>,
-): Promise<T> => {
-  return baseFetch<T>(endpoint, {
-    ...options,
-    method: 'GET',
-  })
-})
+export const get = cache(
+  async <T>(endpoint: string, options?: Omit<FetchOptions, 'method' | 'body'>): Promise<T> => {
+    return baseFetch<T>(endpoint, {
+      ...options,
+      method: 'GET',
+    })
+  },
+)
 
 // POST 요청
 export async function post<T, D = unknown>(
@@ -150,4 +144,4 @@ export async function getWithRevalidate<T>(
 }
 
 // 타입 익스포트
-export type { ApiResponse, FetchOptions, ApiError }
+export type { ApiError, ApiResponse, FetchOptions }
