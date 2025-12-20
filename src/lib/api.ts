@@ -42,9 +42,6 @@ class ApiClient {
       url += `?${queryString}`
     }
 
-    // Introduce a 5-second delay before the fetch call
-    await new Promise(resolve => setTimeout(resolve, 5000));
-
     try {
       const response = await fetch(url, {
         headers: {
@@ -144,7 +141,8 @@ class ApiClient {
    * Remove authorization token
    */
   removeAuthToken() {
-    const { Authorization: _Authorization, ...rest } = this.defaultHeaders as Record<string, string>
+    // const { Authorization: authorization, ...rest } = this.defaultHeaders as Record<string, string>
+    const { ...rest } = this.defaultHeaders as Record<string, string>
     this.defaultHeaders = rest
   }
 }
