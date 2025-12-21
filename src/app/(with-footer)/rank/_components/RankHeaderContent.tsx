@@ -1,5 +1,6 @@
 'use client'
 
+import { RankInfoModal } from '@/components/modals/RankInfoModal' // RankInfoModal import
 import { formatDate, formatRemainingTime, getTimeDifference } from '@/lib/date'
 import { RankEventInfo, RankPeriod } from '@/types/api/rank'
 import { Tabs, TabsList, TabsTrigger } from '@radix-ui/react-tabs'
@@ -14,6 +15,8 @@ interface RankHeaderContentProps {
 
 export default function RankHeaderContent({ eventInfo, initialTab }: RankHeaderContentProps) {
   const router = useRouter()
+
+  const [showRankInfoModal, setShowRankInfoModal] = useState(false)
 
   const [remainingTime, setRemainingTime] = useState('')
 
@@ -56,11 +59,17 @@ export default function RankHeaderContent({ eventInfo, initialTab }: RankHeaderC
               </TabsTrigger>
             </TabsList>
           </Tabs>
-          <MdInfo size="18" color="#dddddd" />
+          <MdInfo
+            size="18"
+            color="#dddddd"
+            onClick={() => setShowRankInfoModal(true)}
+            className="cursor-pointer"
+          />
         </div>
         <p className="text-sm">남은 기간 : {remainingTime}</p>
       </div>
       <p className="text-sm text-[#aaaaaa] text-right">({dateRange})</p>
+      <RankInfoModal open={showRankInfoModal} onOpenChange={setShowRankInfoModal} />
     </>
   )
 }

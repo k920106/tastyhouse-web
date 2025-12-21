@@ -2,10 +2,11 @@ import { RankPeriod } from '@/types/api/rank'
 import { Suspense } from 'react'
 import MyRankInfo from './MyRankInfo'
 import { RankListSkeletonItem } from './RankList'
+import FixedPositionWrapper from './FixedPositionWrapper'
 
 export default function MyRankFixedSection({ rankPeriod }: { rankPeriod: RankPeriod }) {
   return (
-    <div className="fixed bottom-[70px] left-1/2 -translate-x-1/2 w-full max-w-[500px]">
+    <FixedPositionWrapper className="bottom-[70px]">
       <section className="bg-[#eeeeee] border border-[#cccccc]">
         <div className="flex justify-between items-center py-[15px] pl-8 pr-[35px] bg-[#eeeeee] border border-[#eeeeee] rounded-[2.5px]">
           <Suspense fallback={<RankListSkeletonItem />}>
@@ -13,6 +14,6 @@ export default function MyRankFixedSection({ rankPeriod }: { rankPeriod: RankPer
           </Suspense>
         </div>
       </section>
-    </div>
+    </FixedPositionWrapper>
   )
 }
