@@ -2,6 +2,7 @@ import AppButton from '@/components/ui/AppButton'
 import {
   Modal,
   ModalContentWrapper,
+  ModalDescription,
   ModalFooter,
   ModalHeader,
   ModalTitle,
@@ -20,6 +21,7 @@ export function RankInfoModal({ open, onOpenChange }: RankInfoModalProps) {
           랭킹 선정 기준 및 안내
         </ModalTitle>
       </ModalHeader>
+      <ModalDescription className="sr-only">랭킹 선정 기준 및 안내</ModalDescription>
       <ModalContentWrapper className="px-7 py-[30px]">
         <h3 className="text-sm">랭킹 선정 기준</h3>
         <ul className="pl-5 py-5 space-y-1 list-decimal text-xs border-b border-[#eeeeee]">
