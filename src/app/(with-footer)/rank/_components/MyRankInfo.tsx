@@ -2,9 +2,21 @@ import { api } from '@/lib/api'
 import { COMMON_ERROR_MESSAGES } from '@/lib/constants'
 import { ApiResponse } from '@/types/api/common'
 import { MyRankItem, RankPeriod, rankPeriodToRankType } from '@/types/api/rank'
+import { cookies } from 'next/headers'
 import RankItem from './RankItem'
 
 export default async function MyRankInfo({ rankPeriod }: { rankPeriod: RankPeriod }) {
+  const cookieStore = await cookies()
+  const accessToken = cookieStore.get('accessToken')
+
+  if (!accessToken) {
+    return (
+      <div className="w-full text-sm text-[#999999] text-center whitespace-pre-line">
+        로그인 후 이용할 수 있어요
+      </div>
+    )
+  }
+
   // API 호출
   const query = {
     params: {

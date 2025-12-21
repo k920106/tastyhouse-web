@@ -1,8 +1,8 @@
 import { RankPeriod } from '@/types/api/rank'
 import { Suspense } from 'react'
+import FixedPositionWrapper from './FixedPositionWrapper'
 import MyRankInfo from './MyRankInfo'
 import { RankListSkeletonItem } from './RankList'
-import FixedPositionWrapper from './FixedPositionWrapper'
 
 export default function MyRankFixedSection({ rankPeriod }: { rankPeriod: RankPeriod }) {
   return (
