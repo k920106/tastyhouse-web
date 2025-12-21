@@ -1,4 +1,5 @@
 import { api } from '@/lib/api'
+import { COMMON_ERROR_MESSAGES } from '@/lib/constants'
 import { ApiResponse } from '@/types/api/common'
 import { MyRankItem, RankPeriod, rankPeriodToRankType } from '@/types/api/rank'
 import RankItem from './RankItem'
@@ -16,7 +17,7 @@ export default async function MyRankInfo({ rankPeriod }: { rankPeriod: RankPerio
   if (error) {
     return (
       <div className="w-full text-sm text-[#999999] text-center whitespace-pre-line">
-        {`일시적인 오류로 데이터를 불러오지 못했어요.\n잠시 후 다시 시도해주세요.`}
+        {COMMON_ERROR_MESSAGES.API_FETCH_ERROR}
       </div>
     )
   }
