@@ -44,8 +44,7 @@ export default async function PrizeList() {
 
   // Expected Error: API 응답은 받았지만 데이터가 없거나 실패 응답
   if (!data?.success || !data.data) {
-    const errorMessage =
-      data?.message || '경품 정보를 불러오지 못했어요.\n잠시 후 다시 시도해주세요.'
+    const errorMessage = data?.message || COMMON_ERROR_MESSAGES.FETCH_ERROR('경품')
     return (
       <div className="w-full py-10 text-sm text-[#999999] text-center whitespace-pre-line">
         {errorMessage}
