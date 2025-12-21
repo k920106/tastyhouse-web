@@ -19,7 +19,7 @@ export default function RootLayout({
         <link rel="icon" href="/favicon.ico" sizes="any" />
       </head>
       <body className="flex justify-center min-h-screen bg-white">
-        <div className="relative w-full max-w-[500px] overflow-hidden border border-[#eeeeee] box-border">
+        <div id="app-container" className="relative w-full max-w-[500px] overflow-hidden border border-[#eeeeee] box-border">
           {children}
         </div>
       </body>
