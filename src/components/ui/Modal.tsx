@@ -47,6 +47,7 @@ export function Modal({ children, contentClassName, ...props }: ModalProps) {
           }}
         />
         <DialogPrimitive.Content
+          onOpenAutoFocus={(e) => e.preventDefault()}
           className={cn(
             'fixed top-[50%] translate-y-[-50%] w-[calc(100%-2rem)] max-w-[468px] bg-white z-50',
             contentClassName,
