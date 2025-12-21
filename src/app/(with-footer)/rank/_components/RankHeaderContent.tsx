@@ -5,7 +5,7 @@ import { formatDate, formatRemainingTime, getTimeDifference } from '@/lib/date'
 import { RankEventInfo, RankPeriod } from '@/types/api/rank'
 import { Tabs, TabsList, TabsTrigger } from '@radix-ui/react-tabs'
 import { useRouter } from 'next/navigation'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { MdInfo } from 'react-icons/md'
 
 interface RankHeaderContentProps {
@@ -18,17 +18,8 @@ export default function RankHeaderContent({ eventInfo, initialTab }: RankHeaderC
 
   const [showRankInfoModal, setShowRankInfoModal] = useState(false)
 
-  const [remainingTime, setRemainingTime] = useState('')
-
-  useEffect(() => {
-    const calculateAndSetRemainingTime = () => {
-      const timeDifference = getTimeDifference(eventInfo.endAt)
-      setRemainingTime(formatRemainingTime(timeDifference))
-    }
-    calculateAndSetRemainingTime()
-    const intervalId = setInterval(calculateAndSetRemainingTime, 1000)
-    return () => clearInterval(intervalId)
-  }, [eventInfo.endAt])
+  const timeDifference = getTimeDifference(eventInfo.endAt)
+  const remainingTime = formatRemainingTime(timeDifference)
 
   const startDateFormatted = formatDate(eventInfo.startAt, 'YYYY.MM.DD')
   const endDateFormatted = formatDate(eventInfo.endAt, 'MM.DD')
