@@ -1,8 +1,8 @@
 'use client'
 
-import { useState } from 'react'
-import { useRouter } from 'next/navigation'
 import Image from 'next/image'
+import { useRouter } from 'next/navigation'
+import { useState } from 'react'
 import { IoChevronBack } from 'react-icons/io5'
 import { RxReset } from 'react-icons/rx'
 
@@ -66,11 +66,6 @@ export default function FilterPage() {
   }
 
   const handleApplyFilter = () => {
-    console.log({
-      location: selectedLocation,
-      foodCategories: selectedFoodCategories,
-      facilities: selectedFacilities,
-    })
     router.back()
   }
 

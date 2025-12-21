@@ -28,11 +28,12 @@ export default function MenuDetailPage({
 
   const handleAddToCart = () => {
     // TODO: Implement add to cart functionality
-    console.log('Added to cart:', {
-      menuId: params.menuId,
-      placeId: params.placeId,
-      spiceLevel: selectedSpice,
-    })
+    // console.log('Added to cart:', {
+    //   menuId: params.menuId,
+    //   placeId: params.placeId,
+    //   spiceLevel: selectedSpice,
+    // })
+    alert(params)
   }
 
   return (
