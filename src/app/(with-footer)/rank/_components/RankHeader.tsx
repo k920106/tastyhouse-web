@@ -1,8 +1,11 @@
 import { Skeleton } from '@/components/ui/skeleton'
 import { api } from '@/lib/api'
+import { COMMON_ERROR_MESSAGES } from '@/lib/constants'
 import { ApiResponse } from '@/types/api/common'
 import { RankEventInfo, RankPeriod } from '@/types/api/rank'
-import RankHeaderContent from './RankHeaderContent'
+import RankInfoModalButton from './RankInfoModalButton'
+import RankPeriodTabs from './RankPeriodTabs'
+import RankSchedule from './RankSchedule'
 
 export function RankHeaderSkeleton() {
   return (
@@ -32,7 +35,7 @@ export default async function RankHeader({ rankPeriod }: { rankPeriod: RankPerio
   if (error) {
     return (
       <div className="w-full text-sm text-[#999999] text-center whitespace-pre-line">
-        {`일시적인 오류로 데이터를 불러오지 못했어요.\n잠시 후 다시 시도해주세요.`}
+        {COMMON_ERROR_MESSAGES.API_FETCH_ERROR}
       </div>
     )
   }
@@ -48,5 +51,13 @@ export default async function RankHeader({ rankPeriod }: { rankPeriod: RankPerio
     )
   }
 
-  return <RankHeaderContent eventInfo={data.data} initialTab={rankPeriod} />
+  return (
+    <div className="flex justify-between items-center">
+      <div className="flex items-center gap-2.5">
+        <RankPeriodTabs initialTab={rankPeriod} />
+        <RankInfoModalButton />
+      </div>
+      <RankSchedule eventInfo={data.data} />
+    </div>
+  )
 }
