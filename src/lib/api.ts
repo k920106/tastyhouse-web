@@ -3,6 +3,8 @@
  * Based on Next.js official documentation and best practices
  */
 
+import { cookies } from 'next/headers'
+
 type RequestConfig = RequestInit & {
   params?: Record<string, string | number | boolean>
 }
@@ -43,6 +45,12 @@ class ApiClient {
     }
 
     try {
+      const cookieStore = await cookies()
+      const accessToken = cookieStore.get('accessToken')?.value
+      if (accessToken) {
+        this.setAuthToken(accessToken)
+      }
+
       const response = await fetch(url, {
         headers: {
           ...this.defaultHeaders,
@@ -52,11 +60,6 @@ class ApiClient {
       })
 
       const status = response.status
-
-      // Handle empty responses (204 No Content)
-      if (status === 204) {
-        return { status }
-      }
 
       // Parse JSON response
       const data = await response.json().catch(() => null)
