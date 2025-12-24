@@ -1,7 +1,7 @@
 import { api } from '@/lib/api'
 import { COMMON_ERROR_MESSAGES } from '@/lib/constants'
 import { formatDate, formatRemainingTime, getTimeDifference } from '@/lib/date'
-import { ApiResponse } from '@/types/api/common'
+import { ApiResponse } from '@/types/api/api'
 import { RankEventInfo } from '@/types/api/rank'
 
 export default async function RankSchedule() {

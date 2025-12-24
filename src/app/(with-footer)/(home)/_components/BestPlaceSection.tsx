@@ -1,7 +1,7 @@
 import ViewMoreButton from '@/components/ui/ViewMoreButton'
 import { api } from '@/lib/api'
 import { COMMON_ERROR_MESSAGES } from '@/lib/constants'
-import { ApiResponse } from '@/types/api/common'
+import { ApiResponse } from '@/types/api/api'
 import { BestPlace } from '@/types/api/place'
 import { Suspense } from 'react'
 import BestPlaceList, { BestPlaceListSkeleton } from './BestPlaceList'

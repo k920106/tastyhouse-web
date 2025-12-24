@@ -1,7 +1,7 @@
 import { api } from '@/lib/api'
 import { COMMON_ERROR_MESSAGES } from '@/lib/constants'
+import { ApiResponse } from '@/types/api/api'
 import { Banner } from '@/types/api/banner'
-import { ApiResponse } from '@/types/api/common'
 import { Suspense } from 'react'
 import BannerSwiper, { BannerSwiperSkeleton } from './BannerSwiper'
 

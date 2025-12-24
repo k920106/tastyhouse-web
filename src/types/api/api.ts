@@ -1,19 +1,19 @@
-export interface PageInfo {
+type PageInfo = {
   page: number
   size: number
   totalElements: number
   totalPages: number
 }
 
-export interface PagedApiResponse<T> {
+export type PagedApiResponse<T> = {
   success: boolean
+  message: string | null
   data: T[]
   pagination: PageInfo
-  message: string | null
 }
 
-export interface ApiResponse<T> {
+export type ApiResponse<T> = {
   success: boolean
-  data: T
   message: string | null
+  data: T
 }

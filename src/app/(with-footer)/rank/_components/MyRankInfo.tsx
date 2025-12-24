@@ -1,6 +1,6 @@
 import { api } from '@/lib/api'
 import { COMMON_ERROR_MESSAGES } from '@/lib/constants'
-import { ApiResponse } from '@/types/api/common'
+import { ApiResponse } from '@/types/api/api'
 import { MyRankItem, RankPeriod, rankPeriodToRankType } from '@/types/api/rank'
 import { cookies } from 'next/headers'
 import RankItem from './RankItem'

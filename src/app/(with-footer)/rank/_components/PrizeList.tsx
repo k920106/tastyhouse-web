@@ -1,7 +1,7 @@
-import { COMMON_ERROR_MESSAGES } from '@/lib/constants'
 import { Skeleton } from '@/components/ui/skeleton'
 import { api } from '@/lib/api'
-import { ApiResponse } from '@/types/api/common'
+import { COMMON_ERROR_MESSAGES } from '@/lib/constants'
+import { ApiResponse } from '@/types/api/api'
 import { PrizeItem } from '@/types/api/rank'
 import Image from 'next/image'
 

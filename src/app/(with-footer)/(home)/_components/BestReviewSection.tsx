@@ -1,6 +1,6 @@
 import { api } from '@/lib/api'
 import { COMMON_ERROR_MESSAGES } from '@/lib/constants'
-import { ApiResponse } from '@/types/api/common'
+import { ApiResponse } from '@/types/api/api'
 import { BestReview } from '@/types/api/review'
 import { Suspense } from 'react'
 import BestReviewSwiper, { BestReviewSwiperSkeleton } from './BestReviewSwiper'

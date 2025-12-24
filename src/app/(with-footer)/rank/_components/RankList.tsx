@@ -1,7 +1,7 @@
 import { Skeleton } from '@/components/ui/skeleton'
 import { api } from '@/lib/api'
 import { COMMON_ERROR_MESSAGES } from '@/lib/constants'
-import { ApiResponse } from '@/types/api/common'
+import { ApiResponse } from '@/types/api/api'
 import { MemberRankItem, RankMemberQuery, RankPeriod, rankPeriodToRankType } from '@/types/api/rank'
 import Link from 'next/link'
 import RankItem from './RankItem'
