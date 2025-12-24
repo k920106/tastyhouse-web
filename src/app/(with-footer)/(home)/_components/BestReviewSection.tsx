@@ -19,7 +19,7 @@ function BestReviewSectionLayout({
           </h2>
           <p className="text-sm text-[#aaaaaa]">테하인들의 마음을 사로잡은 리뷰를 소개합니다.</p>
         </header>
-        {children}
+        <div className="relative">{children}</div>
       </div>
     </section>
   )
@@ -37,7 +37,7 @@ export default async function BestReviewSection() {
   if (error) {
     return (
       <BestReviewSectionLayout>
-        <div className="w-full py-10 text-sm text-[#999999] text-center whitespace-pre-line">
+        <div className="w-full text-sm text-[#999999] text-center whitespace-pre-line">
           {COMMON_ERROR_MESSAGES.API_FETCH_ERROR}
         </div>
       </BestReviewSectionLayout>
@@ -49,7 +49,7 @@ export default async function BestReviewSection() {
     const errorMessage = data?.message || COMMON_ERROR_MESSAGES.FETCH_ERROR('리뷰')
     return (
       <BestReviewSectionLayout>
-        <div className="w-full py-10 text-sm text-[#999999] text-center whitespace-pre-line">
+        <div className="w-full text-sm text-[#999999] text-center whitespace-pre-line">
           {errorMessage}
         </div>
       </BestReviewSectionLayout>
@@ -58,11 +58,9 @@ export default async function BestReviewSection() {
 
   return (
     <BestReviewSectionLayout>
-      <div className="relative">
-        <Suspense fallback={<BestReviewSwiperSkeleton />}>
-          <BestReviewSwiper reviews={data.data} />
-        </Suspense>
-      </div>
+      <Suspense fallback={<BestReviewSwiperSkeleton />}>
+        <BestReviewSwiper reviews={data.data} />
+      </Suspense>
     </BestReviewSectionLayout>
   )
 }
