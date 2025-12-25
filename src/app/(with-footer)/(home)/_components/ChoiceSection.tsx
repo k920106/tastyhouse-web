@@ -1,6 +1,6 @@
 'use client'
 
-import ProductListItem from '@/components/products/ProductListItem'
+import ProductItem from '@/components/products/ProductItem'
 import { ChoicePlace } from '@/types/api/place'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -54,7 +54,7 @@ export default function ChoiceSection({ choices: places }: ChoiceSectionProps) {
                 </Link>
                 <div className="mb-10 space-y-0 divide-y divide-[#eeeeee] border-b border-[#eeeeee]">
                   {place.products?.map((product) => (
-                    <ProductListItem
+                    <ProductItem
                       key={product.id}
                       id={product.id}
                       placeName={product.placeName}
