@@ -1,6 +1,5 @@
 'use client'
 
-import { getPlacesNear } from '@/lib/places'
 import { PlaceData } from '@/types/api/place'
 import Script from 'next/script'
 import { useCallback, useRef, useState } from 'react'
@@ -129,16 +128,17 @@ export default function KakaoMap() {
   const fetchAndUpdatePlaces = useCallback(
     async (lat: number, lng: number, mapInstance: KakaoMap) => {
       try {
-        const responseData = await getPlacesNear({ latitude: lat, longitude: lng })
-        const placesData: PlaceData[] = responseData as PlaceData[]
+        console.log(lat, lng, mapInstance, clearMarkers, clearOverlay, createMarkers)
+        // const responseData = await getPlacesNear({ latitude: lat, longitude: lng })
+        // const placesData: PlaceData[] = responseData as PlaceData[]
 
-        // 기존 마커 제거
-        clearMarkers()
-        // 기존 오버레이 제거
-        clearOverlay()
+        // // 기존 마커 제거
+        // clearMarkers()
+        // // 기존 오버레이 제거
+        // clearOverlay()
 
-        // 새로운 마커 생성
-        createMarkers(placesData, mapInstance)
+        // // 새로운 마커 생성
+        // createMarkers(placesData, mapInstance)
       } catch (error) {
         console.error('장소 데이터를 가져오는 중 오류 발생:', error)
         clearMarkers()
