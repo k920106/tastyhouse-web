@@ -1,12 +1,17 @@
-import ProductListItem from '@/components/products/ProductListItem'
-import ViewMoreButton from '@/components/ui/ViewMoreButton'
-import { TodayDiscountProduct } from '@/types/api/product'
+import { Suspense } from 'react'
+import TodayDiscountProductList, {
+  TodayDiscountProductListSkeleton,
+} from './TodayDiscountProductList'
 
-interface TodayDiscountSectionProps {
-  products: TodayDiscountProduct[]
+export function TodayDiscountSectionLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode
+}>) {
+  return { children }
 }
 
-export default function TodayDiscountSection({ products }: TodayDiscountSectionProps) {
+export default async function TodayDiscountSection() {
   return (
     <section className="w-full bg-white pt-[60px]">
       <div className="mx-auto max-w-[1200px] px-4">
@@ -18,23 +23,9 @@ export default function TodayDiscountSection({ products }: TodayDiscountSectionP
             테하 고객만이 누릴 수 있는 할인 혜택을 놓치지 마세요.
           </p>
         </header>
-        <div className="mb-10 space-y-0 divide-y divide-[#eeeeee] border-y border-[#eeeeee]">
-          {products.map((product) => (
-            <ProductListItem
-              key={product.id}
-              id={product.id}
-              placeName={product.placeName}
-              name={product.name}
-              imageUrl={product.imageUrl}
-              originalPrice={product.originalPrice}
-              discountPrice={product.discountPrice}
-              discountRate={product.discountRate}
-            />
-          ))}
-        </div>
-        <div className="flex justify-center">
-          <ViewMoreButton href="/products/today-discount" />
-        </div>
+        <Suspense fallback={<TodayDiscountProductListSkeleton />}>
+          <TodayDiscountProductList />
+        </Suspense>
       </div>
     </section>
   )
