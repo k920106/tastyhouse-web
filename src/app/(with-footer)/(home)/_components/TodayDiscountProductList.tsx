@@ -8,9 +8,11 @@ import { TodayDiscountProduct } from '@/types/api/product'
 export function TodayDiscountProductListSkeleton() {
   return (
     <>
-      {[...Array(4)].map((_, i) => (
-        <ProductItemSkeleton key={i} />
-      ))}
+      <div className="mb-10 space-y-0 divide-y divide-[#eeeeee] border-y border-[#eeeeee]">
+        {[...Array(4)].map((_, i) => (
+          <ProductItemSkeleton key={i} />
+        ))}
+      </div>
     </>
   )
 }
