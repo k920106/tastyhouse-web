@@ -70,8 +70,8 @@ export default function ChoiceSwiper({ places }: ChoiceSwiperProps) {
                   sizes="100vw"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
-                <div className="absolute bottom-0 left-0 right-0 p-8 text-white">
-                  <h3 className="mb-3 text-[17px] font-nanum-myeongjo-bold font-bold">
+                <div className="absolute bottom-0 left-0 right-0 px-5 py-[30px] text-white">
+                  <h3 className="mb-3 text-[17px] leading-[17px] font-nanum-myeongjo-bold font-bold">
                     {place.title}
                   </h3>
                   <p className="text-xs opacity-90 leading-relaxed">{place.content}</p>

@@ -85,15 +85,19 @@ export default async function BestPlaceList() {
               </div>
               <div className="py-[15px]">
                 <div className="flex items-center justify-between mb-1.5">
-                  <span className="text-xs text-[#999999]">{place.stationName}</span>
-                  <span className="text-[19px] text-main">{formatDecimal(place.rating, 1)}</span>
+                  <span className="text-xs leading-[12px] text-[#999999] truncate">
+                    {place.stationName}
+                  </span>
+                  <span className="text-[19px] leading-[19px] text-main">
+                    {formatDecimal(place.rating, 1)}
+                  </span>
                 </div>
-                <h3 className="mb-[15px] truncate">{place.name}</h3>
+                <h3 className="leading-[16px] mb-[15px] truncate">{place.name}</h3>
                 <div className="flex gap-1.5 overflow-hidden">
                   {place.tags.map((tag, index) => (
                     <span
                       key={index}
-                      className="inline-block px-2.5 py-1 text-xs text-[#666666] bg-white border border-[#eeeeee] rounded-[14px] whitespace-nowrap flex-shrink-0"
+                      className="flex-shrink-0 inline-block px-2.5 py-[7px] text-xs leading-[12px] text-[#666666] bg-white border border-[#eeeeee] rounded-[14px] whitespace-nowrap"
                     >
                       #{tag}
                     </span>

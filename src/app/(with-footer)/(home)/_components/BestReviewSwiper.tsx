@@ -113,13 +113,15 @@ export default function BestReviewSwiper({ reviews }: BestReviewSwiperProps) {
                   />
                 </div>
                 <div className="mb-1.5 flex items-center justify-between">
-                  <span className="text-xs text-[#999999]">{review.stationName}</span>
-                  <span className="text-[19px] text-main">
+                  <span className="text-xs leading-[12px] text-[#999999] truncate">
+                    {review.stationName}
+                  </span>
+                  <span className="text-[19px] leading-[19px] text-main">
                     {formatDecimal(review.totalRating, 1)}
                   </span>
                 </div>
-                <h3 className="mb-[19px] text-base text-gray-900 truncate">{review.title}</h3>
-                <p className="text-xs text-[#666666] line-clamp-4 leading-relaxed">
+                <h3 className="mb-[19px]  leading-[16px] truncate">{review.title}</h3>
+                <p className="text-xs leading-[12px] text-[#666666] line-clamp-4">
                   {review.content}
                 </p>
               </Link>
