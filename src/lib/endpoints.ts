@@ -50,6 +50,7 @@ export const API_ENDPOINTS = {
 
   // 리뷰 추가 엔드포인트
   REVIEWS_BEST: '/api/reviews/v1/best',
+  REVIEWS_LATEST: '/api/reviews/v1/latest',
 
   // 상품 추가 엔드포인트
   PRODUCTS_TODAY_DISCOUNTS: '/api/products/v1/today-discounts',

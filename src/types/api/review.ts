@@ -37,3 +37,24 @@ export interface CommentReply {
   content: string
   createdAt: string
 }
+
+export type ReviewType = 'ALL' | 'FOLLOWING'
+
+export interface LatestReviewListItem {
+  id: number
+  imageUrls: string[]
+  stationName: string
+  totalRating: number
+  title: string
+  content: string
+  memberId: number
+  memberNickname: string
+  memberProfileImageUrl: string | null
+  createdAt: string
+}
+
+export type LatestReviewQuery = {
+  page: number
+  size: number
+  type: ReviewType
+}
