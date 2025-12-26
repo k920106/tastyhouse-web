@@ -4,7 +4,7 @@ import Image from 'next/image'
 export default function HomeLayout({ children }: { children: React.ReactNode }) {
   return (
     <>
-      <Header>
+      <Header height={83}>
         <div className="relative w-[93px] h-[43px]">
           <Image
             src="/images/header-logo.png"

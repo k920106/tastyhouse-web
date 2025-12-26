@@ -7,7 +7,6 @@ import Link from 'next/link'
 import { useState } from 'react'
 import { IoChevronDown } from 'react-icons/io5'
 import { LuSlidersHorizontal } from 'react-icons/lu'
-import { TbQrcode } from 'react-icons/tb'
 
 interface Place {
   id: number
@@ -72,34 +71,6 @@ export default function PlacePage() {
 
   return (
     <>
-      <header className="relative flex items-center h-[60px] bg-main">
-        <button className="absolute left-0 top-1/2 -translate-y-1/2 w-14 h-14 flex items-center justify-center cursor-pointer">
-          <Image src="/images/icon-menu.png" alt="메뉴" width={22} height={22} />
-        </button>
-        <div className="absolute left-1/2 -translate-x-1/2">
-          <h1 className="text-[17px] text-white">플레이스</h1>
-        </div>
-        <div className="absolute right-0 top-1/2 -translate-y-1/2 flex items-center">
-          <button className="w-14 h-14 flex items-center justify-center cursor-pointer">
-            <TbQrcode size={26} color="white" strokeWidth={1.5} />
-          </button>
-          <button className="w-14 h-14 flex items-center justify-center cursor-pointer">
-            <div className="relative w-6 h-6 flex items-center justify-center">
-              <Image
-                src="/images/icon-cart.png"
-                alt="장바구니"
-                width={44}
-                height={44}
-                className="z-1"
-              />
-              <span className="absolute top-2 right-1 flex items-center justify-center w-4 h-4 text-[10px] text-white bg-main">
-                99
-              </span>
-            </div>
-          </button>
-        </div>
-      </header>
-
       <div className="min-h-screen bg-white pb-[100px]">
         {/* Filter bar */}
         <div className="flex items-center justify-between px-4 py-3.5 border-b border-[#eeeeee]">
