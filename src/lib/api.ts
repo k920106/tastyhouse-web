@@ -144,14 +144,10 @@ class ApiClient {
    * Remove authorization token
    */
   removeAuthToken() {
-    // const { Authorization: authorization, ...rest } = this.defaultHeaders as Record<string, string>
     const { ...rest } = this.defaultHeaders as Record<string, string>
     this.defaultHeaders = rest
   }
 }
 
-// Export singleton instance
 export const api = new ApiClient()
-
-// Export class for creating custom instances
 export default ApiClient
