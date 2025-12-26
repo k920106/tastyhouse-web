@@ -10,3 +10,13 @@ export type LoginResponse = {
 }
 
 export type LoginResult = { success: true; data: LoginResponse } | { success: false; error: string }
+
+export type RefreshTokenRequest = {
+  refreshToken: string
+}
+
+export type RefreshTokenResponse = {
+  accessToken: string
+  refreshToken: string
+  tokenType: string
+}

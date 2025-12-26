@@ -1,8 +1,3 @@
-/**
- * API Client using Next.js fetch with TypeScript
- * Based on Next.js official documentation and best practices
- */
-
 import { cookies } from 'next/headers'
 
 type RequestConfig = RequestInit & {
@@ -28,8 +23,8 @@ class ApiClient {
 
   private async request<T>(endpoint: string, config: RequestConfig = {}): Promise<ApiResponse<T>> {
     const { params, headers, ...restConfig } = config
+    const cookieStore = await cookies()
 
-    // Build URL with query parameters
     let url = `${this.baseURL}${endpoint}`
     if (params) {
       const queryString = new URLSearchParams(
@@ -45,8 +40,8 @@ class ApiClient {
     }
 
     try {
-      const cookieStore = await cookies()
       const accessToken = cookieStore.get('accessToken')?.value
+
       if (accessToken) {
         this.setAuthToken(accessToken)
       }
@@ -60,8 +55,6 @@ class ApiClient {
       })
 
       const status = response.status
-
-      // Parse JSON response
       const data = await response.json().catch(() => null)
 
       if (!response.ok) {
@@ -80,9 +73,6 @@ class ApiClient {
     }
   }
 
-  /**
-   * GET request
-   */
   async get<T = unknown>(endpoint: string, config?: RequestConfig): Promise<ApiResponse<T>> {
     return this.request<T>(endpoint, {
       method: 'GET',
@@ -90,9 +80,6 @@ class ApiClient {
     })
   }
 
-  /**
-   * POST request
-   */
   async post<T = unknown>(
     endpoint: string,
     body?: unknown,
@@ -105,9 +92,6 @@ class ApiClient {
     })
   }
 
-  /**
-   * PUT request
-   */
   async put<T = unknown>(
     endpoint: string,
     body?: unknown,
@@ -120,9 +104,6 @@ class ApiClient {
     })
   }
 
-  /**
-   * DELETE request
-   */
   async delete<T = unknown>(endpoint: string, config?: RequestConfig): Promise<ApiResponse<T>> {
     return this.request<T>(endpoint, {
       method: 'DELETE',
@@ -130,22 +111,11 @@ class ApiClient {
     })
   }
 
-  /**
-   * Set authorization token
-   */
   setAuthToken(token: string) {
     this.defaultHeaders = {
       ...this.defaultHeaders,
       Authorization: `Bearer ${token}`,
     }
-  }
-
-  /**
-   * Remove authorization token
-   */
-  removeAuthToken() {
-    const { ...rest } = this.defaultHeaders as Record<string, string>
-    this.defaultHeaders = rest
   }
 }
 
