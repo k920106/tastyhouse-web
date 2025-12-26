@@ -2,13 +2,14 @@ import ErrorMessage from '@/components/ui/ErrorMessage'
 import { api } from '@/lib/api'
 import { COMMON_ERROR_MESSAGES } from '@/lib/constants'
 import { formatDate, formatRemainingTime, getTimeDifference } from '@/lib/date'
+import { API_ENDPOINTS } from '@/lib/endpoints'
 import { ApiResponse } from '@/types/api/api'
 import { RankEventInfo } from '@/types/api/rank'
 
 export default async function RankSchedule() {
   // API 호출
   const { error, data } = await api.get<ApiResponse<RankEventInfo>>(
-    '/api/event/v1/ranking/duration',
+    API_ENDPOINTS.RANK_EVENT_DURATION,
   )
 
   // Expected Error: API 호출 실패 (네트워크 오류, timeout 등)

@@ -2,6 +2,7 @@ import ErrorMessage from '@/components/ui/ErrorMessage'
 import { Skeleton } from '@/components/ui/skeleton'
 import { api } from '@/lib/api'
 import { COMMON_ERROR_MESSAGES } from '@/lib/constants'
+import { API_ENDPOINTS } from '@/lib/endpoints'
 import { ApiResponse } from '@/types/api/api'
 import { PrizeItem } from '@/types/api/rank'
 import Image from 'next/image'
@@ -32,7 +33,7 @@ export function PrizeListSkeletonItem() {
 
 export default async function PrizeList() {
   // API 호출
-  const { error, data } = await api.get<ApiResponse<PrizeItem[]>>('/api/prizes/v1')
+  const { error, data } = await api.get<ApiResponse<PrizeItem[]>>(API_ENDPOINTS.PRIZES)
 
   // Expected Error: API 호출 실패 (네트워크 오류, timeout 등)
   if (error) {

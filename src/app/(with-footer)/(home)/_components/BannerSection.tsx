@@ -1,13 +1,14 @@
 import ErrorMessage from '@/components/ui/ErrorMessage'
 import { api } from '@/lib/api'
 import { COMMON_ERROR_MESSAGES } from '@/lib/constants'
+import { API_ENDPOINTS } from '@/lib/endpoints'
 import { ApiResponse } from '@/types/api/api'
 import { Banner } from '@/types/api/banner'
 import { Suspense } from 'react'
 import BannerSwiper, { BannerSwiperSkeleton } from './BannerSwiper'
 
 export default async function BannerSection() {
-  const { data, error } = await api.get<ApiResponse<Banner[]>>('/api/banners/v1')
+  const { data, error } = await api.get<ApiResponse<Banner[]>>(API_ENDPOINTS.BANNERS)
 
   // Expected Error: API 호출 실패 (네트워크 오류, timeout 등)
   if (error) {

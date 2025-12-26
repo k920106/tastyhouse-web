@@ -1,0 +1,64 @@
+export const API_ENDPOINTS = {
+  // 배너
+  BANNERS: '/api/banners/v1',
+
+  // 상품
+  PRODUCTS: '/api/products/v1',
+  PRODUCT_DETAIL: (id: string | number) => `/api/products/v1/${id}`,
+
+  // 장소
+  PLACES: '/api/places/v1',
+  PLACE_DETAIL: (id: string | number) => `/api/places/v1/${id}`,
+
+  // 장바구니
+  CART: '/api/cart/v1',
+  CART_ITEM: (id: string | number) => `/api/cart/v1/${id}`,
+
+  // 회원
+  MEMBER: '/api/members/v1',
+  MEMBER_PROFILE: '/api/members/v1/profile',
+
+  // 쿠폰
+  COUPONS: '/api/coupons/v1',
+  COUPON_DETAIL: (id: string | number) => `/api/coupons/v1/${id}`,
+
+  // 이벤트
+  EVENTS: '/api/events/v1',
+  EVENT_DETAIL: (id: string | number) => `/api/events/v1/${id}`,
+
+  // 포인트
+  POINTS: '/api/points/v1',
+  POINT_HISTORY: '/api/points/v1/history',
+
+  // 리뷰
+  REVIEWS: '/api/reviews/v1',
+  REVIEW_DETAIL: (id: string | number) => `/api/reviews/v1/${id}`,
+
+  // 랭킹
+  RANKS: '/api/ranks/v1',
+  RANK_DETAIL: (id: string | number) => `/api/ranks/v1/${id}`,
+  RANK_EVENT_DURATION: '/api/event/v1/ranking/duration',
+  RANK_MEMBERS: '/api/ranks/v1/members',
+  RANK_MEMBERS_ME: '/api/ranks/v1/members/me',
+
+  // 경품
+  PRIZES: '/api/prizes/v1',
+
+  // 장소 추가 엔드포인트
+  PLACES_EDITOR_CHOICE: '/api/places/v1/editor-choice',
+  PLACES_BEST: '/api/places/v1/best',
+
+  // 리뷰 추가 엔드포인트
+  REVIEWS_BEST: '/api/reviews/v1/best',
+
+  // 상품 추가 엔드포인트
+  PRODUCTS_TODAY_DISCOUNTS: '/api/products/v1/today-discounts',
+
+  // 인증
+  AUTH_LOGIN: '/api/auth/login',
+  AUTH_LOGOUT: '/api/auth/v1/logout',
+  AUTH_REFRESH: '/api/auth/v1/refresh',
+  AUTH_REGISTER: '/api/auth/v1/register',
+} as const
+
+export type ApiEndpoint = (typeof API_ENDPOINTS)[keyof typeof API_ENDPOINTS]

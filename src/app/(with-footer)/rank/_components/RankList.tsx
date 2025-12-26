@@ -2,6 +2,7 @@ import ErrorMessage from '@/components/ui/ErrorMessage'
 import { Skeleton } from '@/components/ui/skeleton'
 import { api } from '@/lib/api'
 import { COMMON_ERROR_MESSAGES } from '@/lib/constants'
+import { API_ENDPOINTS } from '@/lib/endpoints'
 import { ApiResponse } from '@/types/api/api'
 import { MemberRankItem, RankMemberQuery, RankPeriod, rankPeriodToRankType } from '@/types/api/rank'
 import Link from 'next/link'
@@ -54,7 +55,7 @@ export default async function RankList({ rankPeriod }: { rankPeriod: RankPeriod 
     } satisfies RankMemberQuery,
   }
   const { error, data } = await api.get<ApiResponse<MemberRankItem[]>>(
-    '/api/ranks/v1/members',
+    API_ENDPOINTS.RANK_MEMBERS,
     query,
   )
 

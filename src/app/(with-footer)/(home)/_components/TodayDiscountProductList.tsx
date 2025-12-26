@@ -3,6 +3,7 @@ import ErrorMessage from '@/components/ui/ErrorMessage'
 import ViewMoreButton from '@/components/ui/ViewMoreButton'
 import { api } from '@/lib/api'
 import { COMMON_ERROR_MESSAGES } from '@/lib/constants'
+import { API_ENDPOINTS } from '@/lib/endpoints'
 import { ApiResponse } from '@/types/api/api'
 import { TodayDiscountProduct } from '@/types/api/product'
 
@@ -21,7 +22,7 @@ export function TodayDiscountProductListSkeleton() {
 export default async function TodayDiscountProductList() {
   // API 호출
   const { data, error } = await api.get<ApiResponse<TodayDiscountProduct[]>>(
-    '/api/products/v1/today-discounts',
+    API_ENDPOINTS.PRODUCTS_TODAY_DISCOUNTS,
     {
       params: {
         page: 0,

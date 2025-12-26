@@ -1,13 +1,14 @@
 import ErrorMessage from '@/components/ui/ErrorMessage'
 import { api } from '@/lib/api'
 import { COMMON_ERROR_MESSAGES } from '@/lib/constants'
+import { API_ENDPOINTS } from '@/lib/endpoints'
 import { ApiResponse } from '@/types/api/api'
 import { ChoicePlace } from '@/types/api/place'
 import ChoiceSwiper from './ChoiceSwiper'
 
 export default async function ChoicePlaceList() {
   const { data, error } = await api.get<ApiResponse<ChoicePlace[]>>(
-    '/api/places/v1/editor-choice',
+    API_ENDPOINTS.PLACES_EDITOR_CHOICE,
     {
       params: {
         page: 0,

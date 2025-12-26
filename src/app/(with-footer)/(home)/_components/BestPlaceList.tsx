@@ -3,6 +3,7 @@ import ViewMoreButton from '@/components/ui/ViewMoreButton'
 import { Skeleton } from '@/components/ui/skeleton'
 import { api } from '@/lib/api'
 import { COMMON_ERROR_MESSAGES } from '@/lib/constants'
+import { API_ENDPOINTS } from '@/lib/endpoints'
 import { formatDecimal } from '@/lib/number'
 import { ApiResponse } from '@/types/api/api'
 import { BestPlace } from '@/types/api/place'
@@ -43,7 +44,7 @@ export function BestPlaceListSkeletonItem() {
 
 export default async function BestPlaceList() {
   // API 호출
-  const { data, error } = await api.get<ApiResponse<BestPlace[]>>('/api/places/v1/best', {
+  const { data, error } = await api.get<ApiResponse<BestPlace[]>>(API_ENDPOINTS.PLACES_BEST, {
     params: {
       page: 0,
       size: 4,

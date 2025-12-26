@@ -1,12 +1,13 @@
 import ErrorMessage from '@/components/ui/ErrorMessage'
 import { api } from '@/lib/api'
 import { COMMON_ERROR_MESSAGES } from '@/lib/constants'
+import { API_ENDPOINTS } from '@/lib/endpoints'
 import { ApiResponse } from '@/types/api/api'
 import { BestReview } from '@/types/api/review'
 import BestReviewSwiper from './BestReviewSwiper'
 
 export default async function BestReviewList() {
-  const { data, error } = await api.get<ApiResponse<BestReview[]>>('/api/reviews/v1/best', {
+  const { data, error } = await api.get<ApiResponse<BestReview[]>>(API_ENDPOINTS.REVIEWS_BEST, {
     params: {
       page: 0,
       size: 5,

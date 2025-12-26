@@ -1,6 +1,7 @@
 import ErrorMessage from '@/components/ui/ErrorMessage'
 import { api } from '@/lib/api'
 import { COMMON_ERROR_MESSAGES } from '@/lib/constants'
+import { API_ENDPOINTS } from '@/lib/endpoints'
 import { ApiResponse } from '@/types/api/api'
 import { MyRankItem, RankPeriod, rankPeriodToRankType } from '@/types/api/rank'
 import { cookies } from 'next/headers'
@@ -24,7 +25,10 @@ export default async function MyRankInfo({ rankPeriod }: { rankPeriod: RankPerio
       type: rankPeriodToRankType(rankPeriod),
     },
   }
-  const { error, data } = await api.get<ApiResponse<MyRankItem>>('/api/ranks/v1/members/me', query)
+  const { error, data } = await api.get<ApiResponse<MyRankItem>>(
+    API_ENDPOINTS.RANK_MEMBERS_ME,
+    query,
+  )
 
   // Expected Error: API 호출 실패 (네트워크 오류, timeout 등)
   if (error) {
