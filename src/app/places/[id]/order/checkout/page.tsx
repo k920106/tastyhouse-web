@@ -368,7 +368,7 @@ export default function CheckoutPage() {
 
               {selectedPaymentMethod === '현장에서 현금 결제' && (
                 <div className="bg-[#f5f5f5] px-4 py-3 text-sm text-[#666666] mb-4">
-                  <p className="font-medium mb-1">현장에서 현금 결제시 드리는 혜택</p>
+                  <p className="mb-1">현장에서 현금 결제시 드리는 혜택</p>
                   <p>현장(가게)에서 현금으로 결제시 최대 10% 포인트 적립</p>
                 </div>
               )}

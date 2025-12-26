@@ -143,7 +143,7 @@ export default function MenusPage() {
 
         {/* Rating and Reviews */}
         <div className="flex items-center gap-1 text-sm text-gray-500">
-          <span className="font-medium text-red-600">{menu.rating}</span>
+          <span className="text-red-600">{menu.rating}</span>
           <span>리뷰({menu.reviewCount})</span>
         </div>
       </div>

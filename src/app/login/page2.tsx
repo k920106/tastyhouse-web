@@ -81,7 +81,7 @@ export default function LoginPage() {
           {/* Login Button */}
           <button
             type="submit"
-            className="w-full py-4 bg-[#F8B4B4] text-white text-base font-medium rounded-lg mt-6"
+            className="w-full py-4 bg-[#F8B4B4] text-white text-base rounded-lg mt-6"
           >
             로그인
           </button>
