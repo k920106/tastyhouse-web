@@ -1,3 +1,5 @@
+import Avatar from '@/components/ui/Avatar'
+import Nickname from '@/components/ui/Nickname'
 import { getMemberGradeColor, getMemberGradeDisplayName, getMemberGradeIcon } from '@/lib/rank'
 import { MemberGrade } from '@/types/api/rank'
 import Image from 'next/image'
@@ -39,15 +41,7 @@ export default function RankItem({
             <p className="text-xs">{rankNo}</p>
           )}
         </div>
-        <div className="flex-shrink-0">
-          <Image
-            src={profileImageUrl || '/images/sample/profile/default.png'}
-            alt={nickname}
-            width={40}
-            height={40}
-            className="rounded-full"
-          />
-        </div>
+        <Avatar src={profileImageUrl} alt={nickname} />
         <div className="flex flex-col gap-2 min-w-0">
           <div className="flex items-center gap-1">
             {isMe && (
@@ -55,7 +49,7 @@ export default function RankItem({
                 나
               </p>
             )}
-            <p className="text-sm leading-[14px] font-bold truncate">{nickname}</p>
+            <Nickname>{nickname}</Nickname>
           </div>
           <div className="flex items-center gap-[5px]">
             <div className="relative w-[14px] h-[14px]">
