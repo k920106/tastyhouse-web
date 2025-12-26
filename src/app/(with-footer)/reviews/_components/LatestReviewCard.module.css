@@ -1,4 +1,4 @@
-.bannerSwiper :global(.swiper-pagination) {
+.reviewSwiper :global(.swiper-pagination) {
   bottom: 15px;
   right: 15px;
   left: auto;
