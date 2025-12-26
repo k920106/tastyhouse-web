@@ -122,7 +122,7 @@ export default function BestReviewSwiper({ reviews }: BestReviewSwiperProps) {
                   </span>
                 </div>
                 <h3 className="mb-[19px]  leading-[16px] truncate">{review.title}</h3>
-                <p className="text-xs leading-[12px] text-[#666666] line-clamp-4">
+                <p className="text-xs leading-relaxed text-[#666666] line-clamp-4">
                   {review.content}
                 </p>
               </Link>
