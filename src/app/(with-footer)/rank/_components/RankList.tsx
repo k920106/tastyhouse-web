@@ -24,7 +24,7 @@ export function RankListSkeleton() {
 export function RankListSkeletonItem() {
   return (
     <>
-      <div className="flex items-center gap-2.5">
+      <div className="flex gap-2.5">
         <div className="flex flex-col items-center flex-shrink-0 w-[22px]">
           <Skeleton className="w-4 h-3" />
         </div>
@@ -60,7 +60,7 @@ export default async function RankList({ rankPeriod }: { rankPeriod: RankPeriod 
   // Expected Error: API 호출 실패 (네트워크 오류, timeout 등)
   if (error) {
     return (
-      <div className="w-full text-sm text-[#999999] text-center whitespace-pre-line">
+      <div className="w-full text-sm leading-[14px] text-[#999999] text-center whitespace-pre-line">
         {COMMON_ERROR_MESSAGES.API_FETCH_ERROR}
       </div>
     )
@@ -70,7 +70,7 @@ export default async function RankList({ rankPeriod }: { rankPeriod: RankPeriod 
   if (!data?.success || !data.data) {
     const errorMessage = data?.message || COMMON_ERROR_MESSAGES.FETCH_ERROR('랭킹')
     return (
-      <div className="w-full text-sm text-[#999999] text-center whitespace-pre-line">
+      <div className="w-full text-sm leading-[14px] text-[#999999] text-center whitespace-pre-line">
         {errorMessage}
       </div>
     )
@@ -80,7 +80,7 @@ export default async function RankList({ rankPeriod }: { rankPeriod: RankPeriod 
 
   if (memberRankItems.length === 0) {
     return (
-      <div className="w-full text-sm text-[#999999] text-center whitespace-pre-line">
+      <div className="w-full text-sm leading-[14px] text-[#999999] text-center whitespace-pre-line">
         랭킹 데이터가 없습니다.
       </div>
     )

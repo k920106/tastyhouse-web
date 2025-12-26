@@ -48,14 +48,14 @@ export default function RankItem({
             className="rounded-full"
           />
         </div>
-        <div className="flex flex-col gap-0.5 min-w-0">
+        <div className="flex flex-col gap-2 min-w-0">
           <div className="flex items-center gap-1">
             {isMe && (
-              <p className="w-fit px-[7.5px] py-[1px] bg-main text-white text-[9px] font-bold rounded-lg">
+              <p className="w-fit px-[7.5px] py-[3px] bg-main text-[9px] leading-[9px] font-bold text-white rounded-lg">
                 나
               </p>
             )}
-            <p className="text-sm font-bold truncate">{nickname}</p>
+            <p className="text-sm leading-[14px] font-bold truncate">{nickname}</p>
           </div>
           <div className="flex items-center gap-[5px]">
             <div className="relative w-[14px] h-[14px]">
@@ -67,11 +67,11 @@ export default function RankItem({
                 sizes="14px"
               />
             </div>
-            <span className={`text-xs ${gradeColor}`}>{gradeDisplayName}</span>
+            <span className={`text-xs leading-[12px] ${gradeColor}`}>{gradeDisplayName}</span>
           </div>
         </div>
       </div>
-      <div className="text-xs text-[#666666]">{reviewCount}개</div>
+      <div className="text-xs leading-[12px] text-[#666666]">{reviewCount}개</div>
     </div>
   )
 }

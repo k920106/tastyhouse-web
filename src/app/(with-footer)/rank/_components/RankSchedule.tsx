@@ -13,7 +13,7 @@ export default async function RankSchedule() {
   // Expected Error: API 호출 실패 (네트워크 오류, timeout 등)
   if (error) {
     return (
-      <div className="w-full text-sm text-[#999999] text-center whitespace-pre-line">
+      <div className="w-full text-sm leading-[14px] text-[#999999] text-center whitespace-pre-line">
         {COMMON_ERROR_MESSAGES.API_FETCH_ERROR}
       </div>
     )
@@ -23,7 +23,7 @@ export default async function RankSchedule() {
   if (!data?.success || !data.data) {
     const errorMessage = data?.message || COMMON_ERROR_MESSAGES.FETCH_ERROR('이벤트')
     return (
-      <div className="w-full text-sm text-[#999999] text-center whitespace-pre-line">
+      <div className="w-full text-sm leading-[14px] text-[#999999] text-center whitespace-pre-line">
         {errorMessage}
       </div>
     )
@@ -39,9 +39,9 @@ export default async function RankSchedule() {
   const dateRange = `${startDateFormatted} ~ ${endDateFormatted}`
 
   return (
-    <div>
-      <p className="text-sm text-right">남은 기간 : {remainingTime}</p>
-      <p className="text-sm text-[#aaaaaa] text-right">({dateRange})</p>
+    <div className="flex flex-col gap-1.5">
+      <p className="text-sm leading-[14px] text-right">남은 기간 : {remainingTime}</p>
+      <p className="text-sm leading-[14px] text-[#aaaaaa] text-right">({dateRange})</p>
     </div>
   )
 }

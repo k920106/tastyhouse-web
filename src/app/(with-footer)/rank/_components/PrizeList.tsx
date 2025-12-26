@@ -80,9 +80,9 @@ export default async function PrizeList() {
           />
         </div>
       </div>
-      <div className="flex flex-col gap-0.5 w-full text-center">
-        <p className="text-[11px] truncate">{product.brand}</p>
-        <p className="text-[11px] truncate">{product.name}</p>
+      <div className="flex flex-col gap-1 w-full text-center">
+        <p className="text-[11px] leading-[11px] truncate">{product.brand}</p>
+        <p className="text-[11px] leading-[11px] truncate">{product.name}</p>
       </div>
     </div>
   ))
