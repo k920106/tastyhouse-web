@@ -1,3 +1,4 @@
+import ErrorMessage from '@/components/ui/ErrorMessage'
 import { api } from '@/lib/api'
 import { COMMON_ERROR_MESSAGES } from '@/lib/constants'
 import { formatDate, formatRemainingTime, getTimeDifference } from '@/lib/date'
@@ -12,21 +13,12 @@ export default async function RankSchedule() {
 
   // Expected Error: API 호출 실패 (네트워크 오류, timeout 등)
   if (error) {
-    return (
-      <div className="w-full text-sm leading-[14px] text-[#999999] text-center whitespace-pre-line">
-        {COMMON_ERROR_MESSAGES.API_FETCH_ERROR}
-      </div>
-    )
+    return <ErrorMessage message={COMMON_ERROR_MESSAGES.API_FETCH_ERROR} />
   }
 
   // Expected Error: API 응답은 받았지만 데이터가 없거나 실패 응답
-  if (!data?.success || !data.data) {
-    const errorMessage = data?.message || COMMON_ERROR_MESSAGES.FETCH_ERROR('이벤트')
-    return (
-      <div className="w-full text-sm leading-[14px] text-[#999999] text-center whitespace-pre-line">
-        {errorMessage}
-      </div>
-    )
+  if (!data || !data?.success || !data.data) {
+    return <ErrorMessage message={COMMON_ERROR_MESSAGES.FETCH_ERROR('이벤트')} />
   }
 
   const rankEventInfo = data.data
