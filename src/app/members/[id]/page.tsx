@@ -1,10 +1,10 @@
 'use client'
 
-import { useState } from 'react'
-import { useRouter } from 'next/navigation'
-import Image from 'next/image'
-import { IoChevronBack } from 'react-icons/io5'
 import MyPageReviewItem from '@/components/mypage/MyPageReviewItem'
+import Image from 'next/image'
+import { useRouter } from 'next/navigation'
+import { useState } from 'react'
+import { IoChevronBack } from 'react-icons/io5'
 
 // �� T� pt0
 const getMemberData = (id: string) => ({
@@ -97,7 +97,7 @@ export default function MemberProfilePage({ params }: { params: { id: string } }
           {/* d� C� */}
           <div className="flex items-center gap-1 mb-3">
             <Image src="/images/icon-member-badge.png" alt="d� C�" width={20} height={20} />
-            <span className="text-[14px] font-medium text-[#FFA500]">{memberData.memberBadge}</span>
+            <span className="text-[14px] text-[#FFA500]">{memberData.memberBadge}</span>
           </div>
 
           {/* $� */}
@@ -110,15 +110,15 @@ export default function MemberProfilePage({ params }: { params: { id: string } }
       {/* Stats */}
       <div className="flex items-center justify-center gap-12 py-6 bg-white border-b-[8px] border-gray-100">
         <div className="flex flex-col items-center gap-1">
-          <span className="text-[16px] font-medium">��</span>
+          <span className="text-[16px]">��</span>
           <span className="text-[20px] font-bold">{memberData.reviewCount}</span>
         </div>
         <div className="flex flex-col items-center gap-1">
-          <span className="text-[16px] font-medium">테스트</span>
+          <span className="text-[16px]">테스트</span>
           <span className="text-[20px] font-bold">{memberData.followingCount}</span>
         </div>
         <div className="flex flex-col items-center gap-1">
-          <span className="text-[16px] font-medium">테스트</span>
+          <span className="text-[16px]">테스트</span>
           <span className="text-[20px] font-bold">
             {isFollowing ? memberData.followerCount + 1 : memberData.followerCount}
           </span>

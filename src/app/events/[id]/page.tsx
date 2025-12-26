@@ -161,9 +161,7 @@ export default function EventDetailPage() {
             {/* Section Title */}
             <div className="text-center mb-8">
               <div className="inline-block px-6 py-2 border border-[#c9b896] rounded-full mb-4">
-                <p className="text-[#8b7355] text-[13px] tracking-wider font-medium">
-                  {section.title}
-                </p>
+                <p className="text-[#8b7355] text-[13px] tracking-wider">{section.title}</p>
               </div>
               <h3 className="text-[32px] font-light text-gray-800 mb-4 leading-tight">
                 {section.subtitle}
@@ -189,7 +187,7 @@ export default function EventDetailPage() {
             이벤트 기간: {mockEvent.startDate} ~ {mockEvent.endDate}
           </div>
           <div
-            className={`px-3 py-1 rounded-full text-[12px] font-medium ${
+            className={`px-3 py-1 rounded-full text-[12px] ${
               mockEvent.status === 'ongoing'
                 ? 'bg-red-50 text-red-600'
                 : mockEvent.status === 'upcoming'

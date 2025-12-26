@@ -140,7 +140,7 @@ export default function ReviewDetailPage() {
             />
             {mockReview.images.length > 1 && (
               <>
-                <div className="absolute bottom-4 right-4 px-3 py-1.5 bg-black/60 text-white text-[13px] rounded-full font-medium">
+                <div className="absolute bottom-4 right-4 px-3 py-1.5 bg-black/60 text-white text-[13px] rounded-full">
                   {currentImageIndex + 1}/{mockReview.images.length}
                 </div>
                 {/* 이미지 네비게이션 */}

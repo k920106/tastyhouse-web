@@ -36,7 +36,7 @@ export default function ErrorFallback({
         {showRetry && onRetry && (
           <button
             onClick={onRetry}
-            className="text-sm text-primary hover:text-primary/80 font-medium transition-colors"
+            className="text-sm text-primary hover:text-primary/80 transition-colors"
           >
             다시 시도
           </button>

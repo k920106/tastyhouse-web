@@ -1,8 +1,8 @@
 'use client'
 
-import { useState } from 'react'
-import Link from 'next/link'
 import Image from 'next/image'
+import Link from 'next/link'
+import { useState } from 'react'
 
 interface OrderItem {
   id: number
@@ -105,7 +105,7 @@ export default function CheckoutPage() {
               />
             </svg>
           </Link>
-          <h1 className="absolute left-1/2 -translate-x-1/2 text-lg font-medium">결제하기</h1>
+          <h1 className="absolute left-1/2 -translate-x-1/2 text-lg">결제하기</h1>
         </div>
       </header>
 
@@ -117,7 +117,7 @@ export default function CheckoutPage() {
             className="w-full px-4 py-4 flex items-center justify-between"
           >
             <div className="flex items-center gap-2">
-              <h2 className="text-[15px] font-medium">{orderInfo.placeName}</h2>
+              <h2 className="text-[15px]">{orderInfo.placeName}</h2>
               <span className="text-sm text-[#999999]">외 {orderInfo.items.length}건</span>
             </div>
             <svg
@@ -151,7 +151,7 @@ export default function CheckoutPage() {
                     />
                   </div>
                   <div className="flex-1">
-                    <h3 className="text-[15px] font-medium mb-1">{item.name}</h3>
+                    <h3 className="text-[15px] mb-1">{item.name}</h3>
                     <p className="text-sm text-[#666666]">
                       {item.price.toLocaleString()}원 | {item.quantity}개
                     </p>
@@ -168,7 +168,7 @@ export default function CheckoutPage() {
             onClick={() => setIsCustomerExpanded(!isCustomerExpanded)}
             className="w-full px-4 py-4 flex items-center justify-between"
           >
-            <h2 className="text-[15px] font-medium">주문자 정보</h2>
+            <h2 className="text-[15px]">주문자 정보</h2>
             <svg
               width="24"
               height="24"
@@ -206,7 +206,7 @@ export default function CheckoutPage() {
 
         {/* 쿠폰/적립금 사용 섹션 */}
         <div className="border-b-8 border-[#f5f5f5] px-4 py-6">
-          <h2 className="text-[15px] font-medium mb-4">쿠폰/적립금 사용</h2>
+          <h2 className="text-[15px] mb-4">쿠폰/적립금 사용</h2>
 
           {/* 쿠폰 */}
           <div className="mb-6">
@@ -256,7 +256,7 @@ export default function CheckoutPage() {
               </div>
               <button
                 onClick={handleApplyAllPoints}
-                className="px-6 py-4 bg-main text-white text-[15px] font-medium"
+                className="px-6 py-4 bg-main text-white text-[15px]"
               >
                 전액사용
               </button>
@@ -269,7 +269,7 @@ export default function CheckoutPage() {
 
         {/* 결제 금액 섹션 */}
         <div className="border-b-8 border-[#f5f5f5] px-4 py-6">
-          <h2 className="text-[15px] font-medium mb-4">결제 금액</h2>
+          <h2 className="text-[15px] mb-4">결제 금액</h2>
 
           <div className="space-y-3">
             <div className="flex justify-between text-[15px]">
@@ -296,7 +296,7 @@ export default function CheckoutPage() {
               </span>
             </div>
             <div className="h-px bg-[#eeeeee] my-3" />
-            <div className="flex justify-between text-base font-medium">
+            <div className="flex justify-between ">
               <span>최종 결제금액</span>
               <span className="text-main">{finalTotal.toLocaleString()}원</span>
             </div>
@@ -309,7 +309,7 @@ export default function CheckoutPage() {
             onClick={() => setIsPaymentMethodExpanded(!isPaymentMethodExpanded)}
             className="w-full flex items-center justify-between mb-4"
           >
-            <h2 className="text-[15px] font-medium">결제방법 선택</h2>
+            <h2 className="text-[15px]">결제방법 선택</h2>
             <svg
               width="24"
               height="24"
@@ -409,9 +409,7 @@ export default function CheckoutPage() {
         <button
           onClick={handlePayment}
           disabled={!agreedToTerms}
-          className={`w-full py-4 text-white text-base font-medium ${
-            agreedToTerms ? 'bg-main' : 'bg-[#ffb3b3]'
-          }`}
+          className={`w-full py-4 text-white  ${agreedToTerms ? 'bg-main' : 'bg-[#ffb3b3]'}`}
         >
           결제하기
         </button>

@@ -166,7 +166,7 @@ export default function OrderMethodPage() {
                   {method.icon}
                 </div>
                 <span
-                  className={`text-base font-semibold ${
+                  className={` font-semibold ${
                     selectedMethod === method.id && !method.disabled
                       ? 'text-red-600'
                       : method.disabled

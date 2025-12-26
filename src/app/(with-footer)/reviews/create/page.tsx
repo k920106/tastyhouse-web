@@ -58,7 +58,7 @@ export default function ReviewCreatePage() {
         <PhotoUploader value={form.photos} onChange={(val) => handleChange('photos', val)} />
         <TagInput value={form.tags} onChange={(val) => handleChange('tags', val)} />
         <div className="px-4 py-6 bg-white">
-          <p className="text-gray-900 font-medium mb-2">리뷰 작성 시 주의 사항</p>
+          <p className="text-gray-900 mb-2">리뷰 작성 시 주의 사항</p>
           <ul className="list-disc list-inside text-gray-700 space-y-1">
             <li className="text-xs text-[#666666]">
               해당 메뉴와 무관한 사진을 첨부한 리뷰는 통보 없이 삭제 및 적립 혜택이 취소될 수

@@ -43,7 +43,7 @@ export default function MyPageProfile({
         {/* 멤버 뱃지 */}
         <div className="flex items-center gap-1 mb-3">
           <Image src="/images/icon-member-badge.png" alt="멤버 뱃지" width={20} height={20} />
-          <span className="text-[14px] font-medium text-[#FFA500]">
+          <span className="text-[14px] text-[#FFA500]">
             {memberBadge} (리뷰 {reviewCount}개)
           </span>
         </div>

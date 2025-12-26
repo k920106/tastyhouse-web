@@ -1,7 +1,7 @@
 'use client'
 
-import { useState } from 'react'
 import { useRouter } from 'next/navigation'
+import { useState } from 'react'
 import { IoChevronBack } from 'react-icons/io5'
 
 const WEEKDAYS = ['일', '월', '화', '수', '목', '금', '토']
@@ -160,7 +160,7 @@ export default function ReservationDatePage() {
         <button onClick={() => router.back()} className="p-2 -ml-2">
           <IoChevronBack size={24} />
         </button>
-        <h1 className="absolute left-1/2 -translate-x-1/2 text-[17px] font-medium">예약하기</h1>
+        <h1 className="absolute left-1/2 -translate-x-1/2 text-[17px]">예약하기</h1>
       </header>
 
       <div className="px-6">
@@ -169,7 +169,7 @@ export default function ReservationDatePage() {
             <button onClick={handlePrevMonth} className="p-2">
               <IoChevronBack size={20} />
             </button>
-            <div className="text-[20px] font-medium">
+            <div className="text-[20px]">
               {currentDate.getFullYear()}.{String(currentDate.getMonth() + 1).padStart(2, '0')}
             </div>
             <button onClick={handleNextMonth} className="p-2">
@@ -181,7 +181,7 @@ export default function ReservationDatePage() {
             {WEEKDAYS.map((day, index) => (
               <div
                 key={day}
-                className={`text-center text-[14px] font-medium py-2 ${
+                className={`text-center text-[14px] py-2 ${
                   index === 0 ? 'text-[#ff0000]' : index === 6 ? 'text-[#0066ff]' : 'text-black'
                 }`}
               >
@@ -198,8 +198,8 @@ export default function ReservationDatePage() {
               const saturday = isSaturday(date)
               const unavailable = isUnavailable(date)
 
-              let className = 'aspect-square flex items-center justify-center text-[16px] '
-              if (selected) className += 'bg-[#d32f2f] text-white font-medium '
+              let className = 'aspect-square flex items-center justify-center '
+              if (selected) className += 'bg-[#d32f2f] text-white '
               if (!currentMonth) className += 'text-[#cccccc] '
               if (currentMonth && !selected && sunday) className += 'text-[#ff0000] '
               if (currentMonth && !selected && saturday) className += 'text-[#0066ff] '
@@ -232,7 +232,7 @@ export default function ReservationDatePage() {
         </div>
 
         <div className="py-6 border-t-[6px] border-[#f5f5f5] -mx-6 px-6">
-          <h2 className="mb-4 text-[17px] font-medium">오전</h2>
+          <h2 className="mb-4 text-[17px]">오전</h2>
           <div className="grid grid-cols-3 gap-3 mb-8">
             {MORNING_TIMES.map((time) => {
               const isSelected = selectedTime === time
@@ -242,7 +242,7 @@ export default function ReservationDatePage() {
                   onClick={() => setSelectedTime(time)}
                   className={`py-3 text-[15px] border rounded ${
                     isSelected
-                      ? 'border-[#d32f2f] text-[#d32f2f] font-medium'
+                      ? 'border-[#d32f2f] text-[#d32f2f]'
                       : 'border-[#eeeeee] text-[#666666]'
                   }`}
                 >
@@ -252,13 +252,13 @@ export default function ReservationDatePage() {
             })}
           </div>
 
-          <h2 className="mb-4 text-[17px] font-medium">오후</h2>
+          <h2 className="mb-4 text-[17px]">오후</h2>
           <div className="grid grid-cols-4 gap-3">
             {AFTERNOON_TIMES.map((time) => {
               const unavailable = isTimeUnavailable(time)
               const isSelected = selectedTime === time
               let className = 'py-3 text-[15px] border rounded '
-              if (isSelected) className += 'border-[#d32f2f] text-[#d32f2f] font-medium '
+              if (isSelected) className += 'border-[#d32f2f] text-[#d32f2f] '
               if (unavailable)
                 className += 'border-[#eeeeee] bg-[#f5f5f5] text-[#cccccc] cursor-not-allowed '
               if (!unavailable && !isSelected)
@@ -279,7 +279,7 @@ export default function ReservationDatePage() {
         </div>
 
         <div className="py-6 border-t-[6px] border-[#f5f5f5] -mx-6 px-6">
-          <h2 className="mb-4 text-[17px] font-medium">인원</h2>
+          <h2 className="mb-4 text-[17px]">인원</h2>
           <div className="flex items-center justify-between">
             <p className="text-[15px] text-[#666666]">방문하시는 인원을 선택해주세요.</p>
             <div className="flex items-center gap-3">
@@ -289,7 +289,7 @@ export default function ReservationDatePage() {
               >
                 -
               </button>
-              <span className="text-[17px] font-medium w-8 text-center">{guestCount}</span>
+              <span className="text-[17px] w-8 text-center">{guestCount}</span>
               <button
                 onClick={incrementGuestCount}
                 className="w-10 h-10 border border-[#eeeeee] rounded flex items-center justify-center text-[20px] text-[#666666]"
@@ -301,7 +301,7 @@ export default function ReservationDatePage() {
         </div>
 
         <div className="py-6 border-t-[6px] border-[#f5f5f5] -mx-6 px-6">
-          <h2 className="mb-4 text-[17px] font-medium">요청사항</h2>
+          <h2 className="mb-4 text-[17px]">요청사항</h2>
           <textarea
             value={requirements}
             onChange={(e) => setRequirements(e.target.value)}
@@ -311,7 +311,7 @@ export default function ReservationDatePage() {
         </div>
 
         <div className="py-6 border-t-[6px] border-[#f5f5f5] -mx-6 px-6">
-          <h2 className="mb-4 text-[17px] font-medium">예약시 주의사항 안내</h2>
+          <h2 className="mb-4 text-[17px]">예약시 주의사항 안내</h2>
           <div className="space-y-2 mb-6 text-[14px] text-[#666666] leading-[1.6]">
             <p>
               • 예약 인원 변경은 최소 하루 전날까지는 연락 부탁드리며, 예약, 매장 상황에 따라
@@ -333,7 +333,7 @@ export default function ReservationDatePage() {
               >
                 {allAgreed && <CheckIcon />}
               </button>
-              <span className="text-[15px] font-medium">약관에 모두 동의합니다.</span>
+              <span className="text-[15px]">약관에 모두 동의합니다.</span>
             </div>
 
             {AGREEMENT_ITEMS.map((item, index) => (
@@ -359,7 +359,7 @@ export default function ReservationDatePage() {
       <div className="fixed bottom-0 left-0 right-0 p-4 bg-white border-t border-[#eeeeee]">
         <button
           disabled={!isBookingEnabled()}
-          className={`w-full py-4 text-[17px] font-medium rounded ${
+          className={`w-full py-4 text-[17px] rounded ${
             isBookingEnabled()
               ? 'bg-[#d32f2f] text-white'
               : 'bg-[#cccccc] text-white cursor-not-allowed'

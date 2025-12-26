@@ -71,14 +71,12 @@ export default function MenuDetailPage({
 
       {/* Menu Info */}
       <div className="px-4 py-5">
-        <h2 className="text-[19px] font-medium mb-3">{MOCK_MENU.name}</h2>
+        <h2 className="text-[19px] mb-3">{MOCK_MENU.name}</h2>
 
         <p className="text-[15px] text-[#666666] leading-[1.6] mb-4">{MOCK_MENU.description}</p>
 
         <div className="flex items-center gap-3 mb-6">
-          <span className="text-[26px] text-main font-medium">
-            {MOCK_MENU.price.toLocaleString()}원
-          </span>
+          <span className="text-[26px] text-main">{MOCK_MENU.price.toLocaleString()}원</span>
         </div>
 
         {/* Divider */}
@@ -86,7 +84,7 @@ export default function MenuDetailPage({
 
         {/* Spice Level Selection */}
         <div className="mb-6">
-          <h3 className="text-[15px] font-medium mb-3">맵기조절</h3>
+          <h3 className="text-[15px] mb-3">맵기조절</h3>
           <div className="space-y-3">
             {(['순한맛', '기본맛', '매운맛'] as SpiceLevel[]).map((level) => (
               <button
@@ -112,7 +110,7 @@ export default function MenuDetailPage({
       <div className="fixed bottom-0 left-0 right-0 z-50 flex justify-center">
         <button
           onClick={handleAddToCart}
-          className="w-full max-w-[500px] py-4 px-4 bg-main text-white text-[17px] font-medium"
+          className="w-full max-w-[500px] py-4 px-4 bg-main text-white text-[17px]"
         >
           장바구니 담기
         </button>

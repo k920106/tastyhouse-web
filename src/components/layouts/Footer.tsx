@@ -111,7 +111,7 @@ export default function Footer() {
                   </div>
                   <span
                     className={`text-[10px] transition-colors duration-200 ${
-                      active ? 'text-main font-medium' : 'text-[#aaaaaa]'
+                      active ? 'text-main' : 'text-[#aaaaaa]'
                     }`}
                   >
                     {item.label}

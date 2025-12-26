@@ -72,7 +72,7 @@ export default function EventsPage() {
       <div className="flex border-b border-gray-200 bg-white sticky top-[56px] z-10">
         <button
           onClick={() => setActiveTab('ongoing')}
-          className={`flex-1 py-4 text-[15px] font-medium relative ${
+          className={`flex-1 py-4 text-[15px] relative ${
             activeTab === 'ongoing' ? 'text-[#FF6B35]' : 'text-gray-500'
           }`}
         >
@@ -83,7 +83,7 @@ export default function EventsPage() {
         </button>
         <button
           onClick={() => setActiveTab('ended')}
-          className={`flex-1 py-4 text-[15px] font-medium relative ${
+          className={`flex-1 py-4 text-[15px] relative ${
             activeTab === 'ended' ? 'text-[#FF6B35]' : 'text-gray-500'
           }`}
         >
@@ -94,7 +94,7 @@ export default function EventsPage() {
         </button>
         <button
           onClick={() => setActiveTab('winner')}
-          className={`flex-1 py-4 text-[15px] font-medium relative ${
+          className={`flex-1 py-4 text-[15px] relative ${
             activeTab === 'winner' ? 'text-[#FF6B35]' : 'text-gray-500'
           }`}
         >

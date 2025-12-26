@@ -5,10 +5,10 @@ import ReviewInput from '@/components/reviews/ReviewInput'
 import StarRating from '@/components/reviews/StarRating'
 import SubmitButton from '@/components/reviews/SubmitButton'
 import TagInput from '@/components/reviews/TagInput'
+import Image from 'next/image'
+import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import { MdOutlineArrowBackIos } from 'react-icons/md'
-import { useRouter } from 'next/navigation'
-import Image from 'next/image'
 
 interface MenuReviewPageProps {
   params: {
@@ -55,7 +55,7 @@ export default function MenuReviewPage({ params }: MenuReviewPageProps) {
         >
           <MdOutlineArrowBackIos size={20} />
         </button>
-        <p className="absolute left-1/2 -translate-x-1/2 text-[17px] font-medium">리뷰작성</p>
+        <p className="absolute left-1/2 -translate-x-1/2 text-[17px]">리뷰작성</p>
       </div>
 
       <div className="flex flex-col gap-2.5">
@@ -65,14 +65,14 @@ export default function MenuReviewPage({ params }: MenuReviewPageProps) {
             <Image src="/placeholder-food.jpg" alt={form.menuName} className="object-cover" fill />
           </div>
           <div className="flex-1">
-            <p className="text-base font-medium text-gray-900">{form.menuName}</p>
+            <p className=" text-gray-900">{form.menuName}</p>
             <p className="text-sm text-gray-600 mt-1">{form.price}</p>
           </div>
         </div>
 
         {/* Taste Rating */}
         <div className="px-4 py-6 bg-white">
-          <p className="text-center text-base text-gray-900 mb-4">맛은 어떤가요?</p>
+          <p className="text-center  text-gray-900 mb-4">맛은 어떤가요?</p>
           <StarRating
             value={form.tasteRating}
             onChange={(val) => handleChange('tasteRating', val)}
@@ -81,7 +81,7 @@ export default function MenuReviewPage({ params }: MenuReviewPageProps) {
 
         {/* Quantity Rating */}
         <div className="px-4 py-6 bg-white">
-          <p className="text-center text-base text-gray-900 mb-4">양은 어떤가요?</p>
+          <p className="text-center  text-gray-900 mb-4">양은 어떤가요?</p>
           <StarRating
             value={form.quantityRating}
             onChange={(val) => handleChange('quantityRating', val)}
@@ -90,7 +90,7 @@ export default function MenuReviewPage({ params }: MenuReviewPageProps) {
 
         {/* Price Rating */}
         <div className="px-4 py-6 bg-white">
-          <p className="text-center text-base text-gray-900 mb-4">가격은 어떤가요?</p>
+          <p className="text-center  text-gray-900 mb-4">가격은 어떤가요?</p>
           <StarRating
             value={form.priceRating}
             onChange={(val) => handleChange('priceRating', val)}
@@ -108,14 +108,13 @@ export default function MenuReviewPage({ params }: MenuReviewPageProps) {
 
         {/* Guidelines */}
         <div className="px-4 py-6 bg-white">
-          <p className="text-gray-900 font-medium mb-3">리뷰 작성시 포인트 적립 및 주의사항</p>
+          <p className="text-gray-900 mb-3">리뷰 작성시 포인트 적립 및 주의사항</p>
           <ul className="space-y-2">
             <li className="text-xs text-gray-700">
-              • 일반(평점 및 내용)리뷰 작성시{' '}
-              <span className="text-red-500 font-medium">100p 적립</span>
+              • 일반(평점 및 내용)리뷰 작성시 <span className="text-red-500">100p 적립</span>
             </li>
             <li className="text-xs text-gray-700">
-              • 포토리뷰 작성시 <span className="text-red-500 font-medium">200p 적립</span>
+              • 포토리뷰 작성시 <span className="text-red-500">200p 적립</span>
             </li>
             <li className="text-xs text-gray-700">
               • 주문한 상품별로 리뷰 작성이 가능하며, 동일 상품 여러개 구매시 최초 1회의 한해 포인트

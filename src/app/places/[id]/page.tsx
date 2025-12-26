@@ -2,12 +2,12 @@
 
 import { formatDecimal } from '@/lib/number'
 import Image from 'next/image'
-import { useState } from 'react'
-import { IoChevronBack, IoShareOutline } from 'react-icons/io5'
-import { FiBookmark } from 'react-icons/fi'
-import { MdLocationOn } from 'react-icons/md'
-import { BiCopy } from 'react-icons/bi'
 import { useRouter } from 'next/navigation'
+import { useState } from 'react'
+import { BiCopy } from 'react-icons/bi'
+import { FiBookmark } from 'react-icons/fi'
+import { IoChevronBack, IoShareOutline } from 'react-icons/io5'
+import { MdLocationOn } from 'react-icons/md'
 
 type Tab = '정보' | '메뉴' | '포토' | '리뷰'
 
@@ -102,9 +102,7 @@ export default function PlaceDetailPage() {
         <button onClick={() => router.back()} className="p-2 -ml-2">
           <IoChevronBack size={24} />
         </button>
-        <h1 className="absolute left-1/2 -translate-x-1/2 text-[17px] font-medium">
-          {MOCK_PLACE.name}
-        </h1>
+        <h1 className="absolute left-1/2 -translate-x-1/2 text-[17px]">{MOCK_PLACE.name}</h1>
         <div className="flex items-center gap-2">
           <button className="p-2">
             <IoShareOutline size={24} />
@@ -134,10 +132,8 @@ export default function PlaceDetailPage() {
       {/* Place Info */}
       <div className="px-4 py-5 border-b-[6px] border-[#f5f5f5]">
         <div className="flex items-start justify-between mb-3">
-          <h2 className="text-[19px] font-medium">{MOCK_PLACE.name}</h2>
-          <span className="text-[26px] text-main font-medium">
-            {formatDecimal(MOCK_PLACE.rating, 1)}
-          </span>
+          <h2 className="text-[19px]">{MOCK_PLACE.name}</h2>
+          <span className="text-[26px] text-main">{formatDecimal(MOCK_PLACE.rating, 1)}</span>
         </div>
 
         <div className="mb-3">
@@ -179,7 +175,7 @@ export default function PlaceDetailPage() {
               onClick={() => setActiveTab(tab)}
               className={`flex-1 py-4 text-[15px] ${
                 activeTab === tab
-                  ? 'text-black font-medium border-b-2 border-black'
+                  ? 'text-black border-b-2 border-black'
                   : 'text-[#999999] border-b-2 border-transparent'
               }`}
             >
@@ -204,7 +200,7 @@ export default function PlaceDetailPage() {
 
             {/* Hours */}
             <div>
-              <h3 className="mb-3 text-[15px] font-medium">운영시간</h3>
+              <h3 className="mb-3 text-[15px]">운영시간</h3>
               <div className="space-y-2 text-[15px] text-[#666666]">
                 <div className="flex justify-between">
                   <span>평일</span>
@@ -223,25 +219,25 @@ export default function PlaceDetailPage() {
 
             {/* Break Time */}
             <div>
-              <h3 className="mb-3 text-[15px] font-medium">브레이크타임</h3>
+              <h3 className="mb-3 text-[15px]">브레이크타임</h3>
               <p className="text-[15px] text-[#666666]">{MOCK_PLACE.breakTime.split(' ')[1]}</p>
             </div>
 
             {/* Closed */}
             <div>
-              <h3 className="mb-3 text-[15px] font-medium">휴무일</h3>
+              <h3 className="mb-3 text-[15px]">휴무일</h3>
               <p className="text-[15px] text-[#666666]">{MOCK_PLACE.closed}</p>
             </div>
 
             {/* Phone */}
             <div>
-              <h3 className="mb-3 text-[15px] font-medium">전화번호</h3>
+              <h3 className="mb-3 text-[15px]">전화번호</h3>
               <p className="text-[15px] text-[#666666]">{MOCK_PLACE.phone}</p>
             </div>
 
             {/* Amenities */}
             <div>
-              <h3 className="mb-4 text-[15px] font-medium">편의시설</h3>
+              <h3 className="mb-4 text-[15px]">편의시설</h3>
               <div className="grid grid-cols-3 gap-3">
                 {MOCK_PLACE.amenities.map((amenity) => (
                   <div
@@ -253,7 +249,7 @@ export default function PlaceDetailPage() {
                       {amenity === '포장' && '🛍️'}
                       {amenity === '배달' && '🛵'}
                     </div>
-                    <div className="text-[15px] text-main font-medium">{amenity}</div>
+                    <div className="text-[15px] text-main">{amenity}</div>
                   </div>
                 ))}
               </div>
@@ -263,7 +259,7 @@ export default function PlaceDetailPage() {
 
         {activeTab === '메뉴' && (
           <div className="py-6">
-            <h3 className="mb-4 text-[17px] font-medium">대표 메뉴</h3>
+            <h3 className="mb-4 text-[17px]">대표 메뉴</h3>
             <div className="space-y-4">
               {MOCK_MENUS.map((menu) => (
                 <div
@@ -281,28 +277,24 @@ export default function PlaceDetailPage() {
                   </div>
                   <div className="flex-1 flex flex-col justify-between py-1">
                     <div>
-                      <h4 className="mb-1 text-[15px] font-medium">{menu.name}</h4>
+                      <h4 className="mb-1 text-[15px]">{menu.name}</h4>
                       <div className="flex items-center gap-2 text-[13px]">
-                        <span className="text-[17px] font-medium">
-                          {menu.price.toLocaleString()}원
-                        </span>
+                        <span className="text-[17px]">{menu.price.toLocaleString()}원</span>
                         <span className="text-[#999999] line-through">
                           {menu.originalPrice.toLocaleString()}원
                         </span>
-                        <span className="text-main font-medium">{menu.discount}%</span>
+                        <span className="text-main">{menu.discount}%</span>
                       </div>
                     </div>
                     <div className="flex items-center justify-end gap-1">
-                      <span className="text-[17px] text-main font-medium">
-                        {formatDecimal(menu.rating, 1)}
-                      </span>
+                      <span className="text-[17px] text-main">{formatDecimal(menu.rating, 1)}</span>
                       <span className="text-[13px] text-[#999999]">리뷰 ({menu.reviewCount})</span>
                     </div>
                   </div>
                 </div>
               ))}
             </div>
-            <button className="w-full py-4 mt-6 text-[15px] text-white bg-main rounded-lg font-medium">
+            <button className="w-full py-4 mt-6 text-[15px] text-white bg-main rounded-lg">
               주문하기
             </button>
           </div>
@@ -310,14 +302,14 @@ export default function PlaceDetailPage() {
 
         {activeTab === '포토' && (
           <div className="py-6">
-            <h3 className="mb-4 text-[15px] font-medium">가게외관</h3>
+            <h3 className="mb-4 text-[15px]">가게외관</h3>
             <div className="relative aspect-[16/9] rounded-lg overflow-hidden">
               <Image src={MOCK_PHOTOS[0]} alt="가게외관" fill className="object-cover" />
               <div className="absolute bottom-3 right-3 px-2 py-1 text-[13px] text-white bg-black/50 rounded">
                 1/10
               </div>
             </div>
-            <h3 className="mt-8 mb-4 text-[15px] font-medium">가게 내부</h3>
+            <h3 className="mt-8 mb-4 text-[15px]">가게 내부</h3>
           </div>
         )}
 
@@ -326,7 +318,7 @@ export default function PlaceDetailPage() {
             {/* Rating Summary */}
             <div className="pb-6 mb-6 border-b-[6px] border-[#f5f5f5] -mx-4 px-4">
               <div className="flex items-end gap-4 mb-6">
-                <div className="text-[48px] font-medium">{formatDecimal(MOCK_PLACE.rating, 1)}</div>
+                <div className="text-[48px]">{formatDecimal(MOCK_PLACE.rating, 1)}</div>
                 <div className="pb-2 text-[15px] text-[#666666]">/ 5</div>
               </div>
 
@@ -377,9 +369,7 @@ export default function PlaceDetailPage() {
                           ⭐
                         </span>
                       ))}
-                      <span className="text-[15px] text-main font-medium">
-                        {formatDecimal(item.value, 1)}
-                      </span>
+                      <span className="text-[15px] text-main">{formatDecimal(item.value, 1)}</span>
                     </div>
                   </div>
                 ))}
@@ -387,7 +377,7 @@ export default function PlaceDetailPage() {
 
               <div className="mt-4 text-[13px]">
                 <span className="text-[#666666]">재방문의사</span>
-                <span className="ml-2 text-main font-medium">{MOCK_PLACE.hasVisited}</span>
+                <span className="ml-2 text-main">{MOCK_PLACE.hasVisited}</span>
               </div>
             </div>
 
@@ -397,9 +387,7 @@ export default function PlaceDetailPage() {
                 <button
                   key={filter}
                   className={`px-4 py-2 text-[13px] rounded-full border ${
-                    filter === '전체'
-                      ? 'border-main text-main font-medium'
-                      : 'border-[#eeeeee] text-[#666666]'
+                    filter === '전체' ? 'border-main text-main' : 'border-[#eeeeee] text-[#666666]'
                   }`}
                 >
                   {filter}
@@ -429,12 +417,10 @@ export default function PlaceDetailPage() {
                       <span className="text-lg">👤</span>
                     </div>
                     <div className="flex-1">
-                      <div className="text-[15px] font-medium">{review.userName}</div>
+                      <div className="text-[15px]">{review.userName}</div>
                       <div className="text-[13px] text-[#999999]">{review.createdAt}</div>
                     </div>
-                    <div className="text-[19px] text-main font-medium">
-                      {formatDecimal(review.rating, 1)}
-                    </div>
+                    <div className="text-[19px] text-main">{formatDecimal(review.rating, 1)}</div>
                   </div>
 
                   <p className="mb-3 text-[15px] leading-[1.6] line-clamp-4">{review.content}</p>

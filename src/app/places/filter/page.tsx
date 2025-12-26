@@ -83,7 +83,7 @@ export default function FilterPage() {
           <IoChevronBack size={24} color="#333333" />
         </button>
         <div className="absolute left-1/2 -translate-x-1/2">
-          <h1 className="text-[17px] text-[#333333] font-medium">필터</h1>
+          <h1 className="text-[17px] text-[#333333]">필터</h1>
         </div>
         <button
           onClick={handleReset}
@@ -97,7 +97,7 @@ export default function FilterPage() {
       <div className="flex-1 overflow-y-auto pb-[80px]">
         {/* 지역 섹션 */}
         <section className="px-4 py-5 border-b border-[#eeeeee]">
-          <h2 className="mb-3 text-[15px] font-medium text-[#333333]">지역</h2>
+          <h2 className="mb-3 text-[15px] text-[#333333]">지역</h2>
           <div className="flex items-center gap-2">
             <input
               type="text"
@@ -118,7 +118,7 @@ export default function FilterPage() {
 
         {/* 음식종류 섹션 */}
         <section className="px-4 py-5 border-b border-[#eeeeee]">
-          <h2 className="mb-3 text-[15px] font-medium text-[#333333]">음식종류</h2>
+          <h2 className="mb-3 text-[15px] text-[#333333]">음식종류</h2>
           <div className="grid grid-cols-4 gap-2">
             {FOOD_CATEGORIES.map((category) => {
               const isSelected = selectedFoodCategories.includes(category.id)
@@ -140,9 +140,7 @@ export default function FilterPage() {
                       className={`object-contain ${isSelected ? '' : 'opacity-40 grayscale'}`}
                     />
                   </div>
-                  <span
-                    className={`text-[13px] ${isSelected ? 'text-main font-medium' : 'text-[#999999]'}`}
-                  >
+                  <span className={`text-[13px] ${isSelected ? 'text-main' : 'text-[#999999]'}`}>
                     {category.label}
                   </span>
                 </button>
@@ -153,7 +151,7 @@ export default function FilterPage() {
 
         {/* 편의시설 섹션 */}
         <section className="px-4 py-5">
-          <h2 className="mb-3 text-[15px] font-medium text-[#333333]">편의시설</h2>
+          <h2 className="mb-3 text-[15px] text-[#333333]">편의시설</h2>
           <div className="grid grid-cols-4 gap-2">
             {FACILITIES.map((facility) => {
               const isSelected = selectedFacilities.includes(facility.id)
@@ -183,9 +181,7 @@ export default function FilterPage() {
                       />
                     )}
                   </div>
-                  <span
-                    className={`text-[13px] ${isSelected ? 'text-main font-medium' : 'text-[#999999]'}`}
-                  >
+                  <span className={`text-[13px] ${isSelected ? 'text-main' : 'text-[#999999]'}`}>
                     {facility.label}
                   </span>
                 </button>
@@ -199,7 +195,7 @@ export default function FilterPage() {
       <div className="fixed bottom-0 left-0 right-0 p-4 bg-white border-t border-[#eeeeee]">
         <button
           onClick={handleApplyFilter}
-          className={`w-full h-[52px] text-[16px] font-medium text-white rounded transition-colors ${
+          className={`w-full h-[52px] text-white rounded transition-colors ${
             hasSelection ? 'bg-main' : 'bg-[#ffb3ad]'
           }`}
         >

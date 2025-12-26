@@ -153,7 +153,7 @@ export default function PlacePage() {
                   <div className="py-[15px]">
                     <div className="mb-1.5 flex items-center justify-between">
                       <span className="text-xs text-[#999999]">{place.stationName}</span>
-                      <span className="text-[19px] text-main font-medium">
+                      <span className="text-[19px] text-main">
                         {formatDecimal(place.rating, 1)}
                       </span>
                     </div>

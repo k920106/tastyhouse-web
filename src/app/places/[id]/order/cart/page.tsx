@@ -98,7 +98,7 @@ export default function CartPage() {
               />
             </svg>
           </Link>
-          <h1 className="absolute left-1/2 -translate-x-1/2 text-lg font-medium">장바구니</h1>
+          <h1 className="absolute left-1/2 -translate-x-1/2 text-lg">장바구니</h1>
         </div>
       </header>
       <div className="flex items-center justify-between px-4 py-4 border-b border-[#eeeeee]">
@@ -132,14 +132,14 @@ export default function CartPage() {
         {cartItems.length === 0 ? (
           <div className="flex flex-col items-center justify-center py-32">
             <p className="text-[#aaaaaa] mb-6">장바구니가 비어있습니다.</p>
-            <Link href="/" className="text-main text-[15px] font-medium underline">
+            <Link href="/" className="text-main text-[15px] underline">
               메뉴 담으러 가기
             </Link>
           </div>
         ) : (
           <>
             <div className="px-4">
-              <h2 className="text-[15px] font-medium py-3">땡스오트</h2>
+              <h2 className="text-[15px] py-3">땡스오트</h2>
               {cartItems.map((item) => (
                 <CartItem
                   key={item.id}
@@ -154,7 +154,7 @@ export default function CartPage() {
             <div className="mt-6 px-4">
               <Link
                 href="/"
-                className="flex items-center justify-center gap-2 py-4 text-main text-[15px] font-medium"
+                className="flex items-center justify-center gap-2 py-4 text-main text-[15px]"
               >
                 <span className="text-xl">+</span>
                 <span>메뉴 담으러 가기</span>
@@ -176,7 +176,7 @@ export default function CartPage() {
               {totalDiscountAmount.toLocaleString()}원
             </span>
           </div>
-          <div className="flex justify-between text-base font-medium">
+          <div className="flex justify-between ">
             <span>결제예정금액</span>
             <span className="text-main">{totalPaymentPrice.toLocaleString()}원</span>
           </div>
@@ -184,7 +184,7 @@ export default function CartPage() {
         <Link
           href={`/places/${placeId}/order/checkout`}
           onClick={(e) => selectedCount === 0 && e.preventDefault()}
-          className={`block w-full py-4 text-white text-base font-medium text-center ${
+          className={`block w-full py-4 text-white  text-center ${
             selectedCount === 0 ? 'bg-[#cccccc] pointer-events-none' : 'bg-main'
           }`}
         >

@@ -26,7 +26,7 @@ export default function LoginPage() {
 
         <form action={formAction} className="space-y-6">
           <div>
-            <label htmlFor="username" className="block mb-2 text-sm font-medium text-gray-700">
+            <label htmlFor="username" className="block mb-2 text-sm text-gray-700">
               아이디
             </label>
             <input
@@ -40,7 +40,7 @@ export default function LoginPage() {
             />
           </div>
           <div>
-            <label htmlFor="password" className="block mb-2 text-sm font-medium text-gray-700">
+            <label htmlFor="password" className="block mb-2 text-sm text-gray-700">
               비밀번호
             </label>
             <input
@@ -56,7 +56,7 @@ export default function LoginPage() {
           <button
             type="submit"
             disabled={isPending}
-            className="w-full px-5 py-2.5 text-sm font-medium text-center text-white bg-blue-600 rounded-lg hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 disabled:bg-gray-400"
+            className="w-full px-5 py-2.5 text-sm text-center text-white bg-blue-600 rounded-lg hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 disabled:bg-gray-400"
           >
             {isPending ? '로그인 중...' : '로그인'}
           </button>

@@ -46,7 +46,7 @@ export default function MyPagePaymentItem({
         {/* 날짜와 상태 */}
         <div className="flex flex-col items-end justify-between">
           <p className="text-[13px] text-gray-500">{date}</p>
-          <p className={`text-[13px] font-medium ${statusColor}`}>{status}</p>
+          <p className={`text-[13px] ${statusColor}`}>{status}</p>
         </div>
       </div>
     </div>

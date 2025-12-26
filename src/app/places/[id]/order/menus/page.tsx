@@ -123,7 +123,7 @@ export default function MenusPage() {
           )}
 
           {/* Menu Name */}
-          <h3 className="text-base font-medium text-gray-900 leading-tight">{menu.name}</h3>
+          <h3 className=" text-gray-900 leading-tight">{menu.name}</h3>
         </div>
 
         {/* Price */}

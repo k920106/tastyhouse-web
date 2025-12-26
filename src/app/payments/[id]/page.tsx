@@ -1,8 +1,8 @@
 'use client'
 
-import { useState } from 'react'
-import Link from 'next/link'
 import Image from 'next/image'
+import Link from 'next/link'
+import { useState } from 'react'
 
 interface OrderItem {
   id: number
@@ -141,7 +141,7 @@ export default function PaymentDetailPage() {
               />
             </svg>
           </Link>
-          <h1 className="absolute left-1/2 -translate-x-1/2 text-lg font-medium">결제내역</h1>
+          <h1 className="absolute left-1/2 -translate-x-1/2 text-lg">결제내역</h1>
           <button className="ml-auto">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
               <rect x="3" y="3" width="18" height="18" stroke="#000" strokeWidth="2" />
@@ -154,8 +154,8 @@ export default function PaymentDetailPage() {
       <div className="flex-1">
         {/* Order Number and Status */}
         <div className="px-4 py-4 border-b-8 border-[#f5f5f5] flex items-center justify-between">
-          <span className="text-[16px] font-medium">{orderNumber}</span>
-          <span className={`px-4 py-1.5 text-[13px] font-medium rounded-full ${statusColor}`}>
+          <span className="text-[16px]">{orderNumber}</span>
+          <span className={`px-4 py-1.5 text-[13px] rounded-full ${statusColor}`}>
             {orderStatus}
           </span>
         </div>
@@ -199,7 +199,7 @@ export default function PaymentDetailPage() {
                   </div>
                   <div className="flex-1 flex items-center justify-between">
                     <div className="flex-1">
-                      <h3 className="text-[15px] font-medium mb-1">{item.name}</h3>
+                      <h3 className="text-[15px] mb-1">{item.name}</h3>
                       <p className="text-[14px] text-[#666666]">
                         {item.price.toLocaleString()}원 | {item.quantity}개
                       </p>
@@ -211,7 +211,7 @@ export default function PaymentDetailPage() {
                             ? `/reviews/${item.id}/edit`
                             : `/reviews/create?menuId=${item.id}`
                         }
-                        className={`px-4 py-1.5 text-[13px] font-medium rounded border ${
+                        className={`px-4 py-1.5 text-[13px] rounded border ${
                           item.hasReview
                             ? 'bg-[#DC2626] text-white border-[#DC2626]'
                             : 'bg-white text-[#DC2626] border-[#DC2626]'
@@ -441,9 +441,7 @@ export default function PaymentDetailPage() {
       {/* 하단 결제 취소 버튼 */}
       {orderStatus !== '사용완료' && (
         <div className="sticky bottom-0 bg-white border-t border-[#eeeeee] px-4 py-4">
-          <button className="w-full py-4 bg-main text-white text-[16px] font-bold rounded">
-            결제 취소
-          </button>
+          <button className="w-full py-4 bg-main text-white font-bold rounded">결제 취소</button>
         </div>
       )}
     </div>

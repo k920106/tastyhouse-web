@@ -10,7 +10,7 @@ export default function ReviewTabs({ activeTab, onTabChange }: ReviewTabsProps) 
     <div className="sticky top-[60px] z-40 flex bg-white border-b border-gray-200">
       <button
         onClick={() => onTabChange('all')}
-        className={`flex-1 h-[50px] text-[15px] font-medium relative ${
+        className={`flex-1 h-[50px] text-[15px] relative ${
           activeTab === 'all' ? 'text-main' : 'text-gray-500'
         }`}
       >
@@ -21,7 +21,7 @@ export default function ReviewTabs({ activeTab, onTabChange }: ReviewTabsProps) 
       </button>
       <button
         onClick={() => onTabChange('following')}
-        className={`flex-1 h-[50px] text-[15px] font-medium relative ${
+        className={`flex-1 h-[50px] text-[15px] relative ${
           activeTab === 'following' ? 'text-main' : 'text-gray-500'
         }`}
       >

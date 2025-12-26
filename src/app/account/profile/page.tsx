@@ -139,7 +139,7 @@ export default function ProfileEditPage() {
       <div className="px-6">
         <button
           onClick={handleSubmit}
-          className="w-full py-4 text-[16px] font-semibold text-white bg-[#D32F2F] rounded-lg hover:bg-[#C62828] active:bg-[#B71C1C] transition-colors"
+          className="w-full py-4 font-semibold text-white bg-[#D32F2F] rounded-lg hover:bg-[#C62828] active:bg-[#B71C1C] transition-colors"
         >
           D�
         </button>
