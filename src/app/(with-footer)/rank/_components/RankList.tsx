@@ -3,6 +3,7 @@ import { Skeleton } from '@/components/ui/skeleton'
 import { api } from '@/lib/api'
 import { COMMON_ERROR_MESSAGES } from '@/lib/constants'
 import { API_ENDPOINTS } from '@/lib/endpoints'
+import { PAGE_PATHS } from '@/lib/paths'
 import { ApiResponse } from '@/types/api/api'
 import { MemberRankItem, RankMemberQuery, RankPeriod, rankPeriodToRankType } from '@/types/api/rank'
 import Link from 'next/link'
@@ -80,7 +81,7 @@ export default async function RankList({ rankPeriod }: { rankPeriod: RankPeriod 
   }
 
   return memberRankItems.map((item) => (
-    <Link key={item.memberId} href={`/members/${item.memberId}`}>
+    <Link key={item.memberId} href={PAGE_PATHS.MEMBER_DETAIL(item.memberId)}>
       <div className="flex justify-between items-center py-[15px] pl-4 pr-5 bg-[#fcfcfc] border border-[#eeeeee] rounded-[2.5px]">
         <RankItem
           rankNo={item.rankNo}

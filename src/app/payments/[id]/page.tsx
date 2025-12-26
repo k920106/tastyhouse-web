@@ -1,5 +1,6 @@
 'use client'
 
+import { PAGE_PATHS } from '@/lib/paths'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useState } from 'react'
@@ -130,7 +131,7 @@ export default function PaymentDetailPage() {
       {/* Header */}
       <header className="sticky top-0 bg-white z-10 border-b border-[#eeeeee]">
         <div className="flex items-center h-14 px-4">
-          <Link href="/mypage" className="mr-auto">
+          <Link href={PAGE_PATHS.MY_PAGE} className="mr-auto">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
               <path
                 d="M15 18L9 12L15 6"
@@ -208,8 +209,8 @@ export default function PaymentDetailPage() {
                       <Link
                         href={
                           item.hasReview
-                            ? `/reviews/${item.id}/edit`
-                            : `/reviews/create?menuId=${item.id}`
+                            ? PAGE_PATHS.REVIEW_EDIT(item.id)
+                            : PAGE_PATHS.REVIEW_CREATE_WITH_MENU(item.id)
                         }
                         className={`px-4 py-1.5 text-[13px] rounded border ${
                           item.hasReview

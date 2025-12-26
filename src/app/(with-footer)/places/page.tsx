@@ -1,6 +1,7 @@
 'use client'
 
 import { formatDecimal } from '@/lib/number'
+import { PAGE_PATHS } from '@/lib/paths'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useState } from 'react'
@@ -140,7 +141,7 @@ export default function PlacePage() {
           <ul className="grid grid-cols-2 gap-3">
             {MOCK_PLACES.map((place, index) => (
               <li key={`${place.id}-${index}`}>
-                <Link href={`/places/${place.id}`} className="group block">
+                <Link href={PAGE_PATHS.PLACE_DETAIL(place.id)} className="group block">
                   <div className="relative aspect-square overflow-hidden rounded-sm">
                     <Image
                       src={place.imageUrl}

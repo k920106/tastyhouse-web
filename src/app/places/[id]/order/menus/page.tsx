@@ -1,5 +1,6 @@
 'use client'
 
+import { PAGE_PATHS } from '@/lib/paths'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useParams, useRouter } from 'next/navigation'
@@ -90,7 +91,7 @@ export default function MenusPage() {
   const renderMenuItem = (menu: MenuItem) => (
     <Link
       key={menu.id}
-      href={`/places/${placeId}/order/menus/${menu.id}`}
+      href={PAGE_PATHS.ORDER_MENU_DETAIL(placeId, menu.id)}
       className="flex items-center gap-3 py-4 border-b border-gray-100"
     >
       {/* Menu Image */}
@@ -193,7 +194,7 @@ export default function MenusPage() {
       {/* Bottom Cart Button */}
       <div className="fixed bottom-0 left-0 right-0 bg-white border-t px-4 py-4">
         <Link
-          href={`/places/${placeId}/order/cart`}
+          href={PAGE_PATHS.ORDER_CART(placeId)}
           className="w-full py-4 bg-red-600 hover:bg-red-700 active:bg-red-800 rounded-lg text-white text-lg font-bold transition-colors"
         >
           장바구니 (0)

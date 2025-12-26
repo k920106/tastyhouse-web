@@ -5,6 +5,7 @@ import { api } from '@/lib/api'
 import { COMMON_ERROR_MESSAGES } from '@/lib/constants'
 import { API_ENDPOINTS } from '@/lib/endpoints'
 import { formatDecimal } from '@/lib/number'
+import { PAGE_PATHS } from '@/lib/paths'
 import { ApiResponse } from '@/types/api/api'
 import { BestPlace } from '@/types/api/place'
 import Image from 'next/image'
@@ -66,7 +67,7 @@ export default async function BestPlaceList() {
       <ul className="grid grid-cols-2 gap-3 mb-[25px]">
         {data.data.map((place) => (
           <li key={place.id}>
-            <Link href={`/places/${place.id}`} className="group block overflow-hidden">
+            <Link href={PAGE_PATHS.PLACE_DETAIL(place.id)} className="group block overflow-hidden">
               <div className="relative aspect-square overflow-hidden">
                 <Image
                   src={place.imageUrl}

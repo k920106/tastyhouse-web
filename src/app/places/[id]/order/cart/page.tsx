@@ -1,6 +1,7 @@
 'use client'
 
 import CartItem from '@/components/cart/CartItem'
+import { PAGE_PATHS } from '@/lib/paths'
 import { CartItem as CartItemType } from '@/types/api/cart'
 import Link from 'next/link'
 import { useParams } from 'next/navigation'
@@ -87,7 +88,7 @@ export default function CartPage() {
     <div className="min-h-screen flex flex-col bg-white">
       <header className="sticky top-0 bg-white z-10 border-b border-[#eeeeee]">
         <div className="flex items-center h-14 px-4">
-          <Link href="/" className="mr-auto">
+          <Link href={PAGE_PATHS.HOME} className="mr-auto">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
               <path
                 d="M15 18L9 12L15 6"
@@ -132,7 +133,7 @@ export default function CartPage() {
         {cartItems.length === 0 ? (
           <div className="flex flex-col items-center justify-center py-32">
             <p className="text-[#aaaaaa] mb-6">장바구니가 비어있습니다.</p>
-            <Link href="/" className="text-main text-[15px] underline">
+            <Link href={PAGE_PATHS.HOME} className="text-main text-[15px] underline">
               메뉴 담으러 가기
             </Link>
           </div>
@@ -153,7 +154,7 @@ export default function CartPage() {
 
             <div className="mt-6 px-4">
               <Link
-                href="/"
+                href={PAGE_PATHS.HOME}
                 className="flex items-center justify-center gap-2 py-4 text-main text-[15px]"
               >
                 <span className="text-xl">+</span>
@@ -182,7 +183,7 @@ export default function CartPage() {
           </div>
         </div>
         <Link
-          href={`/places/${placeId}/order/checkout`}
+          href={PAGE_PATHS.ORDER_CHECKOUT(placeId)}
           onClick={(e) => selectedCount === 0 && e.preventDefault()}
           className={`block w-full py-4 text-white  text-center ${
             selectedCount === 0 ? 'bg-[#cccccc] pointer-events-none' : 'bg-main'

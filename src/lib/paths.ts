@@ -1,0 +1,65 @@
+export const PAGE_PATHS = {
+  // 홈
+  HOME: '/',
+
+  // 상품
+  PRODUCTS: '/products',
+  PRODUCT_DETAIL: (id: string | number) => `/products/${id}`,
+
+  // 장소
+  PLACES: '/places',
+  PLACE_DETAIL: (id: string | number) => `/places/${id}`,
+
+  // 주문 관련
+  ORDER_MENUS: (placeId: string | number) => `/places/${placeId}/order/menus`,
+  ORDER_MENU_DETAIL: (placeId: string | number, menuId: string | number) =>
+    `/places/${placeId}/order/menus/${menuId}`,
+  ORDER_CART: (placeId: string | number) => `/places/${placeId}/order/cart`,
+  ORDER_CHECKOUT: (placeId: string | number) => `/places/${placeId}/order/checkout`,
+  ORDER_DETAIL: (placeId: string | number, orderId: string | number) =>
+    `/places/${placeId}/order/${orderId}`,
+
+  // 결제
+  PAYMENT_DETAIL: (id: string | number) => `/payments/${id}`,
+
+  // 리뷰
+  REVIEWS: '/reviews',
+  REVIEW_DETAIL: (id: string | number) => `/reviews/${id}`,
+  REVIEW_CREATE: '/reviews/create',
+  REVIEW_CREATE_WITH_MENU: (menuId: string | number) => `/reviews/create?menuId=${menuId}`,
+  REVIEW_EDIT: (id: string | number) => `/reviews/${id}/edit`,
+
+  // 이벤트
+  EVENTS: '/events',
+  EVENT_DETAIL: (id: string | number) => `/events/${id}`,
+
+  // 쿠폰
+  COUPONS: '/coupons',
+  COUPON_DETAIL: (id: string | number) => `/coupons/${id}`,
+
+  // 랭킹
+  RANKS: '/rank',
+  RANK_DETAIL: (id: string | number) => `/ranks/${id}`,
+
+  // 장바구니
+  CART: '/cart',
+
+  // 마이페이지
+  MY_PAGE: '/mypage',
+  MY_PROFILE: '/mypage/profile',
+  MY_POINTS: '/mypage/points',
+  MY_COUPONS: '/mypage/coupons',
+  MY_REVIEWS: '/mypage/reviews',
+
+  // 회원
+  MEMBERS: '/members',
+  MEMBER_DETAIL: (id: string | number) => `/members/${id}`,
+
+  // 인증
+  LOGIN: '/login',
+  REGISTER: '/register',
+
+  FAVICON: 'favicon.ico',
+} as const
+
+export type PagePath = (typeof PAGE_PATHS)[keyof typeof PAGE_PATHS]

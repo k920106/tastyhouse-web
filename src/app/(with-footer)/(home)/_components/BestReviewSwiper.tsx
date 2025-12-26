@@ -6,6 +6,7 @@ import 'swiper/css/pagination'
 
 import { Skeleton } from '@/components/ui/skeleton'
 import { formatDecimal } from '@/lib/number'
+import { PAGE_PATHS } from '@/lib/paths'
 import { cn } from '@/lib/utils'
 import { BestReview } from '@/types/api/review'
 import Image from 'next/image'
@@ -97,7 +98,7 @@ export default function BestReviewSwiper({ reviews }: BestReviewSwiperProps) {
           <SwiperSlide key={review.id} className="transition-all duration-300">
             {({ isActive }) => (
               <Link
-                href={`/reviews/${review.id}`}
+                href={PAGE_PATHS.REVIEW_DETAIL(review.id)}
                 className={`block h-full overflow-hidden transition-all duration-300 ${
                   isActive ? 'scale-100 opacity-100' : 'scale-90 opacity-60'
                 }`}

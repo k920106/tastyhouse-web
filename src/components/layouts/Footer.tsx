@@ -1,5 +1,6 @@
 'use client'
 
+import { PAGE_PATHS } from '@/lib/paths'
 import Image from 'next/image'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
@@ -15,31 +16,31 @@ interface FooterNavigationItem {
 const FOOTER_NAVIGATION: FooterNavigationItem[] = [
   {
     label: '홈',
-    href: '/',
+    href: PAGE_PATHS.HOME,
     iconOff: '/images/layout/icon-home-off.png',
     iconOn: '/images/layout/icon-home-on.png',
   },
   {
     label: '랭킹',
-    href: '/rank',
+    href: PAGE_PATHS.RANKS,
     iconOff: '/images/layout/icon-rank-off.png',
     iconOn: '/images/layout/icon-rank-on.png',
   },
   {
     label: '리뷰',
-    href: '/reviews',
+    href: PAGE_PATHS.REVIEWS,
     iconOff: '/images/layout/icon-review-off.png',
     iconOn: '/images/layout/icon-review-on.png',
   },
   {
     label: '플레이스',
-    href: '/places',
+    href: PAGE_PATHS.PLACES,
     iconOff: '/images/layout/icon-place-off.png',
     iconOn: '/images/layout/icon-place-on.png',
   },
   {
     label: '마이페이지',
-    href: '/mypage',
+    href: PAGE_PATHS.MY_PAGE,
     iconOff: '/images/layout/icon-mypage-off.png',
     iconOn: '/images/layout/icon-mypage-on.png',
   },

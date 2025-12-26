@@ -1,5 +1,6 @@
 import { Skeleton } from '@/components/ui/skeleton'
 import { formatDecimal } from '@/lib/number'
+import { PAGE_PATHS } from '@/lib/paths'
 import Image from 'next/image'
 import Link from 'next/link'
 
@@ -46,7 +47,7 @@ export default function ProductItem({
   discountRate,
 }: ProductItemProps) {
   return (
-    <Link href={`/products/${id}`} className="flex items-center gap-4 py-[15px]">
+    <Link href={PAGE_PATHS.PRODUCT_DETAIL(id)} className="flex items-center gap-4 py-[15px]">
       <div className="relative w-[75px] h-[75px] flex-shrink-0 overflow-hidden">
         <Image src={imageUrl} alt={name} fill className="object-cover" sizes="160px" />
       </div>

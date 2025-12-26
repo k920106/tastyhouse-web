@@ -1,3 +1,4 @@
+import { PAGE_PATHS } from '@/lib/paths'
 import '@/styles/globals.css'
 import { Nanum_Myeongjo } from 'next/font/google'
 
@@ -16,10 +17,13 @@ export default function RootLayout({
   return (
     <html lang="en" className={nanumMyeongjo.variable}>
       <head>
-        <link rel="icon" href="/favicon.ico" sizes="any" />
+        <link rel="icon" href={PAGE_PATHS.FAVICON} sizes="any" />
       </head>
       <body className="flex justify-center min-h-screen bg-white">
-        <div id="app-container" className="relative w-full max-w-[500px] overflow-hidden border border-[#eeeeee] box-border">
+        <div
+          id="app-container"
+          className="relative w-full max-w-[500px] overflow-hidden border border-[#eeeeee] box-border"
+        >
           {children}
         </div>
       </body>
