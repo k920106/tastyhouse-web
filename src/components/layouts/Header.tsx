@@ -1,16 +1,15 @@
-'use client'
-
 import Image from 'next/image'
 import { RxHamburgerMenu } from 'react-icons/rx'
 
 interface HeaderProps {
   children: React.ReactNode
   cartCount?: number
+  height: number
 }
 
-export default function Header({ children, cartCount = 99 }: HeaderProps) {
+export default function Header({ children, cartCount = 99, height }: HeaderProps) {
   return (
-    <header className="relative flex items-center h-[83px] bg-main">
+    <header className="relative flex items-center bg-main" style={{ height: `${height}px` }}>
       <button className="absolute left-0 top-1/2 -translate-y-1/2 w-14 h-14 flex items-center justify-center cursor-pointer">
         <RxHamburgerMenu size={22} color="white" />
       </button>
