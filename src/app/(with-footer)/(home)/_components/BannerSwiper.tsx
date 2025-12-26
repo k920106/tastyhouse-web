@@ -54,7 +54,7 @@ export default function BannerSwiper({ banners }: BannerSwiperProps) {
         disableOnInteraction: false,
       }}
       loop={true}
-      className={`w-full h-[600px] ${styles.bannerSwiper}`}
+      className={`w-full aspect-[375/475] ${styles.bannerSwiper}`}
     >
       {banners.map((banner, index) => (
         <SwiperSlide key={banner.id}>
