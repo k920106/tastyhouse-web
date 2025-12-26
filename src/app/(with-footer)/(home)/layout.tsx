@@ -5,7 +5,7 @@ export default function HomeLayout({ children }: { children: React.ReactNode }) 
   return (
     <>
       <Header>
-        <div className="relative w-[83px] h-[43px]">
+        <div className="relative w-[93px] h-[43px]">
           <Image
             src="/images/header-logo.png"
             alt="로고"
