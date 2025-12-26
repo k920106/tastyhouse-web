@@ -14,9 +14,7 @@ function BestReviewSectionLayout({
     <section className="w-full pt-[50px] pb-[60px]">
       <div className="mx-auto max-w-[1200px] px-4">
         <header className="mb-[30px] text-center">
-          <h2 className="mb-[15px] text-[23px] text-gray-900 font-[family-name:var(--font-nanum-myeongjo-bold)] font-bold">
-            베스트 리뷰
-          </h2>
+          <h2 className="mb-[15px] text-[23px] font-nanum-myeongjo-bold font-bold">베스트 리뷰</h2>
           <p className="text-sm text-[#aaaaaa]">테하인들의 마음을 사로잡은 리뷰를 소개합니다.</p>
         </header>
         <div className="relative">{children}</div>
