@@ -4,6 +4,7 @@ import { ApiResponse } from '@/types/api/api'
 import { BestReview } from '@/types/api/review'
 import { Suspense } from 'react'
 import BestReviewSwiper, { BestReviewSwiperSkeleton } from './BestReviewSwiper'
+import SectionHeader from './SectionHeader'
 
 function BestReviewSectionLayout({
   children,
@@ -11,14 +12,12 @@ function BestReviewSectionLayout({
   children: React.ReactNode
 }>) {
   return (
-    <section className="w-full pt-[50px] pb-[60px]">
-      <div className="mx-auto max-w-[1200px] px-4">
-        <header className="mb-[30px] text-center">
-          <h2 className="mb-[15px] text-[23px] font-nanum-myeongjo-bold font-bold">베스트 리뷰</h2>
-          <p className="text-sm text-[#aaaaaa]">테하인들의 마음을 사로잡은 리뷰를 소개합니다.</p>
-        </header>
-        <div className="relative">{children}</div>
-      </div>
+    <section className="pt-[50px] pb-[60px]">
+      <SectionHeader
+        title="베스트 리뷰"
+        description="테하인들의 마음을 사로잡은 리뷰를 소개합니다."
+      />
+      {children}
     </section>
   )
 }
