@@ -4,7 +4,7 @@ import { ApiResponse } from '@/types/api/api'
 import { ChoicePlace } from '@/types/api/place'
 import ChoiceSwiper from './ChoiceSwiper'
 
-export default async function ChoiceList() {
+export default async function ChoicePlaceList() {
   const { data, error } = await api.get<ApiResponse<ChoicePlace[]>>(
     '/api/places/v1/editor-choice',
     {
