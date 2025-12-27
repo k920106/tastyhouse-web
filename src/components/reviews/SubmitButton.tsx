@@ -38,7 +38,7 @@ export default function SubmitButton({ form, disabled = false }: SubmitButtonPro
   // }
   // return (
   //   <button
-  //     className={`w-full py-3 text-base ${
+  //     className={`w-full py-3 text-base leading-[16px] ${
   //       disabled
   //         ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
   //         : 'bg-main text-white cursor-pointer'

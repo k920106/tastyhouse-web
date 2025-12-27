@@ -14,7 +14,10 @@ export interface AppButtonProps
 export default function AppButton({ className, variant, size, asChild, ...props }: AppButtonProps) {
   return (
     <Button
-      className={cn('w-full h-[50px] m-0 p-0 text-base rounded-none cursor-pointer', className)}
+      className={cn(
+        'w-full h-[50px] m-0 p-0 text-base leading-[16px] rounded-none cursor-pointer',
+        className,
+      )}
       variant={variant}
       size={size}
       asChild={asChild}

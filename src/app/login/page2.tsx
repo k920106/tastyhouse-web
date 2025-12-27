@@ -49,7 +49,7 @@ export default function LoginPage() {
               placeholder="아이디(이메일주소)를 입력해주세요."
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full px-4 py-4 border border-gray-200 rounded-lg text-base placeholder:text-gray-400 focus:outline-none focus:border-gray-300"
+              className="w-full px-4 py-4 border border-gray-200 rounded-lg text-base leading-[16px] placeholder:text-gray-400 focus:outline-none focus:border-gray-300"
             />
           </div>
 
@@ -73,7 +73,10 @@ export default function LoginPage() {
               onChange={(e) => setKeepLoggedIn(e.target.checked)}
               className="w-5 h-5 rounded border-gray-300 text-gray-600 focus:ring-0 focus:ring-offset-0"
             />
-            <label htmlFor="keepLoggedIn" className="text-base text-gray-600 cursor-pointer">
+            <label
+              htmlFor="keepLoggedIn"
+              className="text-base leading-[16px] text-gray-600 cursor-pointer"
+            >
               로그인 상태 유지
             </label>
           </div>
@@ -81,7 +84,7 @@ export default function LoginPage() {
           {/* Login Button */}
           <button
             type="submit"
-            className="w-full py-4 bg-[#F8B4B4] text-white text-base rounded-lg mt-6"
+            className="w-full py-4 bg-[#F8B4B4] text-white text-base leading-[16px] rounded-lg mt-6"
           >
             로그인
           </button>
