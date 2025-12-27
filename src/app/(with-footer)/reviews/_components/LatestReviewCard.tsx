@@ -44,7 +44,7 @@ function formatTimeAgo(dateString: string) {
 }
 
 export default function LatestReviewCard({ review }: LatestReviewCardProps) {
-  const contentRef = useRef<HTMLParagraphElement>(null)
+  const contentRef = useRef<HTMLAnchorElement>(null)
   const [isClamped, setIsClamped] = useState(false)
   const [isExpanded, setIsExpanded] = useState(false)
 
@@ -54,8 +54,6 @@ export default function LatestReviewCard({ review }: LatestReviewCardProps) {
       setIsClamped(element.scrollHeight > element.clientHeight)
     }
   }, [review.content])
-
-  // 버튼 클릭 시, 신고, 링크 복사, 취소 팝업 노출
 
   return (
     <div className="flex flex-col px-[15px] pt-3 pb-[30px] bg-white">
@@ -75,80 +73,71 @@ export default function LatestReviewCard({ review }: LatestReviewCardProps) {
               <FiMoreVertical size={20} color="#999999" />
             </button>
           </DrawerTrigger>
-          <DrawerContent className="pb-8">
+          <DrawerContent className="bg-transparent p-[15px] border-none">
             <DrawerTitle className="sr-only">리뷰 옵션</DrawerTitle>
-            <DrawerDescription className="sr-only">
-              리뷰에 대한 추가 작업을 선택하세요
-            </DrawerDescription>
-            <div className="flex flex-col">
+            <DrawerDescription className="sr-only">신고, 링크 복사</DrawerDescription>
+            <div className="flex flex-col rounded-[14px] bg-white overflow-hidden">
               <DrawerClose asChild>
-                <button className="py-4 text-center text-[#FF0000] text-base font-medium border-b border-[#F0F0F0]">
-                  신고
-                </button>
+                <button className="py-[20.5px] text-sm leading-[14px]">신고</button>
               </DrawerClose>
+              <div className="h-px bg-[#f6f6f6]" />
               <DrawerClose asChild>
-                <button className="py-4 text-center text-base font-medium border-b border-[#F0F0F0]">
-                  링크 복사
-                </button>
-              </DrawerClose>
-              <DrawerClose asChild>
-                <button className="py-4 text-center text-[#999999] text-base font-medium">
-                  취소
-                </button>
+                <button className="py-[20.5px] text-sm leading-[14px]">링크 복사</button>
               </DrawerClose>
             </div>
           </DrawerContent>
         </Drawer>
       </div>
       {review.imageUrls.length > 0 && (
-        <Swiper
-          modules={[Pagination]}
-          spaceBetween={0}
-          slidesPerView={1}
-          pagination={{
-            type: 'fraction',
-            formatFractionCurrent: (number) => number,
-            formatFractionTotal: (number) => number,
-          }}
-          className={`w-full aspect-[345/190] ${styles.reviewSwiper}`}
-        >
-          {review.imageUrls.map((imageUrl, index) => (
-            <SwiperSlide key={index}>
-              <div
-                className={`relative w-full h-full ${review.imageUrls.length > 1 && 'cursor-pointer'}`}
-              >
-                <Image
-                  src={imageUrl}
-                  alt={`${review.title} ${index + 1}`}
-                  fill
-                  sizes="calc(100vw - 30px)"
-                  className="object-cover"
-                />
-              </div>
-            </SwiperSlide>
-          ))}
-        </Swiper>
-      )}
-      <div className="relative mb-3.5">
-        <Link href={PAGE_PATHS.REVIEW_DETAIL(review.id)} className="">
-          <p
-            ref={contentRef}
-            className={`pt-5 text-[14px] leading-relaxed ${!isExpanded ? 'line-clamp-5' : ''}`}
+        <div className="mb-5">
+          <Swiper
+            modules={[Pagination]}
+            spaceBetween={0}
+            slidesPerView={1}
+            pagination={{
+              type: 'fraction',
+              formatFractionCurrent: (number) => number,
+              formatFractionTotal: (number) => number,
+            }}
+            className={`aspect-[345/190] ${styles.reviewSwiper}`}
           >
-            {review.content}
-          </p>
+            {review.imageUrls.map((imageUrl, index) => (
+              <SwiperSlide key={index}>
+                <div
+                  className={`relative w-full h-full ${review.imageUrls.length > 1 && 'cursor-pointer'}`}
+                >
+                  <Image
+                    src={imageUrl}
+                    alt={`${review.title} ${index + 1}`}
+                    fill
+                    sizes="calc(100vw - 30px)"
+                    className="object-cover"
+                  />
+                </div>
+              </SwiperSlide>
+            ))}
+          </Swiper>
+        </div>
+      )}
+      <div className="relative">
+        <Link
+          href={PAGE_PATHS.REVIEW_DETAIL(review.id)}
+          className={`text-sm leading-relaxed ${!isExpanded ? 'line-clamp-5' : ''}`}
+          ref={contentRef}
+        >
+          {review.content}
         </Link>
         {isClamped && !isExpanded && (
           <button
             onClick={() => setIsExpanded(true)}
-            className="absolute bottom-0 right-0 text-[14px] text-[#cccccc] bg-white pl-1"
+            className="absolute bottom-1 right-0 text-sm leading-[14px] text-[#cccccc] bg-white pl-1"
           >
-            <span className="text-black mr-2">...</span>
+            <span className="text-black">... </span>
             <span className="cursor-pointer">더보기</span>
           </button>
         )}
       </div>
-      <div className="flex gap-4">
+      <div className="flex gap-4 mt-3.5">
         <span className="text-xs leading-[12px] text-[#aaaaaa]">좋아요 10개</span>
         <span className="text-xs leading-[12px] text-[#aaaaaa]">댓글 10개</span>
       </div>
