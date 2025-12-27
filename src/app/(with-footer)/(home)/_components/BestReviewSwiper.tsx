@@ -4,7 +4,7 @@ import 'swiper/css'
 import 'swiper/css/navigation'
 import 'swiper/css/pagination'
 
-import { Skeleton } from '@/components/ui/skeleton'
+import { Skeleton } from '@/components/ui/shadcn/skeleton'
 import { formatDecimal } from '@/lib/number'
 import { PAGE_PATHS } from '@/lib/paths'
 import { cn } from '@/lib/utils'

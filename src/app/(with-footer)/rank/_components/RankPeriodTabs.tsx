@@ -1,6 +1,6 @@
 'use client'
 
-import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs'
+import { Tabs, TabsList, TabsTrigger } from '@/components/ui/shadcn/tabs'
 import { RankPeriod } from '@/types/api/rank'
 import { useRouter } from 'next/navigation'
 

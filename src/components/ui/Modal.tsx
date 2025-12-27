@@ -8,7 +8,7 @@ import {
   DialogOverlay,
   DialogPortal,
   DialogTitle,
-} from '@/components/ui/dialog'
+} from '@/components/ui/shadcn/dialog'
 import { cn } from '@/lib/utils'
 import * as DialogPrimitive from '@radix-ui/react-dialog'
 import { DialogProps } from '@radix-ui/react-dialog'

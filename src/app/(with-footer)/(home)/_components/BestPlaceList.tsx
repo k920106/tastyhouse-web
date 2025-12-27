@@ -1,6 +1,6 @@
 import ErrorMessage from '@/components/ui/ErrorMessage'
 import ViewMoreButton from '@/components/ui/ViewMoreButton'
-import { Skeleton } from '@/components/ui/skeleton'
+import { Skeleton } from '@/components/ui/shadcn/skeleton'
 import { api } from '@/lib/api'
 import { COMMON_ERROR_MESSAGES } from '@/lib/constants'
 import { API_ENDPOINTS } from '@/lib/endpoints'

@@ -1,4 +1,4 @@
-import { Skeleton } from '@/components/ui/skeleton'
+import { Skeleton } from '@/components/ui/shadcn/skeleton'
 import { RankPeriod } from '@/types/api/rank'
 import RankInfoModalButton from './RankInfoModalButton'
 import RankPeriodTabs from './RankPeriodTabs'

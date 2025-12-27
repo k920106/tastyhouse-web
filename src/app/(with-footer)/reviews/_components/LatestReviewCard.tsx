@@ -47,6 +47,8 @@ export default function LatestReviewCard({ review }: LatestReviewCardProps) {
     }
   }, [review.content])
 
+  // 버튼 클릭 시, 신고, 링크 복사, 취소 팝업 노출
+
   return (
     <div className="flex flex-col px-[15px] pt-3 pb-[30px] bg-white">
       <div className="flex justify-between mb-[15px]">

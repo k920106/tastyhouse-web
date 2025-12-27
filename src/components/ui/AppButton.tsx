@@ -1,6 +1,6 @@
 'use client'
 
-import { Button, buttonVariants } from '@/components/ui/button'
+import { Button, buttonVariants } from '@/components/ui/shadcn/button'
 import { cn } from '@/lib/utils'
 import { type VariantProps } from 'class-variance-authority'
 import * as React from 'react'

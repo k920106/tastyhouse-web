@@ -1,4 +1,4 @@
-import { Skeleton } from '@/components/ui/skeleton'
+import { Skeleton } from '@/components/ui/shadcn/skeleton'
 import { formatDecimal } from '@/lib/number'
 import { PAGE_PATHS } from '@/lib/paths'
 import Image from 'next/image'

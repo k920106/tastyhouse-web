@@ -4,7 +4,7 @@ import 'swiper/css'
 import 'swiper/css/pagination'
 import styles from './BannerSection.module.css'
 
-import { Skeleton } from '@/components/ui/skeleton'
+import { Skeleton } from '@/components/ui/shadcn/skeleton'
 import { Banner } from '@/types/api/banner'
 import Image from 'next/image'
 import Link from 'next/link'
