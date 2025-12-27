@@ -196,7 +196,7 @@ export default function OrderDetailPage() {
                   </div>
                   <div className="flex-1">
                     <h3 className="text-[15px] mb-1">{item.name}</h3>
-                    <p className="text-[14px] text-[#666666]">
+                    <p className="text-sm leading-[14px] text-[#666666]">
                       {item.price.toLocaleString()}원 | {item.quantity}개
                     </p>
                   </div>

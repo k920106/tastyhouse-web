@@ -73,7 +73,9 @@ export default function EventDetailPage() {
               <h2 className="text-[18px] font-semibold text-gray-900 mb-2">
                 {mockWinnerEvent.title}
               </h2>
-              <p className="text-[14px] text-gray-400 mb-6">{mockWinnerEvent.announcementDate}</p>
+              <p className="text-sm leading-[14px] text-gray-400 mb-6">
+                {mockWinnerEvent.announcementDate}
+              </p>
               {index === 1 && (
                 <div className="text-[15px] text-gray-700 leading-relaxed whitespace-pre-line">
                   {mockWinnerEvent.content}

@@ -109,7 +109,7 @@ export default function FilterPage() {
             />
             <button
               onClick={() => setSelectedLocation('서울시 마포구')}
-              className="px-4 h-10 text-[14px] text-[#333333] border border-[#eeeeee] rounded whitespace-nowrap"
+              className="px-4 h-10 text-sm leading-[14px] text-[#333333] border border-[#eeeeee] rounded whitespace-nowrap"
             >
               지역선택
             </button>

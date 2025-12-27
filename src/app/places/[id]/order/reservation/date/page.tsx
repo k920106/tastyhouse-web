@@ -181,7 +181,7 @@ export default function ReservationDatePage() {
             {WEEKDAYS.map((day, index) => (
               <div
                 key={day}
-                className={`text-center text-[14px] py-2 ${
+                className={`text-sm leading-[14px] text-center py-2 ${
                   index === 0 ? 'text-[#ff0000]' : index === 6 ? 'text-[#0066ff]' : 'text-black'
                 }`}
               >
@@ -312,7 +312,7 @@ export default function ReservationDatePage() {
 
         <div className="py-6 border-t-[6px] border-[#f5f5f5] -mx-6 px-6">
           <h2 className="mb-4 text-[17px]">예약시 주의사항 안내</h2>
-          <div className="space-y-2 mb-6 text-[14px] text-[#666666] leading-[1.6]">
+          <div className="space-y-2 mb-6 text-sm leading-[14px] text-[#666666]">
             <p>
               • 예약 인원 변경은 최소 하루 전날까지는 연락 부탁드리며, 예약, 매장 상황에 따라
               불가능할 수있다는 점을 미리 알려드립니다.
@@ -346,7 +346,7 @@ export default function ReservationDatePage() {
                 >
                   {agreements[index] && <CheckIcon />}
                 </button>
-                <span className="text-[14px] text-[#666666] flex-1">{item}</span>
+                <span className="text-sm leading-[14px] text-[#666666] flex-1">{item}</span>
                 <button className="text-[13px] text-[#999999]">
                   <IoChevronBack size={16} className="rotate-180" />
                 </button>

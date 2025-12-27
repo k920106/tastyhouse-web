@@ -127,7 +127,7 @@ export default function EventsPage() {
             </div>
             <div className="p-4">
               <h3 className="text-[16px] font-semibold text-gray-900 mb-2">{event.title}</h3>
-              <p className="text-[14px] text-gray-400">
+              <p className="text-sm leading-[14px] text-gray-400">
                 {event.startDate} ~ {event.endDate}
               </p>
             </div>

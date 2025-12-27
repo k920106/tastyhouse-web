@@ -97,12 +97,14 @@ export default function MemberProfilePage({ params }: { params: { id: string } }
           {/* d� C� */}
           <div className="flex items-center gap-1 mb-3">
             <Image src="/images/icon-member-badge.png" alt="d� C�" width={20} height={20} />
-            <span className="text-[14px] text-[#FFA500]">{memberData.memberBadge}</span>
+            <span className="text-sm leading-[14px] text-[#FFA500]">{memberData.memberBadge}</span>
           </div>
 
           {/* $� */}
           {memberData.description && (
-            <p className="text-[14px] text-gray-600 text-center mb-6">{memberData.description}</p>
+            <p className="text-sm leading-[14px] text-gray-600 text-center mb-6">
+              {memberData.description}
+            </p>
           )}
         </div>
       </div>

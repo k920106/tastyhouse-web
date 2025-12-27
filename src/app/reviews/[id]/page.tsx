@@ -175,11 +175,11 @@ export default function ReviewDetailPage() {
             ) : (
               <AiOutlineHeart size={26} className="text-gray-700" />
             )}
-            <span className="text-[14px] text-gray-700 ml-0.5">좋아요</span>
+            <span className="text-sm leading-[14px] text-gray-700 ml-0.5">좋아요</span>
           </button>
           <button className="flex items-center gap-1">
             <FaRegComment size={23} className="text-gray-700" />
-            <span className="text-[14px] text-gray-700 ml-0.5">댓글</span>
+            <span className="text-sm leading-[14px] text-gray-700 ml-0.5">댓글</span>
           </button>
         </div>
 
@@ -233,14 +233,14 @@ export default function ReviewDetailPage() {
                     </div>
                     <div className="flex-1">
                       <div className="flex items-center gap-2">
-                        <span className="text-[14px] font-semibold text-gray-900">
+                        <span className="text-sm leading-[14px] font-semibold text-gray-900">
                           {comment.userName}
                         </span>
                         <span className="text-[12px] text-gray-500">
                           {formatTimeAgo(comment.createdAt)}
                         </span>
                       </div>
-                      <p className="text-[14px] text-gray-900 mt-1 leading-relaxed">
+                      <p className="text-sm leading-relaxed text-gray-900 mt-1">
                         {comment.content}
                       </p>
                       <button className="text-[13px] text-gray-500 mt-2">답글달기</button>
@@ -271,14 +271,14 @@ export default function ReviewDetailPage() {
                           </div>
                           <div className="flex-1">
                             <div className="flex items-center gap-2">
-                              <span className="text-[14px] font-semibold text-gray-900">
+                              <span className="text-sm leading-[14px] font-semibold text-gray-900">
                                 {reply.userName}
                               </span>
                               <span className="text-[12px] text-gray-500">
                                 {formatTimeAgo(reply.createdAt)}
                               </span>
                             </div>
-                            <p className="text-[14px] text-gray-900 mt-1 leading-relaxed">
+                            <p className="text-sm leading-relaxed text-gray-900 mt-1">
                               {reply.content}
                             </p>
                             <button className="text-[13px] text-gray-500 mt-2">답글달기</button>
@@ -315,7 +315,7 @@ export default function ReviewDetailPage() {
           {commentText.trim() && (
             <button
               onClick={handleSubmitComment}
-              className="text-[14px] font-semibold text-blue-500"
+              className="text-sm leading-[14px] font-semibold text-blue-500"
             >
               게시
             </button>
