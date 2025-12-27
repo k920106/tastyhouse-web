@@ -1,5 +1,6 @@
 import { ReviewType } from '@/types/api/review'
-import LatestReviewSection from './_components/LatestReviewSection'
+import LatestReviewList from './_components/LatestReviewList'
+import ReviewTabs from './_components/ReviewTabs'
 
 const isValidReviewType = (type: string | undefined): type is 'all' | 'following' => {
   return type === 'all' || type === 'following'
@@ -19,7 +20,8 @@ export default async function ReviewPage({ searchParams }: { searchParams: { typ
 
   return (
     <>
-      <LatestReviewSection reviewType={reviewType} clientType={clientType} />
+      <ReviewTabs activeTab={clientType} />
+      <LatestReviewList reviewType={reviewType} />
     </>
   )
 }

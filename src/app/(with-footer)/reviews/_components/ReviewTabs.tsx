@@ -13,6 +13,7 @@ export default function ReviewTabs({ activeTab }: ReviewTabsProps) {
   const handleTabChange = (tab: 'all' | 'following') => {
     const params = new URLSearchParams(searchParams.toString())
     params.set('type', tab)
+
     router.push(`/reviews?${params.toString()}`)
   }
 
