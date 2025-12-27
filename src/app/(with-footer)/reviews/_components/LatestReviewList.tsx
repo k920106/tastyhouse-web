@@ -50,8 +50,6 @@ export default async function LatestReviewList({ reviewType }: LatestReviewListP
     query,
   )
 
-  console.log(data)
-
   if (error) {
     return <ErrorMessage message={COMMON_ERROR_MESSAGES.API_FETCH_ERROR} />
   }
