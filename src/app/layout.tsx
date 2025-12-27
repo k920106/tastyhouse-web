@@ -19,13 +19,8 @@ export default function RootLayout({
       <head>
         <link rel="icon" href={PAGE_PATHS.FAVICON} sizes="any" />
       </head>
-      <body className="flex justify-center min-h-screen bg-white">
-        <div
-          id="app-container"
-          className="relative w-full max-w-[500px] overflow-hidden border border-[#eeeeee] box-border"
-        >
-          {children}
-        </div>
+      <body>
+        <main>{children}</main>
       </body>
     </html>
   )
