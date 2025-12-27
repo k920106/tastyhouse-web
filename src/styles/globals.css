@@ -181,3 +181,15 @@ body {
     @apply bg-background text-foreground;
   }
 }
+
+/* Drawer를 #app-container와 동일하게 정렬 (스크롤바 고려) */
+[data-vaul-overlay],
+[data-vaul-drawer][data-vaul-drawer-direction='bottom'] {
+  /* 100vw는 스크롤바 포함, 100%는 스크롤바 제외 */
+  /* body 기준으로 중앙 정렬하여 #app-container와 일치시킴 */
+  left: calc((100vw - 100%) / 2) !important;
+  right: calc((100vw - 100%) / 2) !important;
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 500px;
+}

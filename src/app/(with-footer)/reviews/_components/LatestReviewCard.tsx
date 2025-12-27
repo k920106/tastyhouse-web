@@ -6,6 +6,14 @@ import styles from './LatestReviewCard.module.css'
 
 import Avatar from '@/components/ui/Avatar'
 import Nickname from '@/components/ui/Nickname'
+import {
+  Drawer,
+  DrawerClose,
+  DrawerContent,
+  DrawerDescription,
+  DrawerTitle,
+  DrawerTrigger,
+} from '@/components/ui/shadcn/drawer'
 import { PAGE_PATHS } from '@/lib/paths'
 import { LatestReviewListItem } from '@/types/api/review'
 import Image from 'next/image'
@@ -61,9 +69,36 @@ export default function LatestReviewCard({ review }: LatestReviewCardProps) {
             </p>
           </div>
         </div>
-        <button className="h-[18px]">
-          <FiMoreVertical size={20} color="#999999" />
-        </button>
+        <Drawer autoFocus>
+          <DrawerTrigger asChild>
+            <button className="h-[18px] cursor-pointer">
+              <FiMoreVertical size={20} color="#999999" />
+            </button>
+          </DrawerTrigger>
+          <DrawerContent className="pb-8">
+            <DrawerTitle className="sr-only">리뷰 옵션</DrawerTitle>
+            <DrawerDescription className="sr-only">
+              리뷰에 대한 추가 작업을 선택하세요
+            </DrawerDescription>
+            <div className="flex flex-col">
+              <DrawerClose asChild>
+                <button className="py-4 text-center text-[#FF0000] text-base font-medium border-b border-[#F0F0F0]">
+                  신고
+                </button>
+              </DrawerClose>
+              <DrawerClose asChild>
+                <button className="py-4 text-center text-base font-medium border-b border-[#F0F0F0]">
+                  링크 복사
+                </button>
+              </DrawerClose>
+              <DrawerClose asChild>
+                <button className="py-4 text-center text-[#999999] text-base font-medium">
+                  취소
+                </button>
+              </DrawerClose>
+            </div>
+          </DrawerContent>
+        </Drawer>
       </div>
       {review.imageUrls.length > 0 && (
         <Swiper
@@ -86,6 +121,7 @@ export default function LatestReviewCard({ review }: LatestReviewCardProps) {
                   src={imageUrl}
                   alt={`${review.title} ${index + 1}`}
                   fill
+                  sizes="calc(100vw - 30px)"
                   className="object-cover"
                 />
               </div>
