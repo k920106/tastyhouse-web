@@ -18,7 +18,7 @@ export default function ReviewTabs({ activeTab }: ReviewTabsProps) {
   }
 
   return (
-    <div className="sticky top-0 flex w-full max-w-[500px] bg-white z-40 mx-auto">
+    <div className="sticky top-0 flex w-full bg-white z-40">
       <button
         onClick={() => handleTabChange('all')}
         className={`relative flex-1 h-[50px] text-sm leading-[14px] cursor-pointer ${

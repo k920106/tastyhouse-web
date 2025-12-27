@@ -4,7 +4,6 @@ import { PAGE_PATHS } from '@/lib/paths'
 import Image from 'next/image'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { useEffect, useState } from 'react'
 
 interface FooterNavigationItem {
   label: string
@@ -48,21 +47,6 @@ const FOOTER_NAVIGATION: FooterNavigationItem[] = [
 
 export default function Footer() {
   const pathname = usePathname()
-  const [position, setPosition] = useState<{ left: number; width: number } | null>(null)
-
-  useEffect(() => {
-    const updatePosition = () => {
-      const container = document.getElementById('app-container')
-      if (container) {
-        const rect = container.getBoundingClientRect()
-        setPosition({ left: rect.left, width: rect.width })
-      }
-    }
-
-    updatePosition()
-    window.addEventListener('resize', updatePosition)
-    return () => window.removeEventListener('resize', updatePosition)
-  }, [])
 
   const isActive = (href: string) => {
     if (href === '/') {
@@ -73,20 +57,7 @@ export default function Footer() {
 
   return (
     <footer
-      className="fixed bottom-0 bg-white border border-[#eeeeee] box-border z-50"
-      style={
-        position
-          ? {
-              left: position.left,
-              width: position.width,
-            }
-          : {
-              left: '50%',
-              transform: 'translateX(-50%)',
-              width: '100%',
-              maxWidth: '500px',
-            }
-      }
+      className="fixed bottom-0 left-0 right-0 w-full bg-white border border-[#eeeeee] box-border z-50"
       role="navigation"
       aria-label="Main Navigation"
     >

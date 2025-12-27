@@ -13,7 +13,7 @@ export default async function HomePage() {
       <BestPlaceSection />
       <TodayDiscountSection />
       <ChoiceSection />
-      <div className="fixed bottom-18 left-1/2 -translate-x-1/2 w-full max-w-[500px] z-[60]">
+      <div className="fixed bottom-18 left-0 right-0 z-[60]">
         <QuickReviewButton />
       </div>
     </>

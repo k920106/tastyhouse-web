@@ -1,5 +1,3 @@
-'use client'
-
 import {
   Dialog,
   DialogDescription,
@@ -19,45 +17,18 @@ interface ModalProps extends DialogProps {
 }
 
 export function Modal({ children, contentClassName, ...props }: ModalProps) {
-  const [position, setPosition] = React.useState({ left: 0, width: 0 })
-
-  React.useEffect(() => {
-    const updatePosition = () => {
-      const container = document.getElementById('app-container')
-      if (container) {
-        const rect = container.getBoundingClientRect()
-        setPosition({ left: rect.left, width: rect.width })
-      }
-    }
-
-    updatePosition()
-
-    window.addEventListener('resize', updatePosition)
-
-    return () => window.removeEventListener('resize', updatePosition)
-  }, [])
-
   return (
     <Dialog {...props}>
       <DialogPortal>
-        <DialogOverlay
-          style={{
-            left: position.left,
-            right: `calc(100vw - ${position.left + position.width}px)`,
-          }}
-        />
+        <DialogOverlay className="fixed inset-0" />
         <DialogPrimitive.Content
           onOpenAutoFocus={(e) => e.preventDefault()}
           onPointerDownOutside={(e) => e.preventDefault()}
           onEscapeKeyDown={(e) => e.preventDefault()}
           className={cn(
-            'fixed top-[50%] translate-y-[-50%] w-[calc(100%-2rem)] max-w-[468px] bg-white z-50',
+            'fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[calc(100%-2rem)] max-w-[468px] bg-white z-50',
             contentClassName,
           )}
-          style={{
-            left: position.left + 16,
-            right: `calc(100vw - ${position.left + position.width - 16}px)`,
-          }}
         >
           {children}
         </DialogPrimitive.Content>

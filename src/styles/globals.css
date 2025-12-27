@@ -181,17 +181,3 @@ body {
     @apply bg-background text-foreground;
   }
 }
-
-/* Drawer 스크롤바 보상 비활성화 - layout shift 방지 */
-/* PC인 경우, 스크롤로 인해 가운데에서 우측으로 위치하는 이슈 */
-html body[data-scroll-locked] {
-  /* overflow: visible !important; */
-  margin-right: 0 !important;
-}
-
-/* Drawer 가운데 위치 */
-[data-vaul-overlay],
-[data-vaul-drawer][data-vaul-drawer-direction='bottom'] {
-  margin: 0 auto;
-  max-width: 500px;
-}

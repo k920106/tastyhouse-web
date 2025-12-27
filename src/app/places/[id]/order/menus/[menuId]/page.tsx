@@ -110,7 +110,7 @@ export default function MenuDetailPage({
       <div className="fixed bottom-0 left-0 right-0 z-50 flex justify-center">
         <button
           onClick={handleAddToCart}
-          className="w-full max-w-[500px] py-4 px-4 bg-main text-white text-[17px]"
+          className="w-full py-4 px-4 bg-main text-white text-[17px]"
         >
           장바구니 담기
         </button>
