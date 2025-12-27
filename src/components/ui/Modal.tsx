@@ -20,13 +20,13 @@ export function Modal({ children, contentClassName, ...props }: ModalProps) {
   return (
     <Dialog {...props}>
       <DialogPortal>
-        <DialogOverlay className="fixed inset-0" />
+        <DialogOverlay />
         <DialogPrimitive.Content
           onOpenAutoFocus={(e) => e.preventDefault()}
           onPointerDownOutside={(e) => e.preventDefault()}
           onEscapeKeyDown={(e) => e.preventDefault()}
           className={cn(
-            'fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[calc(100%-2rem)] max-w-[468px] bg-white z-50',
+            'fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-[85%] bg-white z-50',
             contentClassName,
           )}
         >
