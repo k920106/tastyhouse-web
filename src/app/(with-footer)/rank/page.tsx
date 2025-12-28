@@ -1,6 +1,6 @@
 import { RankPeriod } from '@/types/api/rank'
 import MyRankFixedSection from './_components/MyRankFixedSection'
-import PrizeSection from './_components/PrizeSection'
+import PrizeListSection from './_components/PrizeListSection'
 import RankSection from './_components/RankSection'
 
 const isValidRankType = (type: string | undefined): type is RankPeriod => {
@@ -15,7 +15,7 @@ export default async function RankPage({ searchParams }: { searchParams: { type?
 
   return (
     <>
-      <PrizeSection />
+      <PrizeListSection />
       <RankSection rankPeriod={rankPeriod} />
       <MyRankFixedSection rankPeriod={rankPeriod} />
     </>
