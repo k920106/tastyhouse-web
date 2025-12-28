@@ -6,6 +6,7 @@ import styles from './LatestReviewCard.module.css'
 
 import Avatar from '@/components/ui/Avatar'
 import Nickname from '@/components/ui/Nickname'
+import TimeAgo from '@/components/ui/TimeAgo'
 import {
   Drawer,
   DrawerClose,
@@ -14,7 +15,6 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from '@/components/ui/shadcn/drawer'
-import { formatTimeAgo } from '@/lib/date'
 import { PAGE_PATHS } from '@/lib/paths'
 import { copyToClipboard, share } from '@/lib/share'
 import { LatestReviewListItem } from '@/types/api/review'
@@ -82,9 +82,7 @@ export default function LatestReviewCard({ review }: LatestReviewCardProps) {
           <Avatar src={review.memberProfileImageUrl} alt={review.memberNickname} />
           <div className="flex flex-col gap-2">
             <Nickname>{review.memberNickname}</Nickname>
-            <p className="text-xs leading-[12px] text-[#999999]">
-              {formatTimeAgo(review.createdAt)}
-            </p>
+            <TimeAgo date={review.createdAt} />
           </div>
         </div>
         <Drawer autoFocus>
@@ -95,7 +93,7 @@ export default function LatestReviewCard({ review }: LatestReviewCardProps) {
           </DrawerTrigger>
           <DrawerContent className="bg-transparent p-[15px] border-none">
             <DrawerTitle className="sr-only">리뷰 옵션</DrawerTitle>
-            <DrawerDescription className="sr-only">신고, 공유</DrawerDescription>
+            <DrawerDescription className="sr-only">신고, 공유, 링크 복사</DrawerDescription>
             <div className="text-center bg-white rounded-[14px]">
               <DrawerClose asChild>
                 <button className="w-full py-[20.5px] text-sm leading-[14px]">신고</button>
@@ -135,7 +133,7 @@ export default function LatestReviewCard({ review }: LatestReviewCardProps) {
             {review.imageUrls.map((imageUrl, index) => (
               <SwiperSlide key={index}>
                 <div
-                  className={`relative w-full h-full ${review.imageUrls.length > 1 && 'cursor-pointer'}`}
+                  className={`relative w-full h-full ${review.imageUrls.length > 1 ? 'cursor-pointer' : ''}`}
                 >
                   <Image
                     src={imageUrl}
@@ -153,7 +151,7 @@ export default function LatestReviewCard({ review }: LatestReviewCardProps) {
       <div className="relative">
         <Link
           href={PAGE_PATHS.REVIEW_DETAIL(review.id)}
-          className={`whitespace-pre-wrap break-words ${styles.reviewContent} ${!isExpanded ? styles.clamped : ''}`}
+          className={`block text-sm leading-[23px] whitespace-pre-wrap break-words ${!isExpanded ? 'max-h-[calc(23px*5)] overflow-hidden' : ''}`}
           ref={contentRef}
         >
           {review.content}
