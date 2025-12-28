@@ -1,30 +1,16 @@
-'use client'
-
+import Link from 'next/link'
 import { PAGE_PATHS } from '@/lib/paths'
-import { useRouter, useSearchParams } from 'next/navigation'
 
 interface ReviewTabsProps {
   activeTab: 'all' | 'following'
 }
 
 export default function ReviewTabs({ activeTab }: ReviewTabsProps) {
-  const router = useRouter()
-  const searchParams = useSearchParams()
-
-  const handleTabChange = (tab: 'all' | 'following') => {
-    const params = new URLSearchParams(searchParams.toString())
-    params.set('type', tab)
-
-    router.push(`${PAGE_PATHS.REVIEWS}?${params.toString()}`, { scroll: false })
-
-    window.scrollTo({ top: 0, behavior: 'instant' })
-  }
-
   return (
     <div className="sticky top-0 flex w-full bg-white z-40">
-      <button
-        onClick={() => handleTabChange('all')}
-        className={`relative flex-1 h-[50px] text-sm leading-[14px] cursor-pointer ${
+      <Link
+        href={`${PAGE_PATHS.REVIEWS}?type=all`}
+        className={`relative flex-1 h-[50px] text-sm leading-[14px] flex items-center justify-center ${
           activeTab === 'all' ? 'text-main font-bold' : 'text-[#333333]/40'
         }`}
       >
@@ -32,10 +18,10 @@ export default function ReviewTabs({ activeTab }: ReviewTabsProps) {
         <div
           className={`absolute bottom-0 left-0 right-0 ${activeTab === 'all' ? 'h-[2px] bg-main' : 'h-[1px] bg-[#eeeeee]'}`}
         />
-      </button>
-      <button
-        onClick={() => handleTabChange('following')}
-        className={`relative flex-1 h-[50px] text-sm leading-[14px] cursor-pointer ${
+      </Link>
+      <Link
+        href={`${PAGE_PATHS.REVIEWS}?type=following`}
+        className={`relative flex-1 h-[50px] text-sm leading-[14px] flex items-center justify-center ${
           activeTab === 'following' ? 'text-main font-bold' : 'text-[#333333]/40'
         }`}
       >
@@ -43,7 +29,7 @@ export default function ReviewTabs({ activeTab }: ReviewTabsProps) {
         <div
           className={`absolute bottom-0 left-0 right-0 ${activeTab === 'following' ? 'h-[2px] bg-main' : 'h-[1px] bg-[#eeeeee]'}`}
         />
-      </button>
+      </Link>
     </div>
   )
 }
