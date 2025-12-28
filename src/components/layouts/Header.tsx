@@ -1,33 +1,68 @@
-import Image from 'next/image'
-import { RxHamburgerMenu } from 'react-icons/rx'
+'use client'
+
+import { createContext, useContext } from 'react'
+
+interface HeaderContextValue {
+  variant: 'primary' | 'white'
+}
+
+const HeaderContext = createContext<HeaderContextValue | null>(null)
+
+export function useHeaderContext() {
+  const context = useContext(HeaderContext)
+  if (!context) {
+    throw new Error('Header 컴포넌트 내부에서만 사용할 수 있습니다.')
+  }
+  return context
+}
 
 interface HeaderProps {
   children: React.ReactNode
-  cartCount?: number
+  variant?: 'primary' | 'white'
   height: number
+  showBorder?: boolean
 }
 
-export default function Header({ children, cartCount = 99, height }: HeaderProps) {
+interface HeaderSlotProps {
+  children: React.ReactNode
+}
+
+export function HeaderLeft({ children }: HeaderSlotProps) {
   return (
-    <header className="relative flex items-center bg-main" style={{ height: `${height}px` }}>
-      <button className="absolute left-0 top-1/2 -translate-y-1/2 w-14 h-14 flex items-center justify-center cursor-pointer">
-        <RxHamburgerMenu size={22} color="white" />
-      </button>
-      <div className="absolute left-1/2 -translate-x-1/2">{children}</div>
-      <button className="absolute right-0 top-1/2 -translate-y-1/2 w-14 h-14 flex items-center justify-center cursor-pointer">
-        <div className="relative w-[22px] h-[22px] flex items-center justify-center">
-          <Image
-            src="/images/icon-cart.png"
-            alt="장바구니"
-            width={22}
-            height={22}
-            className="z-1"
-          />
-          <span className="absolute top-1.5 flex items-center justify-center w-4 h-4 text-[10px] text-white bg-main">
-            {cartCount}
-          </span>
-        </div>
-      </button>
-    </header>
+    <div className="absolute left-0 top-1/2 -translate-y-1/2 flex items-center justify-center">
+      {children}
+    </div>
+  )
+}
+
+export function HeaderCenter({ children }: HeaderSlotProps) {
+  return <div className="absolute left-1/2 -translate-x-1/2">{children}</div>
+}
+
+export function HeaderRight({ children }: HeaderSlotProps) {
+  return (
+    <div className="absolute right-0 top-1/2 -translate-y-1/2 flex items-center justify-center">
+      {children}
+    </div>
+  )
+}
+
+export default function Header({
+  children,
+  variant = 'primary',
+  height,
+  showBorder = true,
+}: HeaderProps) {
+  const isPrimary = variant === 'primary'
+
+  return (
+    <HeaderContext.Provider value={{ variant }}>
+      <header
+        className={`relative flex items-center ${showBorder ? 'border-b border-[#eeeeee] box-border' : ''} ${isPrimary ? 'bg-main text-white' : 'bg-white text-black'}`}
+        style={{ height: `${height}px` }}
+      >
+        {children}
+      </header>
+    </HeaderContext.Provider>
   )
 }
