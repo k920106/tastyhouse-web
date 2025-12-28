@@ -20,12 +20,13 @@ import { Skeleton } from '@/components/ui/shadcn/skeleton'
 import { copyToClipboard, share } from '@/lib/share'
 import { ReviewDetail } from '@/types/api/review'
 import Image from 'next/image'
-import { useCallback, useState } from 'react'
+import { useCallback, useState, useTransition } from 'react'
 import { FiMoreVertical } from 'react-icons/fi'
 import { IoChatboxOutline } from 'react-icons/io5'
 import { PiHeartFill, PiHeartThin } from 'react-icons/pi'
 import { Pagination } from 'swiper/modules'
 import { Swiper, SwiperSlide } from 'swiper/react'
+import { toggleReviewLike } from '../actions'
 
 export function ReviewDetailSectionSkeleton() {
   return (
@@ -64,6 +65,7 @@ interface ReviewDetailSectionProps {
 
 export default function ReviewDetailSection({ review }: ReviewDetailSectionProps) {
   const [isLiked, setIsLiked] = useState(review.isLiked)
+  const [isPending, startTransition] = useTransition()
 
   const getShareUrl = useCallback(() => {
     return `${window.location.origin}/reviews/${review.id}`
@@ -85,7 +87,19 @@ export default function ReviewDetailSection({ review }: ReviewDetailSectionProps
   }, [getShareUrl])
 
   const handleLike = () => {
+    if (isPending) return
+
+    const previousIsLiked = isLiked
     setIsLiked(!isLiked)
+
+    startTransition(async () => {
+      const result = await toggleReviewLike(review.id)
+
+      if (!result.success) {
+        setIsLiked(previousIsLiked)
+        alert(result.error || '좋아요 처리에 실패했습니다.')
+      }
+    })
   }
 
   return (

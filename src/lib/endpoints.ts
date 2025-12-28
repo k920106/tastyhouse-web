@@ -34,6 +34,7 @@ export const API_ENDPOINTS = {
   REVIEWS: '/api/reviews/v1',
   REVIEW_DETAIL: (id: string | number) => `/api/reviews/v1/${id}`,
   REVIEW_COMMENTS: (reviewId: string | number) => `/api/reviews/v1/${reviewId}/comments`,
+  REVIEW_LIKE: (reviewId: string | number) => `/api/reviews/v1/${reviewId}/like`,
 
   // 랭킹
   RANKS: '/api/ranks/v1',
