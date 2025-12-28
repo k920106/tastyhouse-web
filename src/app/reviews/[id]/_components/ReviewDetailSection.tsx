@@ -17,7 +17,7 @@ import {
   DrawerTrigger,
 } from '@/components/ui/shadcn/drawer'
 import { copyToClipboard, share } from '@/lib/share'
-import { Review } from '@/types/api/review'
+import { ReviewDetail } from '@/types/api/review'
 import Image from 'next/image'
 import { useCallback, useState } from 'react'
 import { FiMoreVertical } from 'react-icons/fi'
@@ -27,11 +27,11 @@ import { Pagination } from 'swiper/modules'
 import { Swiper, SwiperSlide } from 'swiper/react'
 
 interface ReviewDetailSectionProps {
-  review: Review
+  review: ReviewDetail
 }
 
 export default function ReviewDetailSection({ review }: ReviewDetailSectionProps) {
-  const [isLiked, setIsLiked] = useState(false)
+  const [isLiked, setIsLiked] = useState(review.isLiked)
 
   const getShareUrl = useCallback(() => {
     return `${window.location.origin}/reviews/${review.id}`
@@ -39,11 +39,11 @@ export default function ReviewDetailSection({ review }: ReviewDetailSectionProps
 
   const handleShare = useCallback(async () => {
     await share({
-      title: `${review.userName}님의 리뷰`,
+      title: `${review.memberNickname}님의 리뷰`,
       text: review.content.slice(0, 100),
       url: getShareUrl(),
     })
-  }, [review.userName, review.content, getShareUrl])
+  }, [review.memberNickname, review.content, getShareUrl])
 
   const handleCopyLink = useCallback(async () => {
     const success = await copyToClipboard(getShareUrl())
@@ -60,9 +60,9 @@ export default function ReviewDetailSection({ review }: ReviewDetailSectionProps
     <section className="px-[15px] pt-5 pb-8">
       <div className="flex justify-between mb-[15px]">
         <div className="flex items-center gap-2.5">
-          <Avatar src={review.userProfileImage} alt={review.userName} />
+          <Avatar src={review.memberProfileImageUrl} alt={review.memberNickname} />
           <div className="flex flex-col gap-2">
-            <Nickname>{review.userName}</Nickname>
+            <Nickname>{review.memberNickname}</Nickname>
             <TimeAgo date={review.createdAt} />
           </div>
         </div>
@@ -102,7 +102,7 @@ export default function ReviewDetailSection({ review }: ReviewDetailSectionProps
           </DrawerContent>
         </Drawer>
       </div>
-      {review.images.length > 0 && (
+      {review.imageUrls.length > 0 && (
         <div className="mb-5">
           <Swiper
             modules={[Pagination]}
@@ -113,12 +113,12 @@ export default function ReviewDetailSection({ review }: ReviewDetailSectionProps
               formatFractionCurrent: (number) => number,
               formatFractionTotal: (number) => number,
             }}
-            className={`aspect-[345/230] ${styles.reviewSwiper} ${review.images.length === 1 ? styles.reviewSwiperSingleImage : ''}`}
+            className={`aspect-[345/190] ${styles.reviewSwiper} ${review.imageUrls.length === 1 ? styles.reviewSwiperSingleImage : ''}`}
           >
-            {review.images.map((imageUrl, index) => (
+            {review.imageUrls.map((imageUrl: string, index: number) => (
               <SwiperSlide key={index}>
                 <div
-                  className={`relative w-full h-full ${review.images.length > 1 ? 'cursor-pointer' : ''}`}
+                  className={`relative w-full h-full ${review.imageUrls.length > 1 ? 'cursor-pointer' : ''}`}
                 >
                   <Image
                     src={imageUrl}
@@ -134,9 +134,9 @@ export default function ReviewDetailSection({ review }: ReviewDetailSectionProps
         </div>
       )}
       <p className="text-sm leading-[23px] whitespace-pre-wrap break-words">{review.content}</p>
-      {review.hashtags && review.hashtags.length > 0 && (
+      {review.tagNames && review.tagNames.length > 0 && (
         <div className="flex flex-wrap gap-[7px] mt-5">
-          {review.hashtags.map((tag, index) => (
+          {review.tagNames.map((tag: string, index: number) => (
             <HashTag key={index} tag={tag} variant="secondary" />
           ))}
         </div>
