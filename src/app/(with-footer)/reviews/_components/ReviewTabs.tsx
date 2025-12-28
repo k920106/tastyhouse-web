@@ -14,7 +14,9 @@ export default function ReviewTabs({ activeTab }: ReviewTabsProps) {
     const params = new URLSearchParams(searchParams.toString())
     params.set('type', tab)
 
-    router.push(`/reviews?${params.toString()}`)
+    router.push(`/reviews?${params.toString()}`, { scroll: false })
+
+    window.scrollTo({ top: 0, behavior: 'instant' })
   }
 
   return (

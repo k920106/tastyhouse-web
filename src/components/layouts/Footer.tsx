@@ -69,6 +69,7 @@ export default function Footer() {
               <li key={item.href} className="flex-1">
                 <Link
                   href={item.href}
+                  scroll={false}
                   className="flex flex-col items-center justify-center gap-2.5 h-full"
                   aria-current={active ? 'page' : undefined}
                 >
