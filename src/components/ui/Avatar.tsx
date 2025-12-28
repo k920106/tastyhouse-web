@@ -7,6 +7,7 @@ interface AvatarProps {
   alt: string
   size?: 'sm' | 'md'
   className?: string
+  priority?: boolean
 }
 
 const sizeMap = {
@@ -14,7 +15,7 @@ const sizeMap = {
   md: { dimension: 40, className: 'size-10' },
 } as const
 
-export default function Avatar({ src, alt, size = 'md', className = '' }: AvatarProps) {
+export default function Avatar({ src, alt, size = 'md', className = '', priority = false }: AvatarProps) {
   const { dimension, className: sizeClassName } = sizeMap[size]
 
   return (
@@ -24,6 +25,7 @@ export default function Avatar({ src, alt, size = 'md', className = '' }: Avatar
       width={dimension}
       height={dimension}
       className={`flex-shrink-0 rounded-full ${sizeClassName} ${className}`}
+      priority={priority}
     />
   )
 }

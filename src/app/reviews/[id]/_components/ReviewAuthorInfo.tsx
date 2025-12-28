@@ -15,7 +15,7 @@ export default function ReviewAuthorInfo({
 }: ReviewAuthorInfoProps) {
   return (
     <div className="flex items-center gap-2.5">
-      <Avatar src={profileImageUrl} alt={nickname} />
+      <Avatar src={profileImageUrl} alt={nickname} priority />
       <div className="flex flex-col gap-2">
         <Nickname>{nickname}</Nickname>
         <TimeAgo date={createdAt} />
