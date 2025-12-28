@@ -11,9 +11,8 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from '@/components/ui/shadcn/drawer'
-import { copyToClipboard } from '@/lib/share'
 import { Comment } from '@/types/api/review'
-import { useCallback, useState } from 'react'
+import { useState } from 'react'
 import { FiMoreVertical } from 'react-icons/fi'
 import { RxPaperPlane } from 'react-icons/rx'
 
@@ -28,13 +27,6 @@ export default function CommentSection({ comments }: CommentSectionProps) {
     // TODO: 댓글 등록 API 호출
     setCommentText('')
   }
-
-  const handleCopyComment = useCallback(async (content: string) => {
-    const success = await copyToClipboard(content)
-    if (success) {
-      alert('댓글이 복사되었습니다.')
-    }
-  }, [])
 
   return (
     <>
