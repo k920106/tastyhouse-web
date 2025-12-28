@@ -1,0 +1,79 @@
+'use client'
+
+import {
+  Drawer,
+  DrawerClose,
+  DrawerContent,
+  DrawerDescription,
+  DrawerTitle,
+  DrawerTrigger,
+} from '@/components/ui/shadcn/drawer'
+import { copyToClipboard, share } from '@/lib/share'
+import { useCallback } from 'react'
+import { FiMoreVertical } from 'react-icons/fi'
+
+interface ReviewOptionDrawerProps {
+  reviewId: number
+  memberNickname: string
+  content: string
+}
+
+export default function ReviewOptionDrawer({
+  reviewId,
+  memberNickname,
+  content,
+}: ReviewOptionDrawerProps) {
+  const getShareUrl = useCallback(() => {
+    return `${window.location.origin}/reviews/${reviewId}`
+  }, [reviewId])
+
+  const handleShare = useCallback(async () => {
+    await share({
+      title: `${memberNickname}님의 리뷰`,
+      text: content.slice(0, 100),
+      url: getShareUrl(),
+    })
+  }, [memberNickname, content, getShareUrl])
+
+  const handleCopyLink = useCallback(async () => {
+    const success = await copyToClipboard(getShareUrl())
+    if (success) {
+      alert('링크가 복사되었습니다.')
+    }
+  }, [getShareUrl])
+
+  return (
+    <Drawer autoFocus>
+      <DrawerTrigger asChild>
+        <button className="h-[18px] cursor-pointer">
+          <FiMoreVertical size={20} color="#999999" />
+        </button>
+      </DrawerTrigger>
+      <DrawerContent className="bg-transparent p-[15px] border-none">
+        <DrawerTitle className="sr-only">리뷰 옵션</DrawerTitle>
+        <DrawerDescription className="sr-only">신고, 공유, 링크 복사</DrawerDescription>
+        <div className="text-center bg-white rounded-[14px]">
+          <DrawerClose asChild>
+            <button className="w-full py-[20.5px] text-sm leading-[14px]" onClick={handleCopyLink}>
+              링크 복사
+            </button>
+          </DrawerClose>
+          <div className="h-px bg-[#f6f6f6]" />
+          <DrawerClose asChild>
+            <button className="w-full py-[20.5px] text-sm leading-[14px]" onClick={handleShare}>
+              공유
+            </button>
+          </DrawerClose>
+          <div className="h-px bg-[#f6f6f6]" />
+          <DrawerClose asChild>
+            <button className="w-full py-[20.5px] text-sm leading-[14px]">신고</button>
+          </DrawerClose>
+          <div className="h-px bg-[#f6f6f6]" />
+          <DrawerClose asChild>
+            <button className="w-full py-[20.5px] text-sm leading-[14px]">차단</button>
+          </DrawerClose>
+        </div>
+      </DrawerContent>
+    </Drawer>
+  )
+}

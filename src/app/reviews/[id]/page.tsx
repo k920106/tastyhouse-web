@@ -1,11 +1,11 @@
-import ReviewDetailContent from './_components/ReviewDetailContent'
+import ReviewInfoContent from './_components/ReviewInfoContent'
 
-interface ReviewDetailPageProps {
+interface ReviewInfoPageProps {
   params: Promise<{ id: string }>
 }
 
-export default async function ReviewDetailPage({ params }: ReviewDetailPageProps) {
+export default async function ReviewInfoPage({ params }: ReviewInfoPageProps) {
   const { id } = await params
 
-  return <ReviewDetailContent reviewId={Number(id)} />
+  return <ReviewInfoContent reviewId={Number(id)} />
 }
