@@ -21,7 +21,7 @@ import { FiMoreVertical } from 'react-icons/fi'
 export function CommentListSkeleton() {
   return (
     <>
-      {[...Array(10)].map((i) => (
+      {[...Array(10)].map((_, i) => (
         <CommentListItemSkeleton key={i} />
       ))}
     </>
