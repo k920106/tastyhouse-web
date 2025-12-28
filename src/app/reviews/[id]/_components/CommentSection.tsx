@@ -11,10 +11,35 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from '@/components/ui/shadcn/drawer'
+import { Skeleton } from '@/components/ui/shadcn/skeleton'
 import { Comment } from '@/types/api/review'
 import { useState } from 'react'
 import { FiMoreVertical } from 'react-icons/fi'
 import { RxPaperPlane } from 'react-icons/rx'
+
+export function CommentSectionSkeleton() {
+  return (
+    <div className="border-t border-[#eeeeee] box-border">
+      <div className="px-[15px] py-5">
+        <div className="space-y-[30px]">
+          {[1, 2].map((i) => (
+            <div key={i} className="flex gap-2.5">
+              <Skeleton className="w-9 h-9 rounded-full flex-shrink-0" />
+              <div className="flex-1">
+                <div className="flex items-center gap-[15px] mb-2.5">
+                  <Skeleton className="h-[14px] w-[60px]" />
+                  <Skeleton className="h-[12px] w-[40px]" />
+                </div>
+                <Skeleton className="h-[12px] w-full" />
+                <Skeleton className="h-[12px] w-3/4 mt-1" />
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  )
+}
 
 interface CommentSectionProps {
   comments: Comment[]

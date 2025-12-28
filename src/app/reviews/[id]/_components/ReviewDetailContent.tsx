@@ -1,48 +1,28 @@
-import ErrorMessage from '@/components/ui/ErrorMessage'
-import { api } from '@/lib/api'
-import { COMMON_ERROR_MESSAGES } from '@/lib/constants'
-import { API_ENDPOINTS } from '@/lib/endpoints'
-import { ApiResponse } from '@/types/api/api'
-import { ReviewDetail } from '@/types/api/review'
-import CommentSection from './CommentSection'
-import ReviewDetailHeader from './ReviewDetailHeader'
-import ReviewDetailSection from './ReviewDetailSection'
+import { Suspense } from 'react'
+import { CommentSectionSkeleton } from './CommentSection'
+import CommentSectionFetcher from './CommentSectionFetcher'
+import { ReviewDetailHeaderSkeleton } from './ReviewDetailHeader'
+import { ReviewDetailSectionSkeleton } from './ReviewDetailSection'
+import ReviewHeaderFetcher from './ReviewHeaderFetcher'
+import ReviewSectionFetcher from './ReviewSectionFetcher'
 
 interface ReviewDetailContentProps {
-  reviewId: string
+  reviewId: number
 }
 
-export default async function ReviewDetailContent({ reviewId }: ReviewDetailContentProps) {
-  const { error, data } = await api.get<ApiResponse<ReviewDetail>>(
-    API_ENDPOINTS.REVIEW_DETAIL(reviewId),
-  )
-
-  if (error) {
-    return (
-      <>
-        <ReviewDetailHeader memberNickname="" />
-        <ErrorMessage message={COMMON_ERROR_MESSAGES.API_FETCH_ERROR} />
-      </>
-    )
-  }
-
-  if (!data || !data.success || !data.data) {
-    return (
-      <>
-        <ReviewDetailHeader memberNickname="" />
-        <ErrorMessage message={COMMON_ERROR_MESSAGES.FETCH_ERROR('리뷰')} />
-      </>
-    )
-  }
-
-  const review = data.data
-
+export default function ReviewDetailContent({ reviewId }: ReviewDetailContentProps) {
   return (
     <>
-      <ReviewDetailHeader memberNickname={review.memberNickname} />
+      <Suspense fallback={<ReviewDetailHeaderSkeleton />}>
+        <ReviewHeaderFetcher reviewId={reviewId} />
+      </Suspense>
       <div className="pb-20">
-        <ReviewDetailSection review={review} />
-        <CommentSection comments={[]} />
+        <Suspense fallback={<ReviewDetailSectionSkeleton />}>
+          <ReviewSectionFetcher reviewId={reviewId} />
+        </Suspense>
+        <Suspense fallback={<CommentSectionSkeleton />}>
+          <CommentSectionFetcher reviewId={reviewId} />
+        </Suspense>
       </div>
     </>
   )
