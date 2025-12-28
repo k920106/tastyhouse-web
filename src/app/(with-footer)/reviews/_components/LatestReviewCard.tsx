@@ -130,7 +130,7 @@ export default function LatestReviewCard({ review }: LatestReviewCardProps) {
               formatFractionCurrent: (number) => number,
               formatFractionTotal: (number) => number,
             }}
-            className={`aspect-[345/190] ${styles.reviewSwiper}`}
+            className={`aspect-[345/190] ${styles.reviewSwiper} ${review.imageUrls.length === 1 ? styles.reviewSwiperSingleImage : ''}`}
           >
             {review.imageUrls.map((imageUrl, index) => (
               <SwiperSlide key={index}>

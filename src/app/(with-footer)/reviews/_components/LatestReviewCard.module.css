@@ -21,5 +21,14 @@
   letter-spacing: -1px;
   color: #ffffff;
   border-radius: 12px;
+  opacity: 0;
+  transition: opacity 0.1s;
+}
+
+.reviewSwiper:global(.swiper-initialized) :global(.swiper-pagination) {
   opacity: 0.5;
+}
+
+.reviewSwiperSingleImage :global(.swiper-pagination) {
+  display: none;
 }
