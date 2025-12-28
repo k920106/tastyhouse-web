@@ -5,19 +5,17 @@ const DEFAULT_PROFILE_IMAGE = '/images/sample/profile/default.png'
 interface AvatarProps {
   src?: string | null
   alt: string
-  size?: 'sm' | 'md' | 'lg' | 'xl'
+  size?: 'sm' | 'md'
   className?: string
 }
 
 const sizeMap = {
-  sm: 24,
-  md: 40,
-  lg: 56,
-  xl: 80,
+  sm: { dimension: 30, className: 'size-[30px]' },
+  md: { dimension: 40, className: 'size-10' },
 } as const
 
 export default function Avatar({ src, alt, size = 'md', className = '' }: AvatarProps) {
-  const dimension = sizeMap[size]
+  const { dimension, className: sizeClassName } = sizeMap[size]
 
   return (
     <Image
@@ -25,7 +23,7 @@ export default function Avatar({ src, alt, size = 'md', className = '' }: Avatar
       alt={alt}
       width={dimension}
       height={dimension}
-      className={`rounded-full ${className}`}
+      className={`flex-shrink-0 rounded-full ${sizeClassName} ${className}`}
     />
   )
 }
