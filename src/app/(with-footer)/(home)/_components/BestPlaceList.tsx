@@ -1,4 +1,5 @@
 import ErrorMessage from '@/components/ui/ErrorMessage'
+import HashTag from '@/components/ui/HashTag'
 import ViewMoreButton from '@/components/ui/ViewMoreButton'
 import { Skeleton } from '@/components/ui/shadcn/skeleton'
 import { api } from '@/lib/api'
@@ -89,12 +90,7 @@ export default async function BestPlaceList() {
                 <h3 className="leading-[16px] mb-[15px] truncate">{place.name}</h3>
                 <div className="flex gap-1.5 overflow-hidden">
                   {place.tags.map((tag, index) => (
-                    <span
-                      key={index}
-                      className="flex-shrink-0 inline-block px-2.5 py-[7px] text-xs leading-[12px] text-[#666666] bg-white border border-[#eeeeee] rounded-[14px] whitespace-nowrap"
-                    >
-                      #{tag}
-                    </span>
+                    <HashTag key={index} tag={tag} />
                   ))}
                 </div>
               </div>
