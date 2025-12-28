@@ -1,5 +1,6 @@
 'use client'
 
+import { PAGE_PATHS } from '@/lib/paths'
 import { useRouter, useSearchParams } from 'next/navigation'
 
 interface ReviewTabsProps {
@@ -14,7 +15,7 @@ export default function ReviewTabs({ activeTab }: ReviewTabsProps) {
     const params = new URLSearchParams(searchParams.toString())
     params.set('type', tab)
 
-    router.push(`/reviews?${params.toString()}`, { scroll: false })
+    router.push(`${PAGE_PATHS.REVIEWS}?${params.toString()}`, { scroll: false })
 
     window.scrollTo({ top: 0, behavior: 'instant' })
   }
