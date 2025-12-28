@@ -189,7 +189,7 @@ export default function EventDetailPage() {
             이벤트 기간: {mockEvent.startDate} ~ {mockEvent.endDate}
           </div>
           <div
-            className={`px-3 py-1 rounded-full text-[12px] ${
+            className={`px-3 py-1 rounded-full text-xs leading-[12px] ${
               mockEvent.status === 'ongoing'
                 ? 'bg-red-50 text-red-600'
                 : mockEvent.status === 'upcoming'

@@ -56,7 +56,9 @@ export default function ReviewCard({ review }: ReviewCardProps) {
           </div>
           <div>
             <p className="text-[15px] font-bold">{review.userName}</p>
-            <p className="text-[12px] text-gray-500">{formatTimeAgo(review.createdAt)}</p>
+            <p className="text-xs leading-[12px] text-gray-500">
+              {formatTimeAgo(review.createdAt)}
+            </p>
           </div>
         </div>
         <button className="p-2">

@@ -21,7 +21,7 @@ export default function CouponCard({ coupon }: CouponCardProps) {
           <p className="text-[13px] text-gray-500 mb-1">
             {coupon.minOrderAmount.toLocaleString()}원 이상 결제시
           </p>
-          <p className="text-[12px] text-gray-400">
+          <p className="text-xs leading-[12px] text-gray-400">
             {coupon.startDate} ~ {coupon.endDate}
           </p>
         </div>
