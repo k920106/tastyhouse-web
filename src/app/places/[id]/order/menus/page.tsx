@@ -172,7 +172,7 @@ export default function MenusPage() {
             />
           </svg>
         </button>
-        <h1 className="text-lg font-semibold flex-1 text-center">바로 주문하기</h1>
+        <h1 className="text-lg flex-1 text-center">바로 주문하기</h1>
         <button className="p-2 text-gray-700">변경</button>
       </header>
 
@@ -192,7 +192,7 @@ export default function MenusPage() {
       </div>
 
       {/* Bottom Cart Button */}
-      <div className="fixed bottom-0 left-0 right-0 bg-white border-t px-4 py-4">
+      <div className="fixed bottom-0 left-0 right-0 px-4 py-4 bg-white border-t box-border">
         <Link
           href={PAGE_PATHS.ORDER_CART(placeId)}
           className="w-full py-4 bg-red-600 hover:bg-red-700 active:bg-red-800 rounded-lg text-white text-lg font-bold transition-colors"

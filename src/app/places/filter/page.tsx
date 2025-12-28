@@ -192,7 +192,7 @@ export default function FilterPage() {
       </div>
 
       {/* Apply Button */}
-      <div className="fixed bottom-0 left-0 right-0 p-4 bg-white border-t border-[#eeeeee]">
+      <div className="fixed bottom-0 left-0 right-0 p-4 bg-white border-t border-[#eeeeee] box-border">
         <button
           onClick={handleApplyFilter}
           className={`w-full h-[52px] text-white rounded transition-colors ${

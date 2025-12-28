@@ -36,7 +36,7 @@ export default function LoginPage() {
             <path d="M18 6L6 18M6 6l12 12" />
           </svg>
         </button>
-        <h1 className="text-lg font-semibold">로그인</h1>
+        <h1 className="text-lg">로그인</h1>
       </header>
 
       {/* Login Form */}

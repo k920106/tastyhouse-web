@@ -418,7 +418,7 @@ export default function OrderDetailPage() {
       </div>
 
       {/* 하단 결제 취소 버튼 */}
-      <div className="sticky bottom-0 bg-white border-t border-[#eeeeee] px-4 py-4">
+      <div className="sticky bottom-0 px-4 py-4 bg-white border-t border-[#eeeeee] box-border">
         <button className="w-full py-4 bg-main text-white font-bold rounded">결제 취소</button>
       </div>
     </div>

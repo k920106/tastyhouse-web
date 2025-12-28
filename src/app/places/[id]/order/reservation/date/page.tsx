@@ -231,7 +231,7 @@ export default function ReservationDatePage() {
           </div>
         </div>
 
-        <div className="py-6 border-t-[6px] border-[#f5f5f5] -mx-6 px-6">
+        <div className="py-6 -mx-6 px-6 border-t-[6px] border-[#f5f5f5] box-border">
           <h2 className="mb-4 text-[17px]">오전</h2>
           <div className="grid grid-cols-3 gap-3 mb-8">
             {MORNING_TIMES.map((time) => {
@@ -278,21 +278,21 @@ export default function ReservationDatePage() {
           </div>
         </div>
 
-        <div className="py-6 border-t-[6px] border-[#f5f5f5] -mx-6 px-6">
+        <div className="py-6 -mx-6 px-6 border-t-[6px] border-[#f5f5f5] box-border">
           <h2 className="mb-4 text-[17px]">인원</h2>
           <div className="flex items-center justify-between">
             <p className="text-[15px] text-[#666666]">방문하시는 인원을 선택해주세요.</p>
             <div className="flex items-center gap-3">
               <button
                 onClick={decrementGuestCount}
-                className="w-10 h-10 border border-[#eeeeee] rounded flex items-center justify-center text-[20px] text-[#666666]"
+                className="w-10 h-10 border border-[#eeeeee] box-border rounded flex items-center justify-center text-[20px] text-[#666666]"
               >
                 -
               </button>
               <span className="text-[17px] w-8 text-center">{guestCount}</span>
               <button
                 onClick={incrementGuestCount}
-                className="w-10 h-10 border border-[#eeeeee] rounded flex items-center justify-center text-[20px] text-[#666666]"
+                className="w-10 h-10 border border-[#eeeeee] box-border rounded flex items-center justify-center text-[20px] text-[#666666]"
               >
                 +
               </button>
@@ -300,7 +300,7 @@ export default function ReservationDatePage() {
           </div>
         </div>
 
-        <div className="py-6 border-t-[6px] border-[#f5f5f5] -mx-6 px-6">
+        <div className="py-6 -mx-6 px-6 border-t-[6px] border-[#f5f5f5] box-border">
           <h2 className="mb-4 text-[17px]">요청사항</h2>
           <textarea
             value={requirements}
@@ -310,7 +310,7 @@ export default function ReservationDatePage() {
           />
         </div>
 
-        <div className="py-6 border-t-[6px] border-[#f5f5f5] -mx-6 px-6">
+        <div className="py-6 -mx-6 px-6 border-t-[6px] border-[#f5f5f5] box-border">
           <h2 className="mb-4 text-[17px]">예약시 주의사항 안내</h2>
           <div className="space-y-2 mb-6 text-sm leading-[14px] text-[#666666]">
             <p>
@@ -356,7 +356,7 @@ export default function ReservationDatePage() {
         </div>
       </div>
 
-      <div className="fixed bottom-0 left-0 right-0 p-4 bg-white border-t border-[#eeeeee]">
+      <div className="fixed bottom-0 left-0 right-0 p-4 bg-white border-t border-[#eeeeee] box-border">
         <button
           disabled={!isBookingEnabled()}
           className={`w-full py-4 text-[17px] rounded ${

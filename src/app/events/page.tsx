@@ -64,7 +64,7 @@ export default function EventsPage() {
               />
             </svg>
           </button>
-          <h1 className="flex-1 text-center text-[18px] font-semibold pr-10">t��</h1>
+          <h1 className="flex-1 text-center text-[18px] pr-10">t��</h1>
         </div>
       </header>
 
@@ -126,7 +126,7 @@ export default function EventsPage() {
               />
             </div>
             <div className="p-4">
-              <h3 className="text-[16px] font-semibold text-gray-900 mb-2">{event.title}</h3>
+              <h3 className="text-[16px] text-gray-900 mb-2">{event.title}</h3>
               <p className="text-sm leading-[14px] text-gray-400">
                 {event.startDate} ~ {event.endDate}
               </p>

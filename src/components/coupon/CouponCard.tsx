@@ -17,7 +17,7 @@ export default function CouponCard({ coupon }: CouponCardProps) {
       {/* 오른쪽: 쿠폰 정보 */}
       <div className="flex-1 px-4 py-4 flex flex-col justify-between">
         <div>
-          <h3 className="text-[15px] font-semibold text-gray-900 mb-1">{coupon.couponName}</h3>
+          <h3 className="text-[15px] text-gray-900 mb-1">{coupon.couponName}</h3>
           <p className="text-[13px] text-gray-500 mb-1">
             {coupon.minOrderAmount.toLocaleString()}원 이상 결제시
           </p>

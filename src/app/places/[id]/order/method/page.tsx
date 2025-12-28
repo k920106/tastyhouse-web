@@ -119,7 +119,7 @@ export default function OrderMethodPage() {
             />
           </svg>
         </button>
-        <h1 className="text-lg font-semibold">주문방법 선택</h1>
+        <h1 className="text-lg">주문방법 선택</h1>
       </header>
 
       {/* Content */}
@@ -166,7 +166,7 @@ export default function OrderMethodPage() {
                   {method.icon}
                 </div>
                 <span
-                  className={` font-semibold ${
+                  className={`${
                     selectedMethod === method.id && !method.disabled
                       ? 'text-red-600'
                       : method.disabled

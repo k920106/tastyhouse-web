@@ -176,7 +176,7 @@ export default function PlaceDetailPage() {
               className={`flex-1 py-4 text-[15px] ${
                 activeTab === tab
                   ? 'text-black border-b-2 border-black'
-                  : 'text-[#999999] border-b-2 border-transparent'
+                  : 'text-[#999999] border-b-2 border-transparent box-border'
               }`}
             >
               {tab}

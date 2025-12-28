@@ -60,7 +60,7 @@ export default function EventDetailPage() {
             <button onClick={() => router.back()} className="p-1">
               <IoChevronBackOutline size={24} className="text-gray-900" />
             </button>
-            <h1 className="text-[17px] font-semibold">이벤트</h1>
+            <h1 className="text-[17px]">이벤트</h1>
             <div className="w-6" />
           </div>
         </header>
@@ -70,9 +70,7 @@ export default function EventDetailPage() {
           {/* Repeat for each announcement */}
           {[1, 2, 3, 4].map((index) => (
             <div key={index} className="border-b border-gray-100 pb-8 last:border-b-0">
-              <h2 className="text-[18px] font-semibold text-gray-900 mb-2">
-                {mockWinnerEvent.title}
-              </h2>
+              <h2 className="text-[18px] text-gray-900 mb-2">{mockWinnerEvent.title}</h2>
               <p className="text-sm leading-[14px] text-gray-400 mb-6">
                 {mockWinnerEvent.announcementDate}
               </p>
@@ -98,7 +96,7 @@ export default function EventDetailPage() {
           <button onClick={() => router.back()} className="p-1">
             <IoChevronBackOutline size={24} className="text-gray-900" />
           </button>
-          <h1 className="text-[17px] font-semibold">이벤트</h1>
+          <h1 className="text-[17px]">이벤트</h1>
           <div className="w-6" />
         </div>
       </header>
@@ -183,7 +181,7 @@ export default function EventDetailPage() {
       </div>
 
       {/* Event Period Notice */}
-      <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 px-4 py-4">
+      <div className="fixed bottom-0 left-0 right-0 px-4 py-4 bg-white border-t border-gray-200 box-border">
         <div className="flex items-center justify-between">
           <div className="text-[13px] text-gray-500">
             이벤트 기간: {mockEvent.startDate} ~ {mockEvent.endDate}

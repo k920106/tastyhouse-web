@@ -44,7 +44,7 @@ export default function ProfileEditPage() {
               <path d="M15 18l-6-6 6-6" />
             </svg>
           </button>
-          <h1 className="absolute left-1/2 -translate-x-1/2 text-[17px] font-semibold">\D </h1>
+          <h1 className="absolute left-1/2 -translate-x-1/2 text-[17px]">가나다라</h1>
         </div>
       </header>
 
@@ -139,9 +139,9 @@ export default function ProfileEditPage() {
       <div className="px-6">
         <button
           onClick={handleSubmit}
-          className="w-full py-4 font-semibold text-white bg-[#D32F2F] rounded-lg hover:bg-[#C62828] active:bg-[#B71C1C] transition-colors"
+          className="w-full py-4 text-white bg-[#D32F2F] rounded-lg hover:bg-[#C62828] active:bg-[#B71C1C] transition-colors"
         >
-          D�
+          가나다라
         </button>
       </div>
     </div>

@@ -164,7 +164,7 @@ export default function CartPage() {
           </>
         )}
       </div>
-      <div className="px-4 py-6 border-t-8 border-[#f5f5f5]">
+      <div className="px-4 py-6 border-t-8 border-[#f5f5f5] box-border">
         <div className="space-y-3 mb-6">
           <div className="flex justify-between text-[15px]">
             <span className="text-[#666666]">상품금액</span>

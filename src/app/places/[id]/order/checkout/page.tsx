@@ -406,7 +406,7 @@ export default function CheckoutPage() {
       </div>
 
       {/* 하단 결제하기 버튼 */}
-      <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-[#eeeeee] px-4 py-4">
+      <div className="fixed bottom-0 left-0 right-0 px-4 py-4 bg-white border-t border-[#eeeeee] box-border">
         <button
           onClick={handlePayment}
           disabled={!agreedToTerms}
