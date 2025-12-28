@@ -92,3 +92,24 @@ export function formatRemainingTime(diff: TimeDifference): string {
 export function getRemainingDays(end: string | Date): number {
   return getTimeDifference(end).days
 }
+
+/**
+ * Formats a date as a relative time string (e.g., "방금 전", "5분 전", "3시간 전").
+ * @param date The past date (string or Date object).
+ * @returns A formatted relative time string in Korean.
+ */
+export function formatTimeAgo(date: string | Date): string {
+  const now = new Date()
+  const past = new Date(date)
+  const diffInMs = now.getTime() - past.getTime()
+  const diffInMinutes = Math.floor(diffInMs / (1000 * 60))
+  const diffInHours = Math.floor(diffInMs / (1000 * 60 * 60))
+  const diffInDays = Math.floor(diffInMs / (1000 * 60 * 60 * 24))
+
+  if (diffInMinutes < 1) return '방금 전'
+  if (diffInMinutes < 60) return `${diffInMinutes}분 전`
+  if (diffInHours < 24) return `${diffInHours}시간 전`
+  if (diffInDays < 7) return `${diffInDays}일 전`
+
+  return past.toLocaleDateString('ko-KR', { month: 'long', day: 'numeric' })
+}
