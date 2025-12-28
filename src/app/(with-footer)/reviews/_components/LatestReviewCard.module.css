@@ -1,3 +1,14 @@
+.reviewContent {
+  display: block;
+  font-size: 14px;
+  line-height: 23px;
+}
+
+.reviewContent.clamped {
+  max-height: calc(23px * 5); /* line-height * 5줄 */
+  overflow: hidden;
+}
+
 .reviewSwiper :global(.swiper-pagination) {
   bottom: 15px;
   right: 15px;

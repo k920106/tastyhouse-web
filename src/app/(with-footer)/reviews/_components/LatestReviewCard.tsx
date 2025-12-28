@@ -29,9 +29,15 @@ interface LatestReviewCardProps {
   review: LatestReviewListItem
 }
 
+// 컨텐츠 길이를 기반으로 5줄 이상인지 추정 (한 줄당 약 20자 기준)
+const estimateIsClamped = (content: string | undefined) => {
+  if (!content) return false
+  return content.length > 100
+}
+
 export default function LatestReviewCard({ review }: LatestReviewCardProps) {
   const contentRef = useRef<HTMLAnchorElement>(null)
-  const [isClamped, setIsClamped] = useState(false)
+  const [isClamped, setIsClamped] = useState(() => estimateIsClamped(review.content))
   const [isExpanded, setIsExpanded] = useState(false)
 
   const getShareUrl = useCallback(() => {
@@ -55,9 +61,18 @@ export default function LatestReviewCard({ review }: LatestReviewCardProps) {
 
   useEffect(() => {
     const element = contentRef.current
-    if (element) {
+    if (!element) return
+
+    const checkClamped = () => {
       setIsClamped(element.scrollHeight > element.clientHeight)
     }
+
+    checkClamped()
+
+    const observer = new ResizeObserver(checkClamped)
+    observer.observe(element)
+
+    return () => observer.disconnect() // 메모리 누수 방지
   }, [review.content])
 
   return (
@@ -138,7 +153,8 @@ export default function LatestReviewCard({ review }: LatestReviewCardProps) {
       <div className="relative">
         <Link
           href={PAGE_PATHS.REVIEW_DETAIL(review.id)}
-          className={`text-sm leading-relaxed ${!isExpanded ? 'line-clamp-5' : ''}`}
+          // className={`text-sm leading-relaxed ${!isExpanded ? 'line-clamp-5' : ''}`}
+          className={`${styles.reviewContent} ${!isExpanded ? styles.clamped : ''}`}
           ref={contentRef}
         >
           {review.content}
