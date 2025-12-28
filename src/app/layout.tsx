@@ -6,7 +6,7 @@ const nanumMyeongjo = Nanum_Myeongjo({
   weight: ['400', '700', '800'],
   subsets: ['latin'],
   variable: '--font-nanum-myeongjo',
-  display: 'swap',
+  preload: false,
 })
 
 export default function RootLayout({
