@@ -15,10 +15,11 @@ import {
   DrawerTrigger,
 } from '@/components/ui/shadcn/drawer'
 import { PAGE_PATHS } from '@/lib/paths'
+import { copyToClipboard, share } from '@/lib/share'
 import { LatestReviewListItem } from '@/types/api/review'
 import Image from 'next/image'
 import Link from 'next/link'
-import { useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { FiMoreVertical } from 'react-icons/fi'
 import { Pagination } from 'swiper/modules'
 import { Swiper, SwiperSlide } from 'swiper/react'
@@ -48,6 +49,25 @@ export default function LatestReviewCard({ review }: LatestReviewCardProps) {
   const [isClamped, setIsClamped] = useState(false)
   const [isExpanded, setIsExpanded] = useState(false)
 
+  const getShareUrl = useCallback(() => {
+    return `${window.location.origin}/reviews/${review.id}`
+  }, [review.id])
+
+  const handleShare = useCallback(async () => {
+    await share({
+      title: review.title || '맛집 리뷰',
+      text: review.content?.slice(0, 100) || '',
+      url: getShareUrl(),
+    })
+  }, [review.title, review.content, getShareUrl])
+
+  const handleCopyLink = useCallback(async () => {
+    const success = await copyToClipboard(getShareUrl())
+    if (success) {
+      alert('링크가 복사되었습니다.')
+    }
+  }, [getShareUrl])
+
   useEffect(() => {
     const element = contentRef.current
     if (element) {
@@ -75,14 +95,25 @@ export default function LatestReviewCard({ review }: LatestReviewCardProps) {
           </DrawerTrigger>
           <DrawerContent className="bg-transparent p-[15px] border-none">
             <DrawerTitle className="sr-only">리뷰 옵션</DrawerTitle>
-            <DrawerDescription className="sr-only">신고, 링크 복사</DrawerDescription>
-            <div className="flex flex-col rounded-[14px] bg-white overflow-hidden">
+            <DrawerDescription className="sr-only">신고, 공유</DrawerDescription>
+            <div className="text-center bg-white rounded-[14px]">
               <DrawerClose asChild>
-                <button className="py-[20.5px] text-sm leading-[14px]">신고</button>
+                <button className="w-full py-[20.5px] text-sm leading-[14px]">신고</button>
               </DrawerClose>
               <div className="h-px bg-[#f6f6f6]" />
               <DrawerClose asChild>
-                <button className="py-[20.5px] text-sm leading-[14px]">링크 복사</button>
+                <button className="w-full py-[20.5px] text-sm leading-[14px]" onClick={handleShare}>
+                  공유
+                </button>
+              </DrawerClose>
+              <div className="h-px bg-[#f6f6f6]" />
+              <DrawerClose asChild>
+                <button
+                  className="w-full py-[20.5px] text-sm leading-[14px]"
+                  onClick={handleCopyLink}
+                >
+                  링크 복사
+                </button>
               </DrawerClose>
             </div>
           </DrawerContent>
