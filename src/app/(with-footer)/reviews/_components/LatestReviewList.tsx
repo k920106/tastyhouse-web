@@ -58,19 +58,9 @@ export default async function LatestReviewList({ reviewType }: LatestReviewListP
     return <ErrorMessage message={COMMON_ERROR_MESSAGES.FETCH_ERROR('리뷰')} />
   }
 
-  const reviews = data.data
-
-  if (reviews.length === 0) {
-    return (
-      <div className="w-full py-20 text-sm leading-[14px] text-[#999999] text-center whitespace-pre-line">
-        리뷰가 없습니다.
-      </div>
-    )
-  }
-
   return (
     <div className="flex flex-col gap-2.5 bg-[#f9f9f9]">
-      {reviews.map((review) => (
+      {data.data.map((review) => (
         <LatestReviewCard key={review.id} review={review} />
       ))}
     </div>
