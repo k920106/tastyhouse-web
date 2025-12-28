@@ -4,6 +4,8 @@
 
 명령된 로직을 구현 후, npm run build 테스트는 진행하지 않도록 합니다.
 
+## GIT 규칙
+
 NO_COMMIT_OR_ROLLBACK
 
 ## 네이밍 규칙
