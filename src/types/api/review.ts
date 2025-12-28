@@ -23,19 +23,28 @@ export interface Review {
 
 export interface Comment {
   id: number
-  userName: string
-  userProfileImage: string | null
+  reviewId: number
+  memberId: number
+  memberNickname: string
+  memberProfileImageUrl: string | null
   content: string
   createdAt: string
-  replies?: CommentReply[]
+  replies?: Reply[]
 }
 
-export interface CommentReply {
+export interface Reply {
   id: number
-  userName: string
-  userProfileImage: string | null
+  commentId: number
+  memberId: number
+  memberNickname: string
+  memberProfileImageUrl: string | null
   content: string
   createdAt: string
+}
+
+export interface CommentListResponse {
+  comments: Comment[]
+  totalCount: number
 }
 
 export type ReviewType = 'ALL' | 'FOLLOWING'

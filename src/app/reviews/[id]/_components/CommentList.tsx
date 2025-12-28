@@ -15,7 +15,7 @@ import { api } from '@/lib/api'
 import { COMMON_ERROR_MESSAGES } from '@/lib/constants'
 import { API_ENDPOINTS } from '@/lib/endpoints'
 import { ApiResponse } from '@/types/api/api'
-import { Comment } from '@/types/api/review'
+import { CommentListResponse } from '@/types/api/review'
 import { FiMoreVertical } from 'react-icons/fi'
 
 export function CommentListSkeleton() {
@@ -47,7 +47,7 @@ interface CommentListProps {
 }
 
 export default async function CommentList({ reviewId }: CommentListProps) {
-  const { error, data } = await api.get<ApiResponse<Comment[]>>(
+  const { error, data } = await api.get<ApiResponse<CommentListResponse>>(
     API_ENDPOINTS.REVIEW_COMMENTS(reviewId),
   )
 
@@ -61,7 +61,7 @@ export default async function CommentList({ reviewId }: CommentListProps) {
     return <ErrorMessage message={COMMON_ERROR_MESSAGES.FETCH_ERROR('댓글')} className="py-10" />
   }
 
-  const comments = data.data
+  const { comments } = data.data
 
   if (comments.length === 0) {
     return (
@@ -77,10 +77,10 @@ export default async function CommentList({ reviewId }: CommentListProps) {
   return comments.map((comment) => (
     <div key={comment.id}>
       <div className="flex gap-2.5">
-        <Avatar src={comment.userProfileImage} alt={comment.userName} />
+        <Avatar src={comment.memberProfileImageUrl} alt={comment.memberNickname} />
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-[15px] mb-2.5">
-            <Nickname>{comment.userName}</Nickname>
+            <Nickname>{comment.memberNickname}</Nickname>
             <TimeAgo date={comment.createdAt} />
           </div>
           <p className="text-xs leading-relaxed">{comment.content}</p>
@@ -111,10 +111,10 @@ export default async function CommentList({ reviewId }: CommentListProps) {
         <div className="ml-[34px] mt-4 space-y-4">
           {comment.replies.map((reply) => (
             <div key={reply.id} className="flex gap-2.5">
-              <Avatar src={reply.userProfileImage} alt={reply.userName} size="sm" />
+              <Avatar src={reply.memberProfileImageUrl} alt={reply.memberNickname} size="sm" />
               <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-2 mb-2.5">
-                  <Nickname size="sm">{reply.userName}</Nickname>
+                  <Nickname size="sm">{reply.memberNickname}</Nickname>
                   <TimeAgo date={reply.createdAt} />
                 </div>
                 <p className="text-xs leading-relaxed">{reply.content}</p>
