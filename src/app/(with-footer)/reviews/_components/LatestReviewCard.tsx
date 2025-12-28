@@ -153,7 +153,6 @@ export default function LatestReviewCard({ review }: LatestReviewCardProps) {
       <div className="relative">
         <Link
           href={PAGE_PATHS.REVIEW_DETAIL(review.id)}
-          // className={`text-sm leading-relaxed ${!isExpanded ? 'line-clamp-5' : ''}`}
           className={`${styles.reviewContent} ${!isExpanded ? styles.clamped : ''}`}
           ref={contentRef}
         >
