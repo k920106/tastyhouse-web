@@ -45,7 +45,6 @@ export interface LatestReviewListItem {
   imageUrls: string[]
   stationName: string
   totalRating: number
-  title: string
   content: string
   memberId: number
   memberNickname: string
