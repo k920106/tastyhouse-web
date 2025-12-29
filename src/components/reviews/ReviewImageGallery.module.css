@@ -28,3 +28,22 @@
   width: 100% !important;
   object-fit: cover !important;
 }
+
+.lightbox :global(.yarl__toolbar) {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  left: auto;
+  background: none;
+  padding: 0;
+}
+
+.closeButton {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

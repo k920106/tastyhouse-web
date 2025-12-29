@@ -7,6 +7,7 @@ import styles from './ReviewImageGallery.module.css'
 
 import Image from 'next/image'
 import { useState } from 'react'
+import { HiOutlineXMark } from 'react-icons/hi2'
 import { Pagination } from 'swiper/modules'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import Lightbox from 'yet-another-react-lightbox'
@@ -94,30 +95,11 @@ export default function ReviewImageGallery({ imageUrls }: ReviewImageGalleryProp
             <button
               key="custom-close"
               type="button"
+              aria-label="닫기"
               onClick={() => setLightboxOpen(false)}
-              style={{
-                position: 'absolute',
-                top: '16px',
-                left: '16px',
-                zIndex: 10,
-                background: 'none',
-                border: 'none',
-                cursor: 'pointer',
-                padding: '8px',
-              }}
+              className={styles.closeButton}
             >
-              <svg
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="white"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <path d="M18 6L6 18M6 6l12 12" />
-              </svg>
+              <HiOutlineXMark size={24} color="white" />
             </button>,
           ],
         }}
