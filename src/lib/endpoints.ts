@@ -17,6 +17,7 @@ export const API_ENDPOINTS = {
   // 회원
   MEMBER: '/api/members/v1',
   MEMBER_PROFILE: '/api/members/v1/profile',
+  MEMBER_ME: '/api/members/v1/me',
 
   // 쿠폰
   COUPONS: '/api/coupons/v1',

@@ -14,3 +14,8 @@ export interface UpdateMemberProfileRequest {
   description: string
   userProfileImage?: string | null
 }
+
+export interface MemberInfoResponse {
+  id: number
+  profileImageUrl: string | null
+}
