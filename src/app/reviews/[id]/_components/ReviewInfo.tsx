@@ -7,6 +7,7 @@ import { api } from '@/lib/api'
 import { COMMON_ERROR_MESSAGES } from '@/lib/constants'
 import { API_ENDPOINTS } from '@/lib/endpoints'
 import { ApiResponse } from '@/types/api/api'
+import { MemberInfoResponse } from '@/types/api/member'
 import { ReviewDetail } from '@/types/api/review'
 import ReviewActions from './ReviewActions'
 import ReviewInfoContent from './ReviewContent'
@@ -47,9 +48,12 @@ interface ReviewInfoProps {
 }
 
 export default async function ReviewInfo({ reviewId }: ReviewInfoProps) {
-  const { error, data } = await api.get<ApiResponse<ReviewDetail>>(
-    API_ENDPOINTS.REVIEW_DETAIL(reviewId),
-  )
+  const [reviewResponse, memberResponse] = await Promise.all([
+    api.get<ApiResponse<ReviewDetail>>(API_ENDPOINTS.REVIEW_DETAIL(reviewId)),
+    api.get<ApiResponse<MemberInfoResponse>>(API_ENDPOINTS.MEMBER_ME),
+  ])
+
+  const { error, data } = reviewResponse
 
   if (error) {
     return <ErrorMessage message={COMMON_ERROR_MESSAGES.API_FETCH_ERROR} className="py-10" />
@@ -59,8 +63,12 @@ export default async function ReviewInfo({ reviewId }: ReviewInfoProps) {
     return <ErrorMessage message={COMMON_ERROR_MESSAGES.FETCH_ERROR('리뷰')} className="py-10" />
   }
 
+  const currentMemberId =
+    memberResponse.data?.success && memberResponse.data.data ? memberResponse.data.data.id : null
+
   const {
     id,
+    memberId,
     content,
     memberNickname,
     memberProfileImageUrl,
@@ -78,7 +86,13 @@ export default async function ReviewInfo({ reviewId }: ReviewInfoProps) {
           nickname={memberNickname}
           createdAt={createdAt}
         />
-        <ReviewOptionDrawer reviewId={id} memberNickname={memberNickname} content={content} />
+        <ReviewOptionDrawer
+          reviewId={id}
+          memberId={memberId}
+          currentMemberId={currentMemberId}
+          memberNickname={memberNickname}
+          content={content}
+        />
       </div>
       <ReviewImageGallery imageUrls={imageUrls} />
       <ReviewInfoContent content={content} tagNames={tagNames} />

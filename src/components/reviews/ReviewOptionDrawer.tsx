@@ -10,20 +10,27 @@ import {
 } from '@/components/ui/shadcn/drawer'
 import { PAGE_PATHS } from '@/lib/paths'
 import { copyToClipboard, share } from '@/lib/share'
+import Link from 'next/link'
 import { useCallback } from 'react'
 import { FiMoreVertical } from 'react-icons/fi'
 
 interface ReviewOptionDrawerProps {
   reviewId: number
+  memberId: number
+  currentMemberId: number | null
   memberNickname: string
   content: string
 }
 
 export default function ReviewOptionDrawer({
   reviewId,
+  memberId,
+  currentMemberId,
   memberNickname,
   content,
 }: ReviewOptionDrawerProps) {
+  const isMyReview = currentMemberId !== null && currentMemberId === memberId
+
   const getShareUrl = useCallback(() => {
     return `${window.location.origin}${PAGE_PATHS.REVIEW_DETAIL(reviewId)}`
   }, [reviewId])
@@ -54,6 +61,19 @@ export default function ReviewOptionDrawer({
         <DrawerTitle className="sr-only">리뷰 옵션</DrawerTitle>
         <DrawerDescription className="sr-only">신고, 공유, 링크 복사</DrawerDescription>
         <div className="text-center bg-white rounded-[14px]">
+          {isMyReview && (
+            <>
+              <DrawerClose asChild>
+                <Link
+                  href={`/reviews/${reviewId}/update`}
+                  className="block w-full py-[20.5px] text-sm leading-[14px]"
+                >
+                  수정
+                </Link>
+              </DrawerClose>
+              <div className="h-px bg-[#f6f6f6]" />
+            </>
+          )}
           <DrawerClose asChild>
             <button className="w-full py-[20.5px] text-sm leading-[14px]" onClick={handleCopyLink}>
               링크 복사

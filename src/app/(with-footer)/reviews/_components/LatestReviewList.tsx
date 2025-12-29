@@ -7,7 +7,8 @@ import { api } from '@/lib/api'
 import { COMMON_ERROR_MESSAGES } from '@/lib/constants'
 import { API_ENDPOINTS } from '@/lib/endpoints'
 import { PAGE_PATHS } from '@/lib/paths'
-import { PagedApiResponse } from '@/types/api/api'
+import { ApiResponse, PagedApiResponse } from '@/types/api/api'
+import { MemberInfoResponse } from '@/types/api/member'
 import { LatestReview, LatestReviewQuery, ReviewType } from '@/types/api/review'
 import ClampedText from './ClampedText'
 
@@ -63,10 +64,12 @@ export default async function LatestReviewList({ reviewType }: LatestReviewListP
     } satisfies LatestReviewQuery,
   }
 
-  const { error, data } = await api.get<PagedApiResponse<LatestReview>>(
-    API_ENDPOINTS.REVIEWS_LATEST,
-    query,
-  )
+  const [reviewsResponse, memberResponse] = await Promise.all([
+    api.get<PagedApiResponse<LatestReview>>(API_ENDPOINTS.REVIEWS_LATEST, query),
+    api.get<ApiResponse<MemberInfoResponse>>(API_ENDPOINTS.MEMBER_ME),
+  ])
+
+  const { error, data } = reviewsResponse
 
   if (error) {
     return (
@@ -83,8 +86,12 @@ export default async function LatestReviewList({ reviewType }: LatestReviewListP
     )
   }
 
+  const currentMemberId =
+    memberResponse.data?.success && memberResponse.data.data ? memberResponse.data.data.id : null
+
   return data.data.map((review) => {
-    const { id, imageUrls, content, memberNickname, memberProfileImageUrl, createdAt } = review
+    const { id, memberId, imageUrls, content, memberNickname, memberProfileImageUrl, createdAt } =
+      review
 
     return (
       <div key={id} className="flex flex-col px-[15px] pt-3 pb-[30px] bg-white">
@@ -94,7 +101,13 @@ export default async function LatestReviewList({ reviewType }: LatestReviewListP
             nickname={memberNickname}
             createdAt={createdAt}
           />
-          <ReviewOptionDrawer reviewId={id} memberNickname={memberNickname} content={content} />
+          <ReviewOptionDrawer
+            reviewId={id}
+            memberId={memberId}
+            currentMemberId={currentMemberId}
+            memberNickname={memberNickname}
+            content={content}
+          />
         </div>
         <ReviewImageGallery imageUrls={imageUrls} />
         <ClampedText text={content} href={PAGE_PATHS.REVIEW_DETAIL(id)} />
