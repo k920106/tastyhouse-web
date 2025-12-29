@@ -90,8 +90,17 @@ export default async function LatestReviewList({ reviewType }: LatestReviewListP
     memberResponse.data?.success && memberResponse.data.data ? memberResponse.data.data.id : null
 
   return data.data.map((review) => {
-    const { id, memberId, imageUrls, content, memberNickname, memberProfileImageUrl, createdAt } =
-      review
+    const {
+      id,
+      memberId,
+      imageUrls,
+      content,
+      memberNickname,
+      memberProfileImageUrl,
+      likeCount,
+      commentCount,
+      createdAt,
+    } = review
 
     return (
       <div key={id} className="flex flex-col px-[15px] pt-3 pb-[30px] bg-white">
@@ -112,8 +121,8 @@ export default async function LatestReviewList({ reviewType }: LatestReviewListP
         <ReviewImageGallery imageUrls={imageUrls} />
         <ClampedText text={content} href={PAGE_PATHS.REVIEW_DETAIL(id)} />
         <div className="flex gap-4 mt-3.5">
-          <span className="text-xs leading-[12px] text-[#aaaaaa]">좋아요 10개</span>
-          <span className="text-xs leading-[12px] text-[#aaaaaa]">댓글 10개</span>
+          <span className="text-xs leading-[12px] text-[#aaaaaa]">좋아요 {likeCount}개</span>
+          <span className="text-xs leading-[12px] text-[#aaaaaa]">댓글 {commentCount}개</span>
         </div>
       </div>
     )

@@ -26,6 +26,8 @@ export type LatestReview = {
   memberId: number
   memberNickname: string
   memberProfileImageUrl: string | null
+  likeCount: number
+  commentCount: number
   createdAt: string
 }
 
