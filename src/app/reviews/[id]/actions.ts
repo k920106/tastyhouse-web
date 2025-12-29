@@ -3,19 +3,11 @@
 import { api } from '@/lib/api'
 import { API_ENDPOINTS } from '@/lib/endpoints'
 import { ApiResponse } from '@/types/api/api'
+import { ReviewLikeResponse, ReviewLikeResult } from '@/types/api/review'
 
-interface ReviewLikeResponse {
-  liked: boolean
-}
-
-interface ToggleReviewLikeResult {
-  success: boolean
-  liked?: boolean
-  error?: string
-}
-
-export async function toggleReviewLike(reviewId: number): Promise<ToggleReviewLikeResult> {
+export async function toggleReviewLike(reviewId: number): Promise<ReviewLikeResult> {
   try {
+    // API 호출
     const { data, error, status } = await api.post<ApiResponse<ReviewLikeResponse>>(
       API_ENDPOINTS.REVIEW_LIKE(reviewId),
     )
