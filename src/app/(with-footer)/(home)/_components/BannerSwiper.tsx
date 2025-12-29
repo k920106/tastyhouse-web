@@ -2,19 +2,18 @@
 
 import 'swiper/css'
 import 'swiper/css/pagination'
-import styles from './BannerSection.module.css'
+import styles from './BannerSwiper.module.css'
 
 import { Skeleton } from '@/components/ui/shadcn/skeleton'
 import { Banner } from '@/types/api/banner'
 import Image from 'next/image'
 import Link from 'next/link'
-import { useEffect, useState } from 'react'
 import { Autoplay, Pagination } from 'swiper/modules'
 import { Swiper, SwiperSlide } from 'swiper/react'
 
 export function BannerSwiperSkeleton() {
   return (
-    <div className="w-full h-[600px]">
+    <div className="w-full aspect-[375/475]">
       <Skeleton className="w-full h-full rounded-none" />
     </div>
   )
@@ -25,16 +24,6 @@ interface BannerSwiperProps {
 }
 
 export default function BannerSwiper({ banners }: BannerSwiperProps) {
-  const [isMounted, setIsMounted] = useState(false)
-
-  useEffect(() => {
-    setIsMounted(true)
-  }, [])
-
-  if (!isMounted) {
-    return BannerSwiperSkeleton()
-  }
-
   if (banners.length === 0) {
     return null
   }
@@ -54,7 +43,7 @@ export default function BannerSwiper({ banners }: BannerSwiperProps) {
         disableOnInteraction: false,
       }}
       loop={true}
-      className={`w-full aspect-[375/475] ${styles.bannerSwiper}`}
+      className={`w-full aspect-[375/475] ${styles.bannerSwiper} ${banners.length === 1 ? styles.bannerSwiperSingleImage : ''}`}
     >
       {banners.map((banner, index) => (
         <SwiperSlide key={banner.id}>

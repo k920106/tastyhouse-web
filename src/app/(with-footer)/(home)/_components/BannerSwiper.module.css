@@ -10,5 +10,14 @@
   letter-spacing: -1px;
   color: #ffffff;
   border-radius: 12px;
+  opacity: 0;
+  transition: opacity 0.1s;
+}
+
+.bannerSwiper:global(.swiper-initialized) :global(.swiper-pagination) {
   opacity: 0.5;
+}
+
+.bannerSwiperSingleImage :global(.swiper-pagination) {
+  display: none;
 }
