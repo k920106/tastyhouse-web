@@ -24,7 +24,7 @@ export function RankHeaderSkeleton() {
 
 export default async function RankHeader({ rankPeriod }: { rankPeriod: RankPeriod }) {
   return (
-    <div className="flex justify-between items-center">
+    <div className="flex justify-between">
       <div className="flex gap-2.5">
         <RankPeriodTabs initialTab={rankPeriod} />
         <RankInfoModalButton />
