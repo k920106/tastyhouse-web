@@ -2,7 +2,7 @@
 
 import Avatar from '@/components/ui/Avatar'
 import { Spinner } from '@/components/ui/shadcn/spinner'
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import { RxPaperPlane } from 'react-icons/rx'
 import { createComment } from '../actions'
 
@@ -14,6 +14,20 @@ interface CommentInputProps {
 export default function CommentInput({ reviewId, userProfileImage }: CommentInputProps) {
   const [commentText, setCommentText] = useState('')
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const textareaRef = useRef<HTMLTextAreaElement>(null)
+
+  const adjustTextareaHeight = () => {
+    const textarea = textareaRef.current
+    if (textarea) {
+      textarea.style.height = 'auto'
+      textarea.style.height = `${textarea.scrollHeight}px`
+    }
+  }
+
+  const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setCommentText(e.target.value)
+    adjustTextareaHeight()
+  }
 
   const handleSubmitComment = async () => {
     const content = commentText.trim()
@@ -30,6 +44,9 @@ export default function CommentInput({ reviewId, userProfileImage }: CommentInpu
 
     if (success) {
       setCommentText('')
+      if (textareaRef.current) {
+        textareaRef.current.style.height = 'auto'
+      }
     }
 
     setIsSubmitting(false)
@@ -41,11 +58,12 @@ export default function CommentInput({ reviewId, userProfileImage }: CommentInpu
         <Avatar src={userProfileImage} alt="내 프로필" />
         <div className="flex-1 px-4 py-2.5 border border-[#eeeeee] box-border rounded-[20px]">
           <textarea
+            ref={textareaRef}
             rows={1}
             value={commentText}
-            onChange={(e) => setCommentText(e.target.value)}
+            onChange={handleChange}
             placeholder="댓글을 입력하세요."
-            className="w-full text-sm leading-[14px] bg-transparent outline-none resize-none overflow-y-hidden placeholder:text-[#aaaaaa] [field-sizing:content]"
+            className="w-full text-sm leading-[14px] bg-transparent outline-none resize-none overflow-y-hidden placeholder:text-[#aaaaaa]"
           />
         </div>
       </div>
