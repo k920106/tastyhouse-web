@@ -12,10 +12,10 @@ import { Pagination } from 'swiper/modules'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import Lightbox, {
   ComponentProps,
-  createModule,
   EVENT_ON_KEY_DOWN,
-  useController,
   VK_ESCAPE,
+  createModule,
+  useController,
 } from 'yet-another-react-lightbox'
 import Counter from 'yet-another-react-lightbox/plugins/counter'
 import 'yet-another-react-lightbox/plugins/counter.css'
@@ -42,7 +42,11 @@ function DisableEscapeKey({ children }: ComponentProps) {
   return <>{children}</>
 }
 
-const disableEscapeKeyPlugin = ({ addModule }: { addModule: (module: ReturnType<typeof createModule>) => void }) => {
+const disableEscapeKeyPlugin = ({
+  addModule,
+}: {
+  addModule: (module: ReturnType<typeof createModule>) => void
+}) => {
   addModule(createModule('DisableEscapeKey', DisableEscapeKey))
 }
 
@@ -98,7 +102,10 @@ export default function ReviewImageGallery({ imageUrls }: ReviewImageGalleryProp
         slides={slides}
         plugins={[Counter, disableEscapeKeyPlugin]}
         carousel={{ finite: imageUrls.length === 1 }}
-        controller={{ closeOnBackdropClick: false }}
+        controller={{
+          closeOnBackdropClick: false,
+          closeOnPullDown: true,
+        }}
         counter={{
           container: {
             style: {
