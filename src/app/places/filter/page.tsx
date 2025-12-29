@@ -83,7 +83,7 @@ export default function FilterPage() {
           <IoChevronBack size={24} color="#333333" />
         </button>
         <div className="absolute left-1/2 -translate-x-1/2">
-          <h1 className="text-[17px] text-[#333333]">필터</h1>
+          <h1 className="text-[17px]">필터</h1>
         </div>
         <button
           onClick={handleReset}
@@ -97,19 +97,19 @@ export default function FilterPage() {
       <div className="flex-1 overflow-y-auto pb-[80px]">
         {/* 지역 섹션 */}
         <section className="px-4 py-5 border-b border-[#eeeeee]">
-          <h2 className="mb-3 text-[15px] text-[#333333]">지역</h2>
+          <h2 className="mb-3 text-[15px]">지역</h2>
           <div className="flex items-center gap-2">
             <input
               type="text"
               value={selectedLocation}
               onChange={(e) => setSelectedLocation(e.target.value)}
               placeholder="지역을 선택해주세요."
-              className="flex-1 h-10 px-3 text-[15px] text-[#333333] placeholder:text-[#cccccc] border border-[#eeeeee] rounded focus:outline-none focus:border-[#666666]"
+              className="flex-1 h-10 px-3 text-[15px] placeholder:text-[#cccccc] border border-[#eeeeee] rounded focus:outline-none focus:border-[#666666]"
               readOnly
             />
             <button
               onClick={() => setSelectedLocation('서울시 마포구')}
-              className="px-4 h-10 text-sm leading-[14px] text-[#333333] border border-[#eeeeee] rounded whitespace-nowrap"
+              className="px-4 h-10 text-sm leading-[14px] border border-[#eeeeee] rounded whitespace-nowrap"
             >
               지역선택
             </button>
@@ -118,7 +118,7 @@ export default function FilterPage() {
 
         {/* 음식종류 섹션 */}
         <section className="px-4 py-5 border-b border-[#eeeeee]">
-          <h2 className="mb-3 text-[15px] text-[#333333]">음식종류</h2>
+          <h2 className="mb-3 text-[15px]">음식종류</h2>
           <div className="grid grid-cols-4 gap-2">
             {FOOD_CATEGORIES.map((category) => {
               const isSelected = selectedFoodCategories.includes(category.id)
@@ -151,7 +151,7 @@ export default function FilterPage() {
 
         {/* 편의시설 섹션 */}
         <section className="px-4 py-5">
-          <h2 className="mb-3 text-[15px] text-[#333333]">편의시설</h2>
+          <h2 className="mb-3 text-[15px]">편의시설</h2>
           <div className="grid grid-cols-4 gap-2">
             {FACILITIES.map((facility) => {
               const isSelected = selectedFacilities.includes(facility.id)
