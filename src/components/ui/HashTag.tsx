@@ -15,7 +15,7 @@ export default function HashTag({ tag, variant = 'primary', className, ...props 
   return (
     <span
       className={cn(
-        'flex-shrink-0 inline-block px-[15px] py-[7px] text-xs leading-[12px] text-[#666666] whitespace-nowrap border border-[#eeeeee] rounded-[14px]',
+        'flex-shrink-0 inline-block px-[11px] py-[8px] text-[10px] leading-[10px] text-[#666666] whitespace-nowrap border border-[#eeeeee] rounded-[12.5px]',
         variantStyles[variant],
         className,
       )}
