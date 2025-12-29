@@ -1,4 +1,5 @@
 import { PAGE_PATHS } from '@/lib/paths'
+import QueryProvider from '@/providers/QueryProvider'
 import '@/styles/globals.css'
 import { Nanum_Myeongjo } from 'next/font/google'
 
@@ -20,7 +21,9 @@ export default function RootLayout({
         <link rel="icon" href={PAGE_PATHS.FAVICON} sizes="any" />
       </head>
       <body>
-        <main>{children}</main>
+        <QueryProvider>
+          <main>{children}</main>
+        </QueryProvider>
       </body>
     </html>
   )
