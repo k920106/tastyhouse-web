@@ -21,3 +21,10 @@
 .reviewSwiperSingleImage :global(.swiper-pagination) {
   display: none;
 }
+
+.lightbox :global(.yarl__slide_image) {
+  max-height: 60% !important;
+  max-width: 100% !important;
+  width: 100% !important;
+  object-fit: cover !important;
+}

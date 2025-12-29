@@ -62,18 +62,19 @@ export default function ReviewImageGallery({ imageUrls }: ReviewImageGalleryProp
       </Swiper>
 
       <Lightbox
+        className={styles.lightbox}
         open={lightboxOpen}
         close={() => setLightboxOpen(false)}
         index={lightboxIndex}
         slides={slides}
         plugins={[Counter]}
-        carousel={{ finite: imageUrls.length === 1, padding: 0 }}
-        controller={{ closeOnBackdropClick: true }}
+        carousel={{ finite: imageUrls.length === 1 }}
+        controller={{ closeOnBackdropClick: false }}
         counter={{
           container: {
             style: {
               top: 'unset',
-              bottom: '10%',
+              bottom: '22%',
               left: '50%',
               right: 'auto',
               transform: 'translateX(-50%)',
@@ -88,11 +89,10 @@ export default function ReviewImageGallery({ imageUrls }: ReviewImageGalleryProp
             },
           },
         }}
-        render={{
-          buttonPrev: () => null,
-          buttonNext: () => null,
-          buttonClose: () => (
+        toolbar={{
+          buttons: [
             <button
+              key="custom-close"
               type="button"
               onClick={() => setLightboxOpen(false)}
               style={{
@@ -116,11 +116,14 @@ export default function ReviewImageGallery({ imageUrls }: ReviewImageGalleryProp
                 strokeLinecap="round"
                 strokeLinejoin="round"
               >
-                <line x1="18" y1="6" x2="6" y2="18" />
-                <line x1="6" y1="6" x2="18" y2="18" />
+                <path d="M18 6L6 18M6 6l12 12" />
               </svg>
-            </button>
-          ),
+            </button>,
+          ],
+        }}
+        render={{
+          buttonPrev: () => null,
+          buttonNext: () => null,
         }}
         styles={{
           container: { backgroundColor: 'rgba(0, 0, 0, 1)' },
