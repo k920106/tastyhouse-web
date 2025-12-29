@@ -3,16 +3,21 @@ import { api } from '@/lib/api'
 import { COMMON_ERROR_MESSAGES } from '@/lib/constants'
 import { API_ENDPOINTS } from '@/lib/endpoints'
 import { ApiResponse } from '@/types/api/api'
-import { BestReview } from '@/types/api/review'
+import { BestReview, BestReviewQuery } from '@/types/api/review'
 import BestReviewSwiper from './BestReviewSwiper'
 
-export default async function BestReviewList() {
-  const { data, error } = await api.get<ApiResponse<BestReview[]>>(API_ENDPOINTS.REVIEWS_BEST, {
+export default async function BestReviewContent() {
+  // API 호출
+  const query = {
     params: {
       page: 0,
       size: 5,
-    },
-  })
+    } satisfies BestReviewQuery,
+  }
+  const { data, error } = await api.get<ApiResponse<BestReview[]>>(
+    API_ENDPOINTS.REVIEWS_BEST,
+    query,
+  )
 
   // Expected Error: API 호출 실패 (네트워크 오류, timeout 등)
   if (error) {
