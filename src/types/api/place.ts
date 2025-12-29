@@ -24,9 +24,9 @@ export type ChoicePlace = Place & {
   products: ChoiceProduct[]
 }
 
-export type LatestPlaceQuery = PaginationParams & {}
+export type PlaceListQuery = PaginationParams & {}
 
-export type LatestPlace = Place & {
+export type PlaceListItem = Place & {
   stationName: string
   rating: number
   tags: string[]
