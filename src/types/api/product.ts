@@ -1,17 +1,15 @@
-export interface TodayDiscountProduct {
-  id: number
-  discountPrice: number
-  discountRate: number
-  imageUrl: string
-  name: string
-  originalPrice: number
-  placeName: string
-}
+import { PaginationParams } from './api'
 
-export interface ChoiceProduct {
+export type TodayDiscountProductQuery = PaginationParams & {}
+
+export type TodayDiscountProduct = Product & {}
+
+export type ChoiceProduct = Product & {}
+
+type Product = {
   id: number
-  placeName: string
   name: string
+  placeName: string
   imageUrl: string
   originalPrice: number
   discountPrice: number

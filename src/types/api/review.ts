@@ -1,4 +1,10 @@
-export interface BestReview {
+import { PaginationParams } from './api'
+
+export type ReviewType = 'ALL' | 'FOLLOWING'
+
+export type BestReviewQuery = PaginationParams & {}
+
+export type BestReview = {
   id: number
   content: string
   imageUrl: string
@@ -7,49 +13,11 @@ export interface BestReview {
   totalRating: number
 }
 
-export interface Review {
-  id: number
-  userName: string
-  userProfileImage: string | null
-  createdAt: string
-  images: string[]
-  content: string
-  likeCount: number
-  commentCount: number
-  placeName?: string
-  menuName?: string
-  hashtags?: string[]
+export type LatestReviewQuery = PaginationParams & {
+  type: ReviewType
 }
 
-export interface Comment {
-  id: number
-  reviewId: number
-  memberId: number
-  memberNickname: string
-  memberProfileImageUrl: string | null
-  content: string
-  createdAt: string
-  replies?: Reply[]
-}
-
-export interface Reply {
-  id: number
-  commentId: number
-  memberId: number
-  memberNickname: string
-  memberProfileImageUrl: string | null
-  content: string
-  createdAt: string
-}
-
-export interface CommentListResponse {
-  comments: Comment[]
-  totalCount: number
-}
-
-export type ReviewType = 'ALL' | 'FOLLOWING'
-
-export interface LatestReviewListItem {
+export type LatestReview = {
   id: number
   imageUrls: string[]
   stationName: string
@@ -61,13 +29,7 @@ export interface LatestReviewListItem {
   createdAt: string
 }
 
-export type LatestReviewQuery = {
-  page: number
-  size: number
-  type: ReviewType
-}
-
-export interface ReviewDetail {
+export type ReviewDetail = {
   id: number
   placeId: number
   placeName: string
@@ -88,4 +50,40 @@ export interface ReviewDetail {
   imageUrls: string[]
   tagNames: string[]
   isLiked: boolean
+}
+
+export type ReviewLikeResponse = {
+  liked: boolean
+}
+
+export type ReviewLikeResult = {
+  success: boolean
+  liked?: boolean
+  error?: string
+}
+
+export type ReviewCommentResponse = {
+  comments: Comment[]
+  totalCount: number
+}
+
+type Comment = {
+  id: number
+  reviewId: number
+  memberId: number
+  memberNickname: string
+  memberProfileImageUrl: string | null
+  content: string
+  createdAt: string
+  replies?: Reply[]
+}
+
+type Reply = {
+  id: number
+  commentId: number
+  memberId: number
+  memberNickname: string
+  memberProfileImageUrl: string | null
+  content: string
+  createdAt: string
 }

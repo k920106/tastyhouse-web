@@ -1,3 +1,8 @@
+export type PaginationParams = {
+  page: number
+  size: number
+}
+
 type PageInfo = {
   page: number
   size: number

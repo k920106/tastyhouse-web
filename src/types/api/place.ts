@@ -1,26 +1,31 @@
+import { PaginationParams } from './api'
 import { ChoiceProduct } from './product'
 
-export interface PlaceData {
+export type MapPlace = {
   id: number
+  name: string
   latitude: number
   longitude: number
-  name: string
 }
 
-export interface BestPlace {
-  id: number
-  imageUrl: string
-  name: string
+export type BestPlaceQuery = PaginationParams & {}
+
+export type BestPlace = Place & {
   rating: number
   stationName: string
   tags: string[]
 }
 
-export interface ChoicePlace {
-  id: number
-  content: string
-  imageUrl: string
-  name: string
-  products: ChoiceProduct[]
+export type ChoicePlaceQuery = PaginationParams & {}
+
+export type ChoicePlace = Place & {
   title: string
+  content: string
+  products: ChoiceProduct[]
+}
+
+type Place = {
+  id: number
+  name: string
+  imageUrl: string
 }
