@@ -51,7 +51,7 @@ export default function CommentInput({ reviewId, userProfileImage }: CommentInpu
     let result
     if (replyTarget) {
       // 답글 등록
-      result = await createReply(reviewId, replyTarget.commentId, content)
+      result = await createReply(reviewId, replyTarget.commentId, content, replyTarget.memberId)
     } else {
       // 댓글 등록
       result = await createComment(reviewId, content)

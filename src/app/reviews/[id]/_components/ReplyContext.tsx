@@ -5,13 +5,14 @@ import { createContext, useCallback, useContext, useRef, useState } from 'react'
 type ReplyTarget = {
   commentId: number
   nickname: string
+  memberId: number
 } | null
 
 interface ReplyContextValue {
   replyTarget: ReplyTarget
   setReplyTarget: (target: ReplyTarget) => void
   textareaRef: React.RefObject<HTMLTextAreaElement | null>
-  triggerReply: (commentId: number, nickname: string) => void
+  triggerReply: (commentId: number, nickname: string, memberId: number) => void
   clearReply: () => void
 }
 
@@ -21,8 +22,8 @@ export function ReplyProvider({ children }: { children: React.ReactNode }) {
   const [replyTarget, setReplyTarget] = useState<ReplyTarget>(null)
   const textareaRef = useRef<HTMLTextAreaElement>(null)
 
-  const triggerReply = useCallback((commentId: number, nickname: string) => {
-    setReplyTarget({ commentId, nickname })
+  const triggerReply = useCallback((commentId: number, nickname: string, memberId: number) => {
+    setReplyTarget({ commentId, nickname, memberId })
     // 다음 렌더링 후 focus
     setTimeout(() => {
       textareaRef.current?.focus()

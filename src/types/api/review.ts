@@ -111,6 +111,7 @@ export type CommentCreateResult = {
 
 export type ReplyCreateRequest = {
   content: string
+  replyToMemberId: number
 }
 
 export type ReplyCreateResponse = {

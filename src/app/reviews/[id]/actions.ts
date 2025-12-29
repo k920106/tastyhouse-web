@@ -76,9 +76,10 @@ export async function createReply(
   reviewId: number,
   commentId: number,
   content: string,
+  replyToMemberId: number,
 ): Promise<ReplyCreateResult> {
   try {
-    const request: ReplyCreateRequest = { content }
+    const request: ReplyCreateRequest = { content, replyToMemberId }
 
     const { data, error, status } = await api.post<ApiResponse<ReplyCreateResponse>>(
       API_ENDPOINTS.COMMENT_REPLIES(commentId),

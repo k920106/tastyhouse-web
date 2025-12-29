@@ -42,8 +42,8 @@ interface CommentItemProps {
 export default function CommentItem({ comment }: CommentItemProps) {
   const { triggerReply } = useReply()
 
-  const handleReplyClick = (commentId: number, nickname: string) => {
-    triggerReply(commentId, nickname)
+  const handleReplyClick = (commentId: number, nickname: string, memberId: number) => {
+    triggerReply(commentId, nickname, memberId)
   }
 
   return (
@@ -60,7 +60,7 @@ export default function CommentItem({ comment }: CommentItemProps) {
           </p>
           <button
             className="mt-[15px] text-xs leading-[12px] text-[#999999]"
-            onClick={() => handleReplyClick(comment.id, comment.memberNickname)}
+            onClick={() => handleReplyClick(comment.id, comment.memberNickname, comment.memberId)}
           >
             답글달기
           </button>
@@ -102,7 +102,7 @@ export default function CommentItem({ comment }: CommentItemProps) {
                 </p>
                 <button
                   className="mt-[15px] text-xs leading-[12px] text-[#999999]"
-                  onClick={() => handleReplyClick(comment.id, reply.memberNickname)}
+                  onClick={() => handleReplyClick(comment.id, reply.memberNickname, reply.memberId)}
                 >
                   답글달기
                 </button>
