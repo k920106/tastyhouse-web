@@ -1,7 +1,6 @@
 'use client'
 
 import { useState, useTransition } from 'react'
-import { IoChatboxOutline } from 'react-icons/io5'
 import { PiHeartFill, PiHeartThin } from 'react-icons/pi'
 import { toggleReviewLike } from '../actions'
 
@@ -36,10 +35,11 @@ export default function ReviewActions({ reviewId, initialIsLiked }: ReviewAction
         {isLiked ? <PiHeartFill size={17} className="text-main" /> : <PiHeartThin size={17} />}
         <span className="text-xs leading-[12px]">좋아요</span>
       </button>
-      <button className="flex items-center gap-1.5 cursor-pointer">
+      {/* React 상태 관리가 복잡해지는 문제 발생 */}
+      {/* <button className="flex items-center gap-1.5 cursor-pointer">
         <IoChatboxOutline size={17} />
         <span className="text-xs leading-[12px]">댓글</span>
-      </button>
+      </button> */}
     </div>
   )
 }
