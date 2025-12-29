@@ -108,3 +108,23 @@ export type CommentCreateResult = {
   data?: CommentCreateResponse
   error?: string
 }
+
+export type ReplyCreateRequest = {
+  content: string
+}
+
+export type ReplyCreateResponse = {
+  id: number
+  commentId: number
+  memberId: number
+  memberNickname: string
+  memberProfileImageUrl: string | null
+  content: string
+  createdAt: string
+}
+
+export type ReplyCreateResult = {
+  success: boolean
+  data?: ReplyCreateResponse
+  error?: string
+}

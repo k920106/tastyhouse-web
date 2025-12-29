@@ -7,6 +7,9 @@ import {
   CommentCreateRequest,
   CommentCreateResponse,
   CommentCreateResult,
+  ReplyCreateRequest,
+  ReplyCreateResponse,
+  ReplyCreateResult,
   ReviewLikeResponse,
   ReviewLikeResult,
 } from '@/types/api/review'
@@ -62,6 +65,39 @@ export async function createComment(
     return { success: true, data: data.data }
   } catch (error) {
     console.error('[Server Action] createComment error:', error)
+    return {
+      success: false,
+      error: error instanceof Error ? error.message : '서버 오류가 발생했습니다.',
+    }
+  }
+}
+
+export async function createReply(
+  reviewId: number,
+  commentId: number,
+  content: string,
+): Promise<ReplyCreateResult> {
+  try {
+    const request: ReplyCreateRequest = { content }
+
+    const { data, error, status } = await api.post<ApiResponse<ReplyCreateResponse>>(
+      API_ENDPOINTS.COMMENT_REPLIES(commentId),
+      request,
+    )
+
+    if (status === 401) {
+      return { success: false, error: '로그인이 필요합니다.' }
+    }
+
+    if (error || !data) {
+      return { success: false, error: error || '답글 등록에 실패했습니다.' }
+    }
+
+    revalidatePath(`/reviews/${reviewId}`)
+
+    return { success: true, data: data.data }
+  } catch (error) {
+    console.error('[Server Action] createReply error:', error)
     return {
       success: false,
       error: error instanceof Error ? error.message : '서버 오류가 발생했습니다.',

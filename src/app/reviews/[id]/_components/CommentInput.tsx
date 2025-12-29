@@ -2,9 +2,10 @@
 
 import Avatar from '@/components/ui/Avatar'
 import { Spinner } from '@/components/ui/shadcn/spinner'
-import { useCallback, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { RxPaperPlane } from 'react-icons/rx'
-import { createComment } from '../actions'
+import { createComment, createReply } from '../actions'
+import { useReply } from './ReplyContext'
 
 interface CommentInputProps {
   reviewId: number
@@ -15,29 +16,49 @@ export default function CommentInput({ reviewId, userProfileImage }: CommentInpu
   const [commentText, setCommentText] = useState('')
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [isFocused, setIsFocused] = useState(false)
-  const textareaRef = useRef<HTMLTextAreaElement>(null)
   const containerRef = useRef<HTMLDivElement>(null)
 
-  const handleSubmitComment = async () => {
+  const { replyTarget, textareaRef, clearReply } = useReply()
+
+  // 답글 모드가 활성화되면 @nickname 입력
+  useEffect(() => {
+    if (replyTarget) {
+      setCommentText(`@${replyTarget.nickname} `)
+      setIsFocused(true)
+    }
+  }, [replyTarget])
+
+  const handleSubmit = async () => {
     const content = commentText.trim()
 
     if (!content) {
-      alert('댓글을 입력해 주세요.')
+      alert(replyTarget ? '답글을 입력해 주세요.' : '댓글을 입력해 주세요.')
+      return
     }
 
-    if (!content || isSubmitting) return
+    if (isSubmitting) return
 
     setIsSubmitting(true)
 
-    const { success, error } = await createComment(reviewId, content)
-
-    if (error) {
-      alert(error || '댓글 등록에 실패했습니다.')
+    let result
+    if (replyTarget) {
+      // 답글 등록
+      result = await createReply(reviewId, replyTarget.commentId, content)
+    } else {
+      // 댓글 등록
+      result = await createComment(reviewId, content)
     }
 
-    if (success) {
+    if (result.error) {
+      alert(
+        result.error || (replyTarget ? '답글 등록에 실패했습니다.' : '댓글 등록에 실패했습니다.'),
+      )
+    }
+
+    if (result.success) {
       setCommentText('')
       setIsFocused(false)
+      clearReply()
       textareaRef.current?.blur()
     }
 
@@ -60,8 +81,9 @@ export default function CommentInput({ reviewId, userProfileImage }: CommentInpu
         return
       }
       setIsFocused(false)
+      clearReply()
     },
-    [commentText],
+    [commentText, clearReply],
   )
 
   // 버튼 표시 조건: focus 상태이거나 텍스트가 있을 때
@@ -78,7 +100,7 @@ export default function CommentInput({ reviewId, userProfileImage }: CommentInpu
           onChange={(e) => setCommentText(e.target.value)}
           onFocus={handleFocus}
           onBlur={handleBlur}
-          placeholder="댓글을 입력하세요."
+          placeholder={replyTarget ? '답글을 입력하세요.' : '댓글을 입력하세요.'}
           className="min-w-0 text-sm leading-normal bg-transparent outline-none resize-none overflow-y-hidden placeholder:text-[#aaaaaa] [field-sizing:content]"
         />
       </div>
@@ -87,7 +109,7 @@ export default function CommentInput({ reviewId, userProfileImage }: CommentInpu
           <button
             type="button"
             className="flex justify-end items-center w-[22px] h-[44px] disabled:opacity-50"
-            onClick={handleSubmitComment}
+            onClick={handleSubmit}
             disabled={isSubmitting}
           >
             <RxPaperPlane size={22} color="#cccccc" />
