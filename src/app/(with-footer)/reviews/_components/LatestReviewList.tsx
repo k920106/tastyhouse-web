@@ -69,11 +69,18 @@ export default async function LatestReviewList({ reviewType }: LatestReviewListP
   )
 
   if (error) {
-    return <ErrorMessage message={COMMON_ERROR_MESSAGES.API_FETCH_ERROR} />
+    return (
+      <ErrorMessage message={COMMON_ERROR_MESSAGES.API_FETCH_ERROR} className="py-10 bg-white" />
+    )
   }
 
   if (!data || !data?.success || !data.data) {
-    return <ErrorMessage message={COMMON_ERROR_MESSAGES.FETCH_ERROR('리뷰')} />
+    return (
+      <ErrorMessage
+        message={COMMON_ERROR_MESSAGES.FETCH_ERROR('리뷰')}
+        className="py-10 bg-white"
+      />
+    )
   }
 
   return data.data.map((review) => {
