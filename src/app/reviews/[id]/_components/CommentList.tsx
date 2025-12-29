@@ -85,7 +85,9 @@ export default async function CommentList({ reviewId }: CommentListProps) {
             <Nickname>{comment.memberNickname}</Nickname>
             <TimeAgo date={comment.createdAt} />
           </div>
-          <p className="text-xs leading-relaxed">{comment.content}</p>
+          <p className="text-xs leading-relaxed whitespace-pre-wrap break-words">
+            {comment.content}
+          </p>
           <button className="mt-[15px] text-xs leading-[12px] text-[#999999]">답글달기</button>
         </div>
         <Drawer>
@@ -119,7 +121,9 @@ export default async function CommentList({ reviewId }: CommentListProps) {
                   <Nickname size="sm">{reply.memberNickname}</Nickname>
                   <TimeAgo date={reply.createdAt} />
                 </div>
-                <p className="text-xs leading-relaxed">{reply.content}</p>
+                <p className="text-xs leading-relaxed whitespace-pre-wrap break-words">
+                  {reply.content}
+                </p>
                 <button className="mt-[15px] text-xs leading-[12px] text-[#999999]">
                   답글달기
                 </button>
