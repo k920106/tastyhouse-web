@@ -19,7 +19,7 @@ export function RankListSkeleton() {
   )
 }
 
-export function RankListItemSkeleton() {
+function RankListItemSkeleton() {
   return (
     <>
       <div className="flex justify-between items-center py-[15px] pl-4 pr-5 bg-[#fcfcfc] border border-[#eeeeee] rounded-[2.5px]">

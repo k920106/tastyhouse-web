@@ -17,14 +17,14 @@ export function BestPlaceListSkeleton() {
     <>
       <ul className="grid grid-cols-2 gap-3 mb-[25px]">
         {[...Array(4)].map((_, i) => (
-          <BestPlaceListSkeletonItem key={i} />
+          <BestPlaceListItemSkeleton key={i} />
         ))}
       </ul>
     </>
   )
 }
 
-export function BestPlaceListSkeletonItem() {
+function BestPlaceListItemSkeleton() {
   return (
     <div className="group block overflow-hidden">
       <div className="relative aspect-square overflow-hidden">

@@ -17,7 +17,7 @@ export function CommentListSkeleton() {
   )
 }
 
-export function CommentListItemSkeleton() {
+function CommentListItemSkeleton() {
   return (
     <div className="flex gap-2.5">
       <Skeleton className="w-9 h-9 rounded-full flex-shrink-0" />
