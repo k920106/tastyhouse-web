@@ -11,6 +11,7 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from '@/components/ui/shadcn/drawer'
+import Link from 'next/link'
 import { FiMoreVertical } from 'react-icons/fi'
 import { useReply } from './ReplyContext'
 
@@ -20,6 +21,8 @@ type Reply = {
   memberId: number
   memberNickname: string
   memberProfileImageUrl: string | null
+  replyToMemberId: number
+  replyToMemberNickname: string
   content: string
   createdAt: string
 }
@@ -98,6 +101,12 @@ export default function CommentItem({ comment }: CommentItemProps) {
                   <TimeAgo date={reply.createdAt} />
                 </div>
                 <p className="text-xs leading-relaxed whitespace-pre-wrap break-words">
+                  <Link
+                    href={`/members/${reply.replyToMemberId}`}
+                    className="text-[#3B82F6] font-medium"
+                  >
+                    @{reply.replyToMemberNickname}
+                  </Link>{' '}
                   {reply.content}
                 </p>
                 <button

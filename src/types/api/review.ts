@@ -84,6 +84,8 @@ type Reply = {
   memberId: number
   memberNickname: string
   memberProfileImageUrl: string | null
+  replyToMemberId: number
+  replyToMemberNickname: string
   content: string
   createdAt: string
 }
