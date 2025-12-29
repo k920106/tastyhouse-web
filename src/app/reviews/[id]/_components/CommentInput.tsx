@@ -29,7 +29,15 @@ export default function CommentInput({ reviewId, userProfileImage }: CommentInpu
   }, [replyTarget])
 
   const handleSubmit = async () => {
-    const content = commentText.trim()
+    let content = commentText.trim()
+
+    // 답글 모드일 때 @nickname 제거
+    if (replyTarget) {
+      const mentionPrefix = `@${replyTarget.nickname} `
+      if (content.startsWith(mentionPrefix)) {
+        content = content.slice(mentionPrefix.length).trim()
+      }
+    }
 
     if (!content) {
       alert(replyTarget ? '답글을 입력해 주세요.' : '댓글을 입력해 주세요.')
