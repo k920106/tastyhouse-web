@@ -2,7 +2,7 @@ import { PAGE_PATHS } from '@/lib/paths'
 import Image from 'next/image'
 import Link from 'next/link'
 
-export default function QuickReviewButton() {
+export default function QuickReviewLink() {
   return (
     <Link
       href={PAGE_PATHS.REVIEW_CREATE}
