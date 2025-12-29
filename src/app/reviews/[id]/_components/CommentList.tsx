@@ -15,7 +15,7 @@ import { api } from '@/lib/api'
 import { COMMON_ERROR_MESSAGES } from '@/lib/constants'
 import { API_ENDPOINTS } from '@/lib/endpoints'
 import { ApiResponse } from '@/types/api/api'
-import { CommentListResponse } from '@/types/api/review'
+import { ReviewCommentResponse } from '@/types/api/review'
 import { FiMoreVertical } from 'react-icons/fi'
 
 export function CommentListSkeleton() {
@@ -49,7 +49,7 @@ interface CommentListProps {
 }
 
 export default async function CommentList({ reviewId }: CommentListProps) {
-  const { error, data } = await api.get<ApiResponse<CommentListResponse>>(
+  const { error, data } = await api.get<ApiResponse<ReviewCommentResponse>>(
     API_ENDPOINTS.REVIEW_COMMENTS(reviewId),
   )
 
