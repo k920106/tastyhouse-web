@@ -1,8 +1,10 @@
 'use client'
 
 import Avatar from '@/components/ui/Avatar'
+import { Spinner } from '@/components/ui/shadcn/spinner'
 import { useState } from 'react'
 import { RxPaperPlane } from 'react-icons/rx'
+import { createComment } from '../actions'
 
 interface CommentInputProps {
   reviewId: number
@@ -11,11 +13,26 @@ interface CommentInputProps {
 
 export default function CommentInput({ reviewId, userProfileImage }: CommentInputProps) {
   const [commentText, setCommentText] = useState('')
+  const [isSubmitting, setIsSubmitting] = useState(false)
 
-  const handleSubmitComment = () => {
-    // TODO: 댓글 등록 API 호출 (reviewId 사용)
-    console.log('Submit comment for review:', reviewId)
-    setCommentText('')
+  const handleSubmitComment = async () => {
+    const content = commentText.trim()
+    if (!content || isSubmitting) return
+
+    setIsSubmitting(true)
+
+    // API 호출
+    const { success, error } = await createComment(reviewId, content)
+
+    if (error) {
+      alert(error || '댓글 등록에 실패했습니다.')
+    }
+
+    if (success) {
+      setCommentText('')
+    }
+
+    setIsSubmitting(false)
   }
 
   return (
@@ -32,14 +49,18 @@ export default function CommentInput({ reviewId, userProfileImage }: CommentInpu
           />
         </div>
       </div>
-      {commentText.trim() && (
-        <button
-          className="flex justify-end items-center w-[22px] h-[44px]"
-          onClick={handleSubmitComment}
-        >
-          <RxPaperPlane size={22} color="#cccccc" />
-        </button>
-      )}
+      {commentText.trim() &&
+        (!isSubmitting ? (
+          <button
+            className="flex justify-end items-center w-[22px] h-[44px] disabled:opacity-50"
+            onClick={handleSubmitComment}
+            disabled={isSubmitting}
+          >
+            <RxPaperPlane size={22} color="#cccccc" />
+          </button>
+        ) : (
+          <Spinner />
+        ))}
     </>
   )
 }

@@ -62,7 +62,7 @@ export type ReviewLikeResult = {
   error?: string
 }
 
-export type ReviewCommentResponse = {
+export type CommentListResponse = {
   comments: Comment[]
   totalCount: number
 }
@@ -86,4 +86,25 @@ type Reply = {
   memberProfileImageUrl: string | null
   content: string
   createdAt: string
+}
+
+export type CommentCreateRequest = {
+  content: string
+}
+
+export type CommentCreateResponse = {
+  id: number
+  reviewId: number
+  memberId: number
+  memberNickname: string
+  memberProfileImageUrl: string | null
+  content: string
+  createdAt: string
+  replies: Reply[]
+}
+
+export type CommentCreateResult = {
+  success: boolean
+  data?: CommentCreateResponse
+  error?: string
 }
