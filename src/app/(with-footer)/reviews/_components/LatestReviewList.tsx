@@ -8,7 +8,7 @@ import { COMMON_ERROR_MESSAGES } from '@/lib/constants'
 import { API_ENDPOINTS } from '@/lib/endpoints'
 import { PAGE_PATHS } from '@/lib/paths'
 import { PagedApiResponse } from '@/types/api/api'
-import { LatestReviewListItem, ReviewType } from '@/types/api/review'
+import { LatestReview, LatestReviewQuery, ReviewType } from '@/types/api/review'
 import ClampedText from './ClampedText'
 
 export function LatestReviewListSkeleton() {
@@ -60,10 +60,10 @@ export default async function LatestReviewList({ reviewType }: LatestReviewListP
       page: 0,
       size: 10,
       type: reviewType,
-    },
+    } satisfies LatestReviewQuery,
   }
 
-  const { error, data } = await api.get<PagedApiResponse<LatestReviewListItem>>(
+  const { error, data } = await api.get<PagedApiResponse<LatestReview>>(
     API_ENDPOINTS.REVIEWS_LATEST,
     query,
   )
