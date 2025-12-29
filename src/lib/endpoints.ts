@@ -51,6 +51,7 @@ export const API_ENDPOINTS = {
   // 장소 추가 엔드포인트
   PLACES_EDITOR_CHOICE: '/api/places/v1/editor-choice',
   PLACES_BEST: '/api/places/v1/best',
+  PLACES_LATEST: '/api/places/v1/latest',
 
   // 리뷰 추가 엔드포인트
   REVIEWS_BEST: '/api/reviews/v1/best',

@@ -1,43 +1,28 @@
+import {
+  PlaceCard,
+  PlaceCardContent,
+  PlaceCardHeader,
+  PlaceCardImage,
+  PlaceCardName,
+  PlaceCardRating,
+  PlaceCardSkeleton,
+  PlaceCardStation,
+  PlaceCardTags,
+} from '@/components/places/PlaceCard'
 import ErrorMessage from '@/components/ui/ErrorMessage'
-import HashTag from '@/components/ui/HashTag'
 import ViewMoreButton from '@/components/ui/ViewMoreButton'
-import { Skeleton } from '@/components/ui/shadcn/skeleton'
 import { api } from '@/lib/api'
 import { COMMON_ERROR_MESSAGES } from '@/lib/constants'
 import { API_ENDPOINTS } from '@/lib/endpoints'
-import { formatDecimal } from '@/lib/number'
-import { PAGE_PATHS } from '@/lib/paths'
 import { ApiResponse } from '@/types/api/api'
 import { BestPlace, BestPlaceQuery } from '@/types/api/place'
-import Image from 'next/image'
-import Link from 'next/link'
 
 export function BestPlaceListSkeleton() {
   return (
-    <>
-      <div className="grid grid-cols-2 gap-3 mb-[25px]">
-        {[...Array(4)].map((_, i) => (
-          <BestPlaceListItemSkeleton key={i} />
-        ))}
-      </div>
-    </>
-  )
-}
-
-function BestPlaceListItemSkeleton() {
-  return (
-    <div className="group block overflow-hidden">
-      <div className="relative mb-[15px] aspect-square overflow-hidden">
-        <Skeleton className="h-full w-full rounded-none" />
-      </div>
-      <div className="flex items-center justify-between mb-1.5">
-        <Skeleton className="w-1/4 h-3" />
-        <Skeleton className="w-1/6 h-[19px]" />
-      </div>
-      <Skeleton className="h-4 w-3/4 mb-[15px]" />
-      <div className="flex gap-1.5 overflow-hidden">
-        <Skeleton className="w-1/5 h-[26px] rounded-[14px]" />
-      </div>
+    <div className="grid grid-cols-2 gap-3 mb-[25px]">
+      {[...Array(4)].map((_, i) => (
+        <PlaceCardSkeleton key={i} />
+      ))}
     </div>
   )
 }
@@ -67,31 +52,17 @@ export default async function BestPlaceList() {
       <ul className="grid grid-cols-2 gap-x-[15px] gap-y-10 mb-10">
         {data.data.map((place) => (
           <li key={place.id}>
-            <Link href={PAGE_PATHS.PLACE_DETAIL(place.id)} className="group block overflow-hidden">
-              <div className="relative mb-[15px] aspect-square overflow-hidden">
-                <Image
-                  src={place.imageUrl}
-                  alt={place.name}
-                  fill
-                  sizes="(max-width: 768px) 50vw, 33vw"
-                  className="object-cover transition-transform duration-300"
-                />
-              </div>
-              <div className="flex items-center justify-between mb-1.5">
-                <span className="text-xs leading-[12px] text-[#999999] truncate">
-                  {place.stationName}
-                </span>
-                <span className="text-[19px] leading-[19px] text-main">
-                  {formatDecimal(place.rating, 1)}
-                </span>
-              </div>
-              <h3 className="leading-[16px] mb-[15px] truncate">{place.name}</h3>
-              <div className="flex gap-1.5 overflow-hidden">
-                {place.tags.map((tag, index) => (
-                  <HashTag key={index} tag={tag} />
-                ))}
-              </div>
-            </Link>
+            <PlaceCard placeId={place.id}>
+              <PlaceCardImage src={place.imageUrl} alt={place.name} />
+              <PlaceCardContent>
+                <PlaceCardHeader>
+                  <PlaceCardStation>{place.stationName}</PlaceCardStation>
+                  <PlaceCardRating value={place.rating} />
+                </PlaceCardHeader>
+                <PlaceCardName>{place.name}</PlaceCardName>
+                <PlaceCardTags tags={place.tags} />
+              </PlaceCardContent>
+            </PlaceCard>
           </li>
         ))}
       </ul>
