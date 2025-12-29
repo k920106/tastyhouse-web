@@ -35,9 +35,10 @@ export function CommentListItemSkeleton() {
 
 interface CommentListProps {
   reviewId: number
+  currentMemberId: number | null
 }
 
-export default async function CommentList({ reviewId }: CommentListProps) {
+export default async function CommentList({ reviewId, currentMemberId }: CommentListProps) {
   const { error, data } = await api.get<ApiResponse<CommentListResponse>>(
     API_ENDPOINTS.REVIEW_COMMENTS(reviewId),
   )
@@ -65,5 +66,7 @@ export default async function CommentList({ reviewId }: CommentListProps) {
     )
   }
 
-  return comments.map((comment) => <CommentItem key={comment.id} comment={comment} />)
+  return comments.map((comment) => (
+    <CommentItem key={comment.id} comment={comment} currentMemberId={currentMemberId} />
+  ))
 }

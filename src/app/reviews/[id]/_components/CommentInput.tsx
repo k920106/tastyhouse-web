@@ -2,6 +2,7 @@
 
 import Avatar from '@/components/ui/Avatar'
 import { Spinner } from '@/components/ui/shadcn/spinner'
+import { useRouter } from 'next/navigation'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { RxPaperPlane } from 'react-icons/rx'
 import { createComment, createReply } from '../actions'
@@ -10,9 +11,15 @@ import { useReply } from './ReplyContext'
 interface CommentInputProps {
   reviewId: number
   userProfileImage: string | null
+  isLoggedIn: boolean
 }
 
-export default function CommentInput({ reviewId, userProfileImage }: CommentInputProps) {
+export default function CommentInput({
+  reviewId,
+  userProfileImage,
+  isLoggedIn,
+}: CommentInputProps) {
+  const router = useRouter()
   const [commentText, setCommentText] = useState('')
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [isFocused, setIsFocused] = useState(false)
@@ -74,8 +81,12 @@ export default function CommentInput({ reviewId, userProfileImage }: CommentInpu
   }
 
   const handleFocus = useCallback(() => {
+    if (!isLoggedIn) {
+      router.push('/login')
+      return
+    }
     setIsFocused(true)
-  }, [])
+  }, [isLoggedIn, router])
 
   const handleBlur = useCallback(
     (e: React.FocusEvent<HTMLTextAreaElement>) => {
