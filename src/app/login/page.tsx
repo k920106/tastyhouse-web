@@ -1,6 +1,7 @@
 'use client'
 
 import { loginAndRedirect } from '@/app/login/action'
+import { LoginParams } from '@/types/api/auth'
 import { useActionState } from 'react'
 
 export default function LoginPage() {
@@ -8,7 +9,8 @@ export default function LoginPage() {
     async (_prevState: unknown, formData: FormData) => {
       const username = formData.get('username')?.toString() || ''
       const password = formData.get('password')?.toString() || ''
-      return await loginAndRedirect({ username, password })
+      const params = { username, password } satisfies LoginParams
+      return await loginAndRedirect(params)
     },
     null,
   )
@@ -17,13 +19,11 @@ export default function LoginPage() {
     <div className="flex items-center justify-center min-h-screen bg-gray-50">
       <div className="w-full max-w-sm p-8 space-y-6 bg-white rounded-lg shadow-md">
         <h1 className="text-2xl font-bold text-center text-gray-900">로그인</h1>
-
         {state && !state.success && (
           <div className="p-4 text-sm text-red-700 bg-red-100 rounded-lg" role="alert">
             {state.error}
           </div>
         )}
-
         <form action={formAction} className="space-y-6">
           <div>
             <label htmlFor="username" className="block mb-2 text-sm text-gray-700">

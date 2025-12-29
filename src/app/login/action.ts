@@ -2,7 +2,7 @@
 
 import { api } from '@/lib/api'
 import { API_ENDPOINTS } from '@/lib/endpoints'
-import { LoginRequest, LoginResponse, LoginResult } from '@/types/api/auth'
+import { LoginParams, LoginRequest, LoginResponse, LoginResult } from '@/types/api/auth'
 import { revalidatePath } from 'next/cache'
 import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
@@ -24,7 +24,9 @@ function validateLoginInput(username: string, password: string): string | null {
   return null
 }
 
-export async function login({ username, password }: LoginRequest): Promise<LoginResult> {
+export async function login(params: LoginParams): Promise<LoginResult> {
+  const { username, password } = params
+
   // 검증
   const validationError = validateLoginInput(username, password)
   if (validationError) {
@@ -36,10 +38,11 @@ export async function login({ username, password }: LoginRequest): Promise<Login
   // 이 try-catch가 없으면 예외 발생 시 전체 서버 액션이 실패하고 사용자는 "Internal Server Error"만 보게 됩니다.
   try {
     // API 호출
-    const { data, error } = await api.post<LoginResponse>(API_ENDPOINTS.AUTH_LOGIN, {
+    const request = {
       username,
       password,
-    })
+    } as LoginRequest
+    const { data, error } = await api.post<LoginResponse>(API_ENDPOINTS.AUTH_LOGIN, request)
 
     if (error || !data) {
       return { success: false, error: error || '로그인에 실패했습니다.' }
@@ -77,8 +80,8 @@ export async function login({ username, password }: LoginRequest): Promise<Login
 }
 
 // redirect를 사용하는 Server Action (form action으로 직접 사용 가능)
-export async function loginAndRedirect(request: LoginRequest) {
-  const result = await login(request)
+export async function loginAndRedirect(params: LoginParams) {
+  const result = await login(params)
 
   if (!result.success) {
     return result
