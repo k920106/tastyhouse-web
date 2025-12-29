@@ -4,15 +4,15 @@ import { API_ENDPOINTS } from '@/lib/endpoints'
 import { ApiResponse } from '@/types/api/api'
 import { ReviewDetail } from '@/types/api/review'
 
-export function ReviewInfoHeaderSkeleton() {
+export function ReviewDetailHeaderSkeleton() {
   return <Skeleton className="h-[17px] w-[120px]" />
 }
 
-interface ReviewInfoHeaderProps {
+interface ReviewDetailHeaderProps {
   reviewId: number
 }
 
-export default async function ReviewInfoHeader({ reviewId }: ReviewInfoHeaderProps) {
+export default async function ReviewDetailHeader({ reviewId }: ReviewDetailHeaderProps) {
   const { error, data } = await api.get<ApiResponse<ReviewDetail>>(
     API_ENDPOINTS.REVIEW_DETAIL(reviewId),
   )

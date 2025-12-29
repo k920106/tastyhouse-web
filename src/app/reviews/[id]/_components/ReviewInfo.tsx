@@ -1,3 +1,6 @@
+import ReviewAuthorInfo from '@/components/reviews/ReviewAuthorInfo'
+import ReviewImageGallery from '@/components/reviews/ReviewImageGallery'
+import ReviewOptionDrawer from '@/components/reviews/ReviewOptionDrawer'
 import ErrorMessage from '@/components/ui/ErrorMessage'
 import { Skeleton } from '@/components/ui/shadcn/skeleton'
 import { api } from '@/lib/api'
@@ -6,10 +9,7 @@ import { API_ENDPOINTS } from '@/lib/endpoints'
 import { ApiResponse } from '@/types/api/api'
 import { ReviewDetail } from '@/types/api/review'
 import ReviewActions from './ReviewActions'
-import ReviewAuthorInfo from './ReviewAuthorInfo'
-import ReviewContent from './ReviewContent'
-import ReviewImageGallery from './ReviewImageGallery'
-import ReviewOptionDrawer from './ReviewOptionDrawer'
+import ReviewInfoContent from './ReviewContent'
 
 export function ReviewInfoSkeleton() {
   return (
@@ -81,7 +81,7 @@ export default async function ReviewInfo({ reviewId }: ReviewInfoProps) {
         <ReviewOptionDrawer reviewId={id} memberNickname={memberNickname} content={content} />
       </div>
       <ReviewImageGallery imageUrls={imageUrls} />
-      <ReviewContent content={content} tagNames={tagNames} />
+      <ReviewInfoContent content={content} tagNames={tagNames} />
       <ReviewActions reviewId={id} initialIsLiked={isLiked} />
     </>
   )

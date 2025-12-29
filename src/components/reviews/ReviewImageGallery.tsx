@@ -2,7 +2,7 @@
 
 import 'swiper/css'
 import 'swiper/css/pagination'
-import styles from './ReviewDetailSection.module.css'
+import styles from './ReviewImageGallery.module.css'
 
 import Image from 'next/image'
 import { Pagination } from 'swiper/modules'
