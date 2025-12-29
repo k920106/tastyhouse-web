@@ -15,11 +15,11 @@ import Link from 'next/link'
 export function BestPlaceListSkeleton() {
   return (
     <>
-      <ul className="grid grid-cols-2 gap-3 mb-[25px]">
+      <div className="grid grid-cols-2 gap-3 mb-[25px]">
         {[...Array(4)].map((_, i) => (
           <BestPlaceListItemSkeleton key={i} />
         ))}
-      </ul>
+      </div>
     </>
   )
 }
@@ -27,18 +27,16 @@ export function BestPlaceListSkeleton() {
 function BestPlaceListItemSkeleton() {
   return (
     <div className="group block overflow-hidden">
-      <div className="relative aspect-square overflow-hidden">
+      <div className="relative mb-[15px] aspect-square overflow-hidden">
         <Skeleton className="h-full w-full rounded-none" />
       </div>
-      <div className="py-[15px]">
-        <div className="flex items-center justify-between mb-1.5">
-          <Skeleton className="w-1/4 h-3 mb-5" />
-          <Skeleton className="w-1/6 h-[19px]" />
-        </div>
-        <Skeleton className="h-4 w-3/4 mb-[15px]" />
-        <div className="flex gap-1.5 overflow-hidden">
-          <Skeleton className="w-1/5 h-[26px] rounded-[14px]" />
-        </div>
+      <div className="flex items-center justify-between mb-1.5">
+        <Skeleton className="w-1/4 h-3" />
+        <Skeleton className="w-1/6 h-[19px]" />
+      </div>
+      <Skeleton className="h-4 w-3/4 mb-[15px]" />
+      <div className="flex gap-1.5 overflow-hidden">
+        <Skeleton className="w-1/5 h-[26px] rounded-[14px]" />
       </div>
     </div>
   )
@@ -66,11 +64,11 @@ export default async function BestPlaceList() {
 
   return (
     <>
-      <ul className="grid grid-cols-2 gap-3 mb-[25px]">
+      <ul className="grid grid-cols-2 gap-x-[15px] gap-y-10 mb-10">
         {data.data.map((place) => (
           <li key={place.id}>
             <Link href={PAGE_PATHS.PLACE_DETAIL(place.id)} className="group block overflow-hidden">
-              <div className="relative aspect-square overflow-hidden">
+              <div className="relative mb-[15px] aspect-square overflow-hidden">
                 <Image
                   src={place.imageUrl}
                   alt={place.name}
@@ -79,21 +77,19 @@ export default async function BestPlaceList() {
                   className="object-cover transition-transform duration-300"
                 />
               </div>
-              <div className="py-[15px]">
-                <div className="flex items-center justify-between mb-1.5">
-                  <span className="text-xs leading-[12px] text-[#999999] truncate">
-                    {place.stationName}
-                  </span>
-                  <span className="text-[19px] leading-[19px] text-main">
-                    {formatDecimal(place.rating, 1)}
-                  </span>
-                </div>
-                <h3 className="leading-[16px] mb-[15px] truncate">{place.name}</h3>
-                <div className="flex gap-1.5 overflow-hidden">
-                  {place.tags.map((tag, index) => (
-                    <HashTag key={index} tag={tag} />
-                  ))}
-                </div>
+              <div className="flex items-center justify-between mb-1.5">
+                <span className="text-xs leading-[12px] text-[#999999] truncate">
+                  {place.stationName}
+                </span>
+                <span className="text-[19px] leading-[19px] text-main">
+                  {formatDecimal(place.rating, 1)}
+                </span>
+              </div>
+              <h3 className="leading-[16px] mb-[15px] truncate">{place.name}</h3>
+              <div className="flex gap-1.5 overflow-hidden">
+                {place.tags.map((tag, index) => (
+                  <HashTag key={index} tag={tag} />
+                ))}
               </div>
             </Link>
           </li>
