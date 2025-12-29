@@ -6,16 +6,44 @@ import 'yet-another-react-lightbox/styles.css'
 import styles from './ReviewImageGallery.module.css'
 
 import Image from 'next/image'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { HiOutlineXMark } from 'react-icons/hi2'
 import { Pagination } from 'swiper/modules'
 import { Swiper, SwiperSlide } from 'swiper/react'
-import Lightbox from 'yet-another-react-lightbox'
+import Lightbox, {
+  ComponentProps,
+  createModule,
+  EVENT_ON_KEY_DOWN,
+  useController,
+  VK_ESCAPE,
+} from 'yet-another-react-lightbox'
 import Counter from 'yet-another-react-lightbox/plugins/counter'
 import 'yet-another-react-lightbox/plugins/counter.css'
 
 interface ReviewImageGalleryProps {
   imageUrls: string[]
+}
+
+// ESC 키로 Lightbox가 닫히지 않도록 하는 커스텀 모듈
+// Reference: https://github.com/igordanchenko/yet-another-react-lightbox/discussions/319
+function DisableEscapeKey({ children }: ComponentProps) {
+  const { subscribeSensors } = useController()
+
+  useEffect(
+    () =>
+      subscribeSensors(EVENT_ON_KEY_DOWN, (event) => {
+        if (event.key === VK_ESCAPE) {
+          event.stopPropagation()
+        }
+      }),
+    [subscribeSensors],
+  )
+
+  return <>{children}</>
+}
+
+const disableEscapeKeyPlugin = ({ addModule }: { addModule: (module: ReturnType<typeof createModule>) => void }) => {
+  addModule(createModule('DisableEscapeKey', DisableEscapeKey))
 }
 
 export default function ReviewImageGallery({ imageUrls }: ReviewImageGalleryProps) {
@@ -68,7 +96,7 @@ export default function ReviewImageGallery({ imageUrls }: ReviewImageGalleryProp
         close={() => setLightboxOpen(false)}
         index={lightboxIndex}
         slides={slides}
-        plugins={[Counter]}
+        plugins={[Counter, disableEscapeKeyPlugin]}
         carousel={{ finite: imageUrls.length === 1 }}
         controller={{ closeOnBackdropClick: false }}
         counter={{
