@@ -21,11 +21,11 @@ export default function ReviewActions({ reviewId, initialIsLiked }: ReviewAction
     setIsLiked(!isLiked)
 
     startTransition(async () => {
-      const result = await toggleReviewLike(reviewId)
+      const { success, error } = await toggleReviewLike(reviewId)
 
-      if (!result.success) {
+      if (!success) {
         setIsLiked(previousIsLiked)
-        alert(result.error || '좋아요 처리에 실패했습니다.')
+        alert(error || '좋아요 처리에 실패했습니다.')
       }
     })
   }
