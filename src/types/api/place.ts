@@ -11,8 +11,8 @@ export type MapPlace = {
 export type BestPlaceQuery = PaginationParams & {}
 
 export type BestPlace = Place & {
-  rating: number
   stationName: string
+  rating: number
   tags: string[]
 }
 
@@ -30,6 +30,8 @@ export type PlaceListItem = Place & {
   stationName: string
   rating: number
   tags: string[]
+  reviewCount: number
+  bookmarkCount: number
   createdAt: string
 }
 

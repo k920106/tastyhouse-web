@@ -14,10 +14,8 @@ import ErrorMessage from '@/components/ui/ErrorMessage'
 import { api } from '@/lib/api'
 import { COMMON_ERROR_MESSAGES } from '@/lib/constants'
 import { API_ENDPOINTS } from '@/lib/endpoints'
-import { PAGE_PATHS } from '@/lib/paths'
 import { PagedApiResponse } from '@/types/api/api'
 import { PlaceListItem, PlaceListQuery } from '@/types/api/place'
-import Link from 'next/link'
 import PlaceFilterBar from './PlaceFilterBar'
 
 export function PlaceListContentSkeleton() {
@@ -61,22 +59,23 @@ export default async function PlaceListContent() {
       <PlaceFilterBar totalCount={data.pagination.totalElements} />
       <ul className="grid grid-cols-2 gap-x-[15px] gap-y-10">
         {data.data.map((place) => (
-          <Link key={place.id} href={PAGE_PATHS.PLACE_DETAIL(place.id)}>
-            <li>
-              <PlaceCard placeId={place.id}>
-                <PlaceCardImage src={place.imageUrl} alt={place.name} />
-                <PlaceCardContent>
-                  <PlaceCardHeader>
-                    <PlaceCardStation>{place.stationName}</PlaceCardStation>
-                    <PlaceCardRating value={place.rating} />
-                  </PlaceCardHeader>
-                  <PlaceCardName>{place.name}</PlaceCardName>
-                  <PlaceCardStats reviewCount={0} favoriteCount={0} />
-                  <PlaceCardTags tags={place.tags} variant="secondary" />
-                </PlaceCardContent>
-              </PlaceCard>
-            </li>
-          </Link>
+          <li key={place.id}>
+            <PlaceCard placeId={place.id}>
+              <PlaceCardImage src={place.imageUrl} alt={place.name} />
+              <PlaceCardContent>
+                <PlaceCardHeader>
+                  <PlaceCardStation>{place.stationName}</PlaceCardStation>
+                  <PlaceCardRating value={place.rating} />
+                </PlaceCardHeader>
+                <PlaceCardName>{place.name}</PlaceCardName>
+                <PlaceCardStats
+                  reviewCount={place.reviewCount}
+                  bookmarkCount={place.bookmarkCount}
+                />
+                <PlaceCardTags tags={place.tags} variant="secondary" />
+              </PlaceCardContent>
+            </PlaceCard>
+          </li>
         ))}
       </ul>
     </>
