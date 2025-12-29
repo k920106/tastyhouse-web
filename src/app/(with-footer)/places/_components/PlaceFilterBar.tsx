@@ -1,5 +1,7 @@
 'use client'
 
+import { PAGE_PATHS } from '@/lib/paths'
+import Link from 'next/link'
 import { BiFilterAlt } from 'react-icons/bi'
 
 interface PlaceFilterBarProps {
@@ -18,9 +20,9 @@ export default function PlaceFilterBar({ totalCount, isLoading }: PlaceFilterBar
         )}
       </div>
       <div className="flex items-center gap-2.5">
-        <button>
+        <Link href={PAGE_PATHS.PLACE_FILTER}>
           <BiFilterAlt size={20} />
-        </button>
+        </Link>
       </div>
     </div>
   )

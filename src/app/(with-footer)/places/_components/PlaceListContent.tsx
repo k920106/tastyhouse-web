@@ -121,7 +121,6 @@ export default function PlaceListContent() {
         ))}
         {isFetchingNextPage && <LoadingIndicator />}
       </ul>
-
       <div ref={targetRef} className="h-1" aria-hidden="true" />
     </>
   )

@@ -9,6 +9,7 @@ export const PAGE_PATHS = {
   // 장소
   PLACES: '/places',
   PLACE_DETAIL: (id: string | number) => `/places/${id}`,
+  PLACE_FILTER: '/places/filter',
 
   // 주문 관련
   ORDER_MENUS: (placeId: string | number) => `/places/${placeId}/order/menus`,
