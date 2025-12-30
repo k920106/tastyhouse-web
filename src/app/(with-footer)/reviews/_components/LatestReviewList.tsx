@@ -1,16 +1,20 @@
+'use client'
+
 import ReviewAuthorInfo from '@/components/reviews/ReviewAuthorInfo'
 import ReviewImageGallery from '@/components/reviews/ReviewImageGallery'
 import ReviewOptionDrawer from '@/components/reviews/ReviewOptionDrawer'
 import ErrorMessage from '@/components/ui/ErrorMessage'
 import { Skeleton } from '@/components/ui/shadcn/skeleton'
-import { api } from '@/lib/api'
+import { useIntersectionObserver } from '@/hooks/useIntersectionObserver'
 import { COMMON_ERROR_MESSAGES } from '@/lib/constants'
-import { API_ENDPOINTS } from '@/lib/endpoints'
 import { PAGE_PATHS } from '@/lib/paths'
-import { ApiResponse, PagedApiResponse } from '@/types/api/api'
-import { MemberInfoResponse } from '@/types/api/member'
-import { LatestReview, LatestReviewQuery, ReviewType } from '@/types/api/review'
+import { getCurrentMemberId, getLatestReviews } from '@/services/review'
+import type { LatestReview, ReviewType } from '@/types/api/review'
+import { useInfiniteQuery, useQuery } from '@tanstack/react-query'
+import { useEffect } from 'react'
 import ClampedText from './ClampedText'
+
+const PAGE_SIZE = 10
 
 export function LatestReviewListSkeleton() {
   return (
@@ -51,33 +55,114 @@ function LatestReviewListItemSkeleton() {
   )
 }
 
+function LatestReviewListItem({
+  review,
+  currentMemberId,
+}: {
+  review: LatestReview
+  currentMemberId: number | null
+}) {
+  const {
+    id,
+    memberId,
+    imageUrls,
+    content,
+    memberNickname,
+    memberProfileImageUrl,
+    likeCount,
+    commentCount,
+    createdAt,
+  } = review
+
+  return (
+    <div className="flex flex-col px-[15px] pt-3 pb-[30px] bg-white">
+      <div className="flex justify-between mb-[15px]">
+        <ReviewAuthorInfo
+          profileImageUrl={memberProfileImageUrl}
+          nickname={memberNickname}
+          createdAt={createdAt}
+        />
+        <ReviewOptionDrawer
+          reviewId={id}
+          memberId={memberId}
+          currentMemberId={currentMemberId}
+          memberNickname={memberNickname}
+          content={content}
+        />
+      </div>
+      <ReviewImageGallery imageUrls={imageUrls} />
+      <ClampedText text={content} href={PAGE_PATHS.REVIEW_DETAIL(id)} />
+      <div className="flex gap-4 mt-3.5">
+        <span className="text-xs leading-[12px] text-[#aaaaaa]">
+          좋아요 {likeCount}개 PK: {review.id}
+        </span>
+        <span className="text-xs leading-[12px] text-[#aaaaaa]">댓글 {commentCount}개</span>
+      </div>
+    </div>
+  )
+}
+
+function LoadingIndicator() {
+  return (
+    <>
+      {[...Array(2)].map((_, i) => (
+        <LatestReviewListItemSkeleton key={`loading-${i}`} />
+      ))}
+    </>
+  )
+}
+
 interface LatestReviewListProps {
   reviewType: ReviewType
 }
 
-export default async function LatestReviewList({ reviewType }: LatestReviewListProps) {
-  const query = {
-    params: {
-      page: 0,
-      size: 10,
-      type: reviewType,
-    } satisfies LatestReviewQuery,
+export default function LatestReviewList({ reviewType }: LatestReviewListProps) {
+  const { data: currentMemberId } = useQuery({
+    queryKey: ['member', 'me'],
+    queryFn: getCurrentMemberId,
+    staleTime: 1000 * 60 * 5,
+  })
+
+  const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading, isError } =
+    useInfiniteQuery({
+      queryKey: ['reviews', 'latest', reviewType],
+      queryFn: ({ pageParam }) =>
+        getLatestReviews({
+          page: pageParam,
+          size: PAGE_SIZE,
+          type: reviewType,
+        }),
+      initialPageParam: 0,
+      getNextPageParam: (lastPage) => {
+        const { page, totalPages } = lastPage.pagination
+        return page + 1 < totalPages ? page + 1 : undefined
+      },
+    })
+
+  const { targetRef, isIntersecting, resetIntersecting } = useIntersectionObserver({
+    threshold: 0.1,
+    rootMargin: '100px',
+    enabled: hasNextPage && !isFetchingNextPage,
+  })
+
+  useEffect(() => {
+    if (isIntersecting && hasNextPage && !isFetchingNextPage) {
+      resetIntersecting()
+      fetchNextPage()
+    }
+  }, [isIntersecting, hasNextPage, isFetchingNextPage, fetchNextPage, resetIntersecting])
+
+  if (isLoading) {
+    return <LatestReviewListSkeleton />
   }
 
-  const [reviewsResponse, memberResponse] = await Promise.all([
-    api.get<PagedApiResponse<LatestReview>>(API_ENDPOINTS.REVIEWS_LATEST, query),
-    api.get<ApiResponse<MemberInfoResponse>>(API_ENDPOINTS.MEMBER_ME),
-  ])
-
-  const { error, data } = reviewsResponse
-
-  if (error) {
+  if (isError) {
     return (
       <ErrorMessage message={COMMON_ERROR_MESSAGES.API_FETCH_ERROR} className="py-10 bg-white" />
     )
   }
 
-  if (!data || !data?.success || !data.data) {
+  if (!data) {
     return (
       <ErrorMessage
         message={COMMON_ERROR_MESSAGES.FETCH_ERROR('리뷰')}
@@ -86,45 +171,23 @@ export default async function LatestReviewList({ reviewType }: LatestReviewListP
     )
   }
 
-  const currentMemberId =
-    memberResponse.data?.success && memberResponse.data.data ? memberResponse.data.data.id : null
+  const reviews = data.pages.flatMap((page) => page.data)
 
-  return data.data.map((review) => {
-    const {
-      id,
-      memberId,
-      imageUrls,
-      content,
-      memberNickname,
-      memberProfileImageUrl,
-      likeCount,
-      commentCount,
-      createdAt,
-    } = review
+  if (reviews.length === 0) {
+    return <div className="py-10 bg-white text-center text-sm text-[#aaaaaa]">리뷰가 없습니다.</div>
+  }
 
-    return (
-      <div key={id} className="flex flex-col px-[15px] pt-3 pb-[30px] bg-white">
-        <div className="flex justify-between mb-[15px]">
-          <ReviewAuthorInfo
-            profileImageUrl={memberProfileImageUrl}
-            nickname={memberNickname}
-            createdAt={createdAt}
-          />
-          <ReviewOptionDrawer
-            reviewId={id}
-            memberId={memberId}
-            currentMemberId={currentMemberId}
-            memberNickname={memberNickname}
-            content={content}
-          />
-        </div>
-        <ReviewImageGallery imageUrls={imageUrls} />
-        <ClampedText text={content} href={PAGE_PATHS.REVIEW_DETAIL(id)} />
-        <div className="flex gap-4 mt-3.5">
-          <span className="text-xs leading-[12px] text-[#aaaaaa]">좋아요 {likeCount}개</span>
-          <span className="text-xs leading-[12px] text-[#aaaaaa]">댓글 {commentCount}개</span>
-        </div>
-      </div>
-    )
-  })
+  return (
+    <>
+      {reviews.map((review) => (
+        <LatestReviewListItem
+          key={review.id}
+          review={review}
+          currentMemberId={currentMemberId ?? null}
+        />
+      ))}
+      {isFetchingNextPage && <LoadingIndicator />}
+      <div ref={targetRef} className="h-1" aria-hidden="true" />
+    </>
+  )
 }

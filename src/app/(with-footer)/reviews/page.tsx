@@ -1,27 +1,29 @@
-import { ReviewType } from '@/types/api/review'
-import LatestReviewListSection from './_components/LatestReviewListSection'
-import ReviewTabs from './_components/ReviewTabs'
+import { Suspense } from 'react'
+import { LatestReviewListSkeleton } from './_components/LatestReviewList'
+import ReviewPageContent from './_components/ReviewPageContent'
 
-const isValidReviewType = (type: string | undefined): type is 'all' | 'following' => {
-  return type === 'all' || type === 'following'
+export default function ReviewPage() {
+  return (
+    <Suspense fallback={<ReviewPageSkeleton />}>
+      <ReviewPageContent />
+    </Suspense>
+  )
 }
 
-const reviewTypeMap: Record<'all' | 'following', ReviewType> = {
-  all: 'ALL',
-  following: 'FOLLOWING',
-}
-
-export default async function ReviewPage({ searchParams }: { searchParams: { type?: string } }) {
-  const resolvedSearchParams = await Promise.resolve(searchParams)
-  const typeParam = resolvedSearchParams.type
-
-  const clientType: 'all' | 'following' = isValidReviewType(typeParam) ? typeParam : 'all'
-  const reviewType: ReviewType = reviewTypeMap[clientType]
-
+function ReviewPageSkeleton() {
   return (
     <>
-      <ReviewTabs activeTab={clientType} />
-      <LatestReviewListSection reviewType={reviewType} />
+      <div className="sticky top-0 flex w-full h-[50px] bg-white z-40">
+        <div className="flex-1 h-full flex items-center justify-center text-sm leading-[14px] text-[#333333]/40 border-b border-[#eeeeee]">
+          전체
+        </div>
+        <div className="flex-1 h-full flex items-center justify-center text-sm leading-[14px] text-[#333333]/40 border-b border-[#eeeeee]">
+          팔로잉
+        </div>
+      </div>
+      <section className="flex flex-col gap-2.5 bg-[#f9f9f9]">
+        <LatestReviewListSkeleton />
+      </section>
     </>
   )
 }

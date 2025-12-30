@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 
 interface UseIntersectionObserverOptions {
   threshold?: number
@@ -14,10 +14,15 @@ export function useIntersectionObserver<T extends HTMLElement = HTMLDivElement>(
   const targetRef = useRef<T>(null)
   const [isIntersecting, setIsIntersecting] = useState(false)
 
+  const resetIntersecting = useCallback(() => {
+    setIsIntersecting(false)
+  }, [])
+
   useEffect(() => {
     const target = targetRef.current
 
     if (!enabled || !target) {
+      setIsIntersecting(false)
       return
     }
 
@@ -35,5 +40,5 @@ export function useIntersectionObserver<T extends HTMLElement = HTMLDivElement>(
     }
   }, [threshold, rootMargin, enabled])
 
-  return { targetRef, isIntersecting }
+  return { targetRef, isIntersecting, resetIntersecting }
 }
