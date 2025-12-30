@@ -1,5 +1,6 @@
 'use client'
 
+import FixedBottomSection from '@/components/ui/FixedBottomSection'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import { IoChevronBack } from 'react-icons/io5'
@@ -356,7 +357,7 @@ export default function ReservationDatePage() {
         </div>
       </div>
 
-      <div className="fixed bottom-0 left-0 right-0 p-4 bg-white border-t border-[#eeeeee] box-border">
+      <FixedBottomSection>
         <button
           disabled={!isBookingEnabled()}
           className={`w-full py-4 text-[17px] rounded ${
@@ -367,7 +368,7 @@ export default function ReservationDatePage() {
         >
           예약하기
         </button>
-      </div>
+      </FixedBottomSection>
     </div>
   )
 }

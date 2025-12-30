@@ -1,5 +1,6 @@
 'use client'
 
+import FixedBottomSection from '@/components/ui/FixedBottomSection'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
@@ -107,14 +108,14 @@ export default function MenuDetailPage({
       </div>
 
       {/* Add to Cart Button */}
-      <div className="fixed bottom-0 left-0 right-0 z-50 flex justify-center">
+      <FixedBottomSection className="z-50">
         <button
           onClick={handleAddToCart}
-          className="w-full py-4 px-4 bg-main text-white text-[17px]"
+          className="w-full py-4 bg-main text-white text-[17px]"
         >
           장바구니 담기
         </button>
-      </div>
+      </FixedBottomSection>
     </div>
   )
 }

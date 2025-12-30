@@ -1,5 +1,8 @@
 'use client'
 
+import AppButton from '@/components/ui/AppButton'
+import FixedBottomSection from '@/components/ui/FixedBottomSection'
+
 interface FilterApplyButtonProps {
   hasSelection: boolean
   onApply: () => void
@@ -7,15 +10,10 @@ interface FilterApplyButtonProps {
 
 export default function FilterApplyButton({ hasSelection, onApply }: FilterApplyButtonProps) {
   return (
-    <div className="fixed bottom-0 left-0 right-0 p-4 bg-white border-t border-[#eeeeee] box-border">
-      <button
-        onClick={onApply}
-        className={`w-full h-[52px] text-white rounded transition-colors ${
-          hasSelection ? 'bg-main' : 'bg-[#ffb3ad]'
-        }`}
-      >
+    <FixedBottomSection className="px-[15px] py-2.5">
+      <AppButton className="bg-main" onClick={onApply} disabled={!hasSelection}>
         필터 적용
-      </button>
-    </div>
+      </AppButton>
+    </FixedBottomSection>
   )
 }

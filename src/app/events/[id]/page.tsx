@@ -1,5 +1,6 @@
 'use client'
 
+import FixedBottomSection from '@/components/ui/FixedBottomSection'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import { IoChevronBackOutline } from 'react-icons/io5'
@@ -181,7 +182,7 @@ export default function EventDetailPage() {
       </div>
 
       {/* Event Period Notice */}
-      <div className="fixed bottom-0 left-0 right-0 px-4 py-4 bg-white border-t border-gray-200 box-border">
+      <FixedBottomSection>
         <div className="flex items-center justify-between">
           <div className="text-[13px] text-gray-500">
             이벤트 기간: {mockEvent.startDate} ~ {mockEvent.endDate}
@@ -202,7 +203,7 @@ export default function EventDetailPage() {
                 : '종료'}
           </div>
         </div>
-      </div>
+      </FixedBottomSection>
     </div>
   )
 }

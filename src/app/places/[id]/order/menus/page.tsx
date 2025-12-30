@@ -1,5 +1,6 @@
 'use client'
 
+import FixedBottomSection from '@/components/ui/FixedBottomSection'
 import { PAGE_PATHS } from '@/lib/paths'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -192,14 +193,14 @@ export default function MenusPage() {
       </div>
 
       {/* Bottom Cart Button */}
-      <div className="fixed bottom-0 left-0 right-0 px-4 py-4 bg-white border-t box-border">
+      <FixedBottomSection>
         <Link
           href={PAGE_PATHS.ORDER_CART(placeId)}
           className="w-full py-4 bg-red-600 hover:bg-red-700 active:bg-red-800 rounded-lg text-white text-lg font-bold transition-colors"
         >
           장바구니 (0)
         </Link>
-      </div>
+      </FixedBottomSection>
     </div>
   )
 }

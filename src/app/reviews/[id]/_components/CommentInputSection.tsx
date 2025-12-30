@@ -1,3 +1,4 @@
+import FixedBottomSection from '@/components/ui/FixedBottomSection'
 import { api } from '@/lib/api'
 import { API_ENDPOINTS } from '@/lib/endpoints'
 import { ApiResponse } from '@/types/api/api'
@@ -15,14 +16,14 @@ export default async function CommentInputSection({ reviewId }: CommentInputSect
   const userProfileImage = data?.success && data.data ? data.data.profileImageUrl : null
 
   return (
-    <section className="fixed bottom-0 left-0 right-0 bg-white border-t border-[#eeeeee] box-border">
-      <div className="flex items-center gap-[17px] px-[15px] py-[15px]">
+    <FixedBottomSection className="px-[15px] py-[15px]">
+      <div className="flex items-center gap-[17px]">
         <CommentInput
           reviewId={reviewId}
           userProfileImage={userProfileImage}
           isLoggedIn={currentMemberId !== null}
         />
       </div>
-    </section>
+    </FixedBottomSection>
   )
 }

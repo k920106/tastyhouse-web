@@ -1,5 +1,6 @@
 'use client'
 
+import FixedBottomSection from '@/components/ui/FixedBottomSection'
 import { PAGE_PATHS } from '@/lib/paths'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -406,7 +407,7 @@ export default function CheckoutPage() {
       </div>
 
       {/* 하단 결제하기 버튼 */}
-      <div className="fixed bottom-0 left-0 right-0 px-4 py-4 bg-white border-t border-[#eeeeee] box-border">
+      <FixedBottomSection>
         <button
           onClick={handlePayment}
           disabled={!agreedToTerms}
@@ -414,7 +415,7 @@ export default function CheckoutPage() {
         >
           결제하기
         </button>
-      </div>
+      </FixedBottomSection>
     </div>
   )
 }
