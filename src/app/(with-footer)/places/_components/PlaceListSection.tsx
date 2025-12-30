@@ -1,12 +1,20 @@
-import { Suspense } from 'react'
-import PlaceListContent, { PlaceListContentSkeleton } from './PlaceListContent'
+import type { Amenity, FoodType } from '@/types/api/place'
+import PlaceListContent from './PlaceListContent'
 
-export default function PlaceListSection() {
+interface PlaceListSectionProps {
+  stationId: number | null
+  foodTypes: FoodType[] | null
+  amenities: Amenity[] | null
+}
+
+export default function PlaceListSection({
+  stationId,
+  foodTypes,
+  amenities,
+}: PlaceListSectionProps) {
   return (
     <section>
-      <Suspense fallback={<PlaceListContentSkeleton />}>
-        <PlaceListContent />
-      </Suspense>
+      <PlaceListContent stationId={stationId} foodTypes={foodTypes} amenities={amenities} />
     </section>
   )
 }

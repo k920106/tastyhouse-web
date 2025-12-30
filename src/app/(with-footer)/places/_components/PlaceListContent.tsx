@@ -24,7 +24,6 @@ import type {
   PlaceListItem as PlaceListItemType,
 } from '@/types/api/place'
 import { useInfiniteQuery } from '@tanstack/react-query'
-import { useSearchParams } from 'next/navigation'
 import { useEffect } from 'react'
 import PlaceFilterBar from './PlaceFilterBar'
 
@@ -78,13 +77,21 @@ function PlaceListItem({ place }: { place: PlaceListItemType }) {
   )
 }
 
-export default function PlaceListContent() {
-  const searchParams = useSearchParams()
+interface PlaceListContentProps {
+  stationId: number | null
+  foodTypes: FoodType[] | null
+  amenities: Amenity[] | null
+}
 
+export default function PlaceListContent({
+  stationId,
+  foodTypes,
+  amenities,
+}: PlaceListContentProps) {
   const filterParams: PlaceFilterParams = {
-    stationId: searchParams.get('stationId') ? Number(searchParams.get('stationId')) : null,
-    foodTypes: searchParams.get('foodTypes')?.split(',').filter(Boolean) as FoodType[] | null,
-    amenities: searchParams.get('amenities')?.split(',').filter(Boolean) as Amenity[] | null,
+    stationId,
+    foodTypes,
+    amenities,
   }
 
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading, isError } =
@@ -132,7 +139,12 @@ export default function PlaceListContent() {
 
   return (
     <>
-      <PlaceFilterBar totalCount={totalCount} />
+      <PlaceFilterBar
+        totalCount={totalCount}
+        stationId={stationId}
+        foodTypes={foodTypes}
+        amenities={amenities}
+      />
       <ul className="grid grid-cols-2 gap-x-[15px] gap-y-10">
         {places.map((place) => (
           <PlaceListItem key={place.id} place={place} />

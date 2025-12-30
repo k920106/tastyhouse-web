@@ -2,27 +2,31 @@
 
 import { Skeleton } from '@/components/ui/shadcn/skeleton'
 import { PAGE_PATHS } from '@/lib/paths'
+import type { Amenity, FoodType } from '@/types/api/place'
 import Link from 'next/link'
-import { useSearchParams } from 'next/navigation'
 import { BiFilterAlt } from 'react-icons/bi'
 
 interface PlaceFilterBarProps {
   totalCount: number
   isLoading?: boolean
+  stationId?: number | null
+  foodTypes?: FoodType[] | null
+  amenities?: Amenity[] | null
 }
 
-export default function PlaceFilterBar({ totalCount, isLoading }: PlaceFilterBarProps) {
-  const searchParams = useSearchParams()
-
+export default function PlaceFilterBar({
+  totalCount,
+  isLoading,
+  stationId,
+  foodTypes,
+  amenities,
+}: PlaceFilterBarProps) {
   const filterHref = (() => {
     const params = new URLSearchParams()
-    const stationId = searchParams.get('stationId')
-    const foodTypes = searchParams.get('foodTypes')
-    const amenities = searchParams.get('amenities')
 
-    if (stationId) params.set('stationId', stationId)
-    if (foodTypes) params.set('foodTypes', foodTypes)
-    if (amenities) params.set('amenities', amenities)
+    if (stationId) params.set('stationId', stationId.toString())
+    if (foodTypes && foodTypes.length > 0) params.set('foodTypes', foodTypes.join(','))
+    if (amenities && amenities.length > 0) params.set('amenities', amenities.join(','))
 
     const queryString = params.toString()
     return `${PAGE_PATHS.PLACE_FILTER}${queryString ? `?${queryString}` : ''}`

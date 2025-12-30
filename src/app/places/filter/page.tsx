@@ -5,9 +5,26 @@ import FilterStateProvider from './_components/FilterStateProvider'
 import FoodTypeSection from './_components/FoodTypeSection'
 import StationSection from './_components/StationSection'
 
-export default async function PlaceFilterPage() {
+interface PlaceFilterPageProps {
+  searchParams: Promise<{
+    stationId?: string
+    foodTypes?: string
+    amenities?: string
+  }>
+}
+
+export default async function PlaceFilterPage({ searchParams }: PlaceFilterPageProps) {
+  const params = await searchParams
+  const stationId = params.stationId ? Number(params.stationId) : undefined
+  const foodTypes = params.foodTypes?.split(',').filter(Boolean) ?? []
+  const amenities = params.amenities?.split(',').filter(Boolean) ?? []
+
   return (
-    <FilterStateProvider>
+    <FilterStateProvider
+      initialStationId={stationId}
+      initialFoodTypes={foodTypes}
+      initialAmenities={amenities}
+    >
       <FilterHeaderWrapper />
       <div className="flex flex-col gap-2.5 bg-[#f9f9f9]">
         <StationSection />

@@ -1,7 +1,7 @@
 'use client'
 
 import { PAGE_PATHS } from '@/lib/paths'
-import { useRouter, useSearchParams } from 'next/navigation'
+import { useRouter } from 'next/navigation'
 import { ReactNode, createContext, useContext, useState } from 'react'
 
 interface FilterState {
@@ -26,19 +26,24 @@ export function useFilterState() {
   return context
 }
 
-export default function FilterStateProvider({ children }: { children: ReactNode }) {
-  const router = useRouter()
-  const searchParams = useSearchParams()
+interface FilterStateProviderProps {
+  children: ReactNode
+  initialStationId?: number
+  initialFoodTypes?: string[]
+  initialAmenities?: string[]
+}
 
-  const [selectedStationId, setSelectedStationId] = useState<number | undefined>(
-    searchParams.get('stationId') ? Number(searchParams.get('stationId')) : undefined,
-  )
-  const [selectedFoodTypes, setSelectedFoodTypes] = useState<string[]>(
-    searchParams.get('foodTypes')?.split(',').filter(Boolean) ?? [],
-  )
-  const [selectedAmenities, setSelectedAmenities] = useState<string[]>(
-    searchParams.get('amenities')?.split(',').filter(Boolean) ?? [],
-  )
+export default function FilterStateProvider({
+  children,
+  initialStationId,
+  initialFoodTypes = [],
+  initialAmenities = [],
+}: FilterStateProviderProps) {
+  const router = useRouter()
+
+  const [selectedStationId, setSelectedStationId] = useState<number | undefined>(initialStationId)
+  const [selectedFoodTypes, setSelectedFoodTypes] = useState<string[]>(initialFoodTypes)
+  const [selectedAmenities, setSelectedAmenities] = useState<string[]>(initialAmenities)
 
   const handleReset = () => {
     setSelectedStationId(undefined)
