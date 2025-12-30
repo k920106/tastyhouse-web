@@ -1,11 +1,11 @@
 'use client'
 
 import { Skeleton } from '@/components/ui/shadcn/skeleton'
-import { AmenityListItem } from '@/types/api/place'
+import { FoodTypeListItem } from '@/types/api/place'
 import Image from 'next/image'
 import { useFilterState } from './FilterStateProvider'
 
-export function FacilitySelectorSkeleton() {
+export function FoodTypeSelectorSkeleton() {
   return (
     <div className="grid grid-cols-4 gap-2">
       {Array.from({ length: 8 }).map((_, index) => (
@@ -22,32 +22,34 @@ export function FacilitySelectorSkeleton() {
   )
 }
 
-interface FacilitySelectorProps {
-  amenities: AmenityListItem[]
+interface FoodTypeSelectorProps {
+  foodTypes: FoodTypeListItem[]
 }
 
-export default function FacilitySelector({ amenities }: FacilitySelectorProps) {
-  const { selectedAmenities, toggleAmenity } = useFilterState()
+export default function FoodTypeSelector({ foodTypes }: FoodTypeSelectorProps) {
+  const { selectedFoodTypes, toggleFoodType } = useFilterState()
 
   return (
     <div className="grid grid-cols-4 gap-2">
-      {amenities.map((amenity) => {
-        const isSelected = selectedAmenities.includes(amenity.code)
+      {foodTypes.map((foodType) => {
+        const isSelected = selectedFoodTypes.includes(foodType.code)
         return (
           <button
-            key={amenity.code}
-            onClick={() => toggleAmenity(amenity.code)}
+            key={foodType.code}
+            onClick={() => toggleFoodType(foodType.code)}
             className={`flex flex-col items-center justify-center border ${
               isSelected ? 'border-main' : 'border-[#eeeeee]'
             } px-5 py-[17px]`}
             style={{ aspectRatio: '80 / 95' }}
           >
-            <div className="relative flex items-center justify-center w-full h-12 mb-[15px]">
+            <div
+              className={`relative flex items-center justify-center w-full h-12 mb-[15px] ${!isSelected ? 'opacity-50' : ''}`}
+            >
               <Image
-                src={isSelected ? amenity.imageUrlOn : amenity.imageUrlOff}
-                alt={amenity.name}
-                width={32}
-                height={25}
+                src={foodType.imageUrl}
+                alt={foodType.name}
+                width={56}
+                height={35}
                 className="object-contain max-w-full max-h-full"
                 style={{ width: 'auto', height: 'auto' }}
               />
@@ -55,7 +57,7 @@ export default function FacilitySelector({ amenities }: FacilitySelectorProps) {
             <span
               className={`text-xs leading-[12px] whitespace-nowrap ${isSelected ? 'text-main' : 'text-[#cccccc] opacity-50'}`}
             >
-              {amenity.name}
+              {foodType.name}
             </span>
           </button>
         )

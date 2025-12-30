@@ -52,9 +52,9 @@ export const API_ENDPOINTS = {
   PLACES_EDITOR_CHOICE: '/api/places/v1/editor-choice',
   PLACES_BEST: '/api/places/v1/best',
   PLACES_LATEST: '/api/places/v1/latest',
-  STATIONS: '/api/places/v1/stations',
-  FOOD_TYPES: '/api/places/v1/food-types',
-  AMENITIES: '/api/places/v1/amenities',
+  PLACES_STATIONS: '/api/places/v1/stations',
+  PLACES_FOOD_TYPES: '/api/places/v1/food-types',
+  PLACES_AMENITIES: '/api/places/v1/amenities',
 
   // 리뷰 추가 엔드포인트
   REVIEWS_BEST: '/api/reviews/v1/best',

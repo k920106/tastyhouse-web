@@ -1,22 +1,32 @@
 'use client'
 
 import { PAGE_PATHS } from '@/lib/paths'
-import { AmenityListItem, FoodTypeListItem, PlaceStation } from '@/types/api/place'
 import { useRouter, useSearchParams } from 'next/navigation'
-import { useState } from 'react'
-import FacilitySelector from './FacilitySelector'
-import FilterApplyButton from './FilterApplyButton'
-import FoodCategorySelector from './FoodCategorySelector'
-import PlaceFilterHeaderSection from './PlaceFilterHeader'
-import StationSelector from './StationSelector'
+import { ReactNode, createContext, useContext, useState } from 'react'
 
-interface FilterFormProps {
-  stations: PlaceStation[]
-  foodTypes: FoodTypeListItem[]
-  amenities: AmenityListItem[]
+interface FilterState {
+  selectedStationId: number | undefined
+  selectedFoodTypes: string[]
+  selectedAmenities: string[]
+  setSelectedStationId: (id: number | undefined) => void
+  toggleFoodType: (id: string) => void
+  toggleAmenity: (id: string) => void
+  handleReset: () => void
+  handleApplyFilter: () => void
+  hasSelection: boolean
 }
 
-export default function FilterForm({ stations, foodTypes, amenities }: FilterFormProps) {
+const FilterStateContext = createContext<FilterState | null>(null)
+
+export function useFilterState() {
+  const context = useContext(FilterStateContext)
+  if (!context) {
+    throw new Error('useFilterState must be used within FilterStateProvider')
+  }
+  return context
+}
+
+export default function FilterStateProvider({ children }: { children: ReactNode }) {
   const router = useRouter()
   const searchParams = useSearchParams()
 
@@ -65,29 +75,24 @@ export default function FilterForm({ stations, foodTypes, amenities }: FilterFor
     router.push(`${PAGE_PATHS.PLACES}${queryString ? `?${queryString}` : ''}`)
   }
 
-  const hasSelection = !!selectedStationId || selectedFoodTypes.length > 0
+  const hasSelection =
+    !!selectedStationId || selectedFoodTypes.length > 0 || selectedAmenities.length > 0
 
   return (
-    <>
-      <PlaceFilterHeaderSection onReset={handleReset} />
-      <div className="flex flex-col gap-2.5 bg-[#f9f9f9]">
-        <StationSelector
-          stations={stations}
-          selectedStationId={selectedStationId}
-          onSelect={setSelectedStationId}
-        />
-        <FoodCategorySelector
-          foodTypes={foodTypes}
-          selectedFoodTypes={selectedFoodTypes}
-          onToggle={toggleFoodType}
-        />
-        <FacilitySelector
-          amenities={amenities}
-          selectedAmenities={selectedAmenities}
-          onToggle={toggleAmenity}
-        />
-      </div>
-      <FilterApplyButton hasSelection={hasSelection} onApply={handleApplyFilter} />
-    </>
+    <FilterStateContext.Provider
+      value={{
+        selectedStationId,
+        selectedFoodTypes,
+        selectedAmenities,
+        setSelectedStationId,
+        toggleFoodType,
+        toggleAmenity,
+        handleReset,
+        handleApplyFilter,
+        hasSelection,
+      }}
+    >
+      {children}
+    </FilterStateContext.Provider>
   )
 }

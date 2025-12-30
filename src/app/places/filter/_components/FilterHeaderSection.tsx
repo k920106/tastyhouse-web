@@ -4,11 +4,11 @@ import Header, { HeaderCenter, HeaderLeft, HeaderRight } from '@/components/layo
 import { BackButton } from '@/components/layouts/header-parts'
 import { RxReload } from 'react-icons/rx'
 
-interface PlaceFilterHeaderProps {
+interface FilterHeaderSectionProps {
   onReset: () => void
 }
 
-export default function PlaceFilterHeaderSection({ onReset }: PlaceFilterHeaderProps) {
+export default function FilterHeaderSection({ onReset }: FilterHeaderSectionProps) {
   return (
     <Header variant="white" height={55}>
       <HeaderLeft>
