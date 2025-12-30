@@ -25,7 +25,7 @@ export default function HomeLayout({ children }: { children: React.ReactNode }) 
           <CartButton count={0} />
         </HeaderRight>
       </Header>
-      <div className="pb-[40px]">{children}</div>
+      <div className="pb-[100px]">{children}</div>
     </>
   )
 }
