@@ -30,7 +30,7 @@ export default function StationSelector({ stations }: StationSelectorProps) {
   return (
     <Popover open={isOpen} onOpenChange={setIsOpen}>
       <PopoverTrigger asChild>
-        <button className="w-full h-10 px-3 text-[15px] text-left border border-[#eeeeee] rounded focus:outline-none focus:border-[#666666] flex items-center justify-between">
+        <button className="flex items-center justify-between w-full h-12 px-3 text-[15px] text-left border border-[#eeeeee] rounded-none focus:outline-none data-[state=open]:border-[#666666]">
           <span className={selectedStationId ? 'text-[#333333]' : 'text-[#cccccc]'}>
             {selectedStationId
               ? stations.find((station) => station.id === selectedStationId)?.name
