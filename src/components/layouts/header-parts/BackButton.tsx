@@ -1,8 +1,8 @@
 'use client'
 
-import { IoChevronBackOutline } from 'react-icons/io5'
-import { useRouter } from 'next/navigation'
 import { useHeaderContext } from '@/components/layouts/Header'
+import { useRouter } from 'next/navigation'
+import { IoChevronBackOutline } from 'react-icons/io5'
 
 interface BackButtonProps {
   onClick?: () => void
@@ -23,10 +23,10 @@ export default function BackButton({ onClick }: BackButtonProps) {
 
   return (
     <button
-      onClick={handleClick}
       className="w-[55px] h-[55px] flex items-center justify-center cursor-pointer"
+      onClick={handleClick}
     >
-      <IoChevronBackOutline size={24} color={isPrimary ? 'white' : 'black'} />
+      <IoChevronBackOutline size={20} color={isPrimary ? 'white' : 'black'} />
     </button>
   )
 }
