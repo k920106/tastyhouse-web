@@ -11,6 +11,7 @@ import {
 } from '@/components/places/PlaceCard'
 import ErrorMessage from '@/components/ui/ErrorMessage'
 import ViewMoreButton from '@/components/ui/ViewMoreButton'
+import { getFoodCategoryName } from '@/constants/place'
 import { api } from '@/lib/api'
 import { COMMON_ERROR_MESSAGES } from '@/lib/constants'
 import { API_ENDPOINTS } from '@/lib/endpoints'
@@ -24,6 +25,26 @@ export function BestPlaceListSkeleton() {
         <PlaceCardSkeleton key={i} />
       ))}
     </div>
+  )
+}
+
+function PlaceListItem({ place }: { place: BestPlace }) {
+  const foodTypeNames = place.foodTypes.map((foodType) => getFoodCategoryName(foodType))
+
+  return (
+    <li key={place.id}>
+      <PlaceCard placeId={place.id}>
+        <PlaceCardImage src={place.imageUrl} alt={place.name} />
+        <PlaceCardContent>
+          <PlaceCardHeader>
+            <PlaceCardStation>{place.stationName}</PlaceCardStation>
+            <PlaceCardRating value={place.rating} />
+          </PlaceCardHeader>
+          <PlaceCardName>{place.name}</PlaceCardName>
+          <PlaceCardTags tags={foodTypeNames} />
+        </PlaceCardContent>
+      </PlaceCard>
+    </li>
   )
 }
 
@@ -51,19 +72,7 @@ export default async function BestPlaceList() {
     <>
       <ul className="grid grid-cols-2 gap-x-[15px] gap-y-10 mb-10">
         {data.data.map((place) => (
-          <li key={place.id}>
-            <PlaceCard placeId={place.id}>
-              <PlaceCardImage src={place.imageUrl} alt={place.name} />
-              <PlaceCardContent>
-                <PlaceCardHeader>
-                  <PlaceCardStation>{place.stationName}</PlaceCardStation>
-                  <PlaceCardRating value={place.rating} />
-                </PlaceCardHeader>
-                <PlaceCardName>{place.name}</PlaceCardName>
-                <PlaceCardTags tags={place.tags} />
-              </PlaceCardContent>
-            </PlaceCard>
-          </li>
+          <PlaceListItem key={place.id} place={place} />
         ))}
       </ul>
       <div className="flex justify-center">

@@ -13,7 +13,7 @@ export type BestPlaceQuery = PaginationParams & {}
 export type BestPlace = Place & {
   stationName: string
   rating: number
-  tags: string[]
+  foodTypes: FoodType[]
 }
 
 export type ChoicePlaceQuery = PaginationParams & {}
