@@ -15,7 +15,7 @@ export default function PlaceLayout({ children }: { children: React.ReactNode })
           <CartButton count={0} />
         </HeaderRight>
       </Header>
-      <div>{children}</div>
+      <div className="min-h-screen px-[15px] py-[30px] pb-[90px]">{children}</div>
     </>
   )
 }
