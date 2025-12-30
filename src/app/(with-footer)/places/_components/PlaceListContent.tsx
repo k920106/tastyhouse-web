@@ -13,11 +13,18 @@ import {
   PlaceCardTags,
 } from '@/components/places/PlaceCard'
 import ErrorMessage from '@/components/ui/ErrorMessage'
+import { getFoodCategoryName } from '@/constants/place'
 import { useIntersectionObserver } from '@/hooks/useIntersectionObserver'
 import { COMMON_ERROR_MESSAGES } from '@/lib/constants'
 import { getLatestPlaces } from '@/services/place'
-import type { PlaceListItem as PlaceListItemType } from '@/types/api/place'
+import type {
+  Amenity,
+  FoodType,
+  PlaceFilterParams,
+  PlaceListItem as PlaceListItemType,
+} from '@/types/api/place'
 import { useInfiniteQuery } from '@tanstack/react-query'
+import { useSearchParams } from 'next/navigation'
 import { useEffect } from 'react'
 import PlaceFilterBar from './PlaceFilterBar'
 
@@ -51,6 +58,8 @@ function LoadingIndicator() {
 }
 
 function PlaceListItem({ place }: { place: PlaceListItemType }) {
+  const foodTypeNames = place.foodTypes.map((foodType) => getFoodCategoryName(foodType))
+
   return (
     <li>
       <PlaceCard placeId={place.id}>
@@ -62,7 +71,7 @@ function PlaceListItem({ place }: { place: PlaceListItemType }) {
           </PlaceCardHeader>
           <PlaceCardName>{place.name}</PlaceCardName>
           <PlaceCardStats reviewCount={place.reviewCount} bookmarkCount={place.bookmarkCount} />
-          <PlaceCardTags tags={place.tags} variant="secondary" />
+          <PlaceCardTags tags={foodTypeNames} variant="secondary" />
         </PlaceCardContent>
       </PlaceCard>
     </li>
@@ -70,13 +79,22 @@ function PlaceListItem({ place }: { place: PlaceListItemType }) {
 }
 
 export default function PlaceListContent() {
+  const searchParams = useSearchParams()
+
+  const filterParams: PlaceFilterParams = {
+    stationId: searchParams.get('stationId') ? Number(searchParams.get('stationId')) : null,
+    foodTypes: searchParams.get('foodTypes')?.split(',').filter(Boolean) as FoodType[] | null,
+    amenities: searchParams.get('amenities')?.split(',').filter(Boolean) as Amenity[] | null,
+  }
+
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading, isError } =
     useInfiniteQuery({
-      queryKey: ['places', 'latest'],
+      queryKey: ['places', 'latest', filterParams],
       queryFn: ({ pageParam }) =>
         getLatestPlaces({
           page: pageParam,
           size: PAGE_SIZE,
+          ...filterParams,
         }),
       initialPageParam: 0,
       getNextPageParam: (lastPage) => {

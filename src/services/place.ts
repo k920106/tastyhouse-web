@@ -8,9 +8,7 @@ import { PlaceListItem, PlaceListQuery } from '@/types/api/place'
 export async function getLatestPlaces(params: PlaceListQuery) {
   const { data, error } = await api.get<PagedApiResponse<PlaceListItem>>(
     API_ENDPOINTS.PLACES_LATEST,
-    {
-      params,
-    },
+    { params },
   )
 
   if (error || !data?.success) {

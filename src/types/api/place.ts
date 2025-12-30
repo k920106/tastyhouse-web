@@ -24,19 +24,67 @@ export type ChoicePlace = Place & {
   products: ChoiceProduct[]
 }
 
-export type PlaceListQuery = PaginationParams & {}
+export type PlaceListQuery = PaginationParams & {
+  stationId: number | null
+  foodTypes: FoodType[] | null
+  amenities: Amenity[] | null
+}
 
 export type PlaceListItem = Place & {
   stationName: string
   rating: number
-  tags: string[]
   reviewCount: number
   bookmarkCount: number
   createdAt: string
+  foodTypes: FoodType[]
 }
 
 type Place = {
   id: number
   name: string
   imageUrl: string
+}
+
+export type PlaceFilterParams = {
+  stationId: number | null
+  foodTypes: FoodType[] | null
+  amenities: Amenity[] | null
+}
+
+export type FoodType =
+  | 'KOREAN'
+  | 'JAPANESE'
+  | 'WESTERN'
+  | 'CHINESE'
+  | 'WORLD'
+  | 'SNACK'
+  | 'BAR'
+  | 'CAFE'
+
+export type Amenity =
+  | 'PARKING'
+  | 'RESTROOM'
+  | 'RESERVATION'
+  | 'BABY_CHAIR'
+  | 'PET_FRIENDLY'
+  | 'OUTLET'
+  | 'TAKEOUT'
+  | 'DELIVERY'
+
+export type PlaceStation = {
+  id: number
+  name: string
+}
+
+export type FoodTypeListItem = {
+  code: FoodType
+  name: string
+  imageUrl: string
+}
+
+export type AmenityListItem = {
+  code: Amenity
+  name: string
+  imageUrlOn: string
+  imageUrlOff: string
 }
