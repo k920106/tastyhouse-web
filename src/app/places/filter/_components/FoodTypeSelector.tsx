@@ -7,7 +7,7 @@ import { useFilterState } from './FilterStateProvider'
 
 export function FoodTypeSelectorSkeleton() {
   return (
-    <div className="grid grid-cols-4 gap-2">
+    <div className="grid grid-cols-4 gap-2.5">
       {Array.from({ length: 8 }).map((_, index) => (
         <div
           key={index}
@@ -30,7 +30,7 @@ export default function FoodTypeSelector({ foodTypes }: FoodTypeSelectorProps) {
   const { selectedFoodTypes, toggleFoodType } = useFilterState()
 
   return (
-    <div className="grid grid-cols-4 gap-2">
+    <div className="grid grid-cols-4 gap-2.5">
       {foodTypes.map((foodType) => {
         const isSelected = selectedFoodTypes.includes(foodType.code)
         return (
@@ -38,7 +38,7 @@ export default function FoodTypeSelector({ foodTypes }: FoodTypeSelectorProps) {
             key={foodType.code}
             onClick={() => toggleFoodType(foodType.code)}
             className={`flex flex-col items-center justify-center border ${
-              isSelected ? 'border-main' : 'border-[#eeeeee]'
+              isSelected ? 'bg-[#f8f5f4] border-main' : 'border-[#eeeeee]'
             } px-5 py-[17px]`}
             style={{ aspectRatio: '80 / 95' }}
           >

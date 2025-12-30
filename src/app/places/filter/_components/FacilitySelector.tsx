@@ -7,7 +7,7 @@ import { useFilterState } from './FilterStateProvider'
 
 export function FacilitySelectorSkeleton() {
   return (
-    <div className="grid grid-cols-4 gap-2">
+    <div className="grid grid-cols-4 gap-2.5">
       {Array.from({ length: 8 }).map((_, index) => (
         <div
           key={index}
@@ -30,7 +30,7 @@ export default function FacilitySelector({ amenities }: FacilitySelectorProps) {
   const { selectedAmenities, toggleAmenity } = useFilterState()
 
   return (
-    <div className="grid grid-cols-4 gap-2">
+    <div className="grid grid-cols-4 gap-2.5">
       {amenities.map((amenity) => {
         const isSelected = selectedAmenities.includes(amenity.code)
         return (
@@ -38,7 +38,7 @@ export default function FacilitySelector({ amenities }: FacilitySelectorProps) {
             key={amenity.code}
             onClick={() => toggleAmenity(amenity.code)}
             className={`flex flex-col items-center justify-center border ${
-              isSelected ? 'border-main' : 'border-[#eeeeee]'
+              isSelected ? 'bg-[#f8f5f4] border-main' : 'border-[#eeeeee]'
             } px-5 py-[17px]`}
             style={{ aspectRatio: '80 / 95' }}
           >
