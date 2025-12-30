@@ -1,7 +1,10 @@
 import { cookies } from 'next/headers'
 
 type RequestConfig = RequestInit & {
-  params?: Record<string, string | number | boolean>
+  params?: Record<
+    string,
+    string | number | boolean | Array<string | number | boolean> | null | undefined
+  >
 }
 
 interface ApiResponse<T = unknown> {
@@ -23,23 +26,30 @@ class ApiClient {
 
   private async request<T>(endpoint: string, config: RequestConfig = {}): Promise<ApiResponse<T>> {
     const { params, headers, ...restConfig } = config
-    const cookieStore = await cookies()
 
     let url = `${this.baseURL}${endpoint}`
     if (params) {
-      const queryString = new URLSearchParams(
-        Object.entries(params).reduce(
-          (acc, [key, value]) => {
-            acc[key] = String(value)
-            return acc
-          },
-          {} as Record<string, string>,
-        ),
-      ).toString()
-      url += `?${queryString}`
+      const searchParams = new URLSearchParams()
+
+      // null/undefined 값을 제거하고 유효한 값만 처리
+      Object.entries(params).forEach(([key, value]) => {
+        if (value == null) return
+
+        if (Array.isArray(value)) {
+          value.forEach((item) => searchParams.append(key, String(item)))
+        } else {
+          searchParams.append(key, String(value))
+        }
+      })
+
+      const queryString = searchParams.toString()
+      if (queryString) {
+        url += `?${queryString}`
+      }
     }
 
     try {
+      const cookieStore = await cookies()
       const accessToken = cookieStore.get('accessToken')?.value
 
       if (accessToken) {
