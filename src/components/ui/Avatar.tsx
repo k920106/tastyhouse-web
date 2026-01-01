@@ -15,7 +15,13 @@ const sizeMap = {
   md: { dimension: 40, className: 'size-10' },
 } as const
 
-export default function Avatar({ src, alt, size = 'md', className = '', priority = false }: AvatarProps) {
+export default function Avatar({
+  src,
+  alt,
+  size = 'md',
+  className = '',
+  priority = false,
+}: AvatarProps) {
   const { dimension, className: sizeClassName } = sizeMap[size]
 
   return (

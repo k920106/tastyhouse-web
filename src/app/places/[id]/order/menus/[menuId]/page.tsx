@@ -109,10 +109,7 @@ export default function MenuDetailPage({
 
       {/* Add to Cart Button */}
       <FixedBottomSection className="z-50">
-        <button
-          onClick={handleAddToCart}
-          className="w-full py-4 bg-main text-white text-[17px]"
-        >
+        <button onClick={handleAddToCart} className="w-full py-4 bg-main text-white text-[17px]">
           장바구니 담기
         </button>
       </FixedBottomSection>

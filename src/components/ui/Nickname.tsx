@@ -18,9 +18,7 @@ export default function Nickname({
   truncate = true,
 }: NicknameProps) {
   return (
-    <p
-      className={`font-bold ${sizeMap[size]} ${truncate ? 'truncate' : ''} ${className}`}
-    >
+    <p className={`font-bold ${sizeMap[size]} ${truncate ? 'truncate' : ''} ${className}`}>
       {children}
     </p>
   )

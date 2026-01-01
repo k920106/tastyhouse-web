@@ -11,7 +11,6 @@ import {
   PlaceThumbnailResponse,
 } from '@/types/api/place-detail'
 import Image from 'next/image'
-import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import { BiCopy } from 'react-icons/bi'
 import { FiBookmark } from 'react-icons/fi'
@@ -38,7 +37,6 @@ export function PlaceDetailClient({
   reviews,
   reviewStatistics,
 }: PlaceDetailClientProps) {
-  const router = useRouter()
   const [isBookmarked, setIsBookmarked] = useState(false)
 
   const handleCopyAddress = () => {
