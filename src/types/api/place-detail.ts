@@ -1,3 +1,16 @@
+export type PlaceSummaryResponse = {
+  id: number
+  name: string
+  roadAddress: string
+  lotAddress: string
+  rating: number
+}
+
+export type PlaceThumbnailResponse = {
+  id: number
+  imageUrl: string
+}
+
 export type PlaceInfoResponse = {
   id: number
   name: string
@@ -13,25 +26,12 @@ export type PlaceInfoResponse = {
   businessHours: BusinessHour[]
 }
 
-export type BusinessHour = {
+type BusinessHour = {
   dayOfWeek: string
   openTime: string
   closeTime: string
   breakStartTime?: string
   breakEndTime?: string
-}
-
-export type PlaceThumbnailResponse = {
-  id: number
-  imageUrl: string
-}
-
-export type PlaceSummaryResponse = {
-  id: number
-  name: string
-  roadAddress: string
-  lotAddress: string
-  rating: number
 }
 
 export type PlaceMenuResponse = {
@@ -71,7 +71,7 @@ export type PlaceReviewResponse = {
   createdAt: string
 }
 
-export type ReviewImage = {
+type ReviewImage = {
   id: number
   imageUrl: string
   sort: number

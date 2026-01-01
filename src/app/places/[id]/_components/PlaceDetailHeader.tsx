@@ -1,7 +1,7 @@
 import { Skeleton } from '@/components/ui/shadcn/skeleton'
 import { api } from '@/lib/api'
 import { ApiResponse } from '@/types/api/api'
-import { PlaceInfoResponse } from '@/types/api/place-detail'
+import { PlaceSummaryResponse } from '@/types/api/place-detail'
 
 export function PlaceDetailHeaderSkeleton() {
   return <Skeleton className="h-[17px] w-[120px]" />
@@ -12,8 +12,8 @@ interface PlaceDetailHeaderProps {
 }
 
 export default async function PlaceDetailHeader({ placeId }: PlaceDetailHeaderProps) {
-  const { error, data } = await api.get<ApiResponse<PlaceInfoResponse>>(
-    `/api/places/v1/${placeId}/info`,
+  const { error, data } = await api.get<ApiResponse<PlaceSummaryResponse>>(
+    `/api/places/v1/${placeId}/summary`,
   )
 
   // Expected Error: API 호출 실패 (네트워크 오류, timeout 등)
@@ -25,6 +25,8 @@ export default async function PlaceDetailHeader({ placeId }: PlaceDetailHeaderPr
   if (!data || !data?.success || !data.data) {
     return <div>-</div>
   }
+
+  console.log(data)
 
   return <h1 className="text-[17px] leading-[17px]">{data.data.name}</h1>
 }
