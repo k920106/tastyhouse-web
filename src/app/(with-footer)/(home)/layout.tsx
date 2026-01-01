@@ -1,5 +1,5 @@
-import Header, { HeaderCenter, HeaderLeft, HeaderRight } from '@/components/layouts/Header'
-import { CartButton, MenuButton } from '@/components/layouts/header-parts'
+import Header, { HeaderCenter, HeaderLeft } from '@/components/layouts/Header'
+import { MenuButton } from '@/components/layouts/header-parts'
 import Image from 'next/image'
 
 export default function HomeLayout({ children }: { children: React.ReactNode }) {
@@ -12,7 +12,7 @@ export default function HomeLayout({ children }: { children: React.ReactNode }) 
         <HeaderCenter>
           <div className="relative w-[93px] h-[43px]">
             <Image
-              src="/images/header-logo.png"
+              src="/images/layout/header-logo.png"
               alt="로고"
               fill
               sizes="83px"
@@ -21,9 +21,6 @@ export default function HomeLayout({ children }: { children: React.ReactNode }) 
             />
           </div>
         </HeaderCenter>
-        <HeaderRight>
-          <CartButton count={0} />
-        </HeaderRight>
       </Header>
       <div className="pb-[100px]">{children}</div>
     </>
