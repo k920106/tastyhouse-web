@@ -94,7 +94,9 @@ export default async function ReviewInfo({ reviewId }: ReviewInfoProps) {
           content={content}
         />
       </div>
-      <ReviewImageGallery imageUrls={imageUrls} />
+      <div className="mb-5">
+        <ReviewImageGallery imageUrls={imageUrls} />
+      </div>
       <ReviewInfoContent content={content} tagNames={tagNames} />
       <ReviewActions reviewId={id} initialIsLiked={isLiked} />
     </>
