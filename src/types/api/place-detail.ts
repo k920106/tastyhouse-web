@@ -33,8 +33,8 @@ export interface PlaceThumbnailResponse {
 export interface PlaceSummaryResponse {
   id: number
   name: string
-  roadAddress: string | null
-  lotAddress: string | null
+  roadAddress: string
+  lotAddress: string
   rating: number
 }
 
