@@ -1,6 +1,7 @@
 'use client'
 
-import { PlaceImageCategory, PlacePhotoResponse } from '@/types/api/place-detail'
+import { PlaceImageCategory } from '@/constants/place'
+import { PlacePhotoResponse } from '@/types/api/place-detail'
 import Image from 'next/image'
 import { useState } from 'react'
 
@@ -36,7 +37,6 @@ export function PlacePhotos({ photos }: PlacePhotosProps) {
 
   return (
     <div className="py-6">
-      {/* Category Filter */}
       <div className="flex gap-2 mb-6 overflow-x-auto">
         <button
           onClick={() => setSelectedCategory('ALL')}
@@ -60,8 +60,6 @@ export function PlacePhotos({ photos }: PlacePhotosProps) {
           </button>
         ))}
       </div>
-
-      {/* Photo Grid */}
       <div className="grid grid-cols-2 gap-3">
         {filteredPhotos.map((photo) => (
           <div key={photo.id} className="relative aspect-square rounded-lg overflow-hidden">
@@ -74,7 +72,6 @@ export function PlacePhotos({ photos }: PlacePhotosProps) {
           </div>
         ))}
       </div>
-
       {filteredPhotos.length === 0 && (
         <div className="py-12 text-center text-[15px] text-[#999999]">사진이 없습니다</div>
       )}
