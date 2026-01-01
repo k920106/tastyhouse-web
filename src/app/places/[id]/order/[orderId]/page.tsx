@@ -1,5 +1,6 @@
 'use client'
 
+import FixedBottomSection from '@/components/ui/FixedBottomSection'
 import { PAGE_PATHS } from '@/lib/paths'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -418,9 +419,9 @@ export default function OrderDetailPage() {
       </div>
 
       {/* 하단 결제 취소 버튼 */}
-      <div className="sticky bottom-0 px-4 py-4 bg-white border-t border-[#eeeeee] box-border">
+      <FixedBottomSection className="px-4 py-4">
         <button className="w-full py-4 bg-main text-white font-bold rounded">결제 취소</button>
-      </div>
+      </FixedBottomSection>
     </div>
   )
 }
