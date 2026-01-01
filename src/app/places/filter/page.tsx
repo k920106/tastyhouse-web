@@ -1,3 +1,4 @@
+import SectionStack from '@/components/ui/SectionStack'
 import FacilitySection from './_components/FacilitySection'
 import FilterApplyButtonWrapper from './_components/FilterApplyButtonWrapper'
 import FilterHeaderWrapper from './_components/FilterHeaderWrapper'
@@ -26,11 +27,11 @@ export default async function PlaceFilterPage({ searchParams }: PlaceFilterPageP
       initialAmenities={amenities}
     >
       <FilterHeaderWrapper />
-      <div className="flex flex-col gap-2.5 bg-[#f9f9f9]">
+      <SectionStack>
         <StationSection />
         <FoodTypeSection />
         <FacilitySection />
-      </div>
+      </SectionStack>
       <FilterApplyButtonWrapper />
     </FilterStateProvider>
   )

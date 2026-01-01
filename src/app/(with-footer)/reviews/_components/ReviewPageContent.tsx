@@ -1,5 +1,6 @@
 'use client'
 
+import SectionStack from '@/components/ui/SectionStack'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/shadcn/tabs'
 import type { ReviewType } from '@/types/api/review'
 import { useState } from 'react'
@@ -38,14 +39,14 @@ export default function ReviewPageContent() {
         </TabsTrigger>
       </TabsList>
       <TabsContent value="all" className="mt-0">
-        <section className="flex flex-col gap-2.5 bg-[#f9f9f9]">
+        <SectionStack>
           <LatestReviewList reviewType={reviewTypeMap.all} />
-        </section>
+        </SectionStack>
       </TabsContent>
       <TabsContent value="following" className="mt-0">
-        <section className="flex flex-col gap-2.5 bg-[#f9f9f9]">
+        <SectionStack>
           <LatestReviewList reviewType={reviewTypeMap.following} />
-        </section>
+        </SectionStack>
       </TabsContent>
     </Tabs>
   )

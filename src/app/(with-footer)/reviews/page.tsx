@@ -1,4 +1,5 @@
 import { Suspense } from 'react'
+import SectionStack from '@/components/ui/SectionStack'
 import { LatestReviewListSkeleton } from './_components/LatestReviewList'
 import ReviewPageContent from './_components/ReviewPageContent'
 
@@ -21,9 +22,9 @@ function ReviewPageSkeleton() {
           팔로잉
         </div>
       </div>
-      <section className="flex flex-col gap-2.5 bg-[#f9f9f9]">
+      <SectionStack>
         <LatestReviewListSkeleton />
-      </section>
+      </SectionStack>
     </>
   )
 }
