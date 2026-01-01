@@ -6,6 +6,10 @@ export type PlaceSummaryResponse = {
   rating: number
 }
 
+export type PlaceBookmarkResponse = {
+  bookmarked: boolean
+}
+
 export type PlaceThumbnailResponse = {
   id: number
   imageUrl: string

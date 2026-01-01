@@ -5,32 +5,21 @@ import { formatDecimal } from '@/lib/number'
 import { copyToClipboard } from '@/lib/share'
 import { PlaceSummaryResponse } from '@/types/api/place-detail'
 import Link from 'next/link'
-import { usePathname, useRouter } from 'next/navigation'
-import { useState } from 'react'
-import { FaBookmark, FaRegBookmark } from 'react-icons/fa'
+import { ReactNode } from 'react'
 import { GrCopy } from 'react-icons/gr'
 import { TfiLocationPin } from 'react-icons/tfi'
 
 interface PlaceSummaryProps {
   placeSummary: PlaceSummaryResponse
+  bookmarkButton: ReactNode
 }
 
-export default function PlaceSummary({ placeSummary }: PlaceSummaryProps) {
-  const router = useRouter()
-  const pathname = usePathname()
-
-  const [isBookmarked, setIsBookmarked] = useState(false)
-
+export default function PlaceSummary({ placeSummary, bookmarkButton }: PlaceSummaryProps) {
   const handleCopyAddress = async () => {
     const success = await copyToClipboard(placeSummary.roadAddress)
     if (success) {
       toast('주소가 복사되었습니다.')
     }
-  }
-
-  const handleBookmark = async () => {
-    setIsBookmarked(!isBookmarked)
-    router.push(`${pathname}?bookmark=${isBookmarked}`)
   }
 
   return (
@@ -61,16 +50,7 @@ export default function PlaceSummary({ placeSummary }: PlaceSummaryProps) {
             </div>
           </div>
         </div>
-        <button
-          onClick={handleBookmark}
-          className={`flex items-center justify-center w-[35px] h-[35px] shrink-0 border rounded-full cursor-pointer ${isBookmarked ? 'border-main' : 'border-[#eeeeee]'}`}
-        >
-          {isBookmarked ? (
-            <FaBookmark size={16} className="text-main" />
-          ) : (
-            <FaRegBookmark size={16} className="text-[#eeeeee]" />
-          )}
-        </button>
+        {bookmarkButton}
       </div>
     </>
   )

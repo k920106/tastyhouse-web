@@ -3,13 +3,18 @@ import { api } from '@/lib/api'
 import { COMMON_ERROR_MESSAGES } from '@/lib/constants'
 import { ApiResponse } from '@/types/api/api'
 import { PlaceSummaryResponse } from '@/types/api/place-detail'
+import { ReactNode } from 'react'
 import PlaceSummary from './PlaceSummary'
 
 interface PlaceSummaryContentProps {
   placeId: number
+  bookmarkButton: ReactNode
 }
 
-export default async function PlaceSummaryContent({ placeId }: PlaceSummaryContentProps) {
+export default async function PlaceSummaryContent({
+  placeId,
+  bookmarkButton,
+}: PlaceSummaryContentProps) {
   const { error, data } = await api.get<ApiResponse<PlaceSummaryResponse>>(
     `/api/places/v1/${placeId}/summary`,
   )
@@ -24,5 +29,5 @@ export default async function PlaceSummaryContent({ placeId }: PlaceSummaryConte
     return <ErrorMessage message={COMMON_ERROR_MESSAGES.FETCH_ERROR('기본 정보')} />
   }
 
-  return <PlaceSummary placeSummary={data.data} />
+  return <PlaceSummary placeSummary={data.data} bookmarkButton={bookmarkButton} />
 }
