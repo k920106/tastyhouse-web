@@ -71,7 +71,7 @@ export default function EventDetailPage() {
           {/* Repeat for each announcement */}
           {[1, 2, 3, 4].map((index) => (
             <div key={index} className="border-b border-gray-100 pb-8 last:border-b-0">
-              <h2 className="text-[18px] text-gray-900 mb-2">{mockWinnerEvent.title}</h2>
+              <h2 className="mb-2 text-lg leading-[18px]">{mockWinnerEvent.title}</h2>
               <p className="text-sm leading-[14px] text-gray-400 mb-6">
                 {mockWinnerEvent.announcementDate}
               </p>

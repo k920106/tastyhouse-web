@@ -64,7 +64,7 @@ export default function EventsPage() {
               />
             </svg>
           </button>
-          <h1 className="flex-1 text-center text-[18px] pr-10">t��</h1>
+          <h1 className="flex-1 text-lg leading-[18px] text-center pr-10">t��</h1>
         </div>
       </header>
 
