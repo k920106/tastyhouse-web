@@ -1,3 +1,4 @@
+import { AppToaster } from '@/components/ui/AppToaster'
 import { PAGE_PATHS } from '@/lib/paths'
 import QueryProvider from '@/providers/QueryProvider'
 import '@/styles/globals.css'
@@ -23,6 +24,7 @@ export default function RootLayout({
       <body>
         <QueryProvider>
           <main>{children}</main>
+          <AppToaster />
         </QueryProvider>
       </body>
     </html>
