@@ -1,6 +1,8 @@
 'use client'
 
+import { toast } from '@/components/ui/AppToaster'
 import { formatDecimal } from '@/lib/number'
+import { copyToClipboard } from '@/lib/share'
 import { PlaceSummaryResponse } from '@/types/api/place-detail'
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
@@ -19,13 +21,14 @@ export default function PlaceSummary({ placeSummary }: PlaceSummaryProps) {
 
   const [isBookmarked, setIsBookmarked] = useState(false)
 
-  const handleCopyAddress = () => {
-    if (placeSummary.roadAddress) {
-      navigator.clipboard.writeText(placeSummary.roadAddress)
+  const handleCopyAddress = async () => {
+    const success = await copyToClipboard(placeSummary.roadAddress)
+    if (success) {
+      toast('주소가 복사되었습니다.')
     }
   }
 
-  const handleBookmark = () => {
+  const handleBookmark = async () => {
     setIsBookmarked(!isBookmarked)
     router.push(`${pathname}?bookmark=${isBookmarked}`)
   }

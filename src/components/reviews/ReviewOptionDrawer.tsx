@@ -13,6 +13,7 @@ import { copyToClipboard, share } from '@/lib/share'
 import Link from 'next/link'
 import { useCallback } from 'react'
 import { FiMoreVertical } from 'react-icons/fi'
+import { toast } from '../ui/AppToaster'
 
 interface ReviewOptionDrawerProps {
   reviewId: number
@@ -46,7 +47,7 @@ export default function ReviewOptionDrawer({
   const handleCopyLink = useCallback(async () => {
     const success = await copyToClipboard(getShareUrl())
     if (success) {
-      alert('링크가 복사되었습니다.')
+      toast('링크가 복사되었습니다.')
     }
   }, [getShareUrl])
 
