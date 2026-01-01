@@ -1,5 +1,4 @@
-// Place Info Types
-export interface PlaceInfoResponse {
+export type PlaceInfoResponse = {
   id: number
   name: string
   rating: number
@@ -14,7 +13,7 @@ export interface PlaceInfoResponse {
   businessHours: BusinessHour[]
 }
 
-export interface BusinessHour {
+export type BusinessHour = {
   dayOfWeek: string
   openTime: string
   closeTime: string
@@ -22,15 +21,12 @@ export interface BusinessHour {
   breakEndTime?: string
 }
 
-// Place Thumbnail Types
-export interface PlaceThumbnailResponse {
+export type PlaceThumbnailResponse = {
   id: number
   imageUrl: string
-  // sort: number | null
 }
 
-// Place Summary Types
-export interface PlaceSummaryResponse {
+export type PlaceSummaryResponse = {
   id: number
   name: string
   roadAddress: string
@@ -38,8 +34,7 @@ export interface PlaceSummaryResponse {
   rating: number
 }
 
-// Place Menu Types
-export interface PlaceMenuResponse {
+export type PlaceMenuResponse = {
   id: number
   name: string
   imageUrl: string
@@ -51,8 +46,7 @@ export interface PlaceMenuResponse {
   isRepresentative: boolean | null
 }
 
-// Place Photo Types
-export interface PlacePhotoResponse {
+export type PlacePhotoResponse = {
   id: number
   imageUrl: string
   categoryCode: string | null
@@ -60,15 +54,7 @@ export interface PlacePhotoResponse {
   sort: number | null
 }
 
-export enum PlaceImageCategory {
-  EXTERIOR = 'EXTERIOR',
-  INTERIOR = 'INTERIOR',
-  FOOD = 'FOOD',
-  OTHER = 'OTHER',
-}
-
-// Place Review Types
-export interface PlaceReviewResponse {
+export type PlaceReviewResponse = {
   id: number
   memberId: number
   memberNickname: string | null
@@ -85,14 +71,13 @@ export interface PlaceReviewResponse {
   createdAt: string
 }
 
-export interface ReviewImage {
+export type ReviewImage = {
   id: number
   imageUrl: string
   sort: number
 }
 
-// Place Review Statistics Types
-export interface PlaceReviewStatisticsResponse {
+export type PlaceReviewStatisticsResponse = {
   totalRating: number
   totalReviewCount: number
   averageTasteRating: number

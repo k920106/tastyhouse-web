@@ -27,3 +27,10 @@ export const getFoodCategoryName = (foodType: string): string => {
 export const getAmenityName = (amenity: string): string => {
   return AMENITY_NAMES[amenity] || amenity
 }
+
+export enum PlaceImageCategory {
+  EXTERIOR = 'EXTERIOR',
+  INTERIOR = 'INTERIOR',
+  FOOD = 'FOOD',
+  OTHER = 'OTHER',
+}
