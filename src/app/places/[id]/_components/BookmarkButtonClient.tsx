@@ -21,22 +21,23 @@ export default function BookmarkButtonClient({
     if (isPending) return
 
     const previousIsBookmarked = isBookmarked
-    setIsBookmarked(!isBookmarked)
 
     startTransition(async () => {
       const { success, error } = await togglePlaceBookmark(placeId)
 
       if (!success) {
-        setIsBookmarked(previousIsBookmarked)
         toast(error || '북마크 처리에 실패했습니다.')
+        return
       }
+
+      setIsBookmarked(!previousIsBookmarked)
     })
   }
 
   return (
     <button
       onClick={handleBookmark}
-      className={`flex items-center justify-center w-[35px] h-[35px] shrink-0 border rounded-full cursor-pointer ${isBookmarked ? 'border-main' : 'border-[#eeeeee]'}`}
+      className={`flex items-center justify-center w-[35px] h-[35px] shrink-0 border rounded-full cursor-pointer box-border ${isBookmarked ? 'border-main' : 'border-[#eeeeee]'}`}
     >
       {isBookmarked ? (
         <FaBookmark size={16} className="text-main" />
