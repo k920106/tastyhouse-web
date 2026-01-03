@@ -12,8 +12,8 @@ import { PAGE_PATHS } from '@/lib/paths'
 import { copyToClipboard, share } from '@/lib/share'
 import Link from 'next/link'
 import { useCallback } from 'react'
-import { FiMoreVertical } from 'react-icons/fi'
 import { toast } from '../ui/AppToaster'
+import ReviewOptionButton from './ReviewOptionButton'
 
 interface ReviewOptionDrawerProps {
   reviewId: number
@@ -54,9 +54,7 @@ export default function ReviewOptionDrawer({
   return (
     <Drawer autoFocus>
       <DrawerTrigger asChild>
-        <button className="h-[18px] cursor-pointer">
-          <FiMoreVertical size={20} color="#999999" />
-        </button>
+        <ReviewOptionButton />
       </DrawerTrigger>
       <DrawerContent className="bg-transparent p-[15px] border-none">
         <DrawerTitle className="sr-only">리뷰 옵션</DrawerTitle>
