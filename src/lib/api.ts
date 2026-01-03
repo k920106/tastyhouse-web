@@ -61,6 +61,7 @@ class ApiClient {
           ...this.defaultHeaders,
           ...headers,
         },
+        cache: 'no-store',
         ...restConfig,
       })
 
