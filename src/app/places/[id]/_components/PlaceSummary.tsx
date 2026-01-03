@@ -14,16 +14,15 @@ import { Skeleton } from '@/components/ui/shadcn/skeleton'
 export function PlaceSummarySkeleton() {
   return (
     <>
-      <div className="mb-6 flex items-start justify-between">
-        <Skeleton className="w-2/4 h-[18px]" />
+      <div className="flex items-start justify-between mb-6">
+        <Skeleton className="w-1/4 h-[18px]" />
         <Skeleton className="w-10 h-[19px]" />
       </div>
       <div className="flex justify-between gap-3">
-        <div className="min-w-0 flex-1 flex flex-col gap-[7px]">
-          <Skeleton className="w-full h-[14px]" />
-          <Skeleton className=" w-1/2 h-[12px]" />
+        <div className="flex-1 flex flex-col min-w-0 gap-[7px]">
+          <Skeleton className="w-3/5 h-[14px]" />
+          <Skeleton className=" w-2/5 h-[12px]" />
         </div>
-        <Skeleton className="w-10 h-10 rounded-full" />
       </div>
     </>
   )
