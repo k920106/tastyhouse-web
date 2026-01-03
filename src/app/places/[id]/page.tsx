@@ -76,6 +76,9 @@ import PlaceSummarySection from './_components/PlaceSummarySection'
 //   return response.data.data
 // }
 
+//  // 플레이스 북마크, 리뷰 좋아요
+//  // ㄴ 로그인, 미로그인 구현
+
 interface PlaceDetailPageProps {
   params: Promise<{
     id: string

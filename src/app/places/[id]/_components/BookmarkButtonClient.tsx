@@ -1,9 +1,14 @@
 'use client'
 
 import { toast } from '@/components/ui/AppToaster'
+import { Spinner } from '@/components/ui/shadcn/spinner'
 import { useState, useTransition } from 'react'
 import { FaBookmark, FaRegBookmark } from 'react-icons/fa'
 import { togglePlaceBookmark } from '../actions'
+
+export function BookmarkButtonClientSkeleton() {
+  return <Spinner />
+}
 
 interface BookmarkButtonClientProps {
   placeId: number
