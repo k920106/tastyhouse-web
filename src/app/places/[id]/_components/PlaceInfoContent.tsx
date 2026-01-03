@@ -24,7 +24,5 @@ export default async function PlaceInfoContent({ placeId }: PlaceInfoContentProp
     return <ErrorMessage message={COMMON_ERROR_MESSAGES.FETCH_ERROR('기본 정보')} />
   }
 
-  // console.log(data.data)
-
   return <PlaceInfo placeInfo={data.data} />
 }

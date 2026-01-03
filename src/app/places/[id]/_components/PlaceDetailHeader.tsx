@@ -26,7 +26,5 @@ export default async function PlaceDetailHeader({ placeId }: PlaceDetailHeaderPr
     return <div>-</div>
   }
 
-  console.log(data)
-
   return <h1 className="text-[17px] leading-[17px]">{data.data.name}</h1>
 }
