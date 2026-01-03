@@ -1,14 +1,8 @@
 import ReviewAuthorInfo from '@/components/reviews/ReviewAuthorInfo'
 import ReviewImageGallery from '@/components/reviews/ReviewImageGallery'
-import ReviewOptionDrawer from '@/components/reviews/ReviewOptionDrawer'
-import ErrorMessage from '@/components/ui/ErrorMessage'
 import { Skeleton } from '@/components/ui/shadcn/skeleton'
-import { api } from '@/lib/api'
-import { COMMON_ERROR_MESSAGES } from '@/lib/constants'
-import { API_ENDPOINTS } from '@/lib/endpoints'
-import { ApiResponse } from '@/types/api/api'
-import { MemberInfoResponse } from '@/types/api/member'
 import { ReviewDetail } from '@/types/api/review'
+import { ReactNode } from 'react'
 import ReviewActions from './ReviewActions'
 import ReviewInfoContent from './ReviewContent'
 
@@ -44,39 +38,21 @@ export function ReviewInfoSkeleton() {
 }
 
 interface ReviewInfoProps {
-  reviewId: number
+  reviewDetail: ReviewDetail
+  reviewOption: ReactNode
 }
 
-export default async function ReviewInfo({ reviewId }: ReviewInfoProps) {
-  const [reviewResponse, memberResponse] = await Promise.all([
-    api.get<ApiResponse<ReviewDetail>>(API_ENDPOINTS.REVIEW_DETAIL(reviewId)),
-    api.get<ApiResponse<MemberInfoResponse>>(API_ENDPOINTS.MEMBER_ME),
-  ])
-
-  const { error, data } = reviewResponse
-
-  if (error) {
-    return <ErrorMessage message={COMMON_ERROR_MESSAGES.API_FETCH_ERROR} className="py-10" />
-  }
-
-  if (!data?.success || !data?.data) {
-    return <ErrorMessage message={COMMON_ERROR_MESSAGES.FETCH_ERROR('리뷰')} className="py-10" />
-  }
-
-  const currentMemberId =
-    memberResponse.data?.success && memberResponse.data.data ? memberResponse.data.data.id : null
-
+export default function ReviewInfo({ reviewDetail, reviewOption }: ReviewInfoProps) {
   const {
-    id,
-    memberId,
-    content,
-    memberNickname,
     memberProfileImageUrl,
+    memberNickname,
     createdAt,
     imageUrls,
+    content,
     tagNames,
+    id,
     isLiked,
-  }: ReviewDetail = data.data
+  } = reviewDetail
 
   return (
     <>
@@ -86,13 +62,7 @@ export default async function ReviewInfo({ reviewId }: ReviewInfoProps) {
           nickname={memberNickname}
           createdAt={createdAt}
         />
-        <ReviewOptionDrawer
-          reviewId={id}
-          memberId={memberId}
-          currentMemberId={currentMemberId}
-          memberNickname={memberNickname}
-          content={content}
-        />
+        {reviewOption}
       </div>
       <div className="mb-5">
         <ReviewImageGallery imageUrls={imageUrls} />
