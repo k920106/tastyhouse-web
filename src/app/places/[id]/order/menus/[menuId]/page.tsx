@@ -1,5 +1,6 @@
 'use client'
 
+import { toast } from '@/components/ui/AppToaster'
 import FixedBottomSection from '@/components/ui/FixedBottomSection'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
@@ -34,7 +35,7 @@ export default function MenuDetailPage({
     //   placeId: params.placeId,
     //   spiceLevel: selectedSpice,
     // })
-    alert(params)
+    toast(params.menuId)
   }
 
   return (

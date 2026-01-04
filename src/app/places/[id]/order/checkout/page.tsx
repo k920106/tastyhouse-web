@@ -1,5 +1,6 @@
 'use client'
 
+import { toast } from '@/components/ui/AppToaster'
 import FixedBottomSection from '@/components/ui/FixedBottomSection'
 import { PAGE_PATHS } from '@/lib/paths'
 import Image from 'next/image'
@@ -84,11 +85,11 @@ export default function CheckoutPage() {
 
   const handlePayment = () => {
     if (!agreedToTerms) {
-      alert('약관에 동의해주세요.')
+      toast('약관에 동의해주세요.')
       return
     }
     // 결제 로직
-    alert('결제를 진행합니다.')
+    toast('결제를 진행합니다.')
   }
 
   return (

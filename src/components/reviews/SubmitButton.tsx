@@ -14,11 +14,11 @@ export default function SubmitButton({ form, disabled = false }: SubmitButtonPro
   return <div></div>
   // const handleSubmit = async () => {
   //   if (!form.placeName) {
-  //     alert('상호명은 필수 입력 사항입니다.')
+  //     toast('상호명은 필수 입력 사항입니다.')
   //     return
   //   }
   //   if (!form.content) {
-  //     alert('내용은 필수 입력 사항입니다.')
+  //     toast('내용은 필수 입력 사항입니다.')
   //     return
   //   }
   //   try {
@@ -30,10 +30,10 @@ export default function SubmitButton({ form, disabled = false }: SubmitButtonPro
   //       tags: form.tags,
   //     }
   //     await api.post('/reviews', data)
-  //     alert('리뷰가 등록되었습니다.')
+  //     toast('리뷰가 등록되었습니다.')
   //   } catch (error) {
   //     console.error('리뷰 등록 실패:', error)
-  //     alert('리뷰 등록에 실패했습니다.')
+  //     toast('리뷰 등록에 실패했습니다.')
   //   }
   // }
   // return (

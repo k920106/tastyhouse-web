@@ -2,6 +2,7 @@
 
 import Image from 'next/image'
 import { SlCamera } from 'react-icons/sl'
+import { toast } from '../ui/AppToaster'
 
 interface PhotoUploaderProps {
   value: File[]
@@ -14,7 +15,7 @@ export default function PhotoUploader({ value, onChange }: PhotoUploaderProps) {
     if (!files.length) return
 
     if (value.length + files.length > 5) {
-      alert('사진은 최대 5장까지 업로드할 수 있습니다.')
+      toast('사진은 최대 5장까지 업로드할 수 있습니다.')
       e.target.value = ''
       return
     }
