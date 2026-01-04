@@ -10,11 +10,11 @@ import { ReviewDetail } from '@/types/api/review'
 import { cookies } from 'next/headers'
 import Link from 'next/link'
 
-interface ReviewOptionContentProps {
-  reviewId: number
+interface ReviewOptionDrawerServerProps {
+  params: Promise<{ id: string }>
 }
 
-export default async function ReviewOptionContent({ reviewId }: ReviewOptionContentProps) {
+export default async function ReviewOptionDrawerServer({ params }: ReviewOptionDrawerServerProps) {
   const cookieStore = await cookies()
   const accessToken = cookieStore.get('accessToken')
 
@@ -26,6 +26,10 @@ export default async function ReviewOptionContent({ reviewId }: ReviewOptionCont
     )
   }
 
+  const { id } = await params
+  const reviewId = Number(id)
+
+  // API 호출
   const [reviewResponse, memberResponse] = await Promise.all([
     api.get<ApiResponse<ReviewDetail>>(API_ENDPOINTS.REVIEW_DETAIL(reviewId)),
     api.get<ApiResponse<MemberInfoResponse>>(API_ENDPOINTS.MEMBER_ME),
@@ -39,7 +43,7 @@ export default async function ReviewOptionContent({ reviewId }: ReviewOptionCont
   }
 
   // Expected Error: API 응답은 받았지만 데이터가 없거나 실패 응답
-  if (!reviewData || !reviewData?.success || !reviewData?.data) {
+  if (!reviewData || !reviewData.success || !reviewData.data) {
     return <ReviewOptionError />
   }
 
@@ -51,16 +55,16 @@ export default async function ReviewOptionContent({ reviewId }: ReviewOptionCont
   }
 
   // Expected Error: API 응답은 받았지만 데이터가 없거나 실패 응답
-  if (!memberData || !memberData?.success || !memberData?.data) {
+  if (!memberData || !memberData.success || !memberData.data) {
     return <ReviewOptionError />
   }
 
-  const { id, memberId, memberNickname, content } = reviewData.data
+  const { memberId, memberNickname, content } = reviewData.data
   const { id: currentMemberId } = memberData.data
 
   return (
     <ReviewOptionDrawer
-      reviewId={id}
+      reviewId={reviewId}
       memberId={memberId}
       currentMemberId={currentMemberId}
       memberNickname={memberNickname}
