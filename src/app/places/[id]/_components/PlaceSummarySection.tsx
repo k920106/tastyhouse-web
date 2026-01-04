@@ -1,6 +1,6 @@
 import { Suspense } from 'react'
-import BookmarkButtonContent from './BookmarkButtonContent'
-import BookmarkButtonSkeleton from './BookmarkButtonSkeleton'
+import { PlaceBookmarkButtonSkeleton } from './PlaceBookmarkButtonClient'
+import PlaceBookmarkButtonServer from './PlaceBookmarkButtonServer'
 import { PlaceSummarySkeleton } from './PlaceSummary'
 import PlaceSummaryContent from './PlaceSummaryContent'
 
@@ -15,8 +15,8 @@ export default function PlaceSummarySection({ placeId }: PlaceSummarySectionProp
         <PlaceSummaryContent
           placeId={placeId}
           bookmarkButton={
-            <Suspense fallback={<BookmarkButtonSkeleton />}>
-              <BookmarkButtonContent placeId={placeId} />
+            <Suspense fallback={<PlaceBookmarkButtonSkeleton />}>
+              <PlaceBookmarkButtonServer placeId={placeId} />
             </Suspense>
           }
         />

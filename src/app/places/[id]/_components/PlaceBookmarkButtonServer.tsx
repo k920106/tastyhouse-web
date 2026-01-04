@@ -6,13 +6,15 @@ import { PlaceBookmarkResponse } from '@/types/api/place-detail'
 import { cookies } from 'next/headers'
 import Link from 'next/link'
 import { FaRegBookmark } from 'react-icons/fa'
-import BookmarkButtonClient from './BookmarkButtonClient'
+import PlaceBookmarkButtonClient from './PlaceBookmarkButtonClient'
 
-interface BookmarkButtonProps {
+interface PlaceBookmarkButtonServerProps {
   placeId: number
 }
 
-export default async function BookmarkButtonContent({ placeId }: BookmarkButtonProps) {
+export default async function PlaceBookmarkButtonServer({
+  placeId,
+}: PlaceBookmarkButtonServerProps) {
   const cookieStore = await cookies()
   const accessToken = cookieStore.get('accessToken')
 
@@ -31,7 +33,6 @@ export default async function BookmarkButtonContent({ placeId }: BookmarkButtonP
     API_ENDPOINTS.PLACES_BOOKMARK(placeId),
   )
 
-  // "3줄 JSX 중복 < 불필요한 함수 추상화" Keep it simple. 현재 코드 그대로 두는 것이 가장 좋습니다. 👍
   if (error) {
     return (
       <button className="flex items-center justify-center w-[35px] h-[35px] shrink-0 border border-[#eeeeee] box-border rounded-full cursor-pointer">
@@ -40,7 +41,6 @@ export default async function BookmarkButtonContent({ placeId }: BookmarkButtonP
     )
   }
 
-  // "3줄 JSX 중복 < 불필요한 함수 추상화" Keep it simple. 현재 코드 그대로 두는 것이 가장 좋습니다. 👍
   if (!data || !data.success || !data.data) {
     return (
       <button className="flex items-center justify-center w-[35px] h-[35px] shrink-0 border border-[#eeeeee] box-border rounded-full cursor-pointer">
@@ -49,9 +49,9 @@ export default async function BookmarkButtonContent({ placeId }: BookmarkButtonP
     )
   }
 
-  const isBookmarked = data.data.bookmarked
+  const { bookmarked } = data.data
 
-  return <BookmarkButtonClient placeId={placeId} initialIsBookmarked={isBookmarked} />
+  return <PlaceBookmarkButtonClient initialIsBookmarked={bookmarked} placeId={placeId} />
 }
 
 /*
