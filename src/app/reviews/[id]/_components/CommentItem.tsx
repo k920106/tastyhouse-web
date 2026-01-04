@@ -65,7 +65,7 @@ export default function CommentItem({ comment, currentMemberId }: CommentItemPro
             {comment.content}
           </p>
           <button
-            className="mt-[15px] text-xs leading-[12px] text-[#999999]"
+            className="mt-[15px] text-xs leading-[12px] text-[#999999] cursor-pointer"
             onClick={() => handleReplyClick(comment.id, comment.memberNickname, comment.memberId)}
           >
             답글달기
@@ -116,7 +116,7 @@ export default function CommentItem({ comment, currentMemberId }: CommentItemPro
                     {reply.content}
                   </p>
                   <button
-                    className="mt-[15px] text-xs leading-[12px] text-[#999999]"
+                    className="mt-[15px] text-xs leading-[12px] text-[#999999] cursor-pointer"
                     onClick={() =>
                       handleReplyClick(comment.id, reply.memberNickname, reply.memberId)
                     }
