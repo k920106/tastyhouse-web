@@ -4,10 +4,10 @@ import { Suspense } from 'react'
 import ReviewDetailHeader, { ReviewDetailHeaderSkeleton } from './ReviewDetailHeader'
 
 interface ReviewDetailHeaderSectionProps {
-  reviewId: number
+  params: Promise<{ id: string }>
 }
 
-export default function ReviewDetailHeaderSection({ reviewId }: ReviewDetailHeaderSectionProps) {
+export default function ReviewDetailHeaderSection({ params }: ReviewDetailHeaderSectionProps) {
   return (
     <Header variant="white" height={55}>
       <HeaderLeft>
@@ -15,7 +15,7 @@ export default function ReviewDetailHeaderSection({ reviewId }: ReviewDetailHead
       </HeaderLeft>
       <HeaderCenter>
         <Suspense fallback={<ReviewDetailHeaderSkeleton />}>
-          <ReviewDetailHeader reviewId={reviewId} />
+          <ReviewDetailHeader params={params} />
         </Suspense>
       </HeaderCenter>
     </Header>

@@ -9,10 +9,14 @@ export function ReviewDetailHeaderSkeleton() {
 }
 
 interface ReviewDetailHeaderProps {
-  reviewId: number
+  params: Promise<{ id: string }>
 }
 
-export default async function ReviewDetailHeader({ reviewId }: ReviewDetailHeaderProps) {
+export default async function ReviewDetailHeader({ params }: ReviewDetailHeaderProps) {
+  const { id } = await params
+  const reviewId = Number(id)
+
+  // API 호출
   const { error, data } = await api.get<ApiResponse<ReviewDetail>>(
     API_ENDPOINTS.REVIEW_DETAIL(reviewId),
   )
@@ -23,7 +27,7 @@ export default async function ReviewDetailHeader({ reviewId }: ReviewDetailHeade
   }
 
   // Expected Error: API 응답은 받았지만 데이터가 없거나 실패 응답
-  if (!data || !data?.success || !data.data) {
+  if (!data || !data.success || !data.data) {
     return <div>-</div>
   }
 

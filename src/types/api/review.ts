@@ -51,17 +51,10 @@ export type ReviewDetail = {
   createdAt: string
   imageUrls: string[]
   tagNames: string[]
-  isLiked: boolean
 }
 
 export type ReviewLikeResponse = {
   liked: boolean
-}
-
-export type ReviewLikeResult = {
-  success: boolean
-  liked?: boolean
-  error?: string
 }
 
 export type CommentListResponse = {
@@ -69,7 +62,7 @@ export type CommentListResponse = {
   totalCount: number
 }
 
-type Comment = {
+export type Comment = {
   id: number
   reviewId: number
   memberId: number
@@ -107,12 +100,6 @@ export type CommentCreateResponse = {
   replies: Reply[]
 }
 
-export type CommentCreateResult = {
-  success: boolean
-  data?: CommentCreateResponse
-  error?: string
-}
-
 export type ReplyCreateRequest = {
   content: string
   replyToMemberId: number
@@ -126,10 +113,4 @@ export type ReplyCreateResponse = {
   memberProfileImageUrl: string | null
   content: string
   createdAt: string
-}
-
-export type ReplyCreateResult = {
-  success: boolean
-  data?: ReplyCreateResponse
-  error?: string
 }

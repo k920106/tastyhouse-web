@@ -14,12 +14,18 @@ interface ReplyContextValue {
   textareaRef: React.RefObject<HTMLTextAreaElement | null>
   triggerReply: (commentId: number, nickname: string, memberId: number) => void
   clearReply: () => void
+  commentText: string
+  setCommentText: (text: string) => void
+  isFocused: boolean
+  setIsFocused: (focused: boolean) => void
 }
 
 const ReplyContext = createContext<ReplyContextValue | null>(null)
 
 export function ReplyProvider({ children }: { children: React.ReactNode }) {
   const [replyTarget, setReplyTarget] = useState<ReplyTarget>(null)
+  const [commentText, setCommentText] = useState('')
+  const [isFocused, setIsFocused] = useState(false)
   const textareaRef = useRef<HTMLTextAreaElement>(null)
 
   const triggerReply = useCallback((commentId: number, nickname: string, memberId: number) => {
@@ -36,7 +42,17 @@ export function ReplyProvider({ children }: { children: React.ReactNode }) {
 
   return (
     <ReplyContext.Provider
-      value={{ replyTarget, setReplyTarget, textareaRef, triggerReply, clearReply }}
+      value={{
+        replyTarget,
+        setReplyTarget,
+        textareaRef,
+        triggerReply,
+        clearReply,
+        commentText,
+        setCommentText,
+        isFocused,
+        setIsFocused,
+      }}
     >
       {children}
     </ReplyContext.Provider>

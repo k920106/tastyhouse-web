@@ -1,31 +1,34 @@
 'use client'
 
-import Avatar from '@/components/ui/Avatar'
-import { Spinner } from '@/components/ui/shadcn/spinner'
+import { PAGE_PATHS } from '@/lib/paths'
 import { useRouter } from 'next/navigation'
-import { useCallback, useEffect, useRef, useState } from 'react'
-import { RxPaperPlane } from 'react-icons/rx'
-import { createComment, createReply } from '../actions'
+import React, { ReactNode, useCallback, useEffect, useRef } from 'react'
 import { useReply } from './ReplyContext'
 
 interface CommentInputProps {
-  reviewId: number
-  userProfileImage: string | null
   isLoggedIn: boolean
+  avatar: ReactNode
+  commentSubmitButton?: ReactNode
 }
 
 export default function CommentInput({
-  reviewId,
-  userProfileImage,
   isLoggedIn,
+  avatar,
+  commentSubmitButton,
 }: CommentInputProps) {
   const router = useRouter()
-  const [commentText, setCommentText] = useState('')
-  const [isSubmitting, setIsSubmitting] = useState(false)
-  const [isFocused, setIsFocused] = useState(false)
+
   const containerRef = useRef<HTMLDivElement>(null)
 
-  const { replyTarget, textareaRef, clearReply } = useReply()
+  const {
+    replyTarget,
+    textareaRef,
+    clearReply,
+    commentText,
+    setCommentText,
+    isFocused,
+    setIsFocused,
+  } = useReply()
 
   // 답글 모드가 활성화되면 @nickname 입력
   useEffect(() => {
@@ -33,60 +36,15 @@ export default function CommentInput({
       setCommentText(`@${replyTarget.nickname} `)
       setIsFocused(true)
     }
-  }, [replyTarget])
-
-  const handleSubmit = async () => {
-    let content = commentText.trim()
-
-    // 답글 모드일 때 @nickname 제거
-    if (replyTarget) {
-      const mentionPrefix = `@${replyTarget.nickname} `
-      if (content.startsWith(mentionPrefix)) {
-        content = content.slice(mentionPrefix.length).trim()
-      }
-    }
-
-    if (!content) {
-      alert(replyTarget ? '답글을 입력해 주세요.' : '댓글을 입력해 주세요.')
-      return
-    }
-
-    if (isSubmitting) return
-
-    setIsSubmitting(true)
-
-    let result
-    if (replyTarget) {
-      // 답글 등록
-      result = await createReply(reviewId, replyTarget.commentId, content, replyTarget.memberId)
-    } else {
-      // 댓글 등록
-      result = await createComment(reviewId, content)
-    }
-
-    if (result.error) {
-      alert(
-        result.error || (replyTarget ? '답글 등록에 실패했습니다.' : '댓글 등록에 실패했습니다.'),
-      )
-    }
-
-    if (result.success) {
-      setCommentText('')
-      setIsFocused(false)
-      clearReply()
-      textareaRef.current?.blur()
-    }
-
-    setIsSubmitting(false)
-  }
+  }, [replyTarget, setCommentText, setIsFocused])
 
   const handleFocus = useCallback(() => {
     if (!isLoggedIn) {
-      router.push('/login')
+      router.push(PAGE_PATHS.LOGIN)
       return
     }
     setIsFocused(true)
-  }, [isLoggedIn, router])
+  }, [isLoggedIn, router, setIsFocused])
 
   const handleBlur = useCallback(
     (e: React.FocusEvent<HTMLTextAreaElement>) => {
@@ -102,7 +60,7 @@ export default function CommentInput({
       setIsFocused(false)
       clearReply()
     },
-    [commentText, clearReply],
+    [commentText, clearReply, setIsFocused],
   )
 
   // 버튼 표시 조건: focus 상태이거나 텍스트가 있을 때
@@ -110,7 +68,7 @@ export default function CommentInput({
 
   return (
     <div ref={containerRef} className="flex items-center gap-[7px] flex-1">
-      <Avatar src={userProfileImage} alt="내 프로필" />
+      {avatar}
       <div className="flex-1 px-4 py-2.5 border border-[#eeeeee] box-border rounded-[20px] grid">
         <textarea
           ref={textareaRef}
@@ -123,19 +81,7 @@ export default function CommentInput({
           className="min-w-0 text-sm leading-normal bg-transparent outline-none resize-none overflow-y-hidden placeholder:text-[#aaaaaa] [field-sizing:content]"
         />
       </div>
-      {showButton &&
-        (!isSubmitting ? (
-          <button
-            type="button"
-            className="flex justify-end items-center w-[22px] h-[44px] disabled:opacity-50"
-            onClick={handleSubmit}
-            disabled={isSubmitting}
-          >
-            <RxPaperPlane size={22} color="#cccccc" />
-          </button>
-        ) : (
-          <Spinner />
-        ))}
+      {showButton && commentSubmitButton}
     </div>
   )
 }

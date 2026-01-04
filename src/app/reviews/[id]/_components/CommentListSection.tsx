@@ -1,25 +1,18 @@
-import { api } from '@/lib/api'
-import { API_ENDPOINTS } from '@/lib/endpoints'
-import { ApiResponse } from '@/types/api/api'
-import { MemberInfoResponse } from '@/types/api/member'
 import { Suspense } from 'react'
-import CommentList, { CommentListSkeleton } from './CommentList'
+import { CommentListSkeleton } from './CommentList'
+import CommentListServer from './CommentListServer'
 
 interface CommentListSectionProps {
-  reviewId: number
+  params: Promise<{ id: string }>
 }
 
-export default async function CommentListSection({ reviewId }: CommentListSectionProps) {
-  const { data } = await api.get<ApiResponse<MemberInfoResponse>>(API_ENDPOINTS.MEMBER_ME)
-
-  const currentMemberId = data?.success && data.data ? data.data.id : null
-
+export default async function CommentListSection({ params }: CommentListSectionProps) {
   return (
     <section>
       <div className="px-[15px] py-5">
         <div className="space-y-[30px]">
           <Suspense fallback={<CommentListSkeleton />}>
-            <CommentList reviewId={reviewId} currentMemberId={currentMemberId} />
+            <CommentListServer params={params} />
           </Suspense>
         </div>
       </div>

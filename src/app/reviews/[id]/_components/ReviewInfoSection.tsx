@@ -1,22 +1,29 @@
-import { BookmarkButtonClientSkeleton } from '@/app/places/[id]/_components/BookmarkButtonClient'
+import ReviewOptionButton from '@/components/reviews/ReviewOptionButton'
 import { Suspense } from 'react'
 import { ReviewInfoSkeleton } from './ReviewInfo'
 import ReviewInfoContent from './ReviewInfoContent'
-import ReviewOptionContent from './ReviewOptionContent'
+import ReviewLikeButton from './ReviewLikeButton'
+import ReviewLikeButtonServer from './ReviewLikeButtonServer'
+import ReviewOptionDrawerServer from './ReviewOptionDrawerServer'
 
 interface ReviewInfoSectionProps {
-  reviewId: number
+  params: Promise<{ id: string }>
 }
 
-export default async function ReviewInfoSection({ reviewId }: ReviewInfoSectionProps) {
+export default function ReviewInfoSection({ params }: ReviewInfoSectionProps) {
   return (
     <section className="px-[15px] pt-5 pb-8 border-b border-[#eeeeee] box-border">
       <Suspense fallback={<ReviewInfoSkeleton />}>
         <ReviewInfoContent
-          reviewId={reviewId}
+          params={params}
+          reviewLike={
+            <Suspense fallback={<ReviewLikeButton isLiked={false} disabled={true} />}>
+              <ReviewLikeButtonServer params={params} />
+            </Suspense>
+          }
           reviewOption={
-            <Suspense fallback={<BookmarkButtonClientSkeleton />}>
-              <ReviewOptionContent reviewId={reviewId} />
+            <Suspense fallback={<ReviewOptionButton disabled={true} />}>
+              <ReviewOptionDrawerServer params={params} />
             </Suspense>
           }
         />

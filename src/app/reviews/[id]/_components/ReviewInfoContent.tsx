@@ -8,14 +8,20 @@ import { ReactNode } from 'react'
 import ReviewInfo from './ReviewInfo'
 
 interface ReviewInfoContentProps {
-  reviewId: number
+  params: Promise<{ id: string }>
+  reviewLike: ReactNode
   reviewOption: ReactNode
 }
 
 export default async function ReviewInfoContent({
-  reviewId,
+  params,
+  reviewLike,
   reviewOption,
 }: ReviewInfoContentProps) {
+  const { id } = await params
+  const reviewId = Number(id)
+
+  // API 호출
   const { error, data } = await api.get<ApiResponse<ReviewDetail>>(
     API_ENDPOINTS.REVIEW_DETAIL(reviewId),
   )
@@ -26,9 +32,9 @@ export default async function ReviewInfoContent({
   }
 
   // Expected Error: API 응답은 받았지만 데이터가 없거나 실패 응답
-  if (!data || !data?.success || !data.data) {
+  if (!data || !data.success || !data.data) {
     return <ErrorMessage message={COMMON_ERROR_MESSAGES.FETCH_ERROR('리뷰')} />
   }
 
-  return <ReviewInfo reviewDetail={data.data} reviewOption={reviewOption} />
+  return <ReviewInfo reviewDetail={data.data} reviewLike={reviewLike} reviewOption={reviewOption} />
 }

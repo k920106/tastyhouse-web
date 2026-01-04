@@ -1,16 +1,11 @@
-import ErrorMessage from '@/components/ui/ErrorMessage'
 import { Skeleton } from '@/components/ui/shadcn/skeleton'
-import { api } from '@/lib/api'
-import { COMMON_ERROR_MESSAGES } from '@/lib/constants'
-import { API_ENDPOINTS } from '@/lib/endpoints'
-import { ApiResponse } from '@/types/api/api'
-import { CommentListResponse } from '@/types/api/review'
+import { Comment } from '@/types/api/review'
 import CommentItem from './CommentItem'
 
 export function CommentListSkeleton() {
   return (
     <>
-      {[...Array(10)].map((_, i) => (
+      {[...Array(5)].map((_, i) => (
         <CommentListItemSkeleton key={i} />
       ))}
     </>
@@ -34,27 +29,11 @@ function CommentListItemSkeleton() {
 }
 
 interface CommentListProps {
-  reviewId: number
-  currentMemberId: number | null
+  comments: Comment[]
+  currentMemberId: number
 }
 
-export default async function CommentList({ reviewId, currentMemberId }: CommentListProps) {
-  const { error, data } = await api.get<ApiResponse<CommentListResponse>>(
-    API_ENDPOINTS.REVIEW_COMMENTS(reviewId),
-  )
-
-  // Expected Error: API 호출 실패 (네트워크 오류, timeout 등)
-  if (error) {
-    return <ErrorMessage message={COMMON_ERROR_MESSAGES.API_FETCH_ERROR} className="py-10" />
-  }
-
-  // Expected Error: API 응답은 받았지만 데이터가 없거나 실패 응답
-  if (!data || !data?.success || !data.data) {
-    return <ErrorMessage message={COMMON_ERROR_MESSAGES.FETCH_ERROR('댓글')} className="py-10" />
-  }
-
-  const { comments } = data.data
-
+export default async function CommentList({ comments, currentMemberId }: CommentListProps) {
   if (comments.length === 0) {
     return (
       <div className="flex flex-col gap-1">
