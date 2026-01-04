@@ -12,7 +12,7 @@ export async function getLatestReviews(params: LatestReviewQuery) {
     { params },
   )
 
-  if (error || !data?.success) {
+  if (error || !data || !data.success || !data.data) {
     throw new Error(error || 'Failed to fetch reviews')
   }
 
@@ -20,7 +20,11 @@ export async function getLatestReviews(params: LatestReviewQuery) {
 }
 
 export async function getCurrentMemberId(): Promise<number | null> {
-  const { data } = await api.get<ApiResponse<MemberInfoResponse>>(API_ENDPOINTS.MEMBER_ME)
+  const { data, error } = await api.get<ApiResponse<MemberInfoResponse>>(API_ENDPOINTS.MEMBER_ME)
 
-  return data?.success && data.data ? data.data.id : null
+  if (error || !data || !data.success || !data.data) {
+    throw new Error(error || 'Failed to fetch reviews')
+  }
+
+  return data.data.id
 }

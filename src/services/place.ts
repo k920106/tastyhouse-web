@@ -11,7 +11,7 @@ export async function getLatestPlaces(params: PlaceListQuery) {
     { params },
   )
 
-  if (error || !data?.success) {
+  if (error || !data || !data.success || !data.data) {
     throw new Error(error || 'Failed to fetch places')
   }
 
