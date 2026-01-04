@@ -1,4 +1,7 @@
+'use client'
+
 import { formatTimeAgo } from '@/lib/date'
+import { useEffect, useState } from 'react'
 
 interface TimeAgoProps {
   date: string
@@ -6,9 +9,11 @@ interface TimeAgoProps {
 }
 
 export default function TimeAgo({ date, className = '' }: TimeAgoProps) {
-  return (
-    <p className={`text-xs leading-[12px] text-[#999999] ${className}`.trim()}>
-      {formatTimeAgo(date)}
-    </p>
-  )
+  const [timeAgo, setTimeAgo] = useState<string>('')
+
+  useEffect(() => {
+    setTimeAgo(formatTimeAgo(date))
+  }, [date])
+
+  return <p className={`text-xs leading-[12px] text-[#999999] ${className}`.trim()}>{timeAgo}</p>
 }
