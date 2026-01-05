@@ -3,7 +3,7 @@
 import SectionStack from '@/components/ui/SectionStack'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/shadcn/tabs'
 import type { ReviewType } from '@/types/api/review'
-import { usePathname, useRouter, useSearchParams } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
 import { useCallback } from 'react'
 import LatestReviewList from './LatestReviewList'
 
@@ -14,26 +14,27 @@ const reviewTypeMap: Record<TabValue, ReviewType> = {
   following: 'FOLLOWING',
 }
 
-export default function ReviewTabs() {
+interface ReviewTabsProps {
+  initialTab: TabValue
+}
+
+export default function ReviewTabs({ initialTab }: ReviewTabsProps) {
   const router = useRouter()
   const pathname = usePathname()
-  const searchParams = useSearchParams()
-
-  const activeTab = (searchParams.get('tab') || 'all') as TabValue
 
   const handleTabChange = useCallback(
     (value: string) => {
-      const params = new URLSearchParams(searchParams.toString())
+      const params = new URLSearchParams()
       params.set('tab', value)
 
       router.push(`${pathname}?${params.toString()}`, { scroll: false })
       window.scrollTo({ top: 0, behavior: 'instant' })
     },
-    [router, pathname, searchParams],
+    [router, pathname],
   )
 
   return (
-    <Tabs value={activeTab} onValueChange={handleTabChange} className="gap-0">
+    <Tabs value={initialTab} onValueChange={handleTabChange} className="gap-0">
       <TabsList className="sticky top-0 w-full h-[50px] rounded-none bg-white z-40 p-0">
         <TabsTrigger
           value="all"
