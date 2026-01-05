@@ -1,7 +1,8 @@
 import Header, { HeaderCenter, HeaderLeft } from '@/components/layouts/Header'
 import { BackButton } from '@/components/layouts/header-parts'
 import { Suspense } from 'react'
-import PlaceDetailHeader, { PlaceDetailHeaderSkeleton } from './PlaceDetailHeader'
+import { PlaceDetailHeaderSkeleton } from './PlaceDetailHeader'
+import PlaceDetailHeaderServer from './PlaceDetailHeaderServer'
 
 interface PlaceDetailHeaderSectionProps {
   placeId: number
@@ -15,7 +16,7 @@ export default function PlaceDetailHeaderSection({ placeId }: PlaceDetailHeaderS
       </HeaderLeft>
       <HeaderCenter>
         <Suspense fallback={<PlaceDetailHeaderSkeleton />}>
-          <PlaceDetailHeader placeId={placeId} />
+          <PlaceDetailHeaderServer placeId={placeId} />
         </Suspense>
       </HeaderCenter>
     </Header>

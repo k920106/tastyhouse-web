@@ -1,30 +1,13 @@
 import { Skeleton } from '@/components/ui/shadcn/skeleton'
-import { api } from '@/lib/api'
-import { ApiResponse } from '@/types/api/api'
-import { PlaceSummaryResponse } from '@/types/api/place-detail'
 
 export function PlaceDetailHeaderSkeleton() {
   return <Skeleton className="h-[17px] w-[120px]" />
 }
 
 interface PlaceDetailHeaderProps {
-  placeId: number
+  name: string
 }
 
-export default async function PlaceDetailHeader({ placeId }: PlaceDetailHeaderProps) {
-  const { error, data } = await api.get<ApiResponse<PlaceSummaryResponse>>(
-    `/api/places/v1/${placeId}/summary`,
-  )
-
-  // Expected Error: API 호출 실패 (네트워크 오류, timeout 등)
-  if (error) {
-    return <div>-</div>
-  }
-
-  // Expected Error: API 응답은 받았지만 데이터가 없거나 실패 응답
-  if (!data || !data.success || !data.data) {
-    return <div>-</div>
-  }
-
-  return <h1 className="text-[17px] leading-[17px]">{data.data.name}</h1>
+export default function PlaceDetailHeader({ name }: PlaceDetailHeaderProps) {
+  return <h1 className="text-[17px] leading-[17px]">{name}</h1>
 }
