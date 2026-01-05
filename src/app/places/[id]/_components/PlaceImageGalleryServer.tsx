@@ -5,11 +5,11 @@ import { ApiResponse } from '@/types/api/api'
 import { PlaceThumbnailResponse } from '@/types/api/place-detail'
 import PlaceImageGallery from './PlaceImageGallery'
 
-interface PlaceImageGalleryContentProps {
+interface PlaceImageGalleryServerProps {
   placeId: number
 }
 
-export default async function PlaceImageGalleryContent({ placeId }: PlaceImageGalleryContentProps) {
+export default async function PlaceImageGalleryServer({ placeId }: PlaceImageGalleryServerProps) {
   const { data, error } = await api.get<ApiResponse<PlaceThumbnailResponse[]>>(
     `/api/places/v1/${placeId}/thumbnails`,
   )
