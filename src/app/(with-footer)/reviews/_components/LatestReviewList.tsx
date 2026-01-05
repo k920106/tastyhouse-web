@@ -19,7 +19,7 @@ const PAGE_SIZE = 10
 export function LatestReviewListSkeleton() {
   return (
     <>
-      {[...Array(2)].map((_, i) => (
+      {[...Array(10)].map((_, i) => (
         <LatestReviewListItemSkeleton key={i} />
       ))}
     </>
@@ -93,22 +93,10 @@ function LatestReviewListItem({
       <ReviewImageGallery imageUrls={imageUrls} />
       <ClampedText text={content} href={PAGE_PATHS.REVIEW_DETAIL(id)} />
       <div className="flex gap-4 mt-3.5">
-        <span className="text-xs leading-[12px] text-[#aaaaaa]">
-          좋아요 {likeCount}개 PK: {review.id}
-        </span>
+        <span className="text-xs leading-[12px] text-[#aaaaaa]">좋아요 {likeCount}개</span>
         <span className="text-xs leading-[12px] text-[#aaaaaa]">댓글 {commentCount}개</span>
       </div>
     </div>
-  )
-}
-
-function LoadingIndicator() {
-  return (
-    <>
-      {[...Array(2)].map((_, i) => (
-        <LatestReviewListItemSkeleton key={`loading-${i}`} />
-      ))}
-    </>
   )
 }
 
@@ -186,7 +174,7 @@ export default function LatestReviewList({ reviewType }: LatestReviewListProps) 
           currentMemberId={currentMemberId ?? null}
         />
       ))}
-      {isFetchingNextPage && <LoadingIndicator />}
+      {isFetchingNextPage && <LatestReviewListSkeleton />}
       <div ref={targetRef} className="h-1" aria-hidden="true" />
     </>
   )

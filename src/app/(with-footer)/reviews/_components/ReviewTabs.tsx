@@ -13,7 +13,7 @@ const reviewTypeMap: Record<TabValue, ReviewType> = {
   following: 'FOLLOWING',
 }
 
-export default function ReviewPageContent() {
+export default function ReviewTabs() {
   const [activeTab, setActiveTab] = useState<TabValue>('all')
 
   const handleTabChange = (value: string) => {
