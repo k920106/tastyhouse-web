@@ -3,7 +3,8 @@
 import SectionStack from '@/components/ui/SectionStack'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/shadcn/tabs'
 import type { ReviewType } from '@/types/api/review'
-import { useState } from 'react'
+import { usePathname, useRouter, useSearchParams } from 'next/navigation'
+import { useCallback } from 'react'
 import LatestReviewList from './LatestReviewList'
 
 type TabValue = 'all' | 'following'
@@ -14,13 +15,22 @@ const reviewTypeMap: Record<TabValue, ReviewType> = {
 }
 
 export default function ReviewTabs() {
-  const [activeTab, setActiveTab] = useState<TabValue>('all')
+  const router = useRouter()
+  const pathname = usePathname()
+  const searchParams = useSearchParams()
 
-  const handleTabChange = (value: string) => {
-    setActiveTab(value as TabValue)
-    // 탭 변경 시 스크롤을 최상단으로 이동
-    window.scrollTo({ top: 0, behavior: 'instant' })
-  }
+  const activeTab = (searchParams.get('tab') || 'all') as TabValue
+
+  const handleTabChange = useCallback(
+    (value: string) => {
+      const params = new URLSearchParams(searchParams.toString())
+      params.set('tab', value)
+
+      router.push(`${pathname}?${params.toString()}`, { scroll: false })
+      window.scrollTo({ top: 0, behavior: 'instant' })
+    },
+    [router, pathname, searchParams],
+  )
 
   return (
     <Tabs value={activeTab} onValueChange={handleTabChange} className="gap-0">
