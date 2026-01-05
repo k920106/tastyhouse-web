@@ -1,14 +1,29 @@
 'use client'
 
+import ErrorMessage from '@/components/ui/ErrorMessage'
+import { Skeleton } from '@/components/ui/shadcn/skeleton'
+import { COMMON_ERROR_MESSAGES } from '@/lib/constants'
+import { getPlaceInfo } from '@/services/place'
 import { PlaceInfoResponse } from '@/types/api/place-detail'
+import { useQuery } from '@tanstack/react-query'
 import { BiCopy } from 'react-icons/bi'
 import { MdLocationOn } from 'react-icons/md'
 
-interface PlaceInfoProps {
-  placeInfo: PlaceInfoResponse
+export function PlaceInfoSkeleton() {
+  return (
+    <div className="py-6 space-y-8">
+      <Skeleton className="h-20 w-full" />
+      <Skeleton className="h-40 w-full" />
+      <Skeleton className="h-20 w-full" />
+    </div>
+  )
 }
 
-export function PlaceInfo({ placeInfo }: PlaceInfoProps) {
+interface PlaceInfoProps {
+  placeId: number
+}
+
+function PlaceInfoContent({ placeInfo }: { placeInfo: PlaceInfoResponse }) {
   const handleCopyAddress = () => {
     if (placeInfo.roadAddress) {
       navigator.clipboard.writeText(placeInfo.roadAddress)
@@ -71,4 +86,32 @@ export function PlaceInfo({ placeInfo }: PlaceInfoProps) {
       </div>
     </div>
   )
+}
+
+export default function PlaceInfo({ placeId }: PlaceInfoProps) {
+  const { data, isLoading, isError } = useQuery({
+    queryKey: ['place', placeId, 'info'],
+    queryFn: () => getPlaceInfo(placeId),
+  })
+
+  if (isLoading) {
+    return <PlaceInfoSkeleton />
+  }
+
+  if (isError) {
+    return (
+      <ErrorMessage message={COMMON_ERROR_MESSAGES.API_FETCH_ERROR} className="py-10 bg-white" />
+    )
+  }
+
+  if (!data) {
+    return (
+      <ErrorMessage
+        message={COMMON_ERROR_MESSAGES.FETCH_ERROR('플레이스 정보')}
+        className="py-10 bg-white"
+      />
+    )
+  }
+
+  return <PlaceInfoContent placeInfo={data.data} />
 }

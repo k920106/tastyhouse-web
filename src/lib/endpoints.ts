@@ -13,6 +13,8 @@ export const API_ENDPOINTS = {
   PLACES_THUMBNAILS: (id: string | number) => `/api/places/v1/${id}/thumbnails`,
   PLACES_BOOKMARK: (id: string | number) => `/api/places/v1/${id}/bookmark`,
   PLACES_INFO: (id: string | number) => `/api/places/v1/${id}/info`,
+  PLACES_MENUS: (id: string | number) => `/api/places/v1/${id}/menus`,
+  PLACES_PHOTOS: (id: string | number) => `/api/places/v1/${id}/photos`,
 
   // 장바구니
   CART: '/api/cart/v1',

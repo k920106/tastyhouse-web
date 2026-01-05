@@ -1,12 +1,34 @@
 'use client'
 
+import ErrorMessage from '@/components/ui/ErrorMessage'
+import { Skeleton } from '@/components/ui/shadcn/skeleton'
 import { PlaceImageCategory } from '@/constants/place'
+import { COMMON_ERROR_MESSAGES } from '@/lib/constants'
+import { getPlacePhotos } from '@/services/place'
 import { PlacePhotoResponse } from '@/types/api/place-detail'
+import { useQuery } from '@tanstack/react-query'
 import Image from 'next/image'
 import { useState } from 'react'
 
+export function PlacePhotosSkeleton() {
+  return (
+    <div className="py-6">
+      <div className="flex gap-2 mb-6">
+        {[...Array(4)].map((_, i) => (
+          <Skeleton key={i} className="h-9 w-20 rounded-full" />
+        ))}
+      </div>
+      <div className="grid grid-cols-2 gap-3">
+        {[...Array(6)].map((_, i) => (
+          <Skeleton key={i} className="aspect-square rounded-lg" />
+        ))}
+      </div>
+    </div>
+  )
+}
+
 interface PlacePhotosProps {
-  photos: PlacePhotoResponse[]
+  placeId: number
 }
 
 const CATEGORY_LABELS: Record<string, string> = {
@@ -16,7 +38,7 @@ const CATEGORY_LABELS: Record<string, string> = {
   OTHER: '기타',
 }
 
-export function PlacePhotos({ photos }: PlacePhotosProps) {
+function PlacePhotosContent({ photos }: { photos: PlacePhotoResponse[] }) {
   const [selectedCategory, setSelectedCategory] = useState<PlaceImageCategory | 'ALL'>('ALL')
 
   // 카테고리별로 사진 그룹화
@@ -77,4 +99,36 @@ export function PlacePhotos({ photos }: PlacePhotosProps) {
       )}
     </div>
   )
+}
+
+export default function PlacePhotos({ placeId }: PlacePhotosProps) {
+  const { data, isLoading, isError } = useQuery({
+    queryKey: ['place', placeId, 'photos'],
+    queryFn: () => getPlacePhotos(placeId),
+  })
+
+  if (isLoading) {
+    return <PlacePhotosSkeleton />
+  }
+
+  if (isError) {
+    return (
+      <ErrorMessage message={COMMON_ERROR_MESSAGES.API_FETCH_ERROR} className="py-10 bg-white" />
+    )
+  }
+
+  if (!data) {
+    return (
+      <ErrorMessage
+        message={COMMON_ERROR_MESSAGES.FETCH_ERROR('사진 정보')}
+        className="py-10 bg-white"
+      />
+    )
+  }
+
+  if (data.data.length === 0) {
+    return <div className="py-10 bg-white text-center text-sm text-[#aaaaaa]">사진이 없습니다.</div>
+  }
+
+  return <PlacePhotosContent photos={data.data} />
 }

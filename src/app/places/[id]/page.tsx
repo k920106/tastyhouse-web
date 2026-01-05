@@ -5,52 +5,6 @@ import PlaceImageGallery from './_components/PlaceImageGallerySection'
 import PlaceSummarySection from './_components/PlaceSummarySection'
 import PlaceTabSection from './_components/PlaceTabSection'
 
-// async function getPlaceInfo(placeId: string) {
-//   const response = await api.get<CommonResponse<PlaceInfoResponse>>(
-//     `/api/places/v1/${placeId}/info`,
-//   )
-//   if (response.error || !response.data) {
-//     throw new Error(response.error || '플레이스 정보를 불러올 수 없습니다')
-//   }
-//   return response.data.data
-// }
-
-// async function getPlaceThumbnails(placeId: string) {
-//   const response = await api.get<CommonResponse<PlaceThumbnailResponse[]>>(
-//     `/api/places/v1/${placeId}/thumbnails`,
-//   )
-//   if (response.error || !response.data) {
-//     throw new Error(response.error || '썸네일 정보를 불러올 수 없습니다')
-//   }
-//   return response.data.data
-// }
-
-// async function getPlaceMenus(placeId: string) {
-//   const response = await api.get<CommonResponse<PlaceMenuResponse[]>>(
-//     `/api/places/v1/${placeId}/menus`,
-//   )
-//   if (response.error || !response.data) {
-//     throw new Error(response.error || '메뉴 정보를 불러올 수 없습니다')
-//   }
-//   return response.data.data
-// }
-
-// async function getPlacePhotos(placeId: string) {
-//   const response = await api.get<PagedCommonResponse<PlacePhotoResponse>>(
-//     `/api/places/v1/${placeId}/photos`,
-//     {
-//       params: {
-//         page: 0,
-//         size: 100,
-//       },
-//     },
-//   )
-//   if (response.error || !response.data) {
-//     throw new Error(response.error || '사진 정보를 불러올 수 없습니다')
-//   }
-//   return response.data.data
-// }
-
 // async function getPlaceReviews(placeId: string) {
 //   const response = await api.get<PagedCommonResponse<PlaceReviewResponse>>(
 //     `/api/places/v1/${placeId}/reviews`,
@@ -77,19 +31,18 @@ import PlaceTabSection from './_components/PlaceTabSection'
 //   return response.data.data
 // }
 
-//  // 플레이스 북마크, 리뷰 좋아요
-//  // ㄴ 로그인, 미로그인 구현
-
 interface PlaceDetailPageProps {
   params: Promise<{
     id: string
   }>
+  searchParams: Promise<{ tab?: string }>
 }
 
-export default async function PlaceDetailPage({ params }: PlaceDetailPageProps) {
+export default async function PlaceDetailPage({ params, searchParams }: PlaceDetailPageProps) {
   const { id } = await params
-
   const placeId = Number(id)
+  const searchParamsData = await searchParams
+  const initialTab = (searchParamsData.tab || 'info') as 'info' | 'menu' | 'photo'
 
   return (
     <>
@@ -99,7 +52,7 @@ export default async function PlaceDetailPage({ params }: PlaceDetailPageProps) 
           <PlaceImageGallery placeId={placeId} />
           <PlaceSummarySection placeId={placeId} />
         </BorderedSection>
-        <PlaceTabSection />
+        <PlaceTabSection placeId={placeId} initialTab={initialTab} />
       </SectionStack>
     </>
   )
