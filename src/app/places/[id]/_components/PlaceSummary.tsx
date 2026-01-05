@@ -34,8 +34,10 @@ interface PlaceSummaryProps {
 }
 
 export default function PlaceSummary({ placeSummary, bookmarkButton }: PlaceSummaryProps) {
+  const { roadAddress, name, rating, lotAddress, id } = placeSummary
+
   const handleCopyAddress = async () => {
-    const success = await copyToClipboard(placeSummary.roadAddress)
+    const success = await copyToClipboard(roadAddress)
     if (success) {
       toast('주소가 복사되었습니다.')
     }
@@ -44,18 +46,16 @@ export default function PlaceSummary({ placeSummary, bookmarkButton }: PlaceSumm
   return (
     <>
       <div className="flex items-start justify-between mb-5">
-        <h2 className="text-lg leading-[18px]">{placeSummary.name}</h2>
-        <span className="text-[19px] leading-[18px] text-main">
-          {formatDecimal(placeSummary.rating, 1)}
-        </span>
+        <h2 className="text-lg leading-[18px]">{name}</h2>
+        <span className="text-[19px] leading-[18px] text-main">{formatDecimal(rating, 1)}</span>
       </div>
       <div className="flex justify-between gap-3">
         <div className="flex-1 flex flex-col gap-[7px] min-w-0">
-          <div className="text-sm leading-relaxed line-clamp-2">{placeSummary.roadAddress}</div>
+          <div className="text-sm leading-relaxed line-clamp-2">{roadAddress}</div>
           <div className="relative text-xs leading-[12px] text-[#aaaaaa]">
-            <span>[지번] {placeSummary.lotAddress}</span>
+            <span>[지번] {lotAddress}</span>
             <div className="absolute top-0 right-0 flex gap-[11px]">
-              <Link href={`/places/${placeSummary.id}/map`} className="flex items-center gap-[3px]">
+              <Link href={`/places/${id}/map`} className="flex items-center gap-[3px]">
                 <TfiLocationPin size={12} className="text-main" />
                 <span className="text-xs leading-[12px] text-main">지도</span>
               </Link>

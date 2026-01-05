@@ -7,15 +7,15 @@ import { PlaceSummaryResponse } from '@/types/api/place-detail'
 import { ReactNode } from 'react'
 import PlaceSummary from './PlaceSummary'
 
-interface PlaceSummaryContentProps {
+interface PlaceSummaryServerProps {
   placeId: number
   bookmarkButton: ReactNode
 }
 
-export default async function PlaceSummaryContent({
+export default async function PlaceSummaryServer({
   placeId,
   bookmarkButton,
-}: PlaceSummaryContentProps) {
+}: PlaceSummaryServerProps) {
   const { error, data } = await api.get<ApiResponse<PlaceSummaryResponse>>(
     API_ENDPOINTS.PLACES_SUMMARY(placeId),
   )

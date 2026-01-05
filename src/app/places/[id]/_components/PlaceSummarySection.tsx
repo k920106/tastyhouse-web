@@ -2,7 +2,7 @@ import { Suspense } from 'react'
 import { PlaceBookmarkButtonSkeleton } from './PlaceBookmarkButtonClient'
 import PlaceBookmarkButtonServer from './PlaceBookmarkButtonServer'
 import { PlaceSummarySkeleton } from './PlaceSummary'
-import PlaceSummaryContent from './PlaceSummaryContent'
+import PlaceSummaryServer from './PlaceSummaryServer'
 
 interface PlaceSummarySectionProps {
   placeId: number
@@ -12,7 +12,7 @@ export default function PlaceSummarySection({ placeId }: PlaceSummarySectionProp
   return (
     <section className="px-[15px] py-5">
       <Suspense fallback={<PlaceSummarySkeleton />}>
-        <PlaceSummaryContent
+        <PlaceSummaryServer
           placeId={placeId}
           bookmarkButton={
             <Suspense fallback={<PlaceBookmarkButtonSkeleton />}>
