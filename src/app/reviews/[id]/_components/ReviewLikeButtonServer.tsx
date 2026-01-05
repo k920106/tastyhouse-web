@@ -10,10 +10,10 @@ import ReviewLikeButton from './ReviewLikeButton'
 import ReviewLikeButtonClient from './ReviewLikeButtonClient'
 
 interface ReviewLikeButtonServerProps {
-  params: Promise<{ id: string }>
+  reviewId: number
 }
 
-export default async function ReviewLikeButtonServer({ params }: ReviewLikeButtonServerProps) {
+export default async function ReviewLikeButtonServer({ reviewId }: ReviewLikeButtonServerProps) {
   const cookieStore = await cookies()
   const accessToken = cookieStore.get('accessToken')
 
@@ -24,9 +24,6 @@ export default async function ReviewLikeButtonServer({ params }: ReviewLikeButto
       </Link>
     )
   }
-
-  const { id } = await params
-  const reviewId = Number(id)
 
   // API 호출
   const { error, data } = await api.get<ApiResponse<ReviewLikeResponse>>(

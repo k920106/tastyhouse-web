@@ -11,10 +11,12 @@ import { cookies } from 'next/headers'
 import Link from 'next/link'
 
 interface ReviewOptionDrawerServerProps {
-  params: Promise<{ id: string }>
+  reviewId: number
 }
 
-export default async function ReviewOptionDrawerServer({ params }: ReviewOptionDrawerServerProps) {
+export default async function ReviewOptionDrawerServer({
+  reviewId,
+}: ReviewOptionDrawerServerProps) {
   const cookieStore = await cookies()
   const accessToken = cookieStore.get('accessToken')
 
@@ -25,9 +27,6 @@ export default async function ReviewOptionDrawerServer({ params }: ReviewOptionD
       </Link>
     )
   }
-
-  const { id } = await params
-  const reviewId = Number(id)
 
   // API 호출
   const [reviewResponse, memberResponse] = await Promise.all([

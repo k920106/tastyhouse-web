@@ -5,10 +5,10 @@ import { ReviewDetailHeaderSkeleton } from './ReviewDetailHeader'
 import ReviewDetailHeaderServer from './ReviewDetailHeaderServer'
 
 interface ReviewDetailHeaderSectionProps {
-  params: Promise<{ id: string }>
+  reviewId: number
 }
 
-export default function ReviewDetailHeaderSection({ params }: ReviewDetailHeaderSectionProps) {
+export default function ReviewDetailHeaderSection({ reviewId }: ReviewDetailHeaderSectionProps) {
   return (
     <Header variant="white" height={55}>
       <HeaderLeft>
@@ -16,7 +16,7 @@ export default function ReviewDetailHeaderSection({ params }: ReviewDetailHeader
       </HeaderLeft>
       <HeaderCenter>
         <Suspense fallback={<ReviewDetailHeaderSkeleton />}>
-          <ReviewDetailHeaderServer params={params} />
+          <ReviewDetailHeaderServer reviewId={reviewId} />
         </Suspense>
       </HeaderCenter>
     </Header>

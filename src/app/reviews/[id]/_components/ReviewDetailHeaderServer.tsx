@@ -5,13 +5,12 @@ import { ReviewDetail } from '@/types/api/review'
 import ReviewDetailHeader from './ReviewDetailHeader'
 
 interface ReviewDetailHeaderServerProps {
-  params: Promise<{ id: string }>
+  reviewId: number
 }
 
-export default async function ReviewDetailHeaderServer({ params }: ReviewDetailHeaderServerProps) {
-  const { id } = await params
-  const reviewId = Number(id)
-
+export default async function ReviewDetailHeaderServer({
+  reviewId,
+}: ReviewDetailHeaderServerProps) {
   // API 호출
   const { error, data } = await api.get<ApiResponse<ReviewDetail>>(
     API_ENDPOINTS.REVIEW_DETAIL(reviewId),

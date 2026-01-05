@@ -7,23 +7,23 @@ import ReviewLikeButtonServer from './ReviewLikeButtonServer'
 import ReviewOptionDrawerServer from './ReviewOptionDrawerServer'
 
 interface ReviewInfoSectionProps {
-  params: Promise<{ id: string }>
+  reviewId: number
 }
 
-export default function ReviewInfoSection({ params }: ReviewInfoSectionProps) {
+export default function ReviewInfoSection({ reviewId }: ReviewInfoSectionProps) {
   return (
     <section className="px-[15px] pt-5 pb-8 border-b border-[#eeeeee] box-border">
       <Suspense fallback={<ReviewInfoSkeleton />}>
         <ReviewInfoServer
-          params={params}
+          reviewId={reviewId}
           reviewLike={
             <Suspense fallback={<ReviewLikeButton isLiked={false} disabled={true} />}>
-              <ReviewLikeButtonServer params={params} />
+              <ReviewLikeButtonServer reviewId={reviewId} />
             </Suspense>
           }
           reviewOption={
             <Suspense fallback={<ReviewOptionButton disabled={true} />}>
-              <ReviewOptionDrawerServer params={params} />
+              <ReviewOptionDrawerServer reviewId={reviewId} />
             </Suspense>
           }
         />
