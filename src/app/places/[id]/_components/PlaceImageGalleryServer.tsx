@@ -1,6 +1,7 @@
 import ErrorMessage from '@/components/ui/ErrorMessage'
 import { api } from '@/lib/api'
 import { COMMON_ERROR_MESSAGES } from '@/lib/constants'
+import { API_ENDPOINTS } from '@/lib/endpoints'
 import { ApiResponse } from '@/types/api/api'
 import { PlaceThumbnailResponse } from '@/types/api/place-detail'
 import PlaceImageGallery from './PlaceImageGallery'
@@ -11,7 +12,7 @@ interface PlaceImageGalleryServerProps {
 
 export default async function PlaceImageGalleryServer({ placeId }: PlaceImageGalleryServerProps) {
   const { data, error } = await api.get<ApiResponse<PlaceThumbnailResponse[]>>(
-    `/api/places/v1/${placeId}/thumbnails`,
+    API_ENDPOINTS.PLACES_THUMBNAILS(placeId),
   )
 
   // Expected Error: API 호출 실패 (네트워크 오류, timeout 등)

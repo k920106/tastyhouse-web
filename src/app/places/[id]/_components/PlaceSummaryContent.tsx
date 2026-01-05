@@ -1,6 +1,7 @@
 import ErrorMessage from '@/components/ui/ErrorMessage'
 import { api } from '@/lib/api'
 import { COMMON_ERROR_MESSAGES } from '@/lib/constants'
+import { API_ENDPOINTS } from '@/lib/endpoints'
 import { ApiResponse } from '@/types/api/api'
 import { PlaceSummaryResponse } from '@/types/api/place-detail'
 import { ReactNode } from 'react'
@@ -16,7 +17,7 @@ export default async function PlaceSummaryContent({
   bookmarkButton,
 }: PlaceSummaryContentProps) {
   const { error, data } = await api.get<ApiResponse<PlaceSummaryResponse>>(
-    `/api/places/v1/${placeId}/summary`,
+    API_ENDPOINTS.PLACES_SUMMARY(placeId),
   )
 
   // Expected Error: API 호출 실패 (네트워크 오류, timeout 등)

@@ -1,6 +1,7 @@
 import ErrorMessage from '@/components/ui/ErrorMessage'
 import { api } from '@/lib/api'
 import { COMMON_ERROR_MESSAGES } from '@/lib/constants'
+import { API_ENDPOINTS } from '@/lib/endpoints'
 import { ApiResponse } from '@/types/api/api'
 import { PlaceInfoResponse } from '@/types/api/place-detail'
 import { PlaceInfo } from './PlaceInfo'
@@ -10,8 +11,9 @@ interface PlaceInfoContentProps {
 }
 
 export default async function PlaceInfoContent({ placeId }: PlaceInfoContentProps) {
+  // API 호출
   const { error, data } = await api.get<ApiResponse<PlaceInfoResponse>>(
-    `/api/places/v1/${placeId}/info`,
+    API_ENDPOINTS.PLACES_INFO(placeId),
   )
 
   // Expected Error: API 호출 실패 (네트워크 오류, timeout 등)

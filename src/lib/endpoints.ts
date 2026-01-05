@@ -9,7 +9,10 @@ export const API_ENDPOINTS = {
   // 장소
   PLACES: '/api/places/v1',
   PLACES_DETAIL: (id: string | number) => `/api/places/v1/${id}`,
+  PLACES_SUMMARY: (id: string | number) => `/api/places/v1/${id}/summary`,
+  PLACES_THUMBNAILS: (id: string | number) => `/api/places/v1/${id}/thumbnails`,
   PLACES_BOOKMARK: (id: string | number) => `/api/places/v1/${id}/bookmark`,
+  PLACES_INFO: (id: string | number) => `/api/places/v1/${id}/info`,
 
   // 장바구니
   CART: '/api/cart/v1',
