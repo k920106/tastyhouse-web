@@ -1,7 +1,8 @@
 import Header, { HeaderCenter, HeaderLeft } from '@/components/layouts/Header'
 import { BackButton } from '@/components/layouts/header-parts'
 import { Suspense } from 'react'
-import ReviewDetailHeader, { ReviewDetailHeaderSkeleton } from './ReviewDetailHeader'
+import { ReviewDetailHeaderSkeleton } from './ReviewDetailHeader'
+import ReviewDetailHeaderServer from './ReviewDetailHeaderServer'
 
 interface ReviewDetailHeaderSectionProps {
   params: Promise<{ id: string }>
@@ -15,7 +16,7 @@ export default function ReviewDetailHeaderSection({ params }: ReviewDetailHeader
       </HeaderLeft>
       <HeaderCenter>
         <Suspense fallback={<ReviewDetailHeaderSkeleton />}>
-          <ReviewDetailHeader params={params} />
+          <ReviewDetailHeaderServer params={params} />
         </Suspense>
       </HeaderCenter>
     </Header>
