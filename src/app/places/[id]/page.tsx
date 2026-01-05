@@ -3,6 +3,7 @@ import SectionStack from '@/components/ui/SectionStack'
 import PlaceDetailHeaderSection from './_components/PlaceDetailHeaderSection'
 import PlaceImageGallery from './_components/PlaceImageGallerySection'
 import PlaceSummarySection from './_components/PlaceSummarySection'
+import PlaceTabSection from './_components/PlaceTabSection'
 
 // async function getPlaceInfo(placeId: string) {
 //   const response = await api.get<CommonResponse<PlaceInfoResponse>>(
@@ -98,7 +99,7 @@ export default async function PlaceDetailPage({ params }: PlaceDetailPageProps) 
           <PlaceImageGallery placeId={placeId} />
           <PlaceSummarySection placeId={placeId} />
         </BorderedSection>
-        {/* <PlaceInfoSection placeId={placeId} /> */}
+        <PlaceTabSection />
       </SectionStack>
     </>
   )

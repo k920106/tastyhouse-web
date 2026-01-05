@@ -6,11 +6,11 @@ import { ApiResponse } from '@/types/api/api'
 import { PlaceInfoResponse } from '@/types/api/place-detail'
 import { PlaceInfo } from './PlaceInfo'
 
-interface PlaceInfoContentProps {
+interface PlaceInfoServerProps {
   placeId: number
 }
 
-export default async function PlaceInfoContent({ placeId }: PlaceInfoContentProps) {
+export default async function PlaceInfoServer({ placeId }: PlaceInfoServerProps) {
   // API 호출
   const { error, data } = await api.get<ApiResponse<PlaceInfoResponse>>(
     API_ENDPOINTS.PLACES_INFO(placeId),
