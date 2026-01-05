@@ -6,7 +6,7 @@ interface CommentListSectionProps {
   params: Promise<{ id: string }>
 }
 
-export default async function CommentListSection({ params }: CommentListSectionProps) {
+export default function CommentListSection({ params }: CommentListSectionProps) {
   return (
     <section>
       <div className="px-[15px] py-5">

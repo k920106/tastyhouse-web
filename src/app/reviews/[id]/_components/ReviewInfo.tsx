@@ -39,11 +39,15 @@ export function ReviewInfoSkeleton() {
 
 interface ReviewInfoProps {
   reviewDetail: ReviewDetail
-  reviewLike: ReactNode
   reviewOption: ReactNode
+  reviewLike: ReactNode
 }
 
-export default function ReviewInfo({ reviewDetail, reviewLike, reviewOption }: ReviewInfoProps) {
+export default async function ReviewInfo({
+  reviewDetail,
+  reviewOption,
+  reviewLike,
+}: ReviewInfoProps) {
   const { memberProfileImageUrl, memberNickname, createdAt, imageUrls, content, tagNames, id } =
     reviewDetail
 

@@ -8,7 +8,7 @@ interface ReviewDetailPageProps {
   params: Promise<{ id: string }>
 }
 
-export default async function ReviewDetailPage({ params }: ReviewDetailPageProps) {
+export default function ReviewDetailPage({ params }: ReviewDetailPageProps) {
   return (
     <ReplyProvider>
       <ReviewDetailHeaderSection params={params} />

@@ -7,17 +7,17 @@ import { ReviewDetail } from '@/types/api/review'
 import { ReactNode } from 'react'
 import ReviewInfo from './ReviewInfo'
 
-interface ReviewInfoContentProps {
+interface ReviewInfoServerProps {
   params: Promise<{ id: string }>
   reviewLike: ReactNode
   reviewOption: ReactNode
 }
 
-export default async function ReviewInfoContent({
+export default async function ReviewInfoServer({
   params,
   reviewLike,
   reviewOption,
-}: ReviewInfoContentProps) {
+}: ReviewInfoServerProps) {
   const { id } = await params
   const reviewId = Number(id)
 

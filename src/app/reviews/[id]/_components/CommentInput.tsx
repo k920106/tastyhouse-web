@@ -1,9 +1,19 @@
 'use client'
 
+import { Skeleton } from '@/components/ui/shadcn/skeleton'
 import { PAGE_PATHS } from '@/lib/paths'
 import { useRouter } from 'next/navigation'
 import React, { ReactNode, useCallback, useEffect, useRef } from 'react'
 import { useReply } from './ReplyContext'
+
+export function CommentInputSkeleton() {
+  return (
+    <div className="flex items-center gap-[7px] flex-1">
+      <Skeleton className="size-10 rounded-full" />
+      <Skeleton className="flex-1 h-10 rounded-[20px]" />
+    </div>
+  )
+}
 
 interface CommentInputProps {
   isLoggedIn: boolean

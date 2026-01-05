@@ -1,4 +1,6 @@
 import FixedBottomSection from '@/components/ui/FixedBottomSection'
+import { Suspense } from 'react'
+import { CommentInputSkeleton } from './CommentInput'
 import CommentInputServer from './CommentInputServer'
 
 interface CommentInputSectionProps {
@@ -9,7 +11,9 @@ export default function CommentInputSection({ params }: CommentInputSectionProps
   return (
     <FixedBottomSection className="px-[15px] py-[15px]">
       <div className="flex items-center gap-[17px]">
-        <CommentInputServer params={params} />
+        <Suspense fallback={<CommentInputSkeleton />}>
+          <CommentInputServer params={params} />
+        </Suspense>
       </div>
     </FixedBottomSection>
   )

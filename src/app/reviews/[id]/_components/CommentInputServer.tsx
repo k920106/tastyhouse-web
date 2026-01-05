@@ -16,9 +16,6 @@ export default async function CommentInputServer({ params }: CommentInputServerP
   const cookieStore = await cookies()
   const accessToken = cookieStore.get('accessToken')
 
-  const { id } = await params
-  const reviewId = Number(id)
-
   if (!accessToken) {
     return <CommentInput isLoggedIn={false} avatar={<Avatar src={null} alt="내 프로필" />} />
   }
@@ -47,6 +44,9 @@ export default async function CommentInputServer({ params }: CommentInputServerP
       />
     )
   }
+
+  const { id } = await params
+  const reviewId = Number(id)
 
   const { profileImageUrl, id: memberId } = data.data
 
