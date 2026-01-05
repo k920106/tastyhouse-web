@@ -4,7 +4,8 @@ import { Skeleton } from '@/components/ui/shadcn/skeleton'
 import { ReviewDetail } from '@/types/api/review'
 import { ReactNode } from 'react'
 import ReviewActions from './ReviewActions'
-import ReviewInfoContent from './ReviewContent'
+import ReviewContent from './ReviewContent'
+import ReviewTagList from './ReviewTagList'
 
 export function ReviewInfoSkeleton() {
   return (
@@ -64,7 +65,8 @@ export default async function ReviewInfo({
       <div className="mb-5">
         <ReviewImageGallery imageUrls={imageUrls} />
       </div>
-      <ReviewInfoContent content={content} tagNames={tagNames} />
+      <ReviewContent content={content} />
+      <ReviewTagList tagNames={tagNames} />
       <ReviewActions reviewLike={reviewLike} reviewId={id} />
     </>
   )

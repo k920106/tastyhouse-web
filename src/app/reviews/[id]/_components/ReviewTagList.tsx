@@ -1,0 +1,18 @@
+import HashTag from '@/components/ui/HashTag'
+
+interface ReviewTagListProps {
+  tagNames: string[]
+}
+
+export default function ReviewTagList({ tagNames }: ReviewTagListProps) {
+  return (
+    tagNames &&
+    tagNames.length > 0 && (
+      <div className="flex flex-wrap gap-[7px] mt-5">
+        {tagNames.map((tag: string, index: number) => (
+          <HashTag key={index} tag={tag} variant="secondary" />
+        ))}
+      </div>
+    )
+  )
+}
