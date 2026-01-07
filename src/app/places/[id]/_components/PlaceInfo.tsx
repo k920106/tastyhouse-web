@@ -31,7 +31,7 @@ function PlaceInfoContent({ placeInfo }: { placeInfo: PlaceInfoResponse }) {
   }
 
   return (
-    <div className="py-6 space-y-8">
+    <div className="py-6 space-y-8 bg-white">
       {placeInfo.ownerMessage && (
         <div>
           <div className="inline-block px-3 py-1.5 mb-3 text-[13px] text-white bg-main rounded-full">
