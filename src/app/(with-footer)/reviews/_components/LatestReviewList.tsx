@@ -3,6 +3,7 @@
 import ReviewAuthorInfo from '@/components/reviews/ReviewAuthorInfo'
 import ReviewImageGallery from '@/components/reviews/ReviewImageGallery'
 import ReviewOptionDrawer from '@/components/reviews/ReviewOptionDrawer'
+import ClampedText from '@/components/ui/ClampedText'
 import ErrorMessage from '@/components/ui/ErrorMessage'
 import { Skeleton } from '@/components/ui/shadcn/skeleton'
 import { useIntersectionObserver } from '@/hooks/useIntersectionObserver'
@@ -12,7 +13,6 @@ import { getCurrentMemberId, getLatestReviews } from '@/services/review'
 import type { LatestReview, ReviewType } from '@/types/api/review'
 import { useInfiniteQuery, useQuery } from '@tanstack/react-query'
 import { useEffect } from 'react'
-import ClampedText from './ClampedText'
 
 const PAGE_SIZE = 10
 
