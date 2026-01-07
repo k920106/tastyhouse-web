@@ -1,5 +1,6 @@
 'use client'
 
+import ClampedText, { MoreButton } from '@/components/ui/ClampedText'
 import ErrorMessage from '@/components/ui/ErrorMessage'
 import { Skeleton } from '@/components/ui/shadcn/skeleton'
 import { COMMON_ERROR_MESSAGES } from '@/lib/constants'
@@ -31,13 +32,23 @@ function PlaceInfoContent({ placeInfo }: { placeInfo: PlaceInfoResponse }) {
   }
 
   return (
-    <div className="py-6 space-y-8 bg-white">
+    <div className="px-[15px] py-5 bg-white">
       {placeInfo.ownerMessage && (
-        <div>
-          <div className="inline-block px-3 py-1.5 mb-3 text-[13px] text-white bg-main rounded-full">
+        <div className="relative px-[15px] py-[23px] pb-4 bg-[#f9f9f9] border border-[#cccccc] box-border rounded-[5px]">
+          <div className="absolute -top-3 left-[10px] inline-block px-3.5 py-[6.5px] mb-3 bg-main text-xs leading-[12px] text-white rounded-full">
             사장님 한마디
           </div>
-          <p className="text-[15px] leading-[1.6]">{placeInfo.ownerMessage}</p>
+          <ClampedText
+            text={placeInfo.ownerMessage}
+            maxLines={1}
+            className="text-xs bg-[#f9f9f9]"
+            MoreButton={
+              <MoreButton
+                onClick={() => alert('hi')}
+                className="bg-[#f9f9f9]! text-xs leading-[12px]"
+              />
+            }
+          />
         </div>
       )}
       {placeInfo.businessHours.length > 0 && (
