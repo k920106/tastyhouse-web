@@ -59,20 +59,18 @@ export default function PlaceTabSection({ placeId, initialTab }: PlaceTabSection
             {reviewStatistics.totalReviewCount > 99 ? '99+' : reviewStatistics.totalReviewCount}) */}
           </TabsTrigger>
         </TabsList>
-        <div className="px-4">
-          <TabsContent value="info" className="mt-0">
-            <PlaceInfo placeId={placeId} />
-          </TabsContent>
-          <TabsContent value="menu" className="mt-0">
-            <PlaceMenus placeId={placeId} />
-          </TabsContent>
-          <TabsContent value="photo" className="mt-0">
-            <PlacePhotos placeId={placeId} />
-          </TabsContent>
-          {/* <TabsContent value="review" className="mt-0">
+        <TabsContent value="info" className="mt-0">
+          <PlaceInfo placeId={placeId} />
+        </TabsContent>
+        <TabsContent value="menu" className="mt-0">
+          <PlaceMenus placeId={placeId} />
+        </TabsContent>
+        <TabsContent value="photo" className="mt-0">
+          <PlacePhotos placeId={placeId} />
+        </TabsContent>
+        {/* <TabsContent value="review" className="mt-0">
           <PlaceReviews reviews={reviews} statistics={reviewStatistics} />
         </TabsContent> */}
-        </div>
       </div>
     </Tabs>
   )
