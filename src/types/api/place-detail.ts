@@ -25,9 +25,13 @@ export type PlaceInfoResponse = {
   longitude: number
   stationName: string
   phoneNumber: string | null
-  ownerMessage: string | null
   closedDays: string | null
   businessHours: BusinessHour[]
+}
+
+export type PlaceOwnerMessageHistoryResponse = {
+  message: string
+  createdAt: string
 }
 
 type BusinessHour = {

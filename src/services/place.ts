@@ -4,7 +4,12 @@ import { api } from '@/lib/api'
 import { API_ENDPOINTS } from '@/lib/endpoints'
 import { ApiResponse, PagedApiResponse } from '@/types/api/api'
 import { PlaceListItem, PlaceListQuery } from '@/types/api/place'
-import { PlaceInfoResponse, PlaceMenuResponse, PlacePhotoResponse } from '@/types/api/place-detail'
+import {
+  PlaceInfoResponse,
+  PlaceMenuResponse,
+  PlaceOwnerMessageHistoryResponse,
+  PlacePhotoResponse,
+} from '@/types/api/place-detail'
 
 export async function getLatestPlaces(params: PlaceListQuery) {
   const { data, error } = await api.get<PagedApiResponse<PlaceListItem>>(
@@ -56,6 +61,18 @@ export async function getPlacePhotos(placeId: number) {
 
   if (error || !data || !data.success || !data.data) {
     throw new Error(error || 'Failed to fetch places')
+  }
+
+  return data
+}
+
+export async function getPlaceOwnerMessageHistory(placeId: number) {
+  const { data, error } = await api.get<ApiResponse<PlaceOwnerMessageHistoryResponse>>(
+    API_ENDPOINTS.PLACES_OWNER_MESSAGE_HISTORY(placeId),
+  )
+
+  if (error || !data || !data.success || !data.data) {
+    throw new Error(error || 'Failed to fetch owner message history')
   }
 
   return data

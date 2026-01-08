@@ -1,12 +1,15 @@
 'use client'
 
+import { OwnerMessageModal } from '@/components/modals/OwnerMessageModal'
 import ClampedText, { MoreButton } from '@/components/ui/ClampedText'
 import ErrorMessage from '@/components/ui/ErrorMessage'
 import { Skeleton } from '@/components/ui/shadcn/skeleton'
 import { COMMON_ERROR_MESSAGES } from '@/lib/constants'
-import { getPlaceInfo } from '@/services/place'
+import { formatDate } from '@/lib/date'
+import { getPlaceInfo, getPlaceOwnerMessageHistory } from '@/services/place'
 import { PlaceInfoResponse } from '@/types/api/place-detail'
 import { useQuery } from '@tanstack/react-query'
+import { useState } from 'react'
 import { BiCopy } from 'react-icons/bi'
 import { MdLocationOn } from 'react-icons/md'
 
@@ -24,32 +27,57 @@ interface PlaceInfoProps {
   placeId: number
 }
 
-function PlaceInfoContent({ placeInfo }: { placeInfo: PlaceInfoResponse }) {
+function PlaceInfoContent({
+  placeInfo,
+  placeId,
+}: {
+  placeInfo: PlaceInfoResponse
+  placeId: number
+}) {
+  const [isOwnerMessageModalOpen, setIsOwnerMessageModalOpen] = useState(false)
+
+  const { data: ownerMessageData } = useQuery({
+    queryKey: ['place', placeId, 'owner-message-history'],
+    queryFn: () => getPlaceOwnerMessageHistory(placeId),
+  })
+
   const handleCopyAddress = () => {
     if (placeInfo.roadAddress) {
       navigator.clipboard.writeText(placeInfo.roadAddress)
     }
   }
 
+  const ownerMessage = ownerMessageData?.data?.message || ''
+  const ownerMessageCreatedAt = ownerMessageData?.data?.createdAt || ''
+  const ownerMessageCreatedAtFormatted = formatDate(ownerMessageCreatedAt, 'YYYY년 M월 D일')
+
   return (
     <div className="px-[15px] py-5 bg-white">
-      {placeInfo.ownerMessage && (
-        <div className="relative px-[15px] py-[23px] pb-4 bg-[#f9f9f9] border border-[#cccccc] box-border rounded-[5px]">
-          <div className="absolute -top-3 left-[10px] inline-block px-3.5 py-[6.5px] mb-3 bg-main text-xs leading-[12px] text-white rounded-full">
-            사장님 한마디
+      {ownerMessage && (
+        <>
+          <div className="relative px-[15px] py-[23px] pb-4 bg-[#f9f9f9] border border-[#cccccc] box-border rounded-[5px]">
+            <div className="absolute -top-3 left-[10px] inline-block px-3.5 py-[6.5px] mb-3 bg-main text-xs leading-[12px] text-white rounded-full">
+              사장님 한마디
+            </div>
+            <ClampedText
+              text={ownerMessage}
+              maxLines={1}
+              className="text-xs bg-[#f9f9f9]"
+              MoreButton={
+                <MoreButton
+                  onClick={() => setIsOwnerMessageModalOpen(true)}
+                  className="bg-[#f9f9f9]! text-xs leading-[12px]"
+                />
+              }
+            />
           </div>
-          <ClampedText
-            text={placeInfo.ownerMessage}
-            maxLines={1}
-            className="text-xs bg-[#f9f9f9]"
-            MoreButton={
-              <MoreButton
-                onClick={() => alert('hi')}
-                className="bg-[#f9f9f9]! text-xs leading-[12px]"
-              />
-            }
+          <OwnerMessageModal
+            open={isOwnerMessageModalOpen}
+            onOpenChange={setIsOwnerMessageModalOpen}
+            message={ownerMessage}
+            createdAt={ownerMessageCreatedAtFormatted}
           />
-        </div>
+        </>
       )}
       {placeInfo.businessHours.length > 0 && (
         <div>
@@ -124,5 +152,5 @@ export default function PlaceInfo({ placeId }: PlaceInfoProps) {
     )
   }
 
-  return <PlaceInfoContent placeInfo={data.data} />
+  return <PlaceInfoContent placeInfo={data.data} placeId={placeId} />
 }
