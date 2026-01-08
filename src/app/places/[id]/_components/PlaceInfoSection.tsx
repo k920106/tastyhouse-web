@@ -1,6 +1,5 @@
-import BorderedSection from '@/components/ui/BorderedSection'
-import { Suspense } from 'react'
-import PlaceInfoServer from './PlaceInfoServer'
+import PlaceInfoDetailFetcher from './PlaceInfoDetailFetcher'
+import PlaceOwnerMessageFetcher from './PlaceOwnerMessageFetcher'
 
 interface PlaceInfoSectionProps {
   placeId: number
@@ -8,10 +7,9 @@ interface PlaceInfoSectionProps {
 
 export default function PlaceInfoSection({ placeId }: PlaceInfoSectionProps) {
   return (
-    <BorderedSection className="px-[15px] py-5">
-      <Suspense fallback={<div></div>}>
-        <PlaceInfoServer placeId={placeId} />
-      </Suspense>
-    </BorderedSection>
+    <section className="px-[15px] py-5 bg-white">
+      <PlaceOwnerMessageFetcher placeId={placeId} />
+      <PlaceInfoDetailFetcher placeId={placeId} />
+    </section>
   )
 }

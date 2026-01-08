@@ -7,20 +7,23 @@ import {
   ModalHeader,
   ModalTitle,
 } from '@/components/ui/Modal'
+import { formatDate } from '@/lib/date'
 
-interface OwnerMessageModalProps {
+interface PlaceOwnerMessageModalProps {
   open: boolean
   onOpenChange: (open: boolean) => void
   message: string
   createdAt: string
 }
 
-export function OwnerMessageModal({
+export default function PlaceOwnerMessageModal({
   open,
   onOpenChange,
   message,
   createdAt,
-}: OwnerMessageModalProps) {
+}: PlaceOwnerMessageModalProps) {
+  const createdAtFormatted = formatDate(createdAt, 'YYYY년 M월 D일')
+
   return (
     <Modal open={open} onOpenChange={onOpenChange}>
       <ModalHeader>
@@ -31,7 +34,9 @@ export function OwnerMessageModal({
       <ModalDescription className="sr-only">사장님 한마디</ModalDescription>
       <ModalContentWrapper className="px-5 pb-[30px]">
         <p className="mb-10 text-[14px] leading-relaxed whitespace-pre-wrap">{message}</p>
-        <p className="text-xs leading-[12px] text-[#cccccc] text-right">{createdAt} 작성됨</p>
+        <p className="text-xs leading-[12px] text-[#cccccc] text-right">
+          {createdAtFormatted} 작성됨
+        </p>
       </ModalContentWrapper>
       <ModalFooter>
         <AppButton className="bg-main" onClick={() => onOpenChange(false)}>

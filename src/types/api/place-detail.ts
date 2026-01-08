@@ -35,11 +35,13 @@ export type PlaceOwnerMessageHistoryResponse = {
 }
 
 type BusinessHour = {
-  dayOfWeek: string
+  dayType: string
+  dayTypeDescription: string
   openTime: string
   closeTime: string
   breakStartTime?: string
   breakEndTime?: string
+  isClosed: boolean
 }
 
 export type PlaceMenuResponse = {
