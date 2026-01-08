@@ -30,32 +30,67 @@ export function getTimeDifference(end: string | Date): TimeDifference {
 }
 
 /**
- * Formats a date according to the specified format string.
+ * Supported date format types.
  */
-export function formatDate(
-  date: string | Date,
-  format: 'YYYY.MM.DD' | 'MM.DD' | 'YYYY-MM-DD' | 'MM-DD',
-): string {
-  const d = new Date(date)
-  const year = d.getFullYear()
-  const month = String(d.getMonth() + 1).padStart(2, '0')
-  const day = String(d.getDate()).padStart(2, '0')
+export type DateFormat = 'YYYY.MM.DD' | 'MM.DD' | 'YYYY-MM-DD' | 'MM-DD' | 'YYYY년 M월 D일'
 
-  if (format === 'YYYY.MM.DD') {
-    return `${year}.${month}.${day}`
-  }
-  if (format === 'MM.DD') {
-    return `${month}.${day}`
-  }
-  if (format === 'YYYY-MM-DD') {
-    return `${year}-${month}-${day}`
-  }
-  if (format === 'MM-DD') {
-    return `${month}-${day}`
+/**
+ * Represents parsed date components.
+ */
+interface DateComponents {
+  year: number
+  month: string
+  monthWithoutZero: string
+  day: string
+  dayWithoutZero: string
+}
+
+/**
+ * Extracts date components from a Date object.
+ */
+function extractDateComponents(date: Date): DateComponents {
+  if (isNaN(date.getTime())) {
+    throw new Error('Invalid date provided to formatDate')
   }
 
-  // 기본값 혹은 에러 처리
-  return `${year}.${month}.${day}`
+  const year = date.getFullYear()
+  const month = String(date.getMonth() + 1).padStart(2, '0')
+  const day = String(date.getDate()).padStart(2, '0')
+
+  return {
+    year,
+    month,
+    monthWithoutZero: month.replace(/^0/, ''),
+    day,
+    dayWithoutZero: day.replace(/^0/, ''),
+  }
+}
+
+/**
+ * Format formatter functions map.
+ */
+const formatFormatters: Record<DateFormat, (components: DateComponents) => string> = {
+  'YYYY.MM.DD': ({ year, month, day }) => `${year}.${month}.${day}`,
+  'MM.DD': ({ month, day }) => `${month}.${day}`,
+  'YYYY-MM-DD': ({ year, month, day }) => `${year}-${month}-${day}`,
+  'MM-DD': ({ month, day }) => `${month}-${day}`,
+  'YYYY년 M월 D일': ({ year, monthWithoutZero, dayWithoutZero }) =>
+    `${year}년 ${monthWithoutZero}월 ${dayWithoutZero}일`,
+}
+
+/**
+ * Formats a date according to the specified format string.
+ * @param date - The date to format (string or Date object).
+ * @param format - The desired format type.
+ * @returns A formatted date string.
+ * @throws Error if the date is invalid.
+ */
+export function formatDate(date: string | Date, format: DateFormat): string {
+  const dateObj = new Date(date)
+  const components = extractDateComponents(dateObj)
+  const formatter = formatFormatters[format]
+
+  return formatter(components)
 }
 
 /**
