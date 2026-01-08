@@ -17,7 +17,7 @@ export function RankInfoModal({ open, onOpenChange }: RankInfoModalProps) {
   return (
     <Modal open={open} onOpenChange={onOpenChange}>
       <ModalHeader>
-        <ModalTitle className="text-base leading-[16px] font-bold pt-10 pb-2 text-center">
+        <ModalTitle className="pt-10 pb-2 text-base leading-[16px] text-center font-bold">
           랭킹 선정 기준 및 안내
         </ModalTitle>
       </ModalHeader>
@@ -32,7 +32,7 @@ export function RankInfoModal({ open, onOpenChange }: RankInfoModalProps) {
           </li>
           <li>3. 최근 6개월동안 테이스티하우스에 등록된 리뷰 합산</li>
         </ul>
-        <p className="text-xs leading-relaxed pt-5">
+        <p className="pt-5 text-xs leading-relaxed">
           랭킹은 1월1일, 7월 1일 두번 6개월을 기준으로 초기화되며, 랭킹에 보여지는 리뷰 갯수와
           등급만 초기화처리되며, 작성된 리뷰는 유지됩니다.
         </p>
