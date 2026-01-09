@@ -1,5 +1,6 @@
 'use client'
 
+import { FacilityDiv } from '@/components/places/FacilityItem'
 import { Skeleton } from '@/components/ui/shadcn/skeleton'
 import { PlaceInfoResponse } from '@/types/api/place-detail'
 
@@ -18,16 +19,12 @@ interface PlaceInfoDetailProps {
 }
 
 export default function PlaceInfoDetail({ placeInfo }: PlaceInfoDetailProps) {
-  const { businessHours, breakTimes, closedDays, phoneNumber } = placeInfo
-  console.log('breakTimes', breakTimes)
-  console.log('businessHours', businessHours)
-  console.log('closedDays', closedDays)
-  console.log('phoneNumber', phoneNumber)
+  const { businessHours, breakTimes, closedDays, phoneNumber, amenities } = placeInfo
 
   return (
     <div className="pt-[30px] pb-5">
       <div className="pb-5 space-y-[15px] border-b border-[#eeeeee] box-border">
-        {businessHours.length > 0 && (
+        {businessHours && businessHours.length > 0 && (
           <div className="flex justify-between">
             <h3 className="text-sm leading-[14px]">운영시간</h3>
             <div className="space-y-2">
@@ -42,7 +39,7 @@ export default function PlaceInfoDetail({ placeInfo }: PlaceInfoDetailProps) {
             </div>
           </div>
         )}
-        {breakTimes.length > 0 && (
+        {breakTimes && breakTimes.length > 0 && (
           <div className="flex justify-between">
             <h3 className="text-sm leading-[14px]">브레이크타임</h3>
             <div className="space-y-2">
@@ -57,7 +54,7 @@ export default function PlaceInfoDetail({ placeInfo }: PlaceInfoDetailProps) {
             </div>
           </div>
         )}
-        {closedDays.length > 0 && (
+        {closedDays && closedDays.length > 0 && (
           <div className="flex justify-between">
             <h3 className="text-sm leading-[14px]">휴무일</h3>
             <div className="space-y-2">
@@ -76,10 +73,16 @@ export default function PlaceInfoDetail({ placeInfo }: PlaceInfoDetailProps) {
           </div>
         )}
       </div>
-      <div className="pt-5 tb-[15px]">
-        <h3 className="text-sm leading-[14px]">편의시설</h3>
-        {/* HERE */}
-      </div>
+      {amenities && amenities.length > 0 && (
+        <div className="pt-5 pb-[15px]">
+          <h3 className="text-sm leading-[14px] mb-[15px]">편의시설</h3>
+          <div className="grid grid-cols-4 gap-2.5">
+            {amenities.map((amenity) => (
+              <FacilityDiv key={amenity.code} amenity={amenity} />
+            ))}
+          </div>
+        </div>
+      )}
     </div>
   )
 }

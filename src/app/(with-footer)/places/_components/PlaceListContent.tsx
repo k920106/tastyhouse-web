@@ -18,8 +18,8 @@ import { useIntersectionObserver } from '@/hooks/useIntersectionObserver'
 import { COMMON_ERROR_MESSAGES } from '@/lib/constants'
 import { getLatestPlaces } from '@/services/place'
 import type {
-  Amenity,
   FoodType,
+  PlaceAmenityCode,
   PlaceFilterParams,
   PlaceListItem as PlaceListItemType,
 } from '@/types/api/place'
@@ -80,7 +80,7 @@ function PlaceListItem({ place }: { place: PlaceListItemType }) {
 interface PlaceListContentProps {
   stationId: number | null
   foodTypes: FoodType[] | null
-  amenities: Amenity[] | null
+  amenities: PlaceAmenityCode[] | null
 }
 
 export default function PlaceListContent({

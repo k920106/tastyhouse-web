@@ -1,10 +1,10 @@
-import type { Amenity, FoodType } from '@/types/api/place'
+import type { FoodType, PlaceAmenityCode } from '@/types/api/place'
 import PlaceListContent from './PlaceListContent'
 
 interface PlaceListSectionProps {
   stationId: number | null
   foodTypes: FoodType[] | null
-  amenities: Amenity[] | null
+  amenities: PlaceAmenityCode[] | null
 }
 
 export default function PlaceListSection({

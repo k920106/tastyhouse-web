@@ -1,3 +1,5 @@
+import { PlaceAmenity } from './place'
+
 export type PlaceSummaryResponse = {
   id: number
   name: string
@@ -28,6 +30,7 @@ export type PlaceInfoResponse = {
   businessHours: BusinessHour[]
   breakTimes: BreakTimes[]
   closedDays: ClosedDay[]
+  amenities: PlaceAmenity[]
 }
 
 export type PlaceOwnerMessageHistoryResponse = {

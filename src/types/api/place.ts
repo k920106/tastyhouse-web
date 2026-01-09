@@ -27,7 +27,7 @@ export type ChoicePlace = Place & {
 export type PlaceListQuery = PaginationParams & {
   stationId: number | null
   foodTypes: FoodType[] | null
-  amenities: Amenity[] | null
+  amenities: PlaceAmenityCode[] | null
 }
 
 export type PlaceListItem = Place & {
@@ -48,7 +48,7 @@ type Place = {
 export type PlaceFilterParams = {
   stationId: number | null
   foodTypes: FoodType[] | null
-  amenities: Amenity[] | null
+  amenities: PlaceAmenityCode[] | null
 }
 
 export type FoodType =
@@ -61,7 +61,7 @@ export type FoodType =
   | 'BAR'
   | 'CAFE'
 
-export type Amenity =
+export type PlaceAmenityCode =
   | 'PARKING'
   | 'RESTROOM'
   | 'RESERVATION'
@@ -82,8 +82,8 @@ export type FoodTypeListItem = {
   imageUrl: string
 }
 
-export type AmenityListItem = {
-  code: Amenity
+export type PlaceAmenity = {
+  code: PlaceAmenityCode
   name: string
   imageUrlOn: string
   imageUrlOff: string

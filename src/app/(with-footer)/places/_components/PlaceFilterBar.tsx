@@ -2,7 +2,7 @@
 
 import { Skeleton } from '@/components/ui/shadcn/skeleton'
 import { PAGE_PATHS } from '@/lib/paths'
-import type { Amenity, FoodType } from '@/types/api/place'
+import type { FoodType, PlaceAmenityCode } from '@/types/api/place'
 import Link from 'next/link'
 import { BiFilterAlt } from 'react-icons/bi'
 
@@ -11,7 +11,7 @@ interface PlaceFilterBarProps {
   isLoading?: boolean
   stationId?: number | null
   foodTypes?: FoodType[] | null
-  amenities?: Amenity[] | null
+  amenities?: PlaceAmenityCode[] | null
 }
 
 export default function PlaceFilterBar({

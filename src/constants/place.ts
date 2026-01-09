@@ -1,3 +1,5 @@
+import { PlaceAmenityCode } from '@/types/api/place'
+
 const FOOD_TYPE_NAMES: Record<string, string> = {
   KOREAN: '한식',
   JAPANESE: '일식',
@@ -24,8 +26,8 @@ export const getFoodCategoryName = (foodType: string): string => {
   return FOOD_TYPE_NAMES[foodType] || foodType
 }
 
-export const getAmenityName = (amenity: string): string => {
-  return AMENITY_NAMES[amenity] || amenity
+export const getAmenityName = (amenity: PlaceAmenityCode): string => {
+  return AMENITY_NAMES[amenity]
 }
 
 export enum PlaceImageCategory {

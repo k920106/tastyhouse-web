@@ -3,13 +3,11 @@ import { api } from '@/lib/api'
 import { COMMON_ERROR_MESSAGES } from '@/lib/constants'
 import { API_ENDPOINTS } from '@/lib/endpoints'
 import { ApiResponse } from '@/types/api/api'
-import { AmenityListItem } from '@/types/api/place'
+import { PlaceAmenity } from '@/types/api/place'
 import FacilitySelector from './FacilitySelector'
 
 export default async function FacilityContent() {
-  const { data, error } = await api.get<ApiResponse<AmenityListItem[]>>(
-    API_ENDPOINTS.PLACES_AMENITIES,
-  )
+  const { data, error } = await api.get<ApiResponse<PlaceAmenity[]>>(API_ENDPOINTS.PLACES_AMENITIES)
 
   // Expected Error: API 호출 실패 (네트워크 오류, timeout 등)
   if (error) {

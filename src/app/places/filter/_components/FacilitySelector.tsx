@@ -1,8 +1,8 @@
 'use client'
 
+import { FacilityButton } from '@/components/places/FacilityItem'
 import { Skeleton } from '@/components/ui/shadcn/skeleton'
-import { AmenityListItem } from '@/types/api/place'
-import Image from 'next/image'
+import { PlaceAmenity } from '@/types/api/place'
 import { useFilterState } from './FilterStateProvider'
 
 export function FacilitySelectorSkeleton() {
@@ -23,7 +23,7 @@ export function FacilitySelectorSkeleton() {
 }
 
 interface FacilitySelectorProps {
-  amenities: AmenityListItem[]
+  amenities: PlaceAmenity[]
 }
 
 export default function FacilitySelector({ amenities }: FacilitySelectorProps) {
@@ -31,35 +31,14 @@ export default function FacilitySelector({ amenities }: FacilitySelectorProps) {
 
   return (
     <div className="grid grid-cols-4 gap-2.5">
-      {amenities.map((amenity) => {
-        const isSelected = selectedAmenities.includes(amenity.code)
-        return (
-          <button
-            key={amenity.code}
-            onClick={() => toggleAmenity(amenity.code)}
-            className={`flex flex-col items-center justify-center border ${
-              isSelected ? 'bg-[#f8f5f4] border-main' : 'border-[#eeeeee]'
-            } px-5 py-[17px]`}
-            style={{ aspectRatio: '80 / 95' }}
-          >
-            <div className="relative flex items-center justify-center w-full h-12 mb-[15px]">
-              <Image
-                src={isSelected ? amenity.imageUrlOn : amenity.imageUrlOff}
-                alt={amenity.name}
-                width={32}
-                height={25}
-                className="object-contain max-w-full max-h-full"
-                style={{ width: 'auto', height: 'auto' }}
-              />
-            </div>
-            <span
-              className={`text-xs leading-[12px] whitespace-nowrap ${isSelected ? 'text-main' : 'text-[#cccccc] opacity-50'}`}
-            >
-              {amenity.name}
-            </span>
-          </button>
-        )
-      })}
+      {amenities.map((amenity) => (
+        <FacilityButton
+          key={amenity.code}
+          amenity={amenity}
+          isSelected={selectedAmenities.includes(amenity.code)}
+          onClick={() => toggleAmenity(amenity.code)}
+        />
+      ))}
     </div>
   )
 }
