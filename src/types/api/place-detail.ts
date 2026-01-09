@@ -27,6 +27,7 @@ export type PlaceInfoResponse = {
   phoneNumber: string | null
   closedDays: string | null
   businessHours: BusinessHour[]
+  breakTimes: BreakTimes[]
 }
 
 export type PlaceOwnerMessageHistoryResponse = {
@@ -39,9 +40,14 @@ type BusinessHour = {
   dayTypeDescription: string
   openTime: string
   closeTime: string
-  breakStartTime?: string
-  breakEndTime?: string
   isClosed: boolean
+}
+
+type BreakTimes = {
+  dayType: string
+  dayTypeDescription: string
+  startTime: string
+  endTime: string
 }
 
 export type PlaceMenuResponse = {

@@ -18,12 +18,16 @@ interface PlaceInfoDetailProps {
 }
 
 export default function PlaceInfoDetail({ placeInfo }: PlaceInfoDetailProps) {
-  const { businessHours, closedDays, phoneNumber } = placeInfo
+  const { businessHours, breakTimes, closedDays, phoneNumber } = placeInfo
+  console.log('breakTimes', breakTimes)
+  console.log('businessHours', businessHours)
+  console.log('closedDays', closedDays)
+  console.log('phoneNumber', phoneNumber)
 
   return (
     <div className="pt-[30px] pb-5">
-      <div className="space-y-8">
-        {placeInfo.businessHours.length > 0 && (
+      <div className="space-y-[15px]">
+        {businessHours.length > 0 && (
           <div className="flex justify-between">
             <h3 className="text-sm leading-[14px]">운영시간</h3>
             <div className="space-y-2">
@@ -32,6 +36,21 @@ export default function PlaceInfoDetail({ placeInfo }: PlaceInfoDetailProps) {
                   <span className="text-sm leading-[14px]">{hour.dayTypeDescription}</span>
                   <span className="text-sm leading-[14px]">
                     {hour.openTime} - {hour.closeTime}
+                  </span>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+        {breakTimes.length > 0 && (
+          <div className="flex justify-between">
+            <h3 className="text-sm leading-[14px]">브레이크타임</h3>
+            <div className="space-y-2">
+              {breakTimes.map((breakTime, index) => (
+                <div key={index} className="flex gap-2">
+                  <span className="text-sm leading-[14px]">{breakTime.dayTypeDescription}</span>
+                  <span className="text-sm leading-[14px]">
+                    {breakTime.startTime} - {breakTime.endTime}
                   </span>
                 </div>
               ))}
