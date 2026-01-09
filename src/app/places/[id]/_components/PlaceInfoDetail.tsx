@@ -26,7 +26,7 @@ export default function PlaceInfoDetail({ placeInfo }: PlaceInfoDetailProps) {
 
   return (
     <div className="pt-[30px] pb-5">
-      <div className="space-y-[15px]">
+      <div className="pb-5 space-y-[15px] border-b border-[#eeeeee] box-border">
         {businessHours.length > 0 && (
           <div className="flex justify-between">
             <h3 className="text-sm leading-[14px]">운영시간</h3>
@@ -57,18 +57,28 @@ export default function PlaceInfoDetail({ placeInfo }: PlaceInfoDetailProps) {
             </div>
           </div>
         )}
-        {closedDays && (
-          <div>
-            <h3 className="mb-3 text-[15px]">휴무일</h3>
-            <p className="text-[15px] text-[#666666]">{closedDays}</p>
+        {closedDays.length > 0 && (
+          <div className="flex justify-between">
+            <h3 className="text-sm leading-[14px]">휴무일</h3>
+            <div className="space-y-2">
+              {closedDays.map((closedDay, index) => (
+                <div key={index} className="flex gap-2">
+                  <span className="text-sm leading-[14px]">{closedDay.description}</span>
+                </div>
+              ))}
+            </div>
           </div>
         )}
         {phoneNumber && (
-          <div>
-            <h3 className="mb-3 text-[15px]">전화번호</h3>
-            <p className="text-[15px] text-[#666666]">{phoneNumber}</p>
+          <div className="flex justify-between">
+            <h3 className="text-sm leading-[14px]">전화번호</h3>
+            <p className="text-sm leading-[14px]">{phoneNumber}</p>
           </div>
         )}
+      </div>
+      <div className="pt-5 tb-[15px]">
+        <h3 className="text-sm leading-[14px]">편의시설</h3>
+        {/* HERE */}
       </div>
     </div>
   )

@@ -25,9 +25,9 @@ export type PlaceInfoResponse = {
   longitude: number
   stationName: string
   phoneNumber: string | null
-  closedDays: string | null
   businessHours: BusinessHour[]
   breakTimes: BreakTimes[]
+  closedDays: ClosedDay[]
 }
 
 export type PlaceOwnerMessageHistoryResponse = {
@@ -48,6 +48,11 @@ type BreakTimes = {
   dayTypeDescription: string
   startTime: string
   endTime: string
+}
+
+type ClosedDay = {
+  closedDayType: string
+  description: string
 }
 
 export type PlaceMenuResponse = {
