@@ -37,9 +37,9 @@ export default function FoodTypeSelector({ foodTypes }: FoodTypeSelectorProps) {
           <button
             key={foodType.code}
             onClick={() => toggleFoodType(foodType.code)}
-            className={`flex flex-col items-center justify-center border ${
+            className={`flex flex-col items-center justify-center px-5 py-[17px] border box-border cursor-pointer ${
               isSelected ? 'bg-[#f8f5f4] border-main' : 'border-[#eeeeee]'
-            } px-5 py-[17px]`}
+            }`}
             style={{ aspectRatio: '80 / 95' }}
           >
             <div
