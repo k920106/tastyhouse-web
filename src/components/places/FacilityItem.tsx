@@ -1,7 +1,7 @@
 'use client'
 
-import { getAmenityName } from '@/constants/place'
-import { PlaceAmenity } from '@/types/api/place'
+import { getPlaceAmenityCodeName } from '@/constants/place'
+import { PlaceAmenityListItem } from '@/types/api/place'
 import Image from 'next/image'
 
 interface FacilityItemContentProps {
@@ -35,7 +35,7 @@ function FacilityItemContent({ name, imageUrl, isSelected }: FacilityItemContent
 }
 
 interface FacilityButtonProps {
-  amenity: PlaceAmenity
+  amenity: PlaceAmenityListItem
   isSelected: boolean
   onClick: () => void
 }
@@ -50,7 +50,7 @@ export function FacilityButton({ amenity, isSelected, onClick }: FacilityButtonP
       style={{ aspectRatio: '80 / 95' }}
     >
       <FacilityItemContent
-        name={getAmenityName(amenity.code)}
+        name={getPlaceAmenityCodeName(amenity.code)}
         imageUrl={isSelected ? amenity.imageUrlOn : amenity.imageUrlOff}
         isSelected={isSelected}
       />
@@ -59,7 +59,7 @@ export function FacilityButton({ amenity, isSelected, onClick }: FacilityButtonP
 }
 
 interface FacilityDivProps {
-  amenity: PlaceAmenity
+  amenity: PlaceAmenityListItem
 }
 
 export function FacilityDiv({ amenity }: FacilityDivProps) {
@@ -69,7 +69,7 @@ export function FacilityDiv({ amenity }: FacilityDivProps) {
       style={{ aspectRatio: '80 / 95' }}
     >
       <FacilityItemContent
-        name={getAmenityName(amenity.code)}
+        name={getPlaceAmenityCodeName(amenity.code)}
         imageUrl={amenity.imageUrlOn}
         isSelected={true}
       />

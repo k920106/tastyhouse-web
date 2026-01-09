@@ -7,7 +7,7 @@ import 'swiper/css/pagination'
 import ProductItem, { ProductItemSkeleton } from '@/components/products/ProductItem'
 import { Skeleton } from '@/components/ui/shadcn/skeleton'
 import { PAGE_PATHS } from '@/lib/paths'
-import { ChoicePlace } from '@/types/api/place'
+import { PlaceChoiceListItemResponse } from '@/types/api/place'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
@@ -42,7 +42,7 @@ export function ChoiceSwiperSkeleton() {
 }
 
 interface ChoiceSwiperProps {
-  places: ChoicePlace[]
+  places: PlaceChoiceListItemResponse[]
 }
 
 export default function ChoiceSwiper({ places }: ChoiceSwiperProps) {

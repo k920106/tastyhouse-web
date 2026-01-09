@@ -1,5 +1,33 @@
-import { PlaceAmenity } from './place'
+import { PlaceAmenityListItem } from './place'
+import { ReviewImage } from './review'
 
+/**
+ * Private types
+ */
+
+type PlaceBusinessHour = {
+  dayType: string
+  dayTypeDescription: string
+  openTime: string
+  closeTime: string
+  isClosed: boolean
+}
+
+type PlaceBreakTimes = {
+  dayType: string
+  dayTypeDescription: string
+  startTime: string
+  endTime: string
+}
+
+type PlaceClosedDay = {
+  closedDayType: string
+  description: string
+}
+
+/**
+ * Response types
+ */
 export type PlaceSummaryResponse = {
   id: number
   name: string
@@ -12,11 +40,6 @@ export type PlaceBookmarkResponse = {
   bookmarked: boolean
 }
 
-export type PlaceThumbnailResponse = {
-  id: number
-  imageUrl: string
-}
-
 export type PlaceInfoResponse = {
   id: number
   name: string
@@ -27,10 +50,10 @@ export type PlaceInfoResponse = {
   longitude: number
   stationName: string
   phoneNumber: string | null
-  businessHours: BusinessHour[]
-  breakTimes: BreakTimes[]
-  closedDays: ClosedDay[]
-  amenities: PlaceAmenity[]
+  businessHours: PlaceBusinessHour[]
+  breakTimes: PlaceBreakTimes[]
+  closedDays: PlaceClosedDay[]
+  amenities: PlaceAmenityListItem[]
 }
 
 export type PlaceOwnerMessageHistoryResponse = {
@@ -38,24 +61,26 @@ export type PlaceOwnerMessageHistoryResponse = {
   createdAt: string
 }
 
-type BusinessHour = {
-  dayType: string
-  dayTypeDescription: string
-  openTime: string
-  closeTime: string
-  isClosed: boolean
+export type PlaceThumbnailListItemResponse = {
+  id: number
+  imageUrl: string
 }
 
-type BreakTimes = {
-  dayType: string
-  dayTypeDescription: string
-  startTime: string
-  endTime: string
-}
-
-type ClosedDay = {
-  closedDayType: string
-  description: string
+export type PlaceReviewListItemResponse = {
+  id: number
+  memberId: number
+  memberNickname: string | null
+  content: string
+  totalRating: number
+  tasteRating: number
+  amountRating: number
+  priceRating: number
+  atmosphereRating: number
+  kindnessRating: number
+  hygieneRating: number
+  willRevisit: boolean
+  images: ReviewImage[]
+  createdAt: string
 }
 
 export type PlaceMenuResponse = {
@@ -78,30 +103,7 @@ export type PlacePhotoResponse = {
   sort: number | null
 }
 
-export type PlaceReviewResponse = {
-  id: number
-  memberId: number
-  memberNickname: string | null
-  content: string
-  totalRating: number
-  tasteRating: number
-  amountRating: number
-  priceRating: number
-  atmosphereRating: number
-  kindnessRating: number
-  hygieneRating: number
-  willRevisit: boolean
-  images: ReviewImage[]
-  createdAt: string
-}
-
-type ReviewImage = {
-  id: number
-  imageUrl: string
-  sort: number
-}
-
-export type PlaceReviewStatisticsResponse = {
+export type PlaceReviewStatistics = {
   totalRating: number
   totalReviewCount: number
   averageTasteRating: number

@@ -1,9 +1,9 @@
-import type { FoodType, PlaceAmenityCode } from '@/types/api/place'
+import type { PlaceAmenityCode, PlaceFoodType } from '@/types/api/place'
 import PlaceListContent from './PlaceListContent'
 
 interface PlaceListSectionProps {
   stationId: number | null
-  foodTypes: FoodType[] | null
+  foodTypes: PlaceFoodType[] | null
   amenities: PlaceAmenityCode[] | null
 }
 

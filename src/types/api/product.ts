@@ -1,10 +1,8 @@
 import { PaginationParams } from './api'
 
-export type TodayDiscountProductQuery = PaginationParams & {}
-
-export type TodayDiscountProduct = Product & {}
-
-export type ChoiceProduct = Product & {}
+/**
+ * Base types
+ */
 
 type Product = {
   id: number
@@ -15,3 +13,16 @@ type Product = {
   discountPrice: number
   discountRate: number
 }
+
+/**
+ * Query types
+ */
+
+export type ProductTodayDiscountQuery = PaginationParams & {}
+
+/**
+ * Response types
+ */
+
+export type ProductTodayDiscountListItem = Product & {}
+export type ProductChoiceListItem = Product & {}

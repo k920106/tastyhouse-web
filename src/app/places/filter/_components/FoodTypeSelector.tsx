@@ -1,7 +1,7 @@
 'use client'
 
 import { Skeleton } from '@/components/ui/shadcn/skeleton'
-import { FoodTypeListItem } from '@/types/api/place'
+import { PlaceFoodTypeListItem } from '@/types/api/place'
 import Image from 'next/image'
 import { useFilterState } from './FilterStateProvider'
 
@@ -23,7 +23,7 @@ export function FoodTypeSelectorSkeleton() {
 }
 
 interface FoodTypeSelectorProps {
-  foodTypes: FoodTypeListItem[]
+  foodTypes: PlaceFoodTypeListItem[]
 }
 
 export default function FoodTypeSelector({ foodTypes }: FoodTypeSelectorProps) {

@@ -3,7 +3,7 @@ import { api } from '@/lib/api'
 import { COMMON_ERROR_MESSAGES } from '@/lib/constants'
 import { API_ENDPOINTS } from '@/lib/endpoints'
 import { ApiResponse } from '@/types/api/api'
-import { ChoicePlace, ChoicePlaceQuery } from '@/types/api/place'
+import { PlaceChoiceListItemResponse, PlaceChoiceQuery } from '@/types/api/place'
 import ChoiceSwiper from './ChoiceSwiper'
 
 export default async function ChoicePlaceContent() {
@@ -12,9 +12,9 @@ export default async function ChoicePlaceContent() {
     params: {
       page: 0,
       size: 4,
-    } satisfies ChoicePlaceQuery,
+    } satisfies PlaceChoiceQuery,
   }
-  const { data, error } = await api.get<ApiResponse<ChoicePlace[]>>(
+  const { data, error } = await api.get<ApiResponse<PlaceChoiceListItemResponse[]>>(
     API_ENDPOINTS.PLACES_EDITOR_CHOICE,
     query,
   )

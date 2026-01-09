@@ -1,6 +1,6 @@
 'use client'
 
-import { MapPlace } from '@/types/api/place'
+import { PlaceMapListItemResponse } from '@/types/api/place'
 import Script from 'next/script'
 import { useCallback, useRef, useState } from 'react'
 
@@ -95,34 +95,37 @@ export default function KakaoMap() {
   }, [])
 
   // 새로운 마커들을 생성하는 함수
-  const createMarkers = useCallback((placesData: MapPlace[], mapInstance: KakaoMap) => {
-    const newMarkers: KakaoMarker[] = []
+  const createMarkers = useCallback(
+    (placesData: PlaceMapListItemResponse[], mapInstance: KakaoMap) => {
+      const newMarkers: KakaoMarker[] = []
 
-    placesData.forEach((place) => {
-      const marker = new window.kakao.maps.Marker({
-        position: new window.kakao.maps.LatLng(place.latitude, place.longitude),
-      })
-      marker.setMap(mapInstance)
-      newMarkers.push(marker)
+      placesData.forEach((place) => {
+        const marker = new window.kakao.maps.Marker({
+          position: new window.kakao.maps.LatLng(place.latitude, place.longitude),
+        })
+        marker.setMap(mapInstance)
+        newMarkers.push(marker)
 
-      const content = `
+        const content = `
         <div class="label" style="padding: 0 13px; background-color: white; border: 1px solid silver; border-radius: 10px">
           <span class="center" style="font-size: 13px!important; font-weight: bold">${place.name}</span>
         </div>
       `
 
-      // 커스텀 오버레이를 생성합니다
-      const customOverlay = new window.kakao.maps.CustomOverlay({
-        position: new window.kakao.maps.LatLng(place.latitude - 0.00003, place.longitude),
-        content,
+        // 커스텀 오버레이를 생성합니다
+        const customOverlay = new window.kakao.maps.CustomOverlay({
+          position: new window.kakao.maps.LatLng(place.latitude - 0.00003, place.longitude),
+          content,
+        })
+
+        customOverlay.setMap(mapInstance)
+        overlaysRef.current.push(customOverlay)
       })
 
-      customOverlay.setMap(mapInstance)
-      overlaysRef.current.push(customOverlay)
-    })
-
-    markersRef.current = newMarkers
-  }, [])
+      markersRef.current = newMarkers
+    },
+    [],
+  )
 
   // 장소 데이터를 가져오는 함수
   const fetchAndUpdatePlaces = useCallback(

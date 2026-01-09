@@ -1,14 +1,14 @@
 'use client'
 
 import { formatDecimal } from '@/lib/number'
-import { PlaceReviewResponse, PlaceReviewStatisticsResponse } from '@/types/api/place-detail'
+import { PlaceReviewListItemResponse, PlaceReviewStatistics } from '@/types/api/place-detail'
 import Image from 'next/image'
 import { useState } from 'react'
 import { IoChevronBack } from 'react-icons/io5'
 
 interface PlaceReviewsProps {
-  reviews: PlaceReviewResponse[]
-  statistics: PlaceReviewStatisticsResponse
+  reviews: PlaceReviewListItemResponse[]
+  statistics: PlaceReviewStatistics
 }
 
 export function PlaceReviews({ reviews, statistics }: PlaceReviewsProps) {

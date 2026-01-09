@@ -3,11 +3,11 @@ import { api } from '@/lib/api'
 import { COMMON_ERROR_MESSAGES } from '@/lib/constants'
 import { API_ENDPOINTS } from '@/lib/endpoints'
 import { ApiResponse } from '@/types/api/api'
-import { FoodTypeListItem } from '@/types/api/place'
+import { PlaceFoodTypeListItem } from '@/types/api/place'
 import FoodTypeSelector from './FoodTypeSelector'
 
 export default async function FoodTypeContent() {
-  const { data, error } = await api.get<ApiResponse<FoodTypeListItem[]>>(
+  const { data, error } = await api.get<ApiResponse<PlaceFoodTypeListItem[]>>(
     API_ENDPOINTS.PLACES_FOOD_TYPES,
   )
 

@@ -3,7 +3,7 @@
 import { api } from '@/lib/api'
 import { API_ENDPOINTS } from '@/lib/endpoints'
 import { ApiResponse, PagedApiResponse } from '@/types/api/api'
-import { PlaceListItem, PlaceListQuery } from '@/types/api/place'
+import { PlaceLatestListItemResponse, PlaceListQuery } from '@/types/api/place'
 import {
   PlaceInfoResponse,
   PlaceMenuResponse,
@@ -12,7 +12,7 @@ import {
 } from '@/types/api/place-detail'
 
 export async function getLatestPlaces(params: PlaceListQuery) {
-  const { data, error } = await api.get<PagedApiResponse<PlaceListItem>>(
+  const { data, error } = await api.get<PagedApiResponse<PlaceLatestListItemResponse>>(
     API_ENDPOINTS.PLACES_LATEST,
     { params },
   )

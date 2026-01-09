@@ -5,7 +5,7 @@ import { api } from '@/lib/api'
 import { COMMON_ERROR_MESSAGES } from '@/lib/constants'
 import { API_ENDPOINTS } from '@/lib/endpoints'
 import { ApiResponse } from '@/types/api/api'
-import { TodayDiscountProduct, TodayDiscountProductQuery } from '@/types/api/product'
+import { ProductTodayDiscountListItem, ProductTodayDiscountQuery } from '@/types/api/product'
 
 export function TodayDiscountProductListSkeleton() {
   return (
@@ -25,9 +25,9 @@ export default async function TodayDiscountProductList() {
     params: {
       page: 0,
       size: 4,
-    } satisfies TodayDiscountProductQuery,
+    } satisfies ProductTodayDiscountQuery,
   }
-  const { data, error } = await api.get<ApiResponse<TodayDiscountProduct[]>>(
+  const { data, error } = await api.get<ApiResponse<ProductTodayDiscountListItem[]>>(
     API_ENDPOINTS.PRODUCTS_TODAY_DISCOUNTS,
     query,
   )

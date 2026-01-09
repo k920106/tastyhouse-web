@@ -3,7 +3,7 @@ import { api } from '@/lib/api'
 import { COMMON_ERROR_MESSAGES } from '@/lib/constants'
 import { API_ENDPOINTS } from '@/lib/endpoints'
 import { ApiResponse } from '@/types/api/api'
-import { PlaceThumbnailResponse } from '@/types/api/place-detail'
+import { PlaceThumbnailListItemResponse } from '@/types/api/place-detail'
 import PlaceImageGallery from './PlaceImageGallery'
 
 interface PlaceImageGalleryServerProps {
@@ -11,7 +11,7 @@ interface PlaceImageGalleryServerProps {
 }
 
 export default async function PlaceImageGalleryServer({ placeId }: PlaceImageGalleryServerProps) {
-  const { data, error } = await api.get<ApiResponse<PlaceThumbnailResponse[]>>(
+  const { data, error } = await api.get<ApiResponse<PlaceThumbnailListItemResponse[]>>(
     API_ENDPOINTS.PLACES_THUMBNAILS(placeId),
   )
 

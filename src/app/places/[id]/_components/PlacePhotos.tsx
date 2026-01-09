@@ -2,9 +2,10 @@
 
 import ErrorMessage from '@/components/ui/ErrorMessage'
 import { Skeleton } from '@/components/ui/shadcn/skeleton'
-import { PlaceImageCategory } from '@/constants/place'
+import { getPlaceImageCategoryCodeName } from '@/constants/place'
 import { COMMON_ERROR_MESSAGES } from '@/lib/constants'
 import { getPlacePhotos } from '@/services/place'
+import { PlaceImageCategoryCode } from '@/types/api/place'
 import { PlacePhotoResponse } from '@/types/api/place-detail'
 import { useQuery } from '@tanstack/react-query'
 import Image from 'next/image'
@@ -31,15 +32,8 @@ interface PlacePhotosProps {
   placeId: number
 }
 
-const CATEGORY_LABELS: Record<string, string> = {
-  EXTERIOR: '가게 외관',
-  INTERIOR: '가게 내부',
-  FOOD: '음식',
-  OTHER: '기타',
-}
-
 function PlacePhotosContent({ photos }: { photos: PlacePhotoResponse[] }) {
-  const [selectedCategory, setSelectedCategory] = useState<PlaceImageCategory | 'ALL'>('ALL')
+  const [selectedCategory, setSelectedCategory] = useState<PlaceImageCategoryCode | 'ALL'>('ALL')
 
   // 카테고리별로 사진 그룹화
   const photosByCategory = photos.reduce(
@@ -71,14 +65,15 @@ function PlacePhotosContent({ photos }: { photos: PlacePhotoResponse[] }) {
         {Object.keys(photosByCategory).map((category) => (
           <button
             key={category}
-            onClick={() => setSelectedCategory(category as PlaceImageCategory)}
+            onClick={() => setSelectedCategory(category as PlaceImageCategoryCode)}
             className={`px-4 py-2 text-[13px] rounded-full border whitespace-nowrap ${
               selectedCategory === category
                 ? 'border-main text-main'
                 : 'border-[#eeeeee] text-[#666666]'
             }`}
           >
-            {CATEGORY_LABELS[category] || category} ({photosByCategory[category].length})
+            {getPlaceImageCategoryCodeName(category as PlaceImageCategoryCode)}{' '}
+            {`(${photosByCategory[category].length})`}
           </button>
         ))}
       </div>

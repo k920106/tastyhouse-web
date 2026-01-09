@@ -53,6 +53,12 @@ export type ReviewDetail = {
   tagNames: string[]
 }
 
+export type ReviewImage = {
+  id: number
+  imageUrl: string
+  sort: number
+}
+
 export type ReviewLikeResponse = {
   liked: boolean
 }

@@ -2,7 +2,7 @@
 
 import { FacilityButton } from '@/components/places/FacilityItem'
 import { Skeleton } from '@/components/ui/shadcn/skeleton'
-import { PlaceAmenity } from '@/types/api/place'
+import { PlaceAmenityListItem } from '@/types/api/place'
 import { useFilterState } from './FilterStateProvider'
 
 export function FacilitySelectorSkeleton() {
@@ -23,7 +23,7 @@ export function FacilitySelectorSkeleton() {
 }
 
 interface FacilitySelectorProps {
-  amenities: PlaceAmenity[]
+  amenities: PlaceAmenityListItem[]
 }
 
 export default function FacilitySelector({ amenities }: FacilitySelectorProps) {

@@ -16,7 +16,7 @@ import { api } from '@/lib/api'
 import { COMMON_ERROR_MESSAGES } from '@/lib/constants'
 import { API_ENDPOINTS } from '@/lib/endpoints'
 import { ApiResponse } from '@/types/api/api'
-import { BestPlace, BestPlaceQuery } from '@/types/api/place'
+import { PlaceBestListItemResponse, PlaceBestQuery } from '@/types/api/place'
 
 export function BestPlaceListSkeleton() {
   return (
@@ -28,7 +28,7 @@ export function BestPlaceListSkeleton() {
   )
 }
 
-function PlaceListItem({ place }: { place: BestPlace }) {
+function PlaceListItem({ place }: { place: PlaceBestListItemResponse }) {
   const foodTypeNames = place.foodTypes.map((foodType) => getFoodCategoryName(foodType))
 
   return (
@@ -54,9 +54,12 @@ export default async function BestPlaceList() {
     params: {
       page: 0,
       size: 4,
-    } satisfies BestPlaceQuery,
+    } satisfies PlaceBestQuery,
   }
-  const { data, error } = await api.get<ApiResponse<BestPlace[]>>(API_ENDPOINTS.PLACES_BEST, query)
+  const { data, error } = await api.get<ApiResponse<PlaceBestListItemResponse[]>>(
+    API_ENDPOINTS.PLACES_BEST,
+    query,
+  )
 
   // Expected Error: API 호출 실패 (네트워크 오류, timeout 등)
   if (error) {

@@ -10,7 +10,7 @@ import {
 } from '@/components/ui/shadcn/command'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/shadcn/popover'
 import { Skeleton } from '@/components/ui/shadcn/skeleton'
-import { PlaceStation } from '@/types/api/place'
+import { PlaceStationListItem } from '@/types/api/place'
 import { useState } from 'react'
 import { IoChevronDown } from 'react-icons/io5'
 import { useFilterState } from './FilterStateProvider'
@@ -20,7 +20,7 @@ export function StationSelectorSkeleton() {
 }
 
 interface StationSelectorProps {
-  stations: PlaceStation[]
+  stations: PlaceStationListItem[]
 }
 
 export default function StationSelector({ stations }: StationSelectorProps) {

@@ -13,16 +13,11 @@ import {
   PlaceCardTags,
 } from '@/components/places/PlaceCard'
 import ErrorMessage from '@/components/ui/ErrorMessage'
-import { getFoodCategoryName } from '@/constants/place'
+import { getPlaceFoodTypeName } from '@/constants/place'
 import { useIntersectionObserver } from '@/hooks/useIntersectionObserver'
 import { COMMON_ERROR_MESSAGES } from '@/lib/constants'
 import { getLatestPlaces } from '@/services/place'
-import type {
-  FoodType,
-  PlaceAmenityCode,
-  PlaceFilterParams,
-  PlaceListItem as PlaceListItemType,
-} from '@/types/api/place'
+import type { PlaceAmenityCode, PlaceFilterParams, PlaceFoodType } from '@/types/api/place'
 import { useInfiniteQuery } from '@tanstack/react-query'
 import { useEffect } from 'react'
 import PlaceFilterBar from './PlaceFilterBar'
@@ -56,20 +51,40 @@ function LoadingIndicator() {
   )
 }
 
-function PlaceListItem({ place }: { place: PlaceListItemType }) {
-  const foodTypeNames = place.foodTypes.map((foodType) => getFoodCategoryName(foodType))
+interface PlaceListItemProps {
+  id: number
+  name: string
+  imageUrl: string
+  stationName: string
+  rating: number
+  reviewCount: number
+  bookmarkCount: number
+  foodTypes: PlaceFoodType[]
+}
+
+function PlaceListItem({
+  id,
+  name,
+  imageUrl,
+  stationName,
+  rating,
+  reviewCount,
+  bookmarkCount,
+  foodTypes,
+}: PlaceListItemProps) {
+  const foodTypeNames = foodTypes.map((foodType) => getPlaceFoodTypeName(foodType))
 
   return (
-    <li>
-      <PlaceCard placeId={place.id}>
-        <PlaceCardImage src={place.imageUrl} alt={place.name} />
+    <li key={id}>
+      <PlaceCard placeId={id}>
+        <PlaceCardImage src={imageUrl} alt={name} />
         <PlaceCardContent>
           <PlaceCardHeader>
-            <PlaceCardStation>{place.stationName}</PlaceCardStation>
-            <PlaceCardRating value={place.rating} />
+            <PlaceCardStation>{stationName}</PlaceCardStation>
+            <PlaceCardRating value={rating} />
           </PlaceCardHeader>
-          <PlaceCardName>{place.name}</PlaceCardName>
-          <PlaceCardStats reviewCount={place.reviewCount} bookmarkCount={place.bookmarkCount} />
+          <PlaceCardName>{name}</PlaceCardName>
+          <PlaceCardStats reviewCount={reviewCount} bookmarkCount={bookmarkCount} />
           <PlaceCardTags tags={foodTypeNames} variant="secondary" />
         </PlaceCardContent>
       </PlaceCard>
@@ -79,7 +94,7 @@ function PlaceListItem({ place }: { place: PlaceListItemType }) {
 
 interface PlaceListContentProps {
   stationId: number | null
-  foodTypes: FoodType[] | null
+  foodTypes: PlaceFoodType[] | null
   amenities: PlaceAmenityCode[] | null
 }
 
@@ -147,7 +162,17 @@ export default function PlaceListContent({
       />
       <ul className="grid grid-cols-2 gap-x-[15px] gap-y-10">
         {places.map((place) => (
-          <PlaceListItem key={place.id} place={place} />
+          <PlaceListItem
+            key={place.id}
+            id={place.id}
+            name={place.name}
+            imageUrl={place.imageUrl}
+            stationName={place.stationName}
+            rating={place.rating}
+            reviewCount={place.reviewCount}
+            bookmarkCount={place.bookmarkCount}
+            foodTypes={place.foodTypes}
+          />
         ))}
         {isFetchingNextPage && <LoadingIndicator />}
       </ul>
