@@ -5,7 +5,10 @@ import { api } from '@/lib/api'
 import { COMMON_ERROR_MESSAGES } from '@/lib/constants'
 import { API_ENDPOINTS } from '@/lib/endpoints'
 import { ApiResponse } from '@/types/api/api'
-import { ProductTodayDiscountListItem, ProductTodayDiscountQuery } from '@/types/api/product'
+import {
+  ProductTodayDiscountListItemResponse,
+  ProductTodayDiscountQuery,
+} from '@/types/api/product'
 
 export function TodayDiscountProductListSkeleton() {
   return (
@@ -27,7 +30,7 @@ export default async function TodayDiscountProductList() {
       size: 4,
     } satisfies ProductTodayDiscountQuery,
   }
-  const { data, error } = await api.get<ApiResponse<ProductTodayDiscountListItem[]>>(
+  const { data, error } = await api.get<ApiResponse<ProductTodayDiscountListItemResponse[]>>(
     API_ENDPOINTS.PRODUCTS_TODAY_DISCOUNTS,
     query,
   )

@@ -17,12 +17,10 @@ type Product = {
 /**
  * Query types
  */
-
 export type ProductTodayDiscountQuery = PaginationParams & {}
 
 /**
  * Response types
  */
-
-export type ProductTodayDiscountListItem = Product & {}
-export type ProductChoiceListItem = Product & {}
+export type ProductTodayDiscountListItemResponse = Product & {}
+export type ProductChoiceListItemResponse = Product & {}

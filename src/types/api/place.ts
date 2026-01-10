@@ -1,5 +1,5 @@
 import { PaginationParams } from './api'
-import { ProductChoiceListItem } from './product'
+import { ProductChoiceListItemResponse } from './product'
 
 /**
  * Base types
@@ -69,7 +69,7 @@ export type PlaceBestListItemResponse = Place & {
 export type PlaceChoiceListItemResponse = Place & {
   title: string
   content: string
-  products: ProductChoiceListItem[]
+  products: ProductChoiceListItemResponse[]
 }
 
 export type PlaceLatestListItemResponse = Place & {
