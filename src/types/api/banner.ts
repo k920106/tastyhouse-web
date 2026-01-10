@@ -1,10 +1,16 @@
 import { PaginationParams } from './api'
 
-export type BannerQuery = PaginationParams & {}
-
+/**
+ * Domain types
+ */
 export type Banner = {
   id: number
   imageUrl: string
   linkUrl: string | null
   title: string
 }
+
+/**
+ * Query types
+ */
+export type BannerQuery = PaginationParams & {}
