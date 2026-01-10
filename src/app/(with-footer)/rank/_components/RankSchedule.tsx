@@ -2,11 +2,11 @@ import { api } from '@/lib/api'
 import { formatDate, formatRemainingTime, getTimeDifference } from '@/lib/date'
 import { API_ENDPOINTS } from '@/lib/endpoints'
 import { ApiResponse } from '@/types/api/api'
-import { RankEventInfo } from '@/types/api/rank'
+import { RankEventDurationResponse } from '@/types/api/rank'
 
 export default async function RankSchedule() {
   // API 호출
-  const { error, data } = await api.get<ApiResponse<RankEventInfo>>(
+  const { error, data } = await api.get<ApiResponse<RankEventDurationResponse>>(
     API_ENDPOINTS.RANK_EVENT_DURATION,
   )
 

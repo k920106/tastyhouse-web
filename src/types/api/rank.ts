@@ -1,39 +1,16 @@
-export type MyRankItem = {
-  nickname: string
-  profileImageUrl: string
-  reviewCount: number
-  rankNo: number
-  grade: MemberGrade
-}
+/**
+ * Code types
+ */
 
-export type RankEventInfo = {
-  startAt: Date
-  endAt: Date
-}
-
-export type MemberGrade = 'NEWCOMER' | 'ACTIVE' | 'INSIDER' | 'GOURMET' | 'TEHA'
-
-export type MemberRankItem = {
-  memberId: number
-  nickname: string
-  profileImageUrl: string
-  reviewCount: number
-  rankNo: number
-  grade: MemberGrade
-}
-
-export type PrizeItem = {
-  id: number
-  prizeRank: number
-  name: string
-  brand: string
-  imageUrl: string
-}
-
-export type RankPeriod = 'all' | 'monthly'
+import { MemberGradeCode } from './member'
 
 type RankType = 'ALL' | 'MONTHLY' | 'WEEKLY'
 
+export type RankPeriod = 'all' | 'monthly'
+
+/**
+ * Helper functions
+ */
 export const rankPeriodToRankType = (period: RankPeriod): RankType => {
   const periodMap: Record<RankPeriod, RankType> = {
     all: 'ALL',
@@ -42,7 +19,35 @@ export const rankPeriodToRankType = (period: RankPeriod): RankType => {
   return periodMap[period]
 }
 
+/**
+ * Query types
+ */
 export type RankMemberQuery = {
   type: RankType
   limit: number
+}
+
+/**
+ * Response types
+ */
+export type RankMemberMeResponse = {
+  nickname: string
+  profileImageUrl: string
+  reviewCount: number
+  rankNo: number
+  grade: MemberGradeCode
+}
+
+export type RankEventDurationResponse = {
+  startAt: Date
+  endAt: Date
+}
+
+export type RankMemberListItemResponse = {
+  memberId: number
+  nickname: string
+  profileImageUrl: string
+  reviewCount: number
+  rankNo: number
+  grade: MemberGradeCode
 }

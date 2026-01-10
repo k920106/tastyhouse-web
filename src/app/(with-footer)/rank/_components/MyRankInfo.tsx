@@ -4,7 +4,7 @@ import { api } from '@/lib/api'
 import { COMMON_ERROR_MESSAGES } from '@/lib/constants'
 import { API_ENDPOINTS } from '@/lib/endpoints'
 import { ApiResponse } from '@/types/api/api'
-import { MyRankItem, RankPeriod, rankPeriodToRankType } from '@/types/api/rank'
+import { RankMemberMeResponse, RankPeriod, rankPeriodToRankType } from '@/types/api/rank'
 import { cookies } from 'next/headers'
 import RankItem from './RankItem'
 
@@ -49,7 +49,7 @@ export default async function MyRankInfo({ rankPeriod }: { rankPeriod: RankPerio
       type: rankPeriodToRankType(rankPeriod),
     },
   }
-  const { error, data } = await api.get<ApiResponse<MyRankItem>>(
+  const { error, data } = await api.get<ApiResponse<RankMemberMeResponse>>(
     API_ENDPOINTS.RANK_MEMBERS_ME,
     query,
   )

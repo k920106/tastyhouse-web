@@ -5,7 +5,12 @@ import { COMMON_ERROR_MESSAGES } from '@/lib/constants'
 import { API_ENDPOINTS } from '@/lib/endpoints'
 import { PAGE_PATHS } from '@/lib/paths'
 import { ApiResponse } from '@/types/api/api'
-import { MemberRankItem, RankMemberQuery, RankPeriod, rankPeriodToRankType } from '@/types/api/rank'
+import {
+  RankMemberListItemResponse,
+  RankMemberQuery,
+  RankPeriod,
+  rankPeriodToRankType,
+} from '@/types/api/rank'
 import Link from 'next/link'
 import RankItem from './RankItem'
 
@@ -52,7 +57,7 @@ export default async function RankList({ rankPeriod }: { rankPeriod: RankPeriod 
       limit: 100,
     } satisfies RankMemberQuery,
   }
-  const { error, data } = await api.get<ApiResponse<MemberRankItem[]>>(
+  const { error, data } = await api.get<ApiResponse<RankMemberListItemResponse[]>>(
     API_ENDPOINTS.RANK_MEMBERS,
     query,
   )
