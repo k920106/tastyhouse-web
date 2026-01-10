@@ -10,7 +10,7 @@ interface PlaceInfoDetailFetcherProps {
 
 export default function PlaceInfoDetailFetcher({ placeId }: PlaceInfoDetailFetcherProps) {
   const { data, isLoading, error } = useQuery({
-    queryKey: ['place', placeId, 'place-info-detail'],
+    queryKey: ['place', placeId, 'place-detail-info'],
     queryFn: () => getPlaceInfo(placeId),
   })
 

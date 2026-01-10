@@ -10,7 +10,7 @@ interface PlaceOwnerMessageFetcherProps {
 
 export default function PlaceOwnerMessageFetcher({ placeId }: PlaceOwnerMessageFetcherProps) {
   const { data, isLoading, error } = useQuery({
-    queryKey: ['place', placeId, 'owner-message'],
+    queryKey: ['place', placeId, 'place-detail-owner-message'],
     queryFn: () => getPlaceOwnerMessageHistory(placeId),
   })
 
