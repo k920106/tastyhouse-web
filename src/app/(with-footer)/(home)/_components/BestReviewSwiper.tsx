@@ -8,7 +8,7 @@ import { Skeleton } from '@/components/ui/shadcn/skeleton'
 import { formatDecimal } from '@/lib/number'
 import { PAGE_PATHS } from '@/lib/paths'
 import { cn } from '@/lib/utils'
-import { BestReview } from '@/types/api/review'
+import { ReviewBestListItemResponse } from '@/types/api/review'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useEffect, useRef, useState } from 'react'
@@ -56,7 +56,7 @@ function ReviewCardSkeleton({ className }: { className?: string }) {
 }
 
 interface BestReviewSwiperProps {
-  reviews: BestReview[]
+  reviews: ReviewBestListItemResponse[]
 }
 
 export default function BestReviewSwiper({ reviews }: BestReviewSwiperProps) {

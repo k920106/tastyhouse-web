@@ -1,7 +1,7 @@
 import ReviewAuthorInfo from '@/components/reviews/ReviewAuthorInfo'
 import ReviewImageGallery from '@/components/reviews/ReviewImageGallery'
 import { Skeleton } from '@/components/ui/shadcn/skeleton'
-import { ReviewDetail } from '@/types/api/review'
+import { ReviewDetailResponse } from '@/types/api/review'
 import { ReactNode } from 'react'
 import ReviewActions from './ReviewActions'
 import ReviewContent from './ReviewContent'
@@ -39,7 +39,7 @@ export function ReviewInfoSkeleton() {
 }
 
 interface ReviewInfoProps {
-  reviewDetail: ReviewDetail
+  reviewDetail: ReviewDetailResponse
   reviewOption: ReactNode
   reviewLike: ReactNode
 }

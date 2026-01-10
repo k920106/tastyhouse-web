@@ -1,7 +1,7 @@
 import { api } from '@/lib/api'
 import { API_ENDPOINTS } from '@/lib/endpoints'
 import { ApiResponse } from '@/types/api/api'
-import { ReviewDetail } from '@/types/api/review'
+import { ReviewDetailResponse } from '@/types/api/review'
 import ReviewDetailHeader from './ReviewDetailHeader'
 
 interface ReviewDetailHeaderServerProps {
@@ -12,7 +12,7 @@ export default async function ReviewDetailHeaderServer({
   reviewId,
 }: ReviewDetailHeaderServerProps) {
   // API 호출
-  const { error, data } = await api.get<ApiResponse<ReviewDetail>>(
+  const { error, data } = await api.get<ApiResponse<ReviewDetailResponse>>(
     API_ENDPOINTS.REVIEW_DETAIL(reviewId),
   )
 

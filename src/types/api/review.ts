@@ -1,10 +1,52 @@
 import { PaginationParams } from './api'
 
+/**
+ * Code types
+ */
 export type ReviewType = 'ALL' | 'FOLLOWING'
 
-export type BestReviewQuery = PaginationParams & {}
+/**
+ * Domain types
+ */
+export type Comment = {
+  id: number
+  reviewId: number
+  memberId: number
+  memberNickname: string
+  memberProfileImageUrl: string | null
+  content: string
+  createdAt: string
+  replies?: Reply[]
+}
 
-export type BestReview = {
+/**
+ * Private types
+ */
+type Reply = {
+  id: number
+  commentId: number
+  memberId: number
+  memberNickname: string
+  memberProfileImageUrl: string | null
+  replyToMemberId: number
+  replyToMemberNickname: string
+  content: string
+  createdAt: string
+}
+
+/**
+ * Query types
+ */
+export type ReviewBestQuery = PaginationParams & {}
+
+export type ReviewLatestQuery = PaginationParams & {
+  type: ReviewType
+}
+
+/**
+ * Response types
+ */
+export type ReviewBestListItemResponse = {
   id: number
   content: string
   imageUrl: string
@@ -13,11 +55,7 @@ export type BestReview = {
   totalRating: number
 }
 
-export type LatestReviewQuery = PaginationParams & {
-  type: ReviewType
-}
-
-export type LatestReview = {
+export type ReviewLatestListItemResponse = {
   id: number
   imageUrls: string[]
   stationName: string
@@ -31,7 +69,7 @@ export type LatestReview = {
   createdAt: string
 }
 
-export type ReviewDetail = {
+export type ReviewDetailResponse = {
   id: number
   placeId: number
   placeName: string
@@ -66,29 +104,6 @@ export type ReviewLikeResponse = {
 export type CommentListResponse = {
   comments: Comment[]
   totalCount: number
-}
-
-export type Comment = {
-  id: number
-  reviewId: number
-  memberId: number
-  memberNickname: string
-  memberProfileImageUrl: string | null
-  content: string
-  createdAt: string
-  replies?: Reply[]
-}
-
-type Reply = {
-  id: number
-  commentId: number
-  memberId: number
-  memberNickname: string
-  memberProfileImageUrl: string | null
-  replyToMemberId: number
-  replyToMemberNickname: string
-  content: string
-  createdAt: string
 }
 
 export type CommentCreateRequest = {

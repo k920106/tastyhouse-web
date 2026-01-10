@@ -3,7 +3,7 @@ import { api } from '@/lib/api'
 import { COMMON_ERROR_MESSAGES } from '@/lib/constants'
 import { API_ENDPOINTS } from '@/lib/endpoints'
 import { ApiResponse } from '@/types/api/api'
-import { BestReview, BestReviewQuery } from '@/types/api/review'
+import { ReviewBestListItemResponse, ReviewBestQuery } from '@/types/api/review'
 import BestReviewSwiper from './BestReviewSwiper'
 
 export default async function BestReviewContent() {
@@ -12,9 +12,9 @@ export default async function BestReviewContent() {
     params: {
       page: 0,
       size: 5,
-    } satisfies BestReviewQuery,
+    } satisfies ReviewBestQuery,
   }
-  const { data, error } = await api.get<ApiResponse<BestReview[]>>(
+  const { data, error } = await api.get<ApiResponse<ReviewBestListItemResponse[]>>(
     API_ENDPOINTS.REVIEWS_BEST,
     query,
   )

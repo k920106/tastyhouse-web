@@ -3,7 +3,7 @@ import { api } from '@/lib/api'
 import { COMMON_ERROR_MESSAGES } from '@/lib/constants'
 import { API_ENDPOINTS } from '@/lib/endpoints'
 import { ApiResponse } from '@/types/api/api'
-import { ReviewDetail } from '@/types/api/review'
+import { ReviewDetailResponse } from '@/types/api/review'
 import { ReactNode } from 'react'
 import ReviewInfo from './ReviewInfo'
 
@@ -19,7 +19,7 @@ export default async function ReviewInfoServer({
   reviewOption,
 }: ReviewInfoServerProps) {
   // API 호출
-  const { error, data } = await api.get<ApiResponse<ReviewDetail>>(
+  const { error, data } = await api.get<ApiResponse<ReviewDetailResponse>>(
     API_ENDPOINTS.REVIEW_DETAIL(reviewId),
   )
 

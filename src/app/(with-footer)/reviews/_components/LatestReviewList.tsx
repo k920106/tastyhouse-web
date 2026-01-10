@@ -10,7 +10,7 @@ import { useIntersectionObserver } from '@/hooks/useIntersectionObserver'
 import { COMMON_ERROR_MESSAGES } from '@/lib/constants'
 import { PAGE_PATHS } from '@/lib/paths'
 import { getCurrentMemberId, getLatestReviews } from '@/services/review'
-import type { LatestReview, ReviewType } from '@/types/api/review'
+import type { ReviewLatestListItemResponse, ReviewType } from '@/types/api/review'
 import { useInfiniteQuery, useQuery } from '@tanstack/react-query'
 import { useEffect } from 'react'
 
@@ -59,7 +59,7 @@ function LatestReviewListItem({
   review,
   currentMemberId,
 }: {
-  review: LatestReview
+  review: ReviewLatestListItemResponse
   currentMemberId: number | null
 }) {
   const {
