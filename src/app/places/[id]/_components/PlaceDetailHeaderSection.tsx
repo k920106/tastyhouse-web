@@ -1,8 +1,9 @@
-import Header, { HeaderCenter, HeaderLeft } from '@/components/layouts/Header'
+import Header, { HeaderCenter, HeaderLeft, HeaderRight } from '@/components/layouts/Header'
 import { BackButton } from '@/components/layouts/header-parts'
 import { Suspense } from 'react'
 import { PlaceDetailHeaderSkeleton } from './PlaceDetailHeader'
 import PlaceDetailHeaderServer from './PlaceDetailHeaderServer'
+import ShareButtonServer from './ShareButtonServer'
 
 interface PlaceDetailHeaderSectionProps {
   placeId: number
@@ -19,6 +20,9 @@ export default function PlaceDetailHeaderSection({ placeId }: PlaceDetailHeaderS
           <PlaceDetailHeaderServer placeId={placeId} />
         </Suspense>
       </HeaderCenter>
+      <HeaderRight>
+        <ShareButtonServer placeId={placeId} />
+      </HeaderRight>
     </Header>
   )
 }
