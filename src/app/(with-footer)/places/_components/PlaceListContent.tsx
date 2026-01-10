@@ -13,7 +13,7 @@ import {
   PlaceCardTags,
 } from '@/components/places/PlaceCard'
 import ErrorMessage from '@/components/ui/ErrorMessage'
-import { getPlaceFoodTypeName } from '@/constants/place'
+import { getPlaceFoodTypeCodeName } from '@/constants/place'
 import { useIntersectionObserver } from '@/hooks/useIntersectionObserver'
 import { COMMON_ERROR_MESSAGES } from '@/lib/constants'
 import { getLatestPlaces } from '@/services/place'
@@ -72,7 +72,7 @@ function PlaceListItem({
   bookmarkCount,
   foodTypes,
 }: PlaceListItemProps) {
-  const foodTypeNames = foodTypes.map((foodType) => getPlaceFoodTypeName(foodType))
+  const foodNames = foodTypes.map((foodType) => getPlaceFoodTypeCodeName(foodType))
 
   return (
     <li key={id}>
@@ -85,7 +85,7 @@ function PlaceListItem({
           </PlaceCardHeader>
           <PlaceCardName>{name}</PlaceCardName>
           <PlaceCardStats reviewCount={reviewCount} bookmarkCount={bookmarkCount} />
-          <PlaceCardTags tags={foodTypeNames} variant="secondary" />
+          <PlaceCardTags tags={foodNames} variant="secondary" />
         </PlaceCardContent>
       </PlaceCard>
     </li>

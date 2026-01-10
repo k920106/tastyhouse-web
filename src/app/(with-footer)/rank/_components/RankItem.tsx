@@ -1,14 +1,14 @@
 import Avatar from '@/components/ui/Avatar'
 import Nickname from '@/components/ui/Nickname'
-import { getMemberGradeColor, getMemberGradeDisplayName, getMemberGradeIcon } from '@/lib/rank'
-import { MemberGrade } from '@/types/api/rank'
+import { getMemberGradeColor, getMemberGradeIcon, getMemberGradeName } from '@/constants/rank'
+import { MemberGradeCode } from '@/types/api/member'
 import Image from 'next/image'
 
 interface RankItemProps {
   rankNo: number
   profileImageUrl: string
   nickname: string
-  grade: MemberGrade
+  grade: MemberGradeCode
   reviewCount: number
   isMe?: boolean
 }
@@ -21,7 +21,7 @@ export default function RankItem({
   reviewCount,
   isMe = false,
 }: RankItemProps) {
-  const gradeDisplayName = getMemberGradeDisplayName(grade)
+  const gradeName = getMemberGradeName(grade)
   const gradeIcon = getMemberGradeIcon(grade)
   const gradeColor = getMemberGradeColor(grade)
 
@@ -55,13 +55,13 @@ export default function RankItem({
             <div className="relative w-[14px] h-[14px]">
               <Image
                 src={`/images/rank/icon-level-${gradeIcon}-40.png`}
-                alt={gradeDisplayName}
+                alt={gradeName}
                 fill
                 style={{ objectFit: 'contain' }}
                 sizes="14px"
               />
             </div>
-            <span className={`text-xs leading-[12px] ${gradeColor}`}>{gradeDisplayName}</span>
+            <span className={`text-xs leading-[12px] ${gradeColor}`}>{gradeName}</span>
           </div>
         </div>
       </div>

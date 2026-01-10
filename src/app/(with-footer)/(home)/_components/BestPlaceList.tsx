@@ -11,7 +11,7 @@ import {
 } from '@/components/places/PlaceCard'
 import ErrorMessage from '@/components/ui/ErrorMessage'
 import ViewMoreButton from '@/components/ui/ViewMoreButton'
-import { getFoodCategoryName } from '@/constants/place'
+import { getPlaceFoodTypeCodeName } from '@/constants/place'
 import { api } from '@/lib/api'
 import { COMMON_ERROR_MESSAGES } from '@/lib/constants'
 import { API_ENDPOINTS } from '@/lib/endpoints'
@@ -29,7 +29,7 @@ export function BestPlaceListSkeleton() {
 }
 
 function PlaceListItem({ place }: { place: PlaceBestListItemResponse }) {
-  const foodTypeNames = place.foodTypes.map((foodType) => getFoodCategoryName(foodType))
+  const foodNames = place.foodTypes.map((foodType) => getPlaceFoodTypeCodeName(foodType))
 
   return (
     <li key={place.id}>
@@ -41,7 +41,7 @@ function PlaceListItem({ place }: { place: PlaceBestListItemResponse }) {
             <PlaceCardRating value={place.rating} />
           </PlaceCardHeader>
           <PlaceCardName>{place.name}</PlaceCardName>
-          <PlaceCardTags tags={foodTypeNames} />
+          <PlaceCardTags tags={foodNames} />
         </PlaceCardContent>
       </PlaceCard>
     </li>
