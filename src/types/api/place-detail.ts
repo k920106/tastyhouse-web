@@ -4,7 +4,6 @@ import { ReviewImage } from './review'
 /**
  * Private types
  */
-
 type PlaceBusinessHour = {
   dayType: string
   dayTypeDescription: string

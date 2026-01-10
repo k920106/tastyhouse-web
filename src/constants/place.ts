@@ -35,7 +35,6 @@ const PLACE_IMAGE_CATEGORY_CODE_NAMES: Record<PlaceImageCategoryCode, string> = 
 /**
  * Getter functions
  */
-
 export const getPlaceFoodTypeCodeName = (foodType: PlaceFoodType): string => {
   return PLACE_FOOD_TYPE_NAMES[foodType] || foodType
 }
