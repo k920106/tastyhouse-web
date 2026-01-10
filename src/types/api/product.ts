@@ -3,7 +3,6 @@ import { PaginationParams } from './api'
 /**
  * Base types
  */
-
 type Product = {
   id: number
   name: string
