@@ -8,6 +8,7 @@ export const API_ENDPOINTS = {
 
   // 장소
   PLACES: '/api/places/v1',
+  PLACES_NAME: (id: string | number) => `/api/places/v1/${id}/name`,
   PLACES_DETAIL: (id: string | number) => `/api/places/v1/${id}`,
   PLACES_SUMMARY: (id: string | number) => `/api/places/v1/${id}/summary`,
   PLACES_THUMBNAILS: (id: string | number) => `/api/places/v1/${id}/thumbnails`,

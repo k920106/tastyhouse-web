@@ -3,15 +3,9 @@
 import { toast } from '../ui/AppToaster'
 import ReviewOptionButton from './ReviewOptionButton'
 
-interface ReviewOptionErrorProps {
-  message?: string
-}
-
-export default function ReviewOptionError({
-  message = '오류가 발생했습니다',
-}: ReviewOptionErrorProps) {
+export default function ReviewOptionError() {
   const handleClick = () => {
-    toast(message)
+    toast('오류가 발생했습니다')
   }
 
   return <ReviewOptionButton onClick={handleClick} />

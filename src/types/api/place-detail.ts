@@ -27,6 +27,11 @@ type PlaceClosedDay = {
 /**
  * Response types
  */
+export type PlaceNameResponse = {
+  id: number
+  name: string
+}
+
 export type PlaceSummaryResponse = {
   id: number
   name: string
