@@ -1,21 +1,12 @@
-export interface MemberProfile {
-  id: number
-  userName: string
-  userProfileImage: string | null
-  memberBadge: string
-  description: string
-  reviewCount: number
-  followingCount: number
-  followerCount: number
-}
+/**
+ * Code types
+ */
+export type MemberGradeCode = 'NEWCOMER' | 'ACTIVE' | 'INSIDER' | 'GOURMET' | 'TEHA'
 
-export interface UpdateMemberProfileRequest {
-  userName: string
-  description: string
-  userProfileImage?: string | null
-}
-
-export interface MemberInfoResponse {
+/**
+ * Domain types
+ */
+export type MemberInfo = {
   id: number
   profileImageUrl: string | null
 }

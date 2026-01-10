@@ -5,7 +5,7 @@ import { api } from '@/lib/api'
 import { API_ENDPOINTS } from '@/lib/endpoints'
 import { PAGE_PATHS } from '@/lib/paths'
 import { ApiResponse } from '@/types/api/api'
-import { MemberInfoResponse } from '@/types/api/member'
+import { MemberInfo } from '@/types/api/member'
 import { ReviewDetailResponse } from '@/types/api/review'
 import { cookies } from 'next/headers'
 import Link from 'next/link'
@@ -31,7 +31,7 @@ export default async function ReviewOptionDrawerServer({
   // API 호출
   const [reviewResponse, memberResponse] = await Promise.all([
     api.get<ApiResponse<ReviewDetailResponse>>(API_ENDPOINTS.REVIEW_DETAIL(reviewId)),
-    api.get<ApiResponse<MemberInfoResponse>>(API_ENDPOINTS.MEMBER_ME),
+    api.get<ApiResponse<MemberInfo>>(API_ENDPOINTS.MEMBER_ME),
   ])
 
   const { error: reviewError, data: reviewData } = reviewResponse

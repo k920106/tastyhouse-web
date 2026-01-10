@@ -3,7 +3,7 @@ import { api } from '@/lib/api'
 import { COMMON_ERROR_MESSAGES } from '@/lib/constants'
 import { API_ENDPOINTS } from '@/lib/endpoints'
 import { ApiResponse } from '@/types/api/api'
-import { MemberInfoResponse } from '@/types/api/member'
+import { MemberInfo } from '@/types/api/member'
 import { CommentListResponse } from '@/types/api/review'
 import CommentList from './CommentList'
 
@@ -18,7 +18,7 @@ export default async function CommentListServer({ params }: CommentListServerPro
   // API 호출
   const [commentResponse, memberResponse] = await Promise.all([
     api.get<ApiResponse<CommentListResponse>>(API_ENDPOINTS.REVIEW_COMMENTS(reviewId)),
-    api.get<ApiResponse<MemberInfoResponse>>(API_ENDPOINTS.MEMBER_ME),
+    api.get<ApiResponse<MemberInfo>>(API_ENDPOINTS.MEMBER_ME),
   ])
 
   const { error: commentError, data: commentData } = commentResponse
