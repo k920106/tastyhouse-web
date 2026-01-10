@@ -1,4 +1,7 @@
-export interface Event {
+/**
+ * Domain types
+ */
+export type Event = {
   id: number
   title: string
   imageUrl: string
@@ -8,19 +11,18 @@ export interface Event {
   type: 'ongoing' | 'ended' | 'winner'
   announcementDate?: string
   content?: string
-  winners?: Winner[]
+  winners?: EventWinner[]
 }
 
-export interface Winner {
+export type EventWinner = {
   name: string
   phoneNumber: string
 }
 
-export interface EventListResponse {
-  events: Event[]
-  totalCount: number
-}
-
-export interface EventDetailResponse {
-  event: Event
+export type EventPrize = {
+  id: number
+  prizeRank: number
+  name: string
+  brand: string
+  imageUrl: string
 }
