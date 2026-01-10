@@ -44,6 +44,18 @@ export type ReviewLatestQuery = PaginationParams & {
 }
 
 /**
+ * Request types
+ */
+export type CommentCreateRequest = {
+  content: string
+}
+
+export type ReplyCreateRequest = {
+  content: string
+  replyToMemberId: number
+}
+
+/**
  * Response types
  */
 export type ReviewBestListItemResponse = {
@@ -106,10 +118,6 @@ export type CommentListResponse = {
   totalCount: number
 }
 
-export type CommentCreateRequest = {
-  content: string
-}
-
 export type CommentCreateResponse = {
   id: number
   reviewId: number
@@ -119,11 +127,6 @@ export type CommentCreateResponse = {
   content: string
   createdAt: string
   replies: Reply[]
-}
-
-export type ReplyCreateRequest = {
-  content: string
-  replyToMemberId: number
 }
 
 export type ReplyCreateResponse = {
