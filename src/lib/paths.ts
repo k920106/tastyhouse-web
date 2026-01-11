@@ -12,6 +12,7 @@ export const PAGE_PATHS = {
   PLACE_FILTER: '/places/filter',
 
   // 주문 관련
+  ORDER_METHOD: (placeId: string | number) => `/places/${placeId}/order/method`,
   ORDER_MENUS: (placeId: string | number) => `/places/${placeId}/order/menus`,
   ORDER_MENU_DETAIL: (placeId: string | number, menuId: string | number) =>
     `/places/${placeId}/order/menus/${menuId}`,

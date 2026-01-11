@@ -6,7 +6,7 @@ import { ApiResponse, PagedApiResponse } from '@/types/api/api'
 import { PlaceLatestListItemResponse, PlaceListQuery } from '@/types/api/place'
 import {
   PlaceInfoResponse,
-  PlaceMenu,
+  PlaceMenuCategory,
   PlaceOwnerMessageHistoryResponse,
   PlacePhotoResponse,
 } from '@/types/api/place-detail'
@@ -37,7 +37,7 @@ export async function getPlaceInfo(placeId: number) {
 }
 
 export async function getPlaceMenus(placeId: number) {
-  return await api.get<ApiResponse<PlaceMenu[]>>(API_ENDPOINTS.PLACES_MENUS(placeId))
+  return await api.get<ApiResponse<PlaceMenuCategory[]>>(API_ENDPOINTS.PLACES_MENUS(placeId))
 }
 
 export async function getPlacePhotos(placeId: number) {

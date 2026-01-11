@@ -4,10 +4,16 @@ import { ReviewImage } from './review'
 /**
  * Domain types
  */
+export type PlaceMenuCategory = {
+  categoryName: string
+  menus: PlaceMenu[]
+}
+
 export type PlaceMenu = {
   id: number
-  name: string
   imageUrl: string
+  spiciness: number | null
+  name: string
   originalPrice: number
   discountPrice: number
   discountRate: number | null

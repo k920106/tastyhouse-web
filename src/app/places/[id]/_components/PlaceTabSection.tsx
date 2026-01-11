@@ -4,8 +4,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/shadcn
 import { usePathname, useRouter } from 'next/navigation'
 import { useCallback } from 'react'
 import PlaceInfoSection from './PlaceInfoSection'
-import PlaceMenuSection from './PlaceMenuSection'
-import PlacePhotos from './PlacePhotos'
+import PlaceMenuListSection from './PlaceMenuListSection'
 
 type TabValue = 'info' | 'menu' | 'photo'
 
@@ -44,7 +43,7 @@ export default function PlaceTabSection({ placeId, initialTab }: PlaceTabSection
           >
             메뉴
           </TabsTrigger>
-          <TabsTrigger
+          {/* <TabsTrigger
             value="photo"
             className="flex-1 p-0 py-[18px] text-sm leading-[14px] text-[#333333]/40 border-b border-b-[#eeeeee]! rounded-none shadow-none cursor-pointer data-[state=active]:text-black data-[state=active]:font-bold data-[state=active]:border-black data-[state=active]:border-t data-[state=active]:border-r data-[state=active]:border-l data-[state=active]:border-b-0 data-[state=active]:border-l-[#eeeeee] data-[state=active]:border-r-[#eeeeee] data-[state=active]:shadow-none"
           >
@@ -55,19 +54,17 @@ export default function PlaceTabSection({ placeId, initialTab }: PlaceTabSection
             className="flex-1 p-0 py-[18px] text-sm leading-[14px] text-[#333333]/40 border-b border-b-[#eeeeee]! rounded-none shadow-none cursor-pointer data-[state=active]:text-black data-[state=active]:font-bold data-[state=active]:border-black data-[state=active]:border-t data-[state=active]:border-r data-[state=active]:border-l data-[state=active]:border-b-0 data-[state=active]:border-l-[#eeeeee] data-[state=active]:border-r-[#eeeeee] data-[state=active]:shadow-none"
           >
             리뷰
-            {/* 리뷰 (
-            {reviewStatistics.totalReviewCount > 99 ? '99+' : reviewStatistics.totalReviewCount}) */}
-          </TabsTrigger>
+          </TabsTrigger> */}
         </TabsList>
         <TabsContent value="info" className="mt-0">
           <PlaceInfoSection placeId={placeId} />
         </TabsContent>
         <TabsContent value="menu" className="mt-0">
-          <PlaceMenuSection placeId={placeId} />
+          <PlaceMenuListSection placeId={placeId} />
         </TabsContent>
-        <TabsContent value="photo" className="mt-0">
+        {/* <TabsContent value="photo" className="mt-0">
           <PlacePhotos placeId={placeId} />
-        </TabsContent>
+        </TabsContent> */}
         {/* <TabsContent value="review" className="mt-0">
           <PlaceReviews reviews={reviews} statistics={reviewStatistics} />
         </TabsContent> */}
