@@ -22,6 +22,11 @@ export type PlaceMenu = {
   isRepresentative: boolean | null
 }
 
+export type PlacePhotoCategory = {
+  categoryName: string
+  imageUrls: string[]
+}
+
 /**
  * private types
  */
@@ -103,14 +108,6 @@ export type PlaceReviewListItemResponse = {
   willRevisit: boolean
   images: ReviewImage[]
   createdAt: string
-}
-
-export type PlacePhotoResponse = {
-  id: number
-  imageUrl: string
-  categoryCode: string | null
-  categoryName: string | null
-  sort: number | null
 }
 
 export type PlaceReviewStatistics = {
