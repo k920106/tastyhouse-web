@@ -8,9 +8,9 @@ import { useFilterState } from './FilterStateProvider'
 export function FoodTypeSelectorSkeleton() {
   return (
     <div className="grid grid-cols-4 gap-2.5">
-      {Array.from({ length: 8 }).map((_, index) => (
+      {Array.from({ length: 8 }).map((_, i) => (
         <div
-          key={index}
+          key={i}
           className="flex flex-col items-center justify-center border border-[#eeeeee] px-5 py-[17px]"
           style={{ aspectRatio: '80 / 95' }}
         >

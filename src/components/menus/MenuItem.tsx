@@ -39,13 +39,13 @@ export default function MenuItem({ menu }: MenuItemProps) {
           <div className="flex flex-col">
             {menu.spiciness && (
               <div className="flex gap-[3px] mb-[7px]">
-                {Array.from({ length: menu.spiciness }).map((_, index) => (
+                {Array.from({ length: menu.spiciness }).map((_, i) => (
                   <Image
                     src="/images/product/icon-spiciness.png"
                     alt="맵기"
                     width={9}
                     height={15}
-                    key={index}
+                    key={i}
                   />
                 ))}
               </div>
