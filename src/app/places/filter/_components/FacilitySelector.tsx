@@ -1,24 +1,16 @@
 'use client'
 
-import { FacilityButton } from '@/components/places/FacilityItem'
-import { Skeleton } from '@/components/ui/shadcn/skeleton'
+import { FacilityButton, FacilityItemSkeleton } from '@/components/places/FacilityItem'
 import { PlaceAmenityListItem } from '@/types/api/place'
 import { useFilterState } from './FilterStateProvider'
 
 export function FacilitySelectorSkeleton() {
   return (
-    <div className="grid grid-cols-4 gap-2.5">
+    <FacilitySelectorLayout>
       {Array.from({ length: 8 }).map((_, i) => (
-        <div
-          key={i}
-          className="flex flex-col items-center justify-center border border-[#eeeeee] px-5 py-[17px]"
-          style={{ aspectRatio: '80 / 95' }}
-        >
-          <Skeleton className="w-[38px] h-[38px] mb-[15px]" />
-          <Skeleton className="w-12 h-3" />
-        </div>
+        <FacilityItemSkeleton key={i} />
       ))}
-    </div>
+    </FacilitySelectorLayout>
   )
 }
 
@@ -30,15 +22,22 @@ export default function FacilitySelector({ amenities }: FacilitySelectorProps) {
   const { selectedAmenities, toggleAmenity } = useFilterState()
 
   return (
-    <div className="grid grid-cols-4 gap-2.5">
-      {amenities.map((amenity) => (
-        <FacilityButton
-          key={amenity.code}
-          amenity={amenity}
-          isSelected={selectedAmenities.includes(amenity.code)}
-          onClick={() => toggleAmenity(amenity.code)}
-        />
-      ))}
-    </div>
+    <FacilitySelectorLayout>
+      {amenities.map((amenity) => {
+        const isSelected = selectedAmenities.includes(amenity.code)
+        return (
+          <FacilityButton
+            key={amenity.code}
+            amenity={amenity}
+            isSelected={isSelected}
+            onClick={() => toggleAmenity(amenity.code)}
+          />
+        )
+      })}
+    </FacilitySelectorLayout>
   )
+}
+
+export function FacilitySelectorLayout({ children }: { children: React.ReactNode }) {
+  return <div className="grid grid-cols-4 gap-2.5">{children}</div>
 }
