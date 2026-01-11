@@ -6,6 +6,8 @@ import { useCallback } from 'react'
 import PlaceInfoSection from './PlaceInfoSection'
 import PlaceMenuListSection from './PlaceMenuListSection'
 import PlacePhotoListSection from './PlacePhotoListSection'
+import ReviewListSection from './ReviewListSection'
+import ReviewSection from './ReviewSection'
 
 type TabValue = 'info' | 'menu' | 'photo'
 
@@ -50,25 +52,27 @@ export default function PlaceTabSection({ placeId, initialTab }: PlaceTabSection
           >
             포토
           </TabsTrigger>
-          {/* <TabsTrigger
+          <TabsTrigger
             value="review"
             className="flex-1 p-0 py-[18px] text-sm leading-[14px] text-[#333333]/40 border-b border-b-[#eeeeee]! rounded-none shadow-none cursor-pointer data-[state=active]:text-black data-[state=active]:font-bold data-[state=active]:border-black data-[state=active]:border-t data-[state=active]:border-r data-[state=active]:border-l data-[state=active]:border-b-0 data-[state=active]:border-l-[#eeeeee] data-[state=active]:border-r-[#eeeeee] data-[state=active]:shadow-none"
           >
             리뷰
-          </TabsTrigger> */}
+          </TabsTrigger>
         </TabsList>
-        <TabsContent value="info" className="mt-0">
+        <TabsContent value="info">
           <PlaceInfoSection placeId={placeId} />
         </TabsContent>
-        <TabsContent value="menu" className="mt-0">
+        <TabsContent value="menu">
           <PlaceMenuListSection placeId={placeId} />
         </TabsContent>
-        <TabsContent value="photo" className="mt-0">
+        <TabsContent value="photo">
           <PlacePhotoListSection placeId={placeId} />
         </TabsContent>
-        {/* <TabsContent value="review" className="mt-0">
-          <PlaceReviews reviews={reviews} statistics={reviewStatistics} />
-        </TabsContent> */}
+        <TabsContent value="review">
+          <ReviewSection placeId={placeId} />
+          <ReviewListSection placeId={placeId} />
+          {/* <PlaceReviews reviews={reviews} statistics={reviewStatistics} /> */}
+        </TabsContent>
       </div>
     </Tabs>
   )

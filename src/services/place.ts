@@ -4,7 +4,13 @@ import { api } from '@/lib/api'
 import { API_ENDPOINTS } from '@/lib/endpoints'
 import { ApiResponse, PagedApiResponse } from '@/types/api/api'
 import { PlaceLatestListItemResponse, PlaceListQuery } from '@/types/api/place'
-import { PlaceInfoResponse, PlaceMenuCategory, PlacePhotoCategory } from '@/types/api/place-detail'
+import {
+  PlaceInfoResponse,
+  PlaceMenuCategory,
+  PlacePhotoCategory,
+  PlaceReviewListItemResponse,
+  PlaceReviewStatistics,
+} from '@/types/api/place-detail'
 
 export async function getLatestPlaces(params: PlaceListQuery) {
   const { data, error } = await api.get<PagedApiResponse<PlaceLatestListItemResponse>>(
@@ -37,4 +43,16 @@ export async function getPlaceMenus(placeId: number) {
 
 export async function getPlacePhotos(placeId: number) {
   return api.get<ApiResponse<PlacePhotoCategory[]>>(API_ENDPOINTS.PLACES_PHOTOS(placeId))
+}
+
+export async function getPlaceReviewStatistics(placeId: number) {
+  return api.get<ApiResponse<PlaceReviewStatistics>>(
+    API_ENDPOINTS.PLACES_REVIEWS_STATISTICS(placeId),
+  )
+}
+
+export async function getPlaceReviews(placeId: number) {
+  return api.get<PagedApiResponse<PlaceReviewListItemResponse>>(
+    API_ENDPOINTS.PLACES_REVIEWS(placeId),
+  )
 }

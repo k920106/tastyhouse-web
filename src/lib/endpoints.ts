@@ -11,11 +11,13 @@ export const API_ENDPOINTS = {
   PLACES_NAME: (id: string | number) => `/api/places/v1/${id}/name`,
   PLACES_DETAIL: (id: string | number) => `/api/places/v1/${id}`,
   PLACES_SUMMARY: (id: string | number) => `/api/places/v1/${id}/summary`,
-  PLACES_THUMBNAILS: (id: string | number) => `/api/places/v1/${id}/thumbnails`,
+  PLACES_THUMBNAILS: (id: string | number) => `/api/places/v1/${id}/banners`,
   PLACES_BOOKMARK: (id: string | number) => `/api/places/v1/${id}/bookmark`,
   PLACES_INFO: (id: string | number) => `/api/places/v1/${id}/info`,
   PLACES_MENUS: (id: string | number) => `/api/places/v1/${id}/menus`,
   PLACES_PHOTOS: (id: string | number) => `/api/places/v1/${id}/photos`,
+  PLACES_REVIEWS_STATISTICS: (id: string | number) => `/api/places/v1/${id}/reviews/statistics`,
+  PLACES_REVIEWS: (id: string | number) => `/api/places/v1/${id}/reviews`,
 
   // 장바구니
   CART: '/api/cart/v1',
