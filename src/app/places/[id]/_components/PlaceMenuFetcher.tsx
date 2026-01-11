@@ -1,17 +1,9 @@
+import { MenuCategoryItemSkeleton } from '@/components/menus/MenuCategoryItem'
 import ErrorMessage from '@/components/ui/ErrorMessage'
-import { Skeleton } from '@/components/ui/shadcn/skeleton'
 import { COMMON_ERROR_MESSAGES } from '@/lib/constants'
 import { getPlaceMenus } from '@/services/place'
 import { useQuery } from '@tanstack/react-query'
 import PlaceMenuList from './PlaceMenuList'
-
-export function PlaceMenuSkeleton() {
-  return (
-    <div className="py-6 space-y-8">
-      <Skeleton className="h-20 w-full" />
-    </div>
-  )
-}
 
 interface PlaceMenuFetcherProps {
   placeId: number
@@ -24,7 +16,13 @@ export default function PlaceMenuFetcher({ placeId }: PlaceMenuFetcherProps) {
   })
 
   if (isLoading) {
-    return <PlaceMenuSkeleton />
+    return (
+      <>
+        {Array.from({ length: 2 }).map((_, i) => (
+          <MenuCategoryItemSkeleton key={i} />
+        ))}
+      </>
+    )
   }
 
   if (error) {

@@ -2,7 +2,7 @@ import AppButton from '@/components/ui/AppButton'
 import FixedBottomSection from '@/components/ui/FixedBottomSection'
 import { PAGE_PATHS } from '@/lib/paths'
 import Link from 'next/link'
-import PlaceMenuFetcher from './PlaceMenuServer'
+import PlaceMenuFetcher from './PlaceMenuFetcher'
 
 interface PlaceMenuListSectionProps {
   placeId: number
