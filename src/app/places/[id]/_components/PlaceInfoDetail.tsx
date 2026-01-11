@@ -1,13 +1,19 @@
 'use client'
 
+import PlaceOwnerMessageModal from '@/components/modals/PlaceOwnerMessageModal'
 import { FacilityDiv } from '@/components/places/FacilityItem'
+import ClampedText, { MoreButton } from '@/components/ui/ClampedText'
 import { Skeleton } from '@/components/ui/shadcn/skeleton'
 import { PlaceInfoResponse } from '@/types/api/place-detail'
 import Link from 'next/link'
+import { useState } from 'react'
 
 export function PlaceInfoDetailSkeleton() {
   return (
     <div className="py-6 space-y-8">
+      <div className="relative px-[15px] py-[23px] pb-4 bg-[#f9f9f9] border border-[#cccccc] box-border rounded-[5px]">
+        <Skeleton className="h-4 w-full" />
+      </div>
       <Skeleton className="h-20 w-full" />
       <Skeleton className="h-40 w-full" />
       <Skeleton className="h-20 w-full" />
@@ -20,11 +26,47 @@ interface PlaceInfoDetailProps {
 }
 
 export default function PlaceInfoDetail({ placeInfo }: PlaceInfoDetailProps) {
-  const { businessHours, breakTimes, closedDays, phoneNumber, amenities } = placeInfo
+  const {
+    businessHours,
+    breakTimes,
+    closedDays,
+    phoneNumber,
+    amenities,
+    ownerMessage,
+    ownerMessageCreatedAt,
+  } = placeInfo
+
+  const [isPlaceOwnerMessageModalOpen, setIsPlaceOwnerMessageModalOpen] = useState(false)
 
   return (
-    <div className="pt-[30px]">
-      <div className="pb-5 space-y-[15px] border-b border-[#eeeeee] box-border">
+    <>
+      {ownerMessage && ownerMessageCreatedAt && (
+        <>
+          <div className="relative mt-[13px] px-[15px] py-[23px] pb-4 bg-[#f9f9f9] border border-[#cccccc] box-border rounded-[5px]">
+            <div className="absolute -top-3 left-[10px] inline-block px-3.5 py-[6.5px] mb-3 bg-main text-xs leading-[12px] text-white rounded-full">
+              사장님 한마디
+            </div>
+            <ClampedText
+              text={ownerMessage}
+              maxLines={1}
+              className="text-xs bg-[#f9f9f9]"
+              MoreButton={
+                <MoreButton
+                  onClick={() => setIsPlaceOwnerMessageModalOpen(true)}
+                  className="bg-[#f9f9f9]! text-xs leading-[12px]"
+                />
+              }
+            />
+          </div>
+          <PlaceOwnerMessageModal
+            open={isPlaceOwnerMessageModalOpen}
+            onOpenChange={(open) => setIsPlaceOwnerMessageModalOpen(open)}
+            message={ownerMessage}
+            createdAt={ownerMessageCreatedAt}
+          />
+        </>
+      )}
+      <div className="pt-[30px] pb-5 space-y-[15px] border-b border-[#eeeeee] box-border">
         {businessHours && businessHours.length > 0 && (
           <div className="flex justify-between">
             <h3 className="text-sm leading-[14px]">운영시간</h3>
@@ -86,6 +128,6 @@ export default function PlaceInfoDetail({ placeInfo }: PlaceInfoDetailProps) {
           </div>
         </div>
       )}
-    </div>
+    </>
   )
 }

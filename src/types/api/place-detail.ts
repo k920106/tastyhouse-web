@@ -75,15 +75,12 @@ export type PlaceInfoResponse = {
   longitude: number
   stationName: string
   phoneNumber: string | null
+  ownerMessage: string | null
+  ownerMessageCreatedAt: string | null
   businessHours: PlaceBusinessHour[]
   breakTimes: PlaceBreakTimes[]
   closedDays: PlaceClosedDay[]
   amenities: PlaceAmenityListItem[]
-}
-
-export type PlaceOwnerMessageHistoryResponse = {
-  message: string
-  createdAt: string
 }
 
 export type PlaceThumbnailListItemResponse = {

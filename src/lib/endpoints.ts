@@ -16,8 +16,6 @@ export const API_ENDPOINTS = {
   PLACES_INFO: (id: string | number) => `/api/places/v1/${id}/info`,
   PLACES_MENUS: (id: string | number) => `/api/places/v1/${id}/menus`,
   PLACES_PHOTOS: (id: string | number) => `/api/places/v1/${id}/photos`,
-  PLACES_OWNER_MESSAGE_HISTORY: (id: string | number) =>
-    `/api/places/v1/${id}/owner-message-history`,
 
   // 장바구니
   CART: '/api/cart/v1',
