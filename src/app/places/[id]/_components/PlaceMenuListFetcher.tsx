@@ -5,11 +5,11 @@ import { getPlaceMenus } from '@/services/place'
 import { useQuery } from '@tanstack/react-query'
 import PlaceMenuList from './PlaceMenuList'
 
-interface PlaceMenuFetcherProps {
+interface PlaceMenuListFetcherProps {
   placeId: number
 }
 
-export default function PlaceMenuFetcher({ placeId }: PlaceMenuFetcherProps) {
+export default function PlaceMenuListFetcher({ placeId }: PlaceMenuListFetcherProps) {
   const { data, isLoading, error } = useQuery({
     queryKey: ['place', placeId, 'place-detail-menus'],
     queryFn: () => getPlaceMenus(placeId),
