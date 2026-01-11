@@ -2,7 +2,22 @@ import { PlaceAmenityListItem } from './place'
 import { ReviewImage } from './review'
 
 /**
- * Private types
+ * Domain types
+ */
+export type PlaceMenu = {
+  id: number
+  name: string
+  imageUrl: string
+  originalPrice: number
+  discountPrice: number
+  discountRate: number | null
+  rating: number | null
+  reviewCount: number | null
+  isRepresentative: boolean | null
+}
+
+/**
+ * private types
  */
 type PlaceBusinessHour = {
   dayType: string
@@ -85,18 +100,6 @@ export type PlaceReviewListItemResponse = {
   willRevisit: boolean
   images: ReviewImage[]
   createdAt: string
-}
-
-export type PlaceMenuResponse = {
-  id: number
-  name: string
-  imageUrl: string
-  originalPrice: number
-  discountPrice: number
-  discountRate: number | null
-  rating: number | null
-  reviewCount: number | null
-  isRepresentative: boolean | null
 }
 
 export type PlacePhotoResponse = {

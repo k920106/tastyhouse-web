@@ -4,7 +4,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/shadcn
 import { usePathname, useRouter } from 'next/navigation'
 import { useCallback } from 'react'
 import PlaceInfoSection from './PlaceInfoSection'
-import PlaceMenus from './PlaceMenus'
+import PlaceMenuSection from './PlaceMenuSection'
 import PlacePhotos from './PlacePhotos'
 
 type TabValue = 'info' | 'menu' | 'photo'
@@ -63,7 +63,7 @@ export default function PlaceTabSection({ placeId, initialTab }: PlaceTabSection
           <PlaceInfoSection placeId={placeId} />
         </TabsContent>
         <TabsContent value="menu" className="mt-0">
-          <PlaceMenus placeId={placeId} />
+          <PlaceMenuSection placeId={placeId} />
         </TabsContent>
         <TabsContent value="photo" className="mt-0">
           <PlacePhotos placeId={placeId} />

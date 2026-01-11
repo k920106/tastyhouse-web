@@ -6,7 +6,7 @@ import { ApiResponse, PagedApiResponse } from '@/types/api/api'
 import { PlaceLatestListItemResponse, PlaceListQuery } from '@/types/api/place'
 import {
   PlaceInfoResponse,
-  PlaceMenuResponse,
+  PlaceMenu,
   PlaceOwnerMessageHistoryResponse,
   PlacePhotoResponse,
 } from '@/types/api/place-detail'
@@ -37,15 +37,7 @@ export async function getPlaceInfo(placeId: number) {
 }
 
 export async function getPlaceMenus(placeId: number) {
-  const { data, error } = await api.get<ApiResponse<PlaceMenuResponse[]>>(
-    API_ENDPOINTS.PLACES_MENUS(placeId),
-  )
-
-  if (error || !data || !data.success || !data.data) {
-    throw new Error(error || 'Failed to fetch places')
-  }
-
-  return data
+  return await api.get<ApiResponse<PlaceMenu[]>>(API_ENDPOINTS.PLACES_MENUS(placeId))
 }
 
 export async function getPlacePhotos(placeId: number) {
