@@ -13,7 +13,7 @@ import {
 export function TodayDiscountProductListSkeleton() {
   return (
     <>
-      <div className="mb-10 space-y-0 divide-y divide-[#eeeeee] border-y border-[#eeeeee]">
+      <div className="mb-10 divide-y divide-[#eeeeee] border-y border-[#eeeeee]">
         {[...Array(4)].map((_, i) => (
           <ProductItemSkeleton key={i} />
         ))}
@@ -47,7 +47,7 @@ export default async function TodayDiscountProductList() {
 
   return (
     <>
-      <div className="mb-10 space-y-0 divide-y divide-[#eeeeee] border-y border-[#eeeeee]">
+      <div className="mb-10 divide-y divide-[#eeeeee] border-y border-[#eeeeee]">
         {data.data.map((product) => (
           <ProductItem
             key={product.id}
