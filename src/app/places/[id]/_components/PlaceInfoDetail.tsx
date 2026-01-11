@@ -3,6 +3,7 @@
 import { FacilityDiv } from '@/components/places/FacilityItem'
 import { Skeleton } from '@/components/ui/shadcn/skeleton'
 import { PlaceInfoResponse } from '@/types/api/place-detail'
+import Link from 'next/link'
 
 export function PlaceInfoDetailSkeleton() {
   return (
@@ -69,7 +70,9 @@ export default function PlaceInfoDetail({ placeInfo }: PlaceInfoDetailProps) {
         {phoneNumber && (
           <div className="flex justify-between">
             <h3 className="text-sm leading-[14px]">전화번호</h3>
-            <p className="text-sm leading-[14px]">{phoneNumber}</p>
+            <Link href={`tel:${phoneNumber}`}>
+              <p className="text-sm leading-[14px] underline">{phoneNumber}</p>
+            </Link>
           </div>
         )}
       </div>
