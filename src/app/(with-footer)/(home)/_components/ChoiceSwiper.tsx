@@ -80,7 +80,7 @@ export default function ChoiceSwiper({ places }: ChoiceSwiperProps) {
               </div>
             </Link>
             <div className="mb-10 space-y-0 divide-y divide-[#eeeeee] border-b border-[#eeeeee]">
-              {place.products?.map((product) => (
+              {place.products.map((product) => (
                 <ProductItem
                   key={product.id}
                   id={product.id}
