@@ -32,7 +32,7 @@ export default function ReviewListItem({ review }: ReviewListItemProps) {
             {formatTimeAgo(createdAt)}
           </div>
         </div>
-        <div className="text-[34px] leading-[20px] text-[#a91201] text-right">
+        <div className="text-[34px] leading-[20px] text-main text-right">
           {formatDecimal(totalRating, 1)}
         </div>
       </div>

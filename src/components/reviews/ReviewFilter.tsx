@@ -30,7 +30,7 @@ export default function ReviewFilter({
             type="button"
             onClick={() => onPhotoOnlyChange(!photoOnly)}
             className={`relative w-[49px] h-[49px] rounded-full border-2 flex items-center justify-center flex-shrink-0 ${
-              photoOnly ? 'bg-[#a91201] border-[#a91201]' : 'bg-white border-[#dddddd]'
+              photoOnly ? 'bg-main border-main' : 'bg-white border-[#dddddd]'
             }`}
           >
             {photoOnly && (
@@ -71,7 +71,7 @@ export default function ReviewFilter({
           onClick={() => onRatingChange(null)}
           className={`flex-shrink-0 w-[120px] h-[80px] rounded-[2px] border-2 text-[28px] leading-[60px] font-bold ${
             selectedRating === null
-              ? 'border-[#a91201] text-[#a11420] bg-white'
+              ? 'border-main text-[#a11420] bg-white'
               : 'border-[#eeeeee] text-[#aaaaaa] bg-white'
           }`}
         >
@@ -83,7 +83,7 @@ export default function ReviewFilter({
             onClick={() => onRatingChange(rating)}
             className={`flex-shrink-0 w-[120px] h-[80px] rounded-[2px] border-2 text-[28px] leading-[60px] ${
               selectedRating === rating
-                ? 'border-[#a91201] text-[#a11420] bg-white font-bold'
+                ? 'border-main text-[#a11420] bg-white font-bold'
                 : 'border-[#eeeeee] text-[#aaaaaa] bg-white'
             }`}
           >

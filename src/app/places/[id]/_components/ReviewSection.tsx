@@ -1,3 +1,5 @@
+import BorderedSection from '@/components/ui/BorderedSection'
+import SectionStack from '@/components/ui/SectionStack'
 import ReviewListFetcher from './ReviewListFetcher'
 import ReviewStatisticsFetcher from './ReviewStatisticsFetcher'
 
@@ -7,9 +9,15 @@ interface ReviewSectionProps {
 
 export default function ReviewSection({ placeId }: ReviewSectionProps) {
   return (
-    <section className="px-[15px] pt-5 pb-8 border-b border-[#eeeeee] box-border">
-      <ReviewStatisticsFetcher placeId={placeId} />
-      <ReviewListFetcher placeId={placeId} />
+    <section>
+      <SectionStack>
+        <BorderedSection className="border-t-0">
+          <ReviewStatisticsFetcher placeId={placeId} />
+        </BorderedSection>
+        <BorderedSection>
+          <ReviewListFetcher placeId={placeId} />
+        </BorderedSection>
+      </SectionStack>
     </section>
   )
 }
