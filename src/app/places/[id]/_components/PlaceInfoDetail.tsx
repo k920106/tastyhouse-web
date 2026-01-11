@@ -22,7 +22,7 @@ export default function PlaceInfoDetail({ placeInfo }: PlaceInfoDetailProps) {
   const { businessHours, breakTimes, closedDays, phoneNumber, amenities } = placeInfo
 
   return (
-    <div className="pt-[30px] pb-5">
+    <div className="pt-[30px]">
       <div className="pb-5 space-y-[15px] border-b border-[#eeeeee] box-border">
         {businessHours && businessHours.length > 0 && (
           <div className="flex justify-between">
@@ -74,7 +74,7 @@ export default function PlaceInfoDetail({ placeInfo }: PlaceInfoDetailProps) {
         )}
       </div>
       {amenities && amenities.length > 0 && (
-        <div className="pt-5 pb-[15px]">
+        <div className="pt-5">
           <h3 className="text-sm leading-[14px] mb-[15px]">편의시설</h3>
           <div className="grid grid-cols-4 gap-2.5">
             {amenities.map((amenity) => (
