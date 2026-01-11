@@ -62,22 +62,24 @@ function RatingDetail({
   willRevisitPercentage,
 }: RatingDetailProps) {
   return (
-    <div className="flex flex-col px-[15px] pt-[19px] pb-[30px]">
-      <div className="grid grid-cols-2 gap-x-5 gap-y-[11px]">
+    <div className="flex flex-row justify-between px-[15px] pt-[19px] pb-[30px]">
+      <div className="space-y-2.5">
         <RatingDetailItem label="분위기" rating={averageAtmosphereRating} />
-        <RatingDetailItem label="맛" rating={averageTasteRating} />
-        <RatingDetailItem label="친절" rating={averageKindnessRating} />
         <RatingDetailItem label="양" rating={averageAmountRating} />
         <RatingDetailItem label="위생" rating={averageHygieneRating} />
-        <RatingDetailItem label="가격" rating={averagePriceRating} />
-        <div className="flex-1 flex items-center justify-between">
+        <div className="flex-1 flex items-center">
           <div className="flex items-center w-full">
-            <span className="flex-1 text-xs leading-[12px] text-[#666666]">재방문의사</span>
-            <span className="flex-2 flex items-center justify-start text-xs leading-[12px] text-main">
+            <span className="w-20 text-xs leading-[12px] text-[#666666]">재방문의사</span>
+            <span className="flex-1 flex items-center text-xs leading-[12px] text-main">
               있어요 ({formatDecimal(willRevisitPercentage, 0)}%)
             </span>
           </div>
         </div>
+      </div>
+      <div className="space-y-2.5">
+        <RatingDetailItem label="친절" rating={averageKindnessRating} />
+        <RatingDetailItem label="맛" rating={averageTasteRating} />
+        <RatingDetailItem label="가격" rating={averagePriceRating} />
       </div>
     </div>
   )
@@ -90,10 +92,10 @@ function RatingDetailItem({ label, rating }: { label: string; rating: number }) 
   const hasPartialStar = decimal > 0
 
   return (
-    <div className="flex-1 flex items-center justify-between">
-      <div className="flex items-center justify-between w-full">
-        <span className="flex-1 text-xs leading-[12px] text-[#666666]">{label}</span>
-        <div className="flex-2 flex items-center gap-[7px]">
+    <div className="flex-1 flex items-center">
+      <div className="flex items-center w-full">
+        <span className="w-20 text-xs leading-[12px] text-[#666666]">{label}</span>
+        <div className="flex-1 flex items-center gap-[7px]">
           <div className="flex items-center">
             {[1, 2, 3, 4, 5].map((star) => {
               if (star <= fullStars) {
