@@ -1,6 +1,6 @@
 'use client'
 
-import { IoChevronDown } from 'react-icons/io5'
+import { SlCheck } from 'react-icons/sl'
 
 export type ReviewSortType = 'latest' | 'oldest' | 'rating-high' | 'rating-low'
 
@@ -22,18 +22,41 @@ export default function ReviewFilter({
   onSortTypeChange,
 }: ReviewFilterProps) {
   return (
-    <div className="flex flex-col gap-4 pb-4 border-b border-[#eeeeee]">
-      {/* 포토리뷰 체크박스 및 정렬 */}
+    <div className="flex flex-col gap-4 pb-4 border-b border-[#eeeeee] box-border">
+      <div className="flex gap-2.5">
+        <button
+          onClick={() => onRatingChange(null)}
+          className={`px-[21px] py-[14px] bg-white text-sm leading-[14px] border-1 box-border rounded-[1px] ${
+            selectedRating === null
+              ? 'text-[#a11420] font-bold border-main'
+              : 'text-[#aaaaaa] border-[#eeeeee]'
+          }`}
+        >
+          전체
+        </button>
+        {[1, 2, 3, 4, 5].map((rating) => (
+          <button
+            key={rating}
+            onClick={() => onRatingChange(rating)}
+            className={`px-[21px] py-[14px] bg-white text-sm leading-[14px] border-1 box-border rounded-[1px] ${
+              selectedRating === rating
+                ? 'text-[#a11420] font-bold border-main'
+                : 'text-[#aaaaaa] border-[#eeeeee]'
+            }`}
+          >
+            {rating}점
+          </button>
+        ))}
+      </div>
       <div className="flex items-center gap-2">
         <label className="flex items-center gap-2 cursor-pointer">
           <button
             type="button"
             onClick={() => onPhotoOnlyChange(!photoOnly)}
-            className={`relative w-[49px] h-[49px] rounded-full border-2 flex items-center justify-center flex-shrink-0 ${
-              photoOnly ? 'bg-main border-main' : 'bg-white border-[#dddddd]'
+            className={`relative w-[49px] h-[49px] flex items-center justify-center flex-shrink-0
             }`}
           >
-            {photoOnly && (
+            {/* {photoOnly && (
               <svg
                 width="27"
                 height="20"
@@ -49,47 +72,21 @@ export default function ReviewFilter({
                   strokeLinejoin="round"
                 />
               </svg>
-            )}
+            )} */}
+            <SlCheck size={24} className={photoOnly ? 'text-[#dddddd]' : 'text-main'} />
           </button>
           <span className="text-[28px] leading-[60px] text-[#333333]">
             포토리뷰 ({photoReviewCount})
           </span>
         </label>
-        <div className="flex-1" />
-        <button
+        {/* <div className="flex-1" /> */}
+        {/* <button
           onClick={() => onSortTypeChange('latest')}
           className="flex items-center gap-1 text-[24px] leading-[60px] text-[#333333]"
         >
           최신순
           <IoChevronDown className="w-[20px] h-[12px] rotate-180" />
-        </button>
-      </div>
-
-      {/* 평점 필터 */}
-      <div className="flex gap-2 overflow-x-auto">
-        <button
-          onClick={() => onRatingChange(null)}
-          className={`flex-shrink-0 w-[120px] h-[80px] rounded-[2px] border-2 text-[28px] leading-[60px] font-bold ${
-            selectedRating === null
-              ? 'border-main text-[#a11420] bg-white'
-              : 'border-[#eeeeee] text-[#aaaaaa] bg-white'
-          }`}
-        >
-          전체
-        </button>
-        {[1, 2, 3, 4].map((rating) => (
-          <button
-            key={rating}
-            onClick={() => onRatingChange(rating)}
-            className={`flex-shrink-0 w-[120px] h-[80px] rounded-[2px] border-2 text-[28px] leading-[60px] ${
-              selectedRating === rating
-                ? 'border-main text-[#a11420] bg-white font-bold'
-                : 'border-[#eeeeee] text-[#aaaaaa] bg-white'
-            }`}
-          >
-            {rating}점
-          </button>
-        ))}
+        </button> */}
       </div>
     </div>
   )

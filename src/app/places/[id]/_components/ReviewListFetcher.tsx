@@ -1,10 +1,8 @@
-'use client'
-
 import ErrorMessage from '@/components/ui/ErrorMessage'
 import { COMMON_ERROR_MESSAGES } from '@/lib/constants'
 import { getPlaceReviews } from '@/services/place'
 import { useQuery } from '@tanstack/react-query'
-import ReviewList, { ReviewListSkeleton } from './ReviewList'
+import ReviewListSection, { ReviewListSkeleton } from './ReviewListSection'
 
 interface ReviewListFetcherProps {
   placeId: number
@@ -35,5 +33,5 @@ export default function ReviewListFetcher({ placeId }: ReviewListFetcherProps) {
     )
   }
 
-  return <ReviewList reviews={data.data.data} />
+  return <ReviewListSection reviews={data.data.data} />
 }

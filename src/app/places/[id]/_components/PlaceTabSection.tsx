@@ -6,7 +6,6 @@ import { useCallback } from 'react'
 import PlaceInfoSection from './PlaceInfoSection'
 import PlaceMenuListSection from './PlaceMenuListSection'
 import PlacePhotoListSection from './PlacePhotoListSection'
-import ReviewListSection from './ReviewListSection'
 import ReviewSection from './ReviewSection'
 
 type TabValue = 'info' | 'menu' | 'photo'
@@ -70,8 +69,6 @@ export default function PlaceTabSection({ placeId, initialTab }: PlaceTabSection
         </TabsContent>
         <TabsContent value="review">
           <ReviewSection placeId={placeId} />
-          <ReviewListSection placeId={placeId} />
-          {/* <PlaceReviews reviews={reviews} statistics={reviewStatistics} /> */}
         </TabsContent>
       </div>
     </Tabs>
