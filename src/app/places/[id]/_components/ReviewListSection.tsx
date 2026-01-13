@@ -45,7 +45,7 @@ export function ReviewListSkeleton() {
 }
 
 export default function ReviewListSection({ reviews }: ReviewListSectionProps) {
-  const [photoOnly, setPhotoOnly] = useState(false)
+  const [photoOnly, setPhotoOnly] = useState(true)
   const [selectedRating, setSelectedRating] = useState<number | null>(null)
   const [sortType, setSortType] = useState<ReviewSortType>('latest')
 

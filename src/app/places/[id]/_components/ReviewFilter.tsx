@@ -1,6 +1,6 @@
 'use client'
 
-import { SlCheck } from 'react-icons/sl'
+import { BsCheckLg } from 'react-icons/bs'
 
 export type ReviewSortType = 'latest' | 'oldest' | 'rating-high' | 'rating-low'
 
@@ -22,11 +22,11 @@ export default function ReviewFilter({
   onSortTypeChange,
 }: ReviewFilterProps) {
   return (
-    <div className="flex flex-col gap-4 pb-4 border-b border-[#eeeeee] box-border">
+    <div className="flex flex-col gap-[30px] pb-2.5 border-b border-[#eeeeee] box-border">
       <div className="flex gap-2.5">
         <button
           onClick={() => onRatingChange(null)}
-          className={`px-[21px] py-[14px] bg-white text-sm leading-[14px] border-1 box-border rounded-[1px] ${
+          className={`px-[21px] py-[14px] bg-white text-sm leading-[14px] border-1 box-border rounded-[1px] cursor-pointer ${
             selectedRating === null
               ? 'text-[#a11420] font-bold border-main'
               : 'text-[#aaaaaa] border-[#eeeeee]'
@@ -38,7 +38,7 @@ export default function ReviewFilter({
           <button
             key={rating}
             onClick={() => onRatingChange(rating)}
-            className={`px-[21px] py-[14px] bg-white text-sm leading-[14px] border-1 box-border rounded-[1px] ${
+            className={`px-[21px] py-[14px] bg-white text-sm leading-[14px] border-1 box-border rounded-[1px] cursor-pointer ${
               selectedRating === rating
                 ? 'text-[#a11420] font-bold border-main'
                 : 'text-[#aaaaaa] border-[#eeeeee]'
@@ -53,31 +53,17 @@ export default function ReviewFilter({
           <button
             type="button"
             onClick={() => onPhotoOnlyChange(!photoOnly)}
-            className={`relative w-[49px] h-[49px] flex items-center justify-center flex-shrink-0
-            }`}
+            className="w-[25px] h-[25px] flex items-center justify-center cursor-pointer"
           >
-            {/* {photoOnly && (
-              <svg
-                width="27"
-                height="20"
-                viewBox="0 0 27 20"
-                fill="none"
-                className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
-              >
-                <path
-                  d="M1 10L9 18L26 1"
-                  stroke="#dddddd"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
-            )} */}
-            <SlCheck size={24} className={photoOnly ? 'text-[#dddddd]' : 'text-main'} />
+            <div
+              className={`w-[25px] h-[25px] rounded-full flex items-center justify-center ${
+                photoOnly ? 'bg-main' : 'border-[1.5px] border-[#dddddd] box-border'
+              }`}
+            >
+              <BsCheckLg size={20} className={photoOnly ? 'text-white' : 'text-[#dddddd]'} />
+            </div>
           </button>
-          <span className="text-[28px] leading-[60px] text-[#333333]">
-            포토리뷰 ({photoReviewCount})
-          </span>
+          <span className="text-sm leading-[14px]">포토리뷰 ({photoReviewCount})</span>
         </label>
         {/* <div className="flex-1" /> */}
         {/* <button
