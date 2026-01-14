@@ -1,7 +1,7 @@
 'use client'
 
-import 'yet-another-react-lightbox/styles.css'
 import 'yet-another-react-lightbox/plugins/counter.css'
+import 'yet-another-react-lightbox/styles.css'
 import styles from './ReviewImageGallery.module.css'
 
 import { useEffect } from 'react'
@@ -54,7 +54,7 @@ export default function ImageLightbox({
   currentIndex,
   onClose,
 }: ImageLightboxProps) {
-  const slides = imageUrls.map((url) => ({ src: url }))
+  const slides = imageUrls.map((url, index) => ({ src: url, key: index }))
 
   return (
     <Lightbox
