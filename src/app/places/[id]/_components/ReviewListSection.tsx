@@ -47,7 +47,7 @@ export function ReviewListSkeleton() {
 export default function ReviewListSection({ reviews }: ReviewListSectionProps) {
   const [photoOnly, setPhotoOnly] = useState(true)
   const [selectedRating, setSelectedRating] = useState<number | null>(null)
-  const [sortType, setSortType] = useState<ReviewSortType>('latest')
+  const [sortType, setSortType] = useState<ReviewSortType>('recommended')
 
   const filteredAndSortedReviews = useMemo(() => {
     let filtered = reviews
@@ -62,17 +62,11 @@ export default function ReviewListSection({ reviews }: ReviewListSectionProps) {
 
     const sorted = [...filtered]
     switch (sortType) {
-      case 'latest':
-        sorted.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
-        break
-      case 'oldest':
-        sorted.sort((a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime())
-        break
-      case 'rating-high':
+      case 'recommended':
         sorted.sort((a, b) => b.totalRating - a.totalRating)
         break
-      case 'rating-low':
-        sorted.sort((a, b) => a.totalRating - b.totalRating)
+      case 'latest':
+        sorted.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
         break
     }
 
@@ -89,6 +83,7 @@ export default function ReviewListSection({ reviews }: ReviewListSectionProps) {
         onPhotoOnlyChange={setPhotoOnly}
         selectedRating={selectedRating}
         onRatingChange={setSelectedRating}
+        sortType={sortType}
         onSortTypeChange={setSortType}
       />
       <div className="flex flex-col gap-6">

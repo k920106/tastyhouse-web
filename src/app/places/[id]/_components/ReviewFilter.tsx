@@ -1,8 +1,9 @@
 'use client'
 
 import { BsCheckLg } from 'react-icons/bs'
+import { FiChevronDown } from 'react-icons/fi'
 
-export type ReviewSortType = 'latest' | 'oldest' | 'rating-high' | 'rating-low'
+export type ReviewSortType = 'recommended' | 'latest'
 
 interface ReviewFilterProps {
   photoReviewCount: number
@@ -10,6 +11,7 @@ interface ReviewFilterProps {
   onPhotoOnlyChange: (value: boolean) => void
   selectedRating: number | null
   onRatingChange: (rating: number | null) => void
+  sortType: ReviewSortType
   onSortTypeChange: (sortType: ReviewSortType) => void
 }
 
@@ -19,6 +21,7 @@ export default function ReviewFilter({
   onPhotoOnlyChange,
   selectedRating,
   onRatingChange,
+  sortType,
   onSortTypeChange,
 }: ReviewFilterProps) {
   return (
@@ -48,7 +51,7 @@ export default function ReviewFilter({
           </button>
         ))}
       </div>
-      <div className="flex items-center gap-2">
+      <div className="flex items-center justify-between">
         <label className="flex items-center gap-2 cursor-pointer">
           <button
             type="button"
@@ -65,14 +68,17 @@ export default function ReviewFilter({
           </button>
           <span className="text-sm leading-[14px]">포토리뷰 ({photoReviewCount})</span>
         </label>
-        {/* <div className="flex-1" /> */}
-        {/* <button
-          onClick={() => onSortTypeChange('latest')}
-          className="flex items-center gap-1 text-[24px] leading-[60px] text-[#333333]"
-        >
-          최신순
-          <IoChevronDown className="w-[20px] h-[12px] rotate-180" />
-        </button> */}
+        <div className="flex items-center gap-1.5">
+          <select
+            value={sortType}
+            onChange={(e) => onSortTypeChange(e.target.value as ReviewSortType)}
+            className="text-xs leading-[20px] appearance-none cursor-pointer focus:outline-none"
+          >
+            <option value="recommended">추천순</option>
+            <option value="latest">최신순</option>
+          </select>
+          <FiChevronDown size={20} className="pointer-events-none" />
+        </div>
       </div>
     </div>
   )
