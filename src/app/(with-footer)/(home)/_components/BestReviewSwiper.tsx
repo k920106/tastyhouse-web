@@ -4,8 +4,8 @@ import 'swiper/css'
 import 'swiper/css/navigation'
 import 'swiper/css/pagination'
 
+import Rating from '@/components/ui/Rating'
 import { Skeleton } from '@/components/ui/shadcn/skeleton'
-import { formatDecimal } from '@/lib/number'
 import { PAGE_PATHS } from '@/lib/paths'
 import { cn } from '@/lib/utils'
 import { ReviewBestListItemResponse } from '@/types/api/review'
@@ -117,9 +117,7 @@ export default function BestReviewSwiper({ reviews }: BestReviewSwiperProps) {
                   <span className="text-xs leading-[12px] text-[#999999] truncate">
                     {review.stationName}
                   </span>
-                  <span className="text-[19px] leading-[19px] text-main">
-                    {formatDecimal(review.totalRating, 1)}
-                  </span>
+                  <Rating value={review.totalRating} />
                 </div>
                 <h3 className="mb-[19px]  leading-[16px] truncate">{review.title}</h3>
                 <p className="text-xs leading-relaxed text-[#666666] line-clamp-4">

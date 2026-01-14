@@ -1,3 +1,4 @@
+import Rating from '@/components/ui/Rating'
 import { formatDecimal, formatNumber } from '@/lib/number'
 import { PlaceMenu } from '@/types/api/place-detail'
 import Image from 'next/image'
@@ -67,9 +68,7 @@ export default function MenuItem({ menu }: MenuItemProps) {
           </div>
           {menu.rating && menu.reviewCount && (
             <div className="flex flex-col items-center gap-2.5">
-              <p className="text-[19px] leading-[19px] text-main">
-                {formatDecimal(menu.rating, 1)}
-              </p>
+              <Rating as="p" value={menu.rating} />
               <p className="text-xs leading-[12px] text-[#999999] tracking-tighter">
                 리뷰 ({menu.reviewCount})
               </p>

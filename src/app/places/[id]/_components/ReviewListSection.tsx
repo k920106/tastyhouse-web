@@ -2,8 +2,8 @@
 
 import ReviewFilter, { ReviewSortType } from '@/app/places/[id]/_components/ReviewFilter'
 import ReviewListItem from '@/components/reviews/ReviewListItem'
+import Rating from '@/components/ui/Rating'
 import { Skeleton } from '@/components/ui/shadcn/skeleton'
-import { formatDecimal } from '@/lib/number'
 import { PlaceReviewListItemResponse } from '@/types/api/place-detail'
 import { useMemo, useState } from 'react'
 
@@ -103,11 +103,7 @@ export default function ReviewListSection({ reviews }: ReviewListSectionProps) {
               memberNickname={review.memberNickname}
               memberProfileImageUrl={review.memberProfileImageUrl}
               createdAt={review.createdAt}
-              headerRight={
-                <span className="text-[19px] leading-[19px] text-main">
-                  {formatDecimal(review.totalRating, 1)}
-                </span>
-              }
+              headerRight={<Rating as="p" value={review.totalRating} />}
             />
           ))
         )}
