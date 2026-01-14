@@ -37,7 +37,9 @@ export default function ReviewListItem({
         />
         {headerRight}
       </div>
-      <ReviewImageGallery imageUrls={imageUrls} />
+      <div className="mb-6">
+        <ReviewImageGallery imageUrls={imageUrls} />
+      </div>
       <ClampedText text={content} href={PAGE_PATHS.REVIEW_DETAIL(id)} />
       {footer}
     </div>
