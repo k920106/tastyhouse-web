@@ -54,7 +54,7 @@ export default async function ReviewInfo({
 
   return (
     <>
-      <div className="flex justify-between mb-[15px]">
+      <div className="flex justify-between">
         <ReviewAuthorInfo
           profileImageUrl={memberProfileImageUrl}
           nickname={memberNickname}
@@ -62,7 +62,7 @@ export default async function ReviewInfo({
         />
         {reviewOption}
       </div>
-      <div className="mb-5">
+      <div className="mt-[15px]">
         <ReviewImageGallery imageUrls={imageUrls} />
       </div>
       <ReviewContent content={content} />

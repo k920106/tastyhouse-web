@@ -1,5 +1,4 @@
 import { PAGE_PATHS } from '@/lib/paths'
-import { cn } from '@/lib/utils'
 import Link from 'next/link'
 import ClampedText from '../ui/ClampedText'
 import ReviewAuthorInfo from './ReviewAuthorInfo'
@@ -10,8 +9,8 @@ interface ReviewListItemProps {
   memberProfileImageUrl: string | null
   memberNickname: string
   createdAt: string
-  productId: number
-  productName: string
+  productId?: number
+  productName?: string
   id: number
   content: string
   imageUrls: string[]
@@ -35,14 +34,14 @@ export default function ReviewListItem({
   imagePosition = 'top',
 }: ReviewListItemProps) {
   const imageGallery = imageUrls.length > 0 && (
-    <div className={imagePosition === 'top' ? 'mb-6' : 'mt-[19px]'}>
+    <div className={imagePosition === 'top' ? 'mt-[15px]' : 'mt-[19px]'}>
       <ReviewImageGallery imageUrls={imageUrls} />
     </div>
   )
 
   return (
-    <div className={cn('flex flex-col', className)}>
-      <div className="flex justify-between mb-[15px]">
+    <div className={className}>
+      <div className="flex justify-between">
         <ReviewAuthorInfo
           profileImageUrl={memberProfileImageUrl}
           nickname={memberNickname}
@@ -53,9 +52,9 @@ export default function ReviewListItem({
       {productId && (
         <Link
           href={PAGE_PATHS.PRODUCT_DETAIL(productId)}
-          className="text-sm leading-[14px] text-[#999999] mt-[25px]"
+          className="block mt-[25px] text-sm leading-[14px] text-[#999999]"
         >
-          {productName}
+          [선택] {productName}
         </Link>
       )}
       {imagePosition === 'top' && imageGallery}
