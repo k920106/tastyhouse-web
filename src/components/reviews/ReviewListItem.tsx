@@ -3,7 +3,6 @@ import { cn } from '@/lib/utils'
 import ClampedText from '../ui/ClampedText'
 import ReviewAuthorInfo from './ReviewAuthorInfo'
 import ReviewImageGallery from './ReviewImageGallery'
-import ReviewOptionDrawer from './ReviewOptionDrawer'
 
 interface ReviewListItemProps {
   className?: string
@@ -11,12 +10,10 @@ interface ReviewListItemProps {
   memberNickname: string
   createdAt: string
   id: number
-  memberId: number
-  currentMemberId: number | null
   content: string
   imageUrls: string[]
-  likeCount: number
-  commentCount: number
+  headerRight?: React.ReactNode
+  footer?: React.ReactNode
 }
 
 export default function ReviewListItem({
@@ -25,12 +22,10 @@ export default function ReviewListItem({
   memberNickname,
   createdAt,
   id,
-  memberId,
-  currentMemberId,
   content,
   imageUrls,
-  likeCount,
-  commentCount,
+  headerRight,
+  footer,
 }: ReviewListItemProps) {
   return (
     <div className={cn('flex flex-col', className)}>
@@ -40,20 +35,11 @@ export default function ReviewListItem({
           nickname={memberNickname}
           createdAt={createdAt}
         />
-        <ReviewOptionDrawer
-          reviewId={id}
-          memberId={memberId}
-          currentMemberId={currentMemberId}
-          memberNickname={memberNickname}
-          content={content}
-        />
+        {headerRight}
       </div>
       <ReviewImageGallery imageUrls={imageUrls} />
       <ClampedText text={content} href={PAGE_PATHS.REVIEW_DETAIL(id)} />
-      <div className="flex gap-4 mt-3.5">
-        <span className="text-xs leading-[12px] text-[#aaaaaa]">좋아요 {likeCount}개</span>
-        <span className="text-xs leading-[12px] text-[#aaaaaa]">댓글 {commentCount}개</span>
-      </div>
+      {footer}
     </div>
   )
 }

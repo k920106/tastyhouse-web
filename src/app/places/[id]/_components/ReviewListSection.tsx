@@ -3,6 +3,7 @@
 import ReviewFilter, { ReviewSortType } from '@/app/places/[id]/_components/ReviewFilter'
 import ReviewListItem from '@/components/reviews/ReviewListItem'
 import { Skeleton } from '@/components/ui/shadcn/skeleton'
+import { formatDecimal } from '@/lib/number'
 import { PlaceReviewListItemResponse } from '@/types/api/place-detail'
 import { useMemo, useState } from 'react'
 
@@ -42,10 +43,9 @@ export function ReviewListSkeleton() {
 
 interface ReviewListSectionProps {
   reviews: PlaceReviewListItemResponse[]
-  currentMemberId: number | null
 }
 
-export default function ReviewListSection({ reviews, currentMemberId }: ReviewListSectionProps) {
+export default function ReviewListSection({ reviews }: ReviewListSectionProps) {
   const [photoOnly, setPhotoOnly] = useState(true)
   const [selectedRating, setSelectedRating] = useState<number | null>(null)
   const [sortType, setSortType] = useState<ReviewSortType>('recommended')
@@ -100,13 +100,14 @@ export default function ReviewListSection({ reviews, currentMemberId }: ReviewLi
               id={review.id}
               imageUrls={review.imageUrls}
               content={review.content}
-              memberId={review.memberId}
               memberNickname={review.memberNickname}
               memberProfileImageUrl={review.memberProfileImageUrl}
-              likeCount={review.likeCount}
-              commentCount={review.commentCount}
               createdAt={review.createdAt}
-              currentMemberId={currentMemberId}
+              headerRight={
+                <span className="text-[19px] leading-[19px] text-main">
+                  {formatDecimal(review.totalRating, 1)}
+                </span>
+              }
             />
           ))
         )}
