@@ -1,16 +1,12 @@
 'use client'
 
-import ReviewAuthorInfo from '@/components/reviews/ReviewAuthorInfo'
-import ReviewImageGallery from '@/components/reviews/ReviewImageGallery'
-import ReviewOptionDrawer from '@/components/reviews/ReviewOptionDrawer'
-import ClampedText from '@/components/ui/ClampedText'
+import ReviewListItem from '@/components/reviews/ReviewListItem'
 import ErrorMessage from '@/components/ui/ErrorMessage'
 import { Skeleton } from '@/components/ui/shadcn/skeleton'
 import { useIntersectionObserver } from '@/hooks/useIntersectionObserver'
 import { COMMON_ERROR_MESSAGES } from '@/lib/constants'
-import { PAGE_PATHS } from '@/lib/paths'
 import { getCurrentMemberId, getLatestReviews } from '@/services/review'
-import type { ReviewLatestListItemResponse, ReviewType } from '@/types/api/review'
+import type { ReviewType } from '@/types/api/review'
 import { useInfiniteQuery, useQuery } from '@tanstack/react-query'
 import { useEffect } from 'react'
 
@@ -50,51 +46,6 @@ function LatestReviewListItemSkeleton() {
       <div className="flex gap-4 mt-3.5">
         <Skeleton className="w-15 h-3" />
         <Skeleton className="w-15 h-3" />
-      </div>
-    </div>
-  )
-}
-
-function LatestReviewListItem({
-  review,
-  currentMemberId,
-}: {
-  review: ReviewLatestListItemResponse
-  currentMemberId: number | null
-}) {
-  const {
-    id,
-    memberId,
-    imageUrls,
-    content,
-    memberNickname,
-    memberProfileImageUrl,
-    likeCount,
-    commentCount,
-    createdAt,
-  } = review
-
-  return (
-    <div className="flex flex-col px-[15px] pt-3 pb-[30px] bg-white">
-      <div className="flex justify-between mb-[15px]">
-        <ReviewAuthorInfo
-          profileImageUrl={memberProfileImageUrl}
-          nickname={memberNickname}
-          createdAt={createdAt}
-        />
-        <ReviewOptionDrawer
-          reviewId={id}
-          memberId={memberId}
-          currentMemberId={currentMemberId}
-          memberNickname={memberNickname}
-          content={content}
-        />
-      </div>
-      <ReviewImageGallery imageUrls={imageUrls} />
-      <ClampedText text={content} href={PAGE_PATHS.REVIEW_DETAIL(id)} />
-      <div className="flex gap-4 mt-3.5">
-        <span className="text-xs leading-[12px] text-[#aaaaaa]">좋아요 {likeCount}개</span>
-        <span className="text-xs leading-[12px] text-[#aaaaaa]">댓글 {commentCount}개</span>
       </div>
     </div>
   )
@@ -168,10 +119,19 @@ export default function LatestReviewList({ reviewType }: LatestReviewListProps) 
   return (
     <>
       {reviews.map((review) => (
-        <LatestReviewListItem
+        <ReviewListItem
           key={review.id}
-          review={review}
+          className="px-[15px] pt-3 pb-[30px] bg-white"
+          memberProfileImageUrl={review.memberProfileImageUrl}
+          memberNickname={review.memberNickname}
+          createdAt={review.createdAt}
+          id={review.id}
+          memberId={review.memberId}
           currentMemberId={currentMemberId ?? null}
+          content={review.content}
+          imageUrls={review.imageUrls}
+          likeCount={review.likeCount}
+          commentCount={review.commentCount}
         />
       ))}
       {isFetchingNextPage && <LatestReviewListSkeleton />}

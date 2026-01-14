@@ -1,5 +1,4 @@
 import { PlaceAmenityListItem } from './place'
-import { ReviewImage } from './review'
 
 /**
  * Domain types
@@ -95,18 +94,15 @@ export type PlaceThumbnailListItemResponse = {
 
 export type PlaceReviewListItemResponse = {
   id: number
-  memberId: number
-  memberNickname: string | null
-  content: string
+  imageUrls: string[]
+  stationName: string
   totalRating: number
-  tasteRating: number
-  amountRating: number
-  priceRating: number
-  atmosphereRating: number
-  kindnessRating: number
-  hygieneRating: number
-  willRevisit: boolean
-  images: ReviewImage[]
+  content: string
+  memberId: number
+  memberNickname: string
+  memberProfileImageUrl: string | null
+  likeCount: number
+  commentCount: number
   createdAt: string
 }
 
