@@ -100,6 +100,8 @@ export type PlaceReviewListItemResponse = {
   memberNickname: string
   memberProfileImageUrl: string | null
   createdAt: string
+  productId: number
+  productName: string
 }
 
 export type PlaceReviewStatistics = {

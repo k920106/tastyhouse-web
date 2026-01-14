@@ -98,6 +98,8 @@ export default function ReviewListSection({ reviews }: ReviewListSectionProps) {
               key={review.id}
               className="py-5"
               id={review.id}
+              productId={review.productId}
+              productName={review.productName}
               imageUrls={review.imageUrls}
               content={review.content}
               memberNickname={review.memberNickname}

@@ -1,5 +1,6 @@
 import { PAGE_PATHS } from '@/lib/paths'
 import { cn } from '@/lib/utils'
+import Link from 'next/link'
 import ClampedText from '../ui/ClampedText'
 import ReviewAuthorInfo from './ReviewAuthorInfo'
 import ReviewImageGallery from './ReviewImageGallery'
@@ -9,6 +10,8 @@ interface ReviewListItemProps {
   memberProfileImageUrl: string | null
   memberNickname: string
   createdAt: string
+  productId: number
+  productName: string
   id: number
   content: string
   imageUrls: string[]
@@ -22,6 +25,8 @@ export default function ReviewListItem({
   memberProfileImageUrl,
   memberNickname,
   createdAt,
+  productId,
+  productName,
   id,
   content,
   imageUrls,
@@ -45,6 +50,14 @@ export default function ReviewListItem({
         />
         {headerRight}
       </div>
+      {productId && (
+        <Link
+          href={PAGE_PATHS.PRODUCT_DETAIL(productId)}
+          className="text-sm leading-[14px] text-[#999999] mt-[25px]"
+        >
+          {productName}
+        </Link>
+      )}
       {imagePosition === 'top' && imageGallery}
       <ClampedText text={content} href={PAGE_PATHS.REVIEW_DETAIL(id)} />
       {imagePosition === 'bottom' && imageGallery}
