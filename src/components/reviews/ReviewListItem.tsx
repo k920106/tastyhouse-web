@@ -14,6 +14,7 @@ interface ReviewListItemProps {
   imageUrls: string[]
   headerRight?: React.ReactNode
   footer?: React.ReactNode
+  imagePosition?: 'top' | 'bottom'
 }
 
 export default function ReviewListItem({
@@ -26,7 +27,14 @@ export default function ReviewListItem({
   imageUrls,
   headerRight,
   footer,
+  imagePosition = 'top',
 }: ReviewListItemProps) {
+  const imageGallery = imageUrls.length > 0 && (
+    <div className={imagePosition === 'top' ? 'mb-6' : 'mt-[19px]'}>
+      <ReviewImageGallery imageUrls={imageUrls} />
+    </div>
+  )
+
   return (
     <div className={cn('flex flex-col', className)}>
       <div className="flex justify-between mb-[15px]">
@@ -37,10 +45,9 @@ export default function ReviewListItem({
         />
         {headerRight}
       </div>
-      <div className="mb-6">
-        <ReviewImageGallery imageUrls={imageUrls} />
-      </div>
+      {imagePosition === 'top' && imageGallery}
       <ClampedText text={content} href={PAGE_PATHS.REVIEW_DETAIL(id)} />
+      {imagePosition === 'bottom' && imageGallery}
       {footer}
     </div>
   )

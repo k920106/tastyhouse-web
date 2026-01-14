@@ -95,14 +95,10 @@ export type PlaceThumbnailListItemResponse = {
 export type PlaceReviewListItemResponse = {
   id: number
   imageUrls: string[]
-  stationName: string
   totalRating: number
   content: string
-  memberId: number
   memberNickname: string
   memberProfileImageUrl: string | null
-  likeCount: number
-  commentCount: number
   createdAt: string
 }
 

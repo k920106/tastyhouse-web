@@ -104,6 +104,7 @@ export default function ReviewListSection({ reviews }: ReviewListSectionProps) {
               memberProfileImageUrl={review.memberProfileImageUrl}
               createdAt={review.createdAt}
               headerRight={<Rating as="p" value={review.totalRating} />}
+              imagePosition="bottom"
             />
           ))
         )}
