@@ -67,7 +67,7 @@ export default function ClampedText({
   const textContent = (
     <p
       ref={textRef}
-      className={`mt-5 text-sm leading-[23px] whitespace-pre-wrap break-words ${className}`}
+      className={`text-sm leading-[23px] whitespace-pre-wrap break-words ${className}`}
       style={!isExpanded ? { maxHeight: `${maxHeight}px`, overflow: 'hidden' } : undefined}
     >
       {text}
