@@ -58,7 +58,7 @@ export default function ReviewListItem({
         </Link>
       )}
       {imagePosition === 'top' && imageGallery}
-      <div className="mt-5">
+      <div className={imagePosition === 'top' ? 'mt-5' : 'mt-[15px]'}>
         <ClampedText text={content} href={PAGE_PATHS.REVIEW_DETAIL(id)} />
       </div>
       {imagePosition === 'bottom' && imageGallery}
