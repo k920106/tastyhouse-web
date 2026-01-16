@@ -66,7 +66,9 @@ export default async function ReviewInfo({
         <ReviewImageGallery imageUrls={imageUrls} />
       </div>
       <ReviewContent content={content} />
-      <ReviewTagList tagNames={tagNames} />
+      <div className="mt-5">
+        <ReviewTagList tagNames={tagNames} />
+      </div>
       <ReviewActions reviewLike={reviewLike} reviewId={id} />
     </>
   )

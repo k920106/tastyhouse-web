@@ -1,7 +1,7 @@
+import ReviewDetailHeaderSection from '@/components/reviews/ReviewDetailHeaderSection'
 import CommentInputSection from './_components/CommentInputSection'
 import CommentListSection from './_components/CommentListSection'
 import { ReplyProvider } from './_components/ReplyContext'
-import ReviewDetailHeaderSection from './_components/ReviewDetailHeaderSection'
 import ReviewInfoSection from './_components/ReviewInfoSection'
 
 interface ReviewDetailPageProps {

@@ -34,7 +34,7 @@ export default function ReviewListItem({
   imagePosition = 'top',
 }: ReviewListItemProps) {
   const imageGallery = imageUrls.length > 0 && (
-    <div className={imagePosition === 'top' ? 'mt-[15px]' : 'mt-[19px]'}>
+    <div className={imagePosition === 'top' ? 'mt-[15px]' : 'mt-5'}>
       <ReviewImageGallery imageUrls={imageUrls} />
     </div>
   )
