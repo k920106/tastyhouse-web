@@ -1,6 +1,6 @@
 import ReviewAuthorInfo from '@/components/reviews/ReviewAuthorInfo'
 import ReviewImageGallery from '@/components/reviews/ReviewImageGallery'
-import ReviewTextContent from '@/components/reviews/ReviewTextContent'
+import TextContent from '@/components/ui/TextContent'
 import { Skeleton } from '@/components/ui/shadcn/skeleton'
 import { ReviewDetailResponse } from '@/types/api/review'
 import { ReactNode } from 'react'
@@ -66,7 +66,7 @@ export default async function ReviewInfo({
         <ReviewImageGallery imageUrls={imageUrls} />
       </div>
       <div className="mt-5">
-        <ReviewTextContent text={content} />
+        <TextContent text={content} />
       </div>
       <div className="mt-5">
         <ReviewTagList tagNames={tagNames} />

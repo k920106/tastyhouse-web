@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { useEffect, useRef, useState } from 'react'
-import ReviewTextContent from '../reviews/ReviewTextContent'
+import TextContent from './TextContent'
 
 const estimateIsClamped = (text: string | undefined, maxLines: number) => {
   if (!text) return false
@@ -66,7 +66,7 @@ export default function ClampedText({
   const maxHeight = lineHeight * maxLines
 
   const textContent = (
-    <ReviewTextContent
+    <TextContent
       innerRef={textRef}
       text={text}
       className={className}

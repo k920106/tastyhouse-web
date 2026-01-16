@@ -1,10 +1,10 @@
 import ReviewAuthorInfo from '@/components/reviews/ReviewAuthorInfo'
 import ReviewImageGallery from '@/components/reviews/ReviewImageGallery'
 import ReviewRatingDetail from '@/components/reviews/ReviewRatingDetail'
-import ReviewTextContent from '@/components/reviews/ReviewTextContent'
 import BorderedSection from '@/components/ui/BorderedSection'
 import Rating from '@/components/ui/Rating'
 import SectionStack from '@/components/ui/SectionStack'
+import TextContent from '@/components/ui/TextContent'
 import { formatNumber } from '@/lib/number'
 import Image from 'next/image'
 import ReviewTagList from '../../_components/ReviewTagList'
@@ -79,7 +79,7 @@ export default function ProductInfoSection({ reviewId }: ProductInfoSectionProps
               [선택] {productName}
             </p>
             <div className="mt-[15px]">
-              <ReviewTextContent text={content} />
+              <TextContent text={content} />
             </div>
             <div className="mt-5">
               <ReviewImageGallery imageUrls={imageUrls} />

@@ -7,12 +7,7 @@ interface TextContentProps {
   innerRef?: RefObject<HTMLParagraphElement | null>
 }
 
-export default function ReviewTextContent({
-  text,
-  className = '',
-  style,
-  innerRef,
-}: TextContentProps) {
+export default function TextContent({ text, className = '', style, innerRef }: TextContentProps) {
   return (
     <p
       ref={innerRef}
