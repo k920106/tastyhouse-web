@@ -43,14 +43,12 @@ export default function ProductInfoSection({ reviewId }: ProductInfoSectionProps
       <SectionStack className="">
         <BorderedSection className="border-t-0 px-[15px] py-5">
           <div className="flex items-center gap-4">
-            <div className="relative w-[75px] h-[75px] flex-shrink-0 overflow-hidden">
-              <Image src={imageUrl} alt={name} fill className="object-cover" sizes="160px" />
+            <div className="relative w-[50px] h-[50px] flex-shrink-0 overflow-hidden">
+              <Image src={imageUrl} alt={name} fill className="object-cover" sizes="50px" />
             </div>
             <div className="flex-1 flex flex-col min-w-0">
-              <h3 className="mb-[17px] text-base leading-[16px] truncate">{name}</h3>
-              <div className="flex justify-between">
-                <span className="text-base leading-[16px]">{formatNumber(originalPrice)}원</span>
-              </div>
+              <h3 className="text-sm leading-[14px] truncate">{name}</h3>
+              <span className="mt-2.5 text-sm leading-[14px]">{formatNumber(originalPrice)}원</span>
             </div>
           </div>
         </BorderedSection>
