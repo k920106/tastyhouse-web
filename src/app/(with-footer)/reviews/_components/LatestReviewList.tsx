@@ -1,7 +1,5 @@
 'use client'
 
-import ReviewListItem from '@/components/reviews/ReviewListItem'
-import ReviewOptionDrawer from '@/components/reviews/ReviewOptionDrawer'
 import ErrorMessage from '@/components/ui/ErrorMessage'
 import { Skeleton } from '@/components/ui/shadcn/skeleton'
 import { useIntersectionObserver } from '@/hooks/useIntersectionObserver'
@@ -10,6 +8,7 @@ import { getCurrentMemberId, getLatestReviews } from '@/services/review'
 import type { ReviewType } from '@/types/api/review'
 import { useInfiniteQuery, useQuery } from '@tanstack/react-query'
 import { useEffect } from 'react'
+import LatestReviewListItem from './LatestReviewListItem'
 
 const PAGE_SIZE = 10
 
@@ -120,34 +119,10 @@ export default function LatestReviewList({ reviewType }: LatestReviewListProps) 
   return (
     <>
       {reviews.map((review) => (
-        <ReviewListItem
+        <LatestReviewListItem
           key={review.id}
-          className="px-[15px] pt-3 pb-[30px] bg-white"
-          memberProfileImageUrl={review.memberProfileImageUrl}
-          memberNickname={review.memberNickname}
-          createdAt={review.createdAt}
-          id={review.id}
-          content={review.content}
-          imageUrls={review.imageUrls}
-          headerRight={
-            <ReviewOptionDrawer
-              reviewId={review.id}
-              memberId={review.memberId}
-              currentMemberId={currentMemberId ?? null}
-              memberNickname={review.memberNickname}
-              content={review.content}
-            />
-          }
-          footer={
-            <div className="flex gap-4 mt-3.5">
-              <span className="text-xs leading-[12px] text-[#aaaaaa]">
-                좋아요 {review.likeCount}개
-              </span>
-              <span className="text-xs leading-[12px] text-[#aaaaaa]">
-                댓글 {review.commentCount}개
-              </span>
-            </div>
-          }
+          review={review}
+          currentMemberId={currentMemberId ?? null}
         />
       ))}
       {isFetchingNextPage && <LatestReviewListSkeleton />}

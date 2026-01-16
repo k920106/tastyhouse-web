@@ -1,11 +1,10 @@
 'use client'
 
 import ReviewFilter, { ReviewSortType } from '@/app/places/[id]/_components/ReviewFilter'
-import ReviewListItem from '@/components/reviews/ReviewListItem'
-import Rating from '@/components/ui/Rating'
 import { Skeleton } from '@/components/ui/shadcn/skeleton'
 import { PlaceReviewListItemResponse } from '@/types/api/place-detail'
 import { useMemo, useState } from 'react'
+import PlaceReviewListItem from './PlaceReviewItem'
 
 export function ReviewListSkeleton() {
   return (
@@ -94,19 +93,17 @@ export default function ReviewListSection({ reviews }: ReviewListSectionProps) {
           </div>
         ) : (
           filteredAndSortedReviews.map((review) => (
-            <ReviewListItem
+            <PlaceReviewListItem
               key={review.id}
-              className="py-5"
-              id={review.id}
+              memberProfileImageUrl={review.memberProfileImageUrl}
+              memberNickname={review.memberNickname}
+              createdAt={review.createdAt}
+              totalRating={review.totalRating}
               productId={review.productId}
               productName={review.productName}
-              imageUrls={review.imageUrls}
               content={review.content}
-              memberNickname={review.memberNickname}
-              memberProfileImageUrl={review.memberProfileImageUrl}
-              createdAt={review.createdAt}
-              headerRight={<Rating as="p" value={review.totalRating} />}
-              imagePosition="bottom"
+              id={review.id}
+              imageUrls={review.imageUrls}
             />
           ))
         )}
