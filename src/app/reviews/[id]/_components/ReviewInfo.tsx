@@ -1,10 +1,10 @@
 import ReviewAuthorInfo from '@/components/reviews/ReviewAuthorInfo'
 import ReviewImageGallery from '@/components/reviews/ReviewImageGallery'
+import ReviewTextContent from '@/components/reviews/ReviewTextContent'
 import { Skeleton } from '@/components/ui/shadcn/skeleton'
 import { ReviewDetailResponse } from '@/types/api/review'
 import { ReactNode } from 'react'
 import ReviewActions from './ReviewActions'
-import ReviewContent from './ReviewContent'
 import ReviewTagList from './ReviewTagList'
 
 export function ReviewInfoSkeleton() {
@@ -65,7 +65,9 @@ export default async function ReviewInfo({
       <div className="mt-[15px]">
         <ReviewImageGallery imageUrls={imageUrls} />
       </div>
-      <ReviewContent content={content} />
+      <div className="mt-5">
+        <ReviewTextContent text={content} />
+      </div>
       <div className="mt-5">
         <ReviewTagList tagNames={tagNames} />
       </div>

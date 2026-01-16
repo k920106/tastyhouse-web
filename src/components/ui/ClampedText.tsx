@@ -2,6 +2,7 @@
 
 import Link from 'next/link'
 import { useEffect, useRef, useState } from 'react'
+import ReviewTextContent from '../reviews/ReviewTextContent'
 
 const estimateIsClamped = (text: string | undefined, maxLines: number) => {
   if (!text) return false
@@ -65,13 +66,12 @@ export default function ClampedText({
   const maxHeight = lineHeight * maxLines
 
   const textContent = (
-    <p
-      ref={textRef}
-      className={`text-sm leading-[23px] whitespace-pre-wrap break-words ${className}`}
+    <ReviewTextContent
+      innerRef={textRef}
+      text={text}
+      className={className}
       style={!isExpanded ? { maxHeight: `${maxHeight}px`, overflow: 'hidden' } : undefined}
-    >
-      {text}
-    </p>
+    />
   )
 
   const moreButtonElement = customMoreButton || <MoreButton onClick={() => setIsExpanded(true)} />
