@@ -13,9 +13,7 @@ export default async function ProductReviewPage({ params }: ProductReviewPagePro
   return (
     <>
       <ReviewDetailHeaderSection reviewId={reviewId} />
-      {/* 상품 정보 */}
       <ProductInfoSection reviewId={reviewId} />
-      <div className="pb-20"></div>
     </>
   )
 }

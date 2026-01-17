@@ -2,66 +2,69 @@ import ReviewAuthorInfo from '@/components/reviews/ReviewAuthorInfo'
 import ReviewImageGallery from '@/components/reviews/ReviewImageGallery'
 import ReviewRatingDetail from '@/components/reviews/ReviewRatingDetail'
 import BorderedSection from '@/components/ui/BorderedSection'
+import ErrorMessage from '@/components/ui/ErrorMessage'
 import Rating from '@/components/ui/Rating'
 import SectionStack from '@/components/ui/SectionStack'
 import TextContent from '@/components/ui/TextContent'
+import { api } from '@/lib/api'
+import { COMMON_ERROR_MESSAGES } from '@/lib/constants'
+import { API_ENDPOINTS } from '@/lib/endpoints'
 import { formatNumber } from '@/lib/number'
+import { PAGE_PATHS } from '@/lib/paths'
+import { ApiResponse } from '@/types/api/api'
+import { ReviewDetailProductResponse } from '@/types/api/review'
 import Image from 'next/image'
+import Link from 'next/link'
 import ReviewTagList from '../../_components/ReviewTagList'
 
 interface ProductInfoSectionProps {
   reviewId: number
 }
 
-export default function ProductInfoSection({ reviewId }: ProductInfoSectionProps) {
-  const imageUrl = '/images/sample/food/food-image1.png'
-  const name = '아보카도 햄치즈 샌드위치'
-  const originalPrice = 8500
-  const memberProfileImageUrl = '/images/sample/food/food-image1.png'
-  const memberNickname = '홍길동'
-  const totalRating = 4.5
-  const createdAt = '2026-01-01'
-  const productName = '아보카도 햄치즈 샌드위치'
-  const content =
-    '아보카도 햄치즈 샌드위치 맛있어요 아보카도 햄치즈 샌드위치 맛있어요 아보카도 햄치즈 샌드위치 맛있어요 아보카도 햄치즈 샌드위치 맛있어요 아보카도 햄치즈 샌드위치 맛있어요 아보카도 햄치즈 샌드위치 맛있어요 아보카도 햄치즈 샌드위치 맛있어요 아보카도 햄치즈 샌드위치 맛있어요 아보카도 햄치즈 샌드위치 맛있어요 아보카도 햄치즈 샌드위치 맛있어요 아보카도 햄치즈 샌드위치 맛있어요 아보카도 햄치즈 샌드위치 맛있어요 아보카도 햄치즈 샌드위치 맛있어요 아보카도 햄치즈 샌드위치 맛있어요 아보카도 햄치즈 샌드위치 맛있어요 아보카도 햄치즈 샌드위치 맛있어요'
-  const imageUrls = ['/images/sample/food/food-image1.png', '/images/sample/food/food-image2.png']
-  const tagNames = [
-    '샌드위치',
-    '바나나',
-    '사과',
-    '햄버거',
-    '피자',
-    '김밥',
-    '라면',
-    '커피',
-    '케이크',
-    '샐러드',
-  ]
+export default async function ProductInfoSection({ reviewId }: ProductInfoSectionProps) {
+  // API 생성
+  const { error, data } = await api.get<ApiResponse<ReviewDetailProductResponse>>(
+    API_ENDPOINTS.REVIEW_DETAIL_PRODUCT(reviewId),
+  )
+
+  // Expected Error: API 호출 실패 (네트워크 오류, timeout 등)
+  if (error) {
+    return <ErrorMessage message={COMMON_ERROR_MESSAGES.API_FETCH_ERROR} />
+  }
+
+  // Expected Error: API 응답은 받았지만 데이터가 없거나 실패 응답
+  if (!data || !data.success || !data.data) {
+    return <ErrorMessage message={COMMON_ERROR_MESSAGES.FETCH_ERROR('리뷰')} />
+  }
+
+  const { productId, productName, productImageUrl, productPrice, content, totalRating, tasteRating, amountRating, priceRating, atmosphereRating, kindnessRating, hygieneRating, willRevisit, memberNickname, memberProfileImageUrl, createdAt, imageUrls, tagNames } = data.data
 
   return (
     <section>
       <SectionStack className="">
         <BorderedSection className="border-t-0 px-[15px] py-5">
-          <div className="flex items-center gap-4">
-            <div className="relative w-[50px] h-[50px] flex-shrink-0 overflow-hidden">
-              <Image src={imageUrl} alt={name} fill className="object-cover" sizes="50px" />
+          <Link href={PAGE_PATHS.PRODUCT_DETAIL(productId)}>
+            <div className="flex items-center gap-4">
+              <div className="relative w-[50px] h-[50px] flex-shrink-0 overflow-hidden">
+                <Image src={productImageUrl} alt={productName} fill className="object-cover" sizes="50px" />
+              </div>
+              <div className="flex-1 flex flex-col min-w-0">
+                <h3 className="text-sm leading-[14px] truncate">{productName}</h3>
+                <span className="mt-2.5 text-sm leading-[14px]">{formatNumber(productPrice)}원</span>
+              </div>
             </div>
-            <div className="flex-1 flex flex-col min-w-0">
-              <h3 className="text-sm leading-[14px] truncate">{name}</h3>
-              <span className="mt-2.5 text-sm leading-[14px]">{formatNumber(originalPrice)}원</span>
-            </div>
-          </div>
+          </Link>
         </BorderedSection>
         <BorderedSection className="px-[15px] border-b-0">
           <div className="py-5 border-b border-[#eeeeee] box-border">
             <ReviewRatingDetail
-              averageAtmosphereRating={0}
-              averageKindnessRating={0}
-              averageTasteRating={0}
-              averageAmountRating={0}
-              averageHygieneRating={0}
-              averagePriceRating={0}
-              willRevisitPercentage={0}
+              averageAtmosphereRating={atmosphereRating}
+              averageKindnessRating={kindnessRating}
+              averageTasteRating={tasteRating}
+              averageAmountRating={amountRating}
+              averageHygieneRating={hygieneRating}
+              averagePriceRating={priceRating}
+              willRevisitPercentage={willRevisit ? 100 : 0}
             />
           </div>
           <div className="py-5">
@@ -73,9 +76,11 @@ export default function ProductInfoSection({ reviewId }: ProductInfoSectionProps
               />
               <Rating as="p" value={totalRating} />
             </div>
-            <p className="block mt-[25px] text-sm leading-[14px] text-[#999999]">
-              [선택] {productName}
-            </p>
+            <div className="mt-[25px]">
+              <Link href={PAGE_PATHS.PRODUCT_DETAIL(productId)} className="block text-sm leading-[14px] text-[#999999]">
+                [선택] {productName}
+              </Link>
+            </div>
             <div className="mt-[15px]">
               <TextContent text={content} />
             </div>

@@ -43,6 +43,7 @@ export const API_ENDPOINTS = {
   // 리뷰
   REVIEWS: '/api/reviews/v1',
   REVIEW_DETAIL: (id: string | number) => `/api/reviews/v1/${id}`,
+  REVIEW_DETAIL_PRODUCT: (id: string | number) => `/api/reviews/v1/${id}/product`,
   REVIEW_COMMENTS: (reviewId: string | number) => `/api/reviews/v1/${reviewId}/comments`,
   REVIEW_LIKE: (reviewId: string | number) => `/api/reviews/v1/${reviewId}/like`,
   COMMENT_REPLIES: (commentId: string | number) => `/api/reviews/v1/comments/${commentId}/replies`,
