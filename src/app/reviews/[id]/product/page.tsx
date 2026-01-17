@@ -1,5 +1,4 @@
-import ReviewDetailHeaderSection from '@/components/reviews/ReviewDetailHeaderSection'
-import ProductInfoSection from './_components/ProductInfoSection'
+import ReviewDetailProductFetcher from "./_components/ReviewDetailProductFetcher"
 
 interface ProductReviewPageProps {
   params: Promise<{ id: string }>
@@ -10,10 +9,5 @@ export default async function ProductReviewPage({ params }: ProductReviewPagePro
 
   const reviewId = Number(id)
 
-  return (
-    <>
-      <ReviewDetailHeaderSection reviewId={reviewId} />
-      <ProductInfoSection reviewId={reviewId} />
-    </>
-  )
+  return <ReviewDetailProductFetcher reviewId={reviewId} />
 }
