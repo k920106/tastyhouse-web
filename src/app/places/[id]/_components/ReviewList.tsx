@@ -8,7 +8,6 @@ import { ReviewSortType } from '@/constants/review'
 import { COMMON_ERROR_MESSAGES } from '@/lib/constants'
 import { PAGE_PATHS } from '@/lib/paths'
 import { getPlaceReviews } from '@/services/place'
-import { PlaceReviewListItemResponse, PlaceReviewsByRatingResponse } from '@/types/api/place-detail'
 import { useQuery } from '@tanstack/react-query'
 import { useState } from 'react'
 import { BsCheckLg } from 'react-icons/bs'
@@ -159,10 +158,22 @@ function ReviewFilter({
   )
 }
 
+type ReviewListItem = {
+  id: number
+  memberProfileImageUrl: string | null
+  memberNickname: string
+  createdAt: string
+  totalRating: number
+  productId: number | null
+  productName: string | null
+  content: string
+  imageUrls: string[]
+}
+
 const sortReviews = (
-  reviews: PlaceReviewListItemResponse[],
+  reviews: ReviewListItem[],
   sortType: ReviewSortType,
-): PlaceReviewListItemResponse[] => {
+) => {
   const sorted = [...reviews]
   switch (sortType) {
     case 'recommended':
@@ -190,10 +201,14 @@ export default function ReviewList({ placeId }: ReviewListProps) {
   const [selectedRating, setSelectedRating] = useState<number | null>(null)
   const [sortType, setSortType] = useState<ReviewSortType>('latest')
 
-  // 페이지 로딩 시 한 번만 API 호출
+  const query = {
+    page: 0,
+    size: 5,
+  }
+
   const { data, isLoading, error } = useQuery({
     queryKey: ['place', placeId, 'place-detail-reviews'],
-    queryFn: () => getPlaceReviews(placeId, { page: 0, size: 5 }),
+    queryFn: () => getPlaceReviews(placeId, query),
   })
 
   if (isLoading) {
@@ -215,11 +230,11 @@ export default function ReviewList({ placeId }: ReviewListProps) {
     )
   }
 
-  const { reviewsByRating, allReviews, totalReviewCount }: PlaceReviewsByRatingResponse =
+  const { reviewsByRating, allReviews, totalReviewCount } =
     data.data.data
 
   // 선택된 평점에 따라 리뷰 필터링
-  let filteredReviews: PlaceReviewListItemResponse[] = []
+  let filteredReviews = []
   if (selectedRating !== null) {
     filteredReviews = reviewsByRating[String(selectedRating)] || []
   } else {
@@ -229,7 +244,7 @@ export default function ReviewList({ placeId }: ReviewListProps) {
   // 포토리뷰만 보기 필터 적용
   if (photoOnly) {
     filteredReviews = filteredReviews.filter(
-      (review: PlaceReviewListItemResponse) => review.imageUrls.length > 0,
+      (review: ReviewListItem) => review.imageUrls.length > 0,
     )
   }
 

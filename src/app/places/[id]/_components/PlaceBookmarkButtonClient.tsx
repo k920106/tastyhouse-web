@@ -2,8 +2,8 @@
 
 import { toast } from '@/components/ui/AppToaster'
 import { Skeleton } from '@/components/ui/shadcn/skeleton'
+import { togglePlaceBookmark } from '@/services/place'
 import { useState, useTransition } from 'react'
-import { togglePlaceBookmark } from '../actions'
 import PlaceBookmarkButton from './PlaceBookmarkButton'
 
 export function PlaceBookmarkButtonSkeleton() {

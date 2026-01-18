@@ -1,4 +1,4 @@
-import { PlaceAmenityCode, PlaceFoodType, PlaceImageCategoryCode } from '@/types/api/place'
+import { PlaceAmenityCode, PlaceFoodType, PlaceImageCategoryCode } from '@/domains/place'
 
 /**
  * Name constants

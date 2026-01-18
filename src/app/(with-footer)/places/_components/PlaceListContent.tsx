@@ -14,15 +14,10 @@ import {
 } from '@/components/places/PlaceCard'
 import ErrorMessage from '@/components/ui/ErrorMessage'
 import { getPlaceFoodTypeCodeName } from '@/constants/place'
+import { PlaceAmenityCode, PlaceFoodType } from '@/domains/place'
 import { useIntersectionObserver } from '@/hooks/useIntersectionObserver'
 import { COMMON_ERROR_MESSAGES } from '@/lib/constants'
 import { getLatestPlaces } from '@/services/place'
-import type {
-  PlaceAmenityCode,
-  PlaceFilterParams,
-  PlaceFoodType,
-  PlaceLatestListItemResponse,
-} from '@/types/api/place'
 import { useInfiniteQuery } from '@tanstack/react-query'
 import { useEffect } from 'react'
 import PlaceFilterBar from './PlaceFilterBar'
@@ -108,7 +103,7 @@ export default function PlaceListContent({
   foodTypes,
   amenities,
 }: PlaceListContentProps) {
-  const filterParams: PlaceFilterParams = {
+  const filterParams = {
     stationId,
     foodTypes,
     amenities,
@@ -117,23 +112,38 @@ export default function PlaceListContent({
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading, isError } =
     useInfiniteQuery({
       queryKey: ['places', 'latest', filterParams],
-      queryFn: ({ pageParam }) =>
-        getLatestPlaces({
+      queryFn: async ({ pageParam }) => {
+        const response = await getLatestPlaces({
           page: pageParam,
           size: PAGE_SIZE,
           ...filterParams,
-        }),
+        })
+
+        // API 에러 처리
+        if (response.error) {
+          throw new Error(response.error)
+        }
+
+        // 응답 데이터 검증
+        if (!response.data) {
+          throw new Error('응답 데이터가 없습니다.')
+        }
+
+        return response.data
+      },
       initialPageParam: 0,
       getNextPageParam: (lastPage) => {
         if (!lastPage.pagination) {
           return undefined
         }
         const { page, totalPages } = lastPage.pagination
+
+        // 다음 페이지가 있으면 페이지 번호 반환, 없으면 undefined
         return page + 1 < totalPages ? page + 1 : undefined
       },
     })
 
-  const { targetRef, isIntersecting } = useIntersectionObserver({
+  const { targetRef, isIntersecting, resetIntersecting } = useIntersectionObserver({
     threshold: 0.1,
     rootMargin: '100px',
     enabled: hasNextPage && !isFetchingNextPage,
@@ -141,9 +151,10 @@ export default function PlaceListContent({
 
   useEffect(() => {
     if (isIntersecting && hasNextPage && !isFetchingNextPage) {
+      resetIntersecting()
       fetchNextPage()
     }
-  }, [isIntersecting, hasNextPage, isFetchingNextPage, fetchNextPage])
+  }, [isIntersecting, hasNextPage, isFetchingNextPage, fetchNextPage, resetIntersecting])
 
   if (isLoading) {
     return <PlaceListContentSkeleton />
@@ -153,16 +164,11 @@ export default function PlaceListContent({
     return <ErrorMessage message={COMMON_ERROR_MESSAGES.API_FETCH_ERROR} />
   }
 
-  if (!data) {
+  if (!data?.pages || data.pages.length === 0) {
     return <ErrorMessage message={COMMON_ERROR_MESSAGES.FETCH_ERROR('플레이스')} />
   }
 
-  const places: PlaceLatestListItemResponse[] = data.pages.flatMap((page) => {
-    if (!page.data || !Array.isArray(page.data)) {
-      return []
-    }
-    return page.data.filter((place): place is PlaceLatestListItemResponse => place !== undefined)
-  })
+  const places = data.pages.flatMap((page) => page.data ?? [])
   const totalCount = data.pages[0]?.pagination?.totalElements ?? 0
 
   return (

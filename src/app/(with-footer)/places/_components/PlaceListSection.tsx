@@ -1,4 +1,4 @@
-import type { PlaceAmenityCode, PlaceFoodType } from '@/types/api/place'
+import { PlaceAmenityCode, PlaceFoodType } from '@/domains/place'
 import PlaceListContent from './PlaceListContent'
 
 interface PlaceListSectionProps {

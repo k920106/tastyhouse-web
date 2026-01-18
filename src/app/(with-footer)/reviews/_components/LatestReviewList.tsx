@@ -5,7 +5,7 @@ import { Skeleton } from '@/components/ui/shadcn/skeleton'
 import { useIntersectionObserver } from '@/hooks/useIntersectionObserver'
 import { COMMON_ERROR_MESSAGES } from '@/lib/constants'
 import { getLatestReviews } from '@/services/review'
-import type { ReviewType } from '@/types/api/review'
+import type { ReviewType } from '@/types/review'
 import { useInfiniteQuery } from '@tanstack/react-query'
 import { useEffect } from 'react'
 import LatestReviewListItem from './LatestReviewListItem'
@@ -80,7 +80,6 @@ export default function LatestReviewList({ reviewType }: LatestReviewListProps) 
       },
       initialPageParam: 0,
       getNextPageParam: (lastPage) => {
-        // pagination 정보가 없으면 더 이상 페이지가 없음
         if (!lastPage.pagination) {
           return undefined
         }
@@ -108,12 +107,10 @@ export default function LatestReviewList({ reviewType }: LatestReviewListProps) 
     }
   }, [isIntersecting, hasNextPage, isFetchingNextPage, fetchNextPage, resetIntersecting])
 
-  // 로딩 상태
   if (isLoading) {
     return <LatestReviewListSkeleton />
   }
 
-  // 에러 상태
   if (isError) {
     return (
       <ErrorMessage
@@ -123,7 +120,6 @@ export default function LatestReviewList({ reviewType }: LatestReviewListProps) 
     )
   }
 
-  // 데이터가 없는 경우
   if (!data?.pages || data.pages.length === 0) {
     return (
       <ErrorMessage

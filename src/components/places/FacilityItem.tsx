@@ -1,7 +1,7 @@
 'use client'
 
 import { getPlaceAmenityCodeName } from '@/constants/place'
-import { PlaceAmenityListItem } from '@/types/api/place'
+import { PlaceAmenity } from '@/domains/place'
 import Image from 'next/image'
 import { Skeleton } from '../ui/shadcn/skeleton'
 
@@ -48,7 +48,7 @@ function FacilityItemContent({ name, imageUrl, isSelected }: FacilityItemContent
 }
 
 interface FacilityButtonProps {
-  amenity: PlaceAmenityListItem
+  amenity: PlaceAmenity
   isSelected: boolean
   onClick: () => void
 }
@@ -72,7 +72,7 @@ export function FacilityButton({ amenity, isSelected, onClick }: FacilityButtonP
 }
 
 interface FacilityDivProps {
-  amenity: PlaceAmenityListItem
+  amenity: PlaceAmenity
 }
 
 export function FacilityDiv({ amenity }: FacilityDivProps) {

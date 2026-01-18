@@ -1,7 +1,4 @@
-import { api } from '@/lib/api'
-import { API_ENDPOINTS } from '@/lib/endpoints'
-import { ApiResponse } from '@/types/api/api'
-import { PlaceNameResponse } from '@/types/api/place-detail'
+import { placeService } from '@/domains/place/place.service'
 import PlaceDetailHeader from './PlaceDetailHeader'
 
 interface PlaceDetailHeaderServerProps {
@@ -10,9 +7,7 @@ interface PlaceDetailHeaderServerProps {
 
 export default async function PlaceDetailHeaderServer({ placeId }: PlaceDetailHeaderServerProps) {
   // API 호출
-  const { error, data } = await api.get<ApiResponse<PlaceNameResponse>>(
-    API_ENDPOINTS.PLACES_NAME(placeId),
-  )
+  const { error, data } = await placeService.getPlaceName(placeId)
 
   // Expected Error: API 호출 실패 (네트워크 오류, timeout 등)
   if (error) {

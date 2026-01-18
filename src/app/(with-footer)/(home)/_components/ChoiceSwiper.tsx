@@ -6,8 +6,9 @@ import 'swiper/css/pagination'
 
 import ProductItem, { ProductItemSkeleton } from '@/components/products/ProductItem'
 import { Skeleton } from '@/components/ui/shadcn/skeleton'
+import { Place } from '@/domains/place'
 import { PAGE_PATHS } from '@/lib/paths'
-import { PlaceChoiceListItemResponse } from '@/types/api/place'
+import { Product } from '@/types/api/product'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
@@ -42,7 +43,7 @@ export function ChoiceSwiperSkeleton() {
 }
 
 interface ChoiceSwiperProps {
-  places: PlaceChoiceListItemResponse[]
+  places: Place[]
 }
 
 export default function ChoiceSwiper({ places }: ChoiceSwiperProps) {
@@ -59,7 +60,7 @@ export default function ChoiceSwiper({ places }: ChoiceSwiperProps) {
   return (
     <>
       <Swiper spaceBetween={20} slidesPerView={1.15} className="pb-12">
-        {places.map((place) => (
+        {places.map((place: Place) => (
           <SwiperSlide key={place.id}>
             <Link href={PAGE_PATHS.PLACE_DETAIL(place.id)}>
               <div className="relative w-full aspect-[2/3] overflow-hidden">
@@ -80,7 +81,7 @@ export default function ChoiceSwiper({ places }: ChoiceSwiperProps) {
               </div>
             </Link>
             <div className="mb-10 space-y-0 divide-y divide-[#eeeeee] border-b border-[#eeeeee]">
-              {place.products.map((product) => (
+              {place.products.map((product: Product) => (
                 <ProductItem
                   key={product.id}
                   id={product.id}

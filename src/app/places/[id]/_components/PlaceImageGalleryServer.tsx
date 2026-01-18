@@ -1,9 +1,6 @@
 import ErrorMessage from '@/components/ui/ErrorMessage'
-import { api } from '@/lib/api'
+import { placeService } from '@/domains/place'
 import { COMMON_ERROR_MESSAGES } from '@/lib/constants'
-import { API_ENDPOINTS } from '@/lib/endpoints'
-import { ApiResponse } from '@/types/api/api'
-import { PlaceThumbnailListItemResponse } from '@/types/api/place-detail'
 import PlaceImageGallery from './PlaceImageGallery'
 
 interface PlaceImageGalleryServerProps {
@@ -11,9 +8,8 @@ interface PlaceImageGalleryServerProps {
 }
 
 export default async function PlaceImageGalleryServer({ placeId }: PlaceImageGalleryServerProps) {
-  const { data, error } = await api.get<ApiResponse<PlaceThumbnailListItemResponse[]>>(
-    API_ENDPOINTS.PLACES_THUMBNAILS(placeId),
-  )
+  // API 호출
+  const { data, error } = await placeService.getPlaceBanners(placeId)
 
   // Expected Error: API 호출 실패 (네트워크 오류, timeout 등)
   if (error) {
@@ -22,8 +18,10 @@ export default async function PlaceImageGalleryServer({ placeId }: PlaceImageGal
 
   // Expected Error: API 응답은 받았지만 데이터가 없거나 실패 응답
   if (!data || !data.success || !data.data) {
-    return <ErrorMessage message={COMMON_ERROR_MESSAGES.FETCH_ERROR('썸네일')} />
+    return <ErrorMessage message={COMMON_ERROR_MESSAGES.FETCH_ERROR('배너')} />
   }
 
-  return <PlaceImageGallery imageUrls={data.data.map((thumbnail) => thumbnail.imageUrl)} />
+  const imageUrls = data.data.map((banner) => banner.imageUrl)
+
+  return <PlaceImageGallery imageUrls={imageUrls} />
 }

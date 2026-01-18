@@ -1,8 +1,5 @@
-import { api } from '@/lib/api'
-import { API_ENDPOINTS } from '@/lib/endpoints'
+import { placeService } from '@/domains/place'
 import { PAGE_PATHS } from '@/lib/paths'
-import { ApiResponse } from '@/types/api/api'
-import { PlaceBookmarkResponse } from '@/types/api/place-detail'
 import { cookies } from 'next/headers'
 import Link from 'next/link'
 import { FaRegBookmark } from 'react-icons/fa'
@@ -29,9 +26,8 @@ export default async function PlaceBookmarkButtonServer({
     )
   }
 
-  const { error, data } = await api.get<ApiResponse<PlaceBookmarkResponse>>(
-    API_ENDPOINTS.PLACES_BOOKMARK(placeId),
-  )
+  // API 호출
+  const { error, data } = await placeService.getPlaceBookmark(placeId)
 
   if (error) {
     return (

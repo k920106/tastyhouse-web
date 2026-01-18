@@ -1,9 +1,6 @@
 import ErrorMessage from '@/components/ui/ErrorMessage'
-import { api } from '@/lib/api'
+import { placeService } from '@/domains/place'
 import { COMMON_ERROR_MESSAGES } from '@/lib/constants'
-import { API_ENDPOINTS } from '@/lib/endpoints'
-import { ApiResponse } from '@/types/api/api'
-import { PlaceSummaryResponse } from '@/types/api/place-detail'
 import { ReactNode } from 'react'
 import PlaceSummary from './PlaceSummary'
 
@@ -16,9 +13,8 @@ export default async function PlaceSummaryServer({
   placeId,
   bookmarkButton,
 }: PlaceSummaryServerProps) {
-  const { error, data } = await api.get<ApiResponse<PlaceSummaryResponse>>(
-    API_ENDPOINTS.PLACES_SUMMARY(placeId),
-  )
+  // API 호출
+  const { error, data } = await placeService.getPlaceSummary(placeId)
 
   // Expected Error: API 호출 실패 (네트워크 오류, timeout 등)
   if (error) {
@@ -30,5 +26,7 @@ export default async function PlaceSummaryServer({
     return <ErrorMessage message={COMMON_ERROR_MESSAGES.FETCH_ERROR('기본 정보')} />
   }
 
-  return <PlaceSummary placeSummary={data.data} bookmarkButton={bookmarkButton} />
+  const { id, name, roadAddress, lotAddress, rating } = data.data
+
+  return <PlaceSummary id={id} name={name} roadAddress={roadAddress} lotAddress={lotAddress} rating={rating} bookmarkButton={bookmarkButton} />
 }

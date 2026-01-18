@@ -7,7 +7,6 @@ import { Skeleton } from '@/components/ui/shadcn/skeleton'
 import { COMMON_ERROR_MESSAGES } from '@/lib/constants'
 import { formatDecimal, formatNumber } from '@/lib/number'
 import { getPlaceReviewStatistics } from '@/services/place'
-import { PlaceReviewStatistics } from '@/types/api/place-detail'
 import { useQuery } from '@tanstack/react-query'
 import RatingDistributionChart from './RatingDistributionChart'
 
@@ -73,7 +72,7 @@ export default function ReviewStatistic({ placeId }: ReviewStatisticProps) {
     )
   }
 
-  const statistics: PlaceReviewStatistics = data.data.data
+  const statistics = data.data.data
 
   const {
     totalRating,

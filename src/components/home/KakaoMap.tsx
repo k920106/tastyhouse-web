@@ -1,6 +1,5 @@
 'use client'
 
-import { PlaceMapListItemResponse } from '@/types/api/place'
 import Script from 'next/script'
 import { useCallback, useRef, useState } from 'react'
 
@@ -69,7 +68,17 @@ declare global {
   }
 }
 
-export default function KakaoMap() {
+interface PlaceItem {
+  latitude: number
+  longitude: number
+  name: string
+}
+
+interface KakaoMapProps {
+  places: PlaceItem[]
+}
+
+export default function KakaoMap({ places }: KakaoMapProps) {
   const [latitude, setLatitude] = useState(37.5666103)
   const [longitude, setLongitude] = useState(126.9783882)
 
@@ -96,10 +105,10 @@ export default function KakaoMap() {
 
   // 새로운 마커들을 생성하는 함수
   const createMarkers = useCallback(
-    (placesData: PlaceMapListItemResponse[], mapInstance: KakaoMap) => {
+    (placesData: PlaceItem[], mapInstance: KakaoMap) => {
       const newMarkers: KakaoMarker[] = []
 
-      placesData.forEach((place) => {
+      placesData.forEach((place: PlaceItem) => {
         const marker = new window.kakao.maps.Marker({
           position: new window.kakao.maps.LatLng(place.latitude, place.longitude),
         })
@@ -131,7 +140,7 @@ export default function KakaoMap() {
   const fetchAndUpdatePlaces = useCallback(
     async (lat: number, lng: number, mapInstance: KakaoMap) => {
       try {
-        console.log(lat, lng, mapInstance, clearMarkers, clearOverlay, createMarkers)
+        console.log(lat, lng, mapInstance, clearMarkers, clearOverlay, createMarkers, places)
         // const responseData = await getPlacesNear({ latitude: lat, longitude: lng })
         // const placesData: PlaceData[] = responseData as PlaceData[]
 
@@ -148,7 +157,7 @@ export default function KakaoMap() {
         clearOverlay()
       }
     },
-    [clearMarkers, clearOverlay, createMarkers],
+    [clearMarkers, clearOverlay, createMarkers, places],
   )
 
   const loadKakaoMap = useCallback(() => {

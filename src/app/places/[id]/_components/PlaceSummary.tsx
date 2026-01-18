@@ -3,7 +3,6 @@
 import { toast } from '@/components/ui/AppToaster'
 import { formatDecimal } from '@/lib/number'
 import { copyToClipboard } from '@/lib/share'
-import { PlaceSummaryResponse } from '@/types/api/place-detail'
 import Link from 'next/link'
 import { ReactNode } from 'react'
 import { GrCopy } from 'react-icons/gr'
@@ -29,13 +28,15 @@ export function PlaceSummarySkeleton() {
 }
 
 interface PlaceSummaryProps {
-  placeSummary: PlaceSummaryResponse
+  id: number
+  name: string
+  roadAddress: string
+  lotAddress: string
+  rating: number
   bookmarkButton: ReactNode
 }
 
-export default function PlaceSummary({ placeSummary, bookmarkButton }: PlaceSummaryProps) {
-  const { roadAddress, name, rating, lotAddress, id } = placeSummary
-
+export default function PlaceSummary({ id, name, roadAddress, lotAddress, rating, bookmarkButton }: PlaceSummaryProps) {
   const handleCopyAddress = async () => {
     const success = await copyToClipboard(roadAddress)
     if (success) {

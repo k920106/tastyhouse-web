@@ -1,15 +1,10 @@
 import ErrorMessage from '@/components/ui/ErrorMessage'
-import { api } from '@/lib/api'
+import { placeService } from '@/domains/place'
 import { COMMON_ERROR_MESSAGES } from '@/lib/constants'
-import { API_ENDPOINTS } from '@/lib/endpoints'
-import { ApiResponse } from '@/types/api/api'
-import { PlaceFoodTypeListItem } from '@/types/api/place'
 import FoodTypeSelector from './FoodTypeSelector'
 
 export default async function FoodTypeContent() {
-  const { data, error } = await api.get<ApiResponse<PlaceFoodTypeListItem[]>>(
-    API_ENDPOINTS.PLACES_FOOD_TYPES,
-  )
+  const { data, error } = await placeService.getPlaceFoodTypes()
 
   // Expected Error: API 호출 실패 (네트워크 오류, timeout 등)
   if (error) {
@@ -23,5 +18,5 @@ export default async function FoodTypeContent() {
     )
   }
 
-  return <FoodTypeSelector foodTypes={data.data} />
+  return <FoodTypeSelector foods={data.data} />
 }

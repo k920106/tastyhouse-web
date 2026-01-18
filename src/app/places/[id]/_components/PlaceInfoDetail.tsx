@@ -4,7 +4,7 @@ import PlaceOwnerMessageModal from '@/components/modals/PlaceOwnerMessageModal'
 import { FacilityDiv } from '@/components/places/FacilityItem'
 import ClampedText, { MoreButton } from '@/components/ui/ClampedText'
 import { Skeleton } from '@/components/ui/shadcn/skeleton'
-import { PlaceInfoResponse } from '@/types/api/place-detail'
+import { PlaceAmenity, PlaceBreakTimes, PlaceBusinessHour, PlaceClosedDay } from '@/domains/place'
 import Link from 'next/link'
 import { useState } from 'react'
 import {
@@ -52,8 +52,26 @@ export function PlaceInfoDetailSkeleton() {
   )
 }
 
+type PlaceInfoProps = {
+  id: number
+  name: string
+  rating: number
+  roadAddress: string | null
+  lotAddress: string | null
+  latitude: number
+  longitude: number
+  stationName: string
+  phoneNumber: string | null
+  ownerMessage: string | null
+  ownerMessageCreatedAt: string | null
+  businessHours: PlaceBusinessHour[]
+  breakTimes: PlaceBreakTimes[]
+  closedDays: PlaceClosedDay[]
+  amenities: PlaceAmenity[]
+}
+
 interface PlaceInfoDetailProps {
-  placeInfo: PlaceInfoResponse
+  placeInfo: PlaceInfoProps
 }
 
 export default function PlaceInfoDetail({ placeInfo }: PlaceInfoDetailProps) {

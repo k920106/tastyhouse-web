@@ -1,4 +1,4 @@
-import { PlaceMenu } from '@/types/api/place-detail'
+import { PlaceMenu } from '@/domains/place'
 import { Skeleton } from '../ui/shadcn/skeleton'
 import MenuItem, { MenuItemSkeleton } from './MenuItem'
 

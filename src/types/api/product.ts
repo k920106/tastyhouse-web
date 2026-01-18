@@ -1,9 +1,4 @@
-import { PaginationParams } from './api'
-
-/**
- * Base types
- */
-type Product = {
+export type Product = {
   id: number
   name: string
   placeName: string
@@ -13,13 +8,12 @@ type Product = {
   discountRate: number
 }
 
-/**
- * Query types
- */
-export type ProductTodayDiscountQuery = PaginationParams & {}
-
-/**
- * Response types
- */
-export type ProductTodayDiscountListItemResponse = Product & {}
-export type ProductChoiceListItemResponse = Product & {}
+export type ProductTodayDiscountListItemResponse = {
+  id: number
+  name: string
+  placeName: string
+  imageUrl: string
+  originalPrice: number
+  discountPrice: number
+  discountRate: number
+}

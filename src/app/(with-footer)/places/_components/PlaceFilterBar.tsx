@@ -1,8 +1,8 @@
 'use client'
 
 import { Skeleton } from '@/components/ui/shadcn/skeleton'
+import { PlaceAmenityCode, PlaceFoodType } from '@/domains/place'
 import { PAGE_PATHS } from '@/lib/paths'
-import type { PlaceAmenityCode, PlaceFoodType } from '@/types/api/place'
 import Link from 'next/link'
 import { BiFilterAlt } from 'react-icons/bi'
 

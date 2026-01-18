@@ -1,7 +1,7 @@
 'use client'
 
 import { FacilityButton, FacilityItemSkeleton } from '@/components/places/FacilityItem'
-import { PlaceAmenityListItem } from '@/types/api/place'
+import { PlaceAmenity } from '@/domains/place'
 import { useFilterState } from './FilterStateProvider'
 
 export function FacilitySelectorSkeleton() {
@@ -15,7 +15,7 @@ export function FacilitySelectorSkeleton() {
 }
 
 interface FacilitySelectorProps {
-  amenities: PlaceAmenityListItem[]
+  amenities: PlaceAmenity[]
 }
 
 export default function FacilitySelector({ amenities }: FacilitySelectorProps) {
@@ -23,7 +23,7 @@ export default function FacilitySelector({ amenities }: FacilitySelectorProps) {
 
   return (
     <FacilitySelectorLayout>
-      {amenities.map((amenity) => {
+      {amenities.map((amenity: PlaceAmenity) => {
         const isSelected = selectedAmenities.includes(amenity.code)
         return (
           <FacilityButton

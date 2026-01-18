@@ -1,6 +1,6 @@
 import Rating from '@/components/ui/Rating'
+import { PlaceMenu } from '@/domains/place'
 import { formatDecimal, formatNumber } from '@/lib/number'
-import { PlaceMenu } from '@/types/api/place-detail'
 import Image from 'next/image'
 import { Skeleton } from '../ui/shadcn/skeleton'
 

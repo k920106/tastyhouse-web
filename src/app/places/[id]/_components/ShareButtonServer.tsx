@@ -1,7 +1,4 @@
-import { api } from '@/lib/api'
-import { API_ENDPOINTS } from '@/lib/endpoints'
-import { ApiResponse } from '@/types/api/api'
-import { PlaceNameResponse } from '@/types/api/place-detail'
+import { placeService } from '@/domains/place'
 import ShareButtonClient from './ShareButtonClient'
 import ShareButtonError from './ShareButtonError'
 
@@ -11,9 +8,7 @@ interface ShareButtonServerProps {
 
 export default async function ShareButtonServer({ placeId }: ShareButtonServerProps) {
   // API 호출
-  const { error, data } = await api.get<ApiResponse<PlaceNameResponse>>(
-    API_ENDPOINTS.PLACES_NAME(placeId),
-  )
+  const { error, data } = await placeService.getPlaceName(placeId)
 
   if (error) {
     return <ShareButtonError />

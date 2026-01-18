@@ -1,7 +1,7 @@
 'use client'
 
 import { Skeleton } from '@/components/ui/shadcn/skeleton'
-import { PlaceFoodTypeListItem } from '@/types/api/place'
+import { PlaceFoodType } from '@/domains/place'
 import Image from 'next/image'
 import { useFilterState } from './FilterStateProvider'
 
@@ -22,16 +22,22 @@ export function FoodTypeSelectorSkeleton() {
   )
 }
 
-interface FoodTypeSelectorProps {
-  foodTypes: PlaceFoodTypeListItem[]
+type FoodItem = {
+  code: PlaceFoodType
+  name: string
+  imageUrl: string,
 }
 
-export default function FoodTypeSelector({ foodTypes }: FoodTypeSelectorProps) {
+interface FoodTypeSelectorProps {
+  foods: FoodItem[]
+}
+
+export default function FoodTypeSelector({ foods }: FoodTypeSelectorProps) {
   const { selectedFoodTypes, toggleFoodType } = useFilterState()
 
   return (
     <div className="grid grid-cols-4 gap-2.5">
-      {foodTypes.map((foodType) => {
+      {foods.map((foodType: FoodItem) => {
         const isSelected = selectedFoodTypes.includes(foodType.code)
         return (
           <button

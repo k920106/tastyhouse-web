@@ -12,11 +12,8 @@ import {
 import ErrorMessage from '@/components/ui/ErrorMessage'
 import ViewMoreButton from '@/components/ui/ViewMoreButton'
 import { getPlaceFoodTypeCodeName } from '@/constants/place'
-import { api } from '@/lib/api'
+import { PlaceFoodType, placeService } from '@/domains/place'
 import { COMMON_ERROR_MESSAGES } from '@/lib/constants'
-import { API_ENDPOINTS } from '@/lib/endpoints'
-import { ApiResponse } from '@/types/api/api'
-import { PlaceBestListItemResponse, PlaceBestQuery } from '@/types/api/place'
 
 export function BestPlaceListSkeleton() {
   return (
@@ -28,19 +25,28 @@ export function BestPlaceListSkeleton() {
   )
 }
 
-function PlaceListItem({ place }: { place: PlaceBestListItemResponse }) {
-  const foodNames = place.foodTypes.map((foodType) => getPlaceFoodTypeCodeName(foodType))
+type PlaceListItemProps = {
+  id: number
+  name: string
+  imageUrl: string
+  stationName: string
+  rating: number
+  foodTypes: PlaceFoodType[]
+}
+
+function PlaceListItem({ id, name, imageUrl, stationName, rating, foodTypes }: PlaceListItemProps) {
+  const foodNames = foodTypes.map((foodType) => getPlaceFoodTypeCodeName(foodType))
 
   return (
-    <li key={place.id}>
-      <PlaceCard placeId={place.id}>
-        <PlaceCardImage src={place.imageUrl} alt={place.name} />
+    <li key={id}>
+      <PlaceCard placeId={id}>
+        <PlaceCardImage src={imageUrl} alt={name} />
         <PlaceCardContent>
           <PlaceCardHeader>
-            <PlaceCardStation>{place.stationName}</PlaceCardStation>
-            <PlaceCardRating value={place.rating} />
+            <PlaceCardStation>{stationName}</PlaceCardStation>
+            <PlaceCardRating value={rating} />
           </PlaceCardHeader>
-          <PlaceCardName>{place.name}</PlaceCardName>
+          <PlaceCardName>{name}</PlaceCardName>
           <PlaceCardTags tags={foodNames} />
         </PlaceCardContent>
       </PlaceCard>
@@ -51,15 +57,10 @@ function PlaceListItem({ place }: { place: PlaceBestListItemResponse }) {
 export default async function BestPlaceList() {
   // API 호출
   const query = {
-    params: {
-      page: 0,
-      size: 4,
-    } satisfies PlaceBestQuery,
+    page: 0,
+    size: 4,
   }
-  const { data, error } = await api.get<ApiResponse<PlaceBestListItemResponse[]>>(
-    API_ENDPOINTS.PLACES_BEST,
-    query,
-  )
+  const { data, error } = await placeService.getBestPlaces(query)
 
   // Expected Error: API 호출 실패 (네트워크 오류, timeout 등)
   if (error) {
@@ -75,7 +76,7 @@ export default async function BestPlaceList() {
     <>
       <ul className="grid grid-cols-2 gap-x-[15px] gap-y-10 mb-10">
         {data.data.map((place) => (
-          <PlaceListItem key={place.id} place={place} />
+          <PlaceListItem key={place.id} id={place.id} name={place.name} imageUrl={place.imageUrl} stationName={place.stationName} rating={place.rating} foodTypes={place.foodTypes} />
         ))}
       </ul>
       <div className="flex justify-center">
