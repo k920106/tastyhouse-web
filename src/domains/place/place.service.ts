@@ -1,5 +1,10 @@
 import { placeRepository } from './place.repository'
-import { PlaceBestQuery, PlaceChoiceQuery, PlaceLatestQuery, PlaceReviewsByRatingQuery } from './place.type'
+import {
+  PlaceBestQuery,
+  PlaceChoiceQuery,
+  PlaceLatestQuery,
+  PlaceReviewsByRatingQuery,
+} from './place.type'
 
 export const placeService = {
   async getLatestPlaces(params: PlaceLatestQuery) {

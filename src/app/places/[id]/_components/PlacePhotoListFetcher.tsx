@@ -1,4 +1,6 @@
-import ReviewImageGallery, { ReviewImageGallerySkeleton } from '@/components/reviews/ReviewImageGallery'
+import ReviewImageGallery, {
+  ReviewImageGallerySkeleton,
+} from '@/components/reviews/ReviewImageGallery'
 import ErrorMessage from '@/components/ui/ErrorMessage'
 import { Skeleton } from '@/components/ui/shadcn/skeleton'
 import { COMMON_ERROR_MESSAGES } from '@/lib/constants'

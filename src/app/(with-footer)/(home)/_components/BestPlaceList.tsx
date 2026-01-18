@@ -76,7 +76,15 @@ export default async function BestPlaceList() {
     <>
       <ul className="grid grid-cols-2 gap-x-[15px] gap-y-10 mb-10">
         {data.data.map((place) => (
-          <PlaceListItem key={place.id} id={place.id} name={place.name} imageUrl={place.imageUrl} stationName={place.stationName} rating={place.rating} foodTypes={place.foodTypes} />
+          <PlaceListItem
+            key={place.id}
+            id={place.id}
+            name={place.name}
+            imageUrl={place.imageUrl}
+            stationName={place.stationName}
+            rating={place.rating}
+            foodTypes={place.foodTypes}
+          />
         ))}
       </ul>
       <div className="flex justify-center">

@@ -28,5 +28,14 @@ export default async function PlaceSummaryServer({
 
   const { id, name, roadAddress, lotAddress, rating } = data.data
 
-  return <PlaceSummary id={id} name={name} roadAddress={roadAddress} lotAddress={lotAddress} rating={rating} bookmarkButton={bookmarkButton} />
+  return (
+    <PlaceSummary
+      id={id}
+      name={name}
+      roadAddress={roadAddress}
+      lotAddress={lotAddress}
+      rating={rating}
+      bookmarkButton={bookmarkButton}
+    />
+  )
 }

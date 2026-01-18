@@ -36,7 +36,14 @@ interface PlaceSummaryProps {
   bookmarkButton: ReactNode
 }
 
-export default function PlaceSummary({ id, name, roadAddress, lotAddress, rating, bookmarkButton }: PlaceSummaryProps) {
+export default function PlaceSummary({
+  id,
+  name,
+  roadAddress,
+  lotAddress,
+  rating,
+  bookmarkButton,
+}: PlaceSummaryProps) {
   const handleCopyAddress = async () => {
     const success = await copyToClipboard(roadAddress)
     if (success) {

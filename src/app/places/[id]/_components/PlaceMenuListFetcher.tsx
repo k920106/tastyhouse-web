@@ -42,14 +42,13 @@ export default function PlaceMenuListFetcher({ placeId }: PlaceMenuListFetcherPr
 
   const menuCategories: MenuCategory[] = data.data.data
 
-   if (menuCategories.length === 0) {
+  if (menuCategories.length === 0) {
     return <div className="py-10 bg-white text-center text-sm text-[#aaaaaa]">메뉴가 없습니다.</div>
   }
 
   return (
     <>
-      {
-        menuCategories.map((menuCategory) => (
+      {menuCategories.map((menuCategory) => (
         <MenuCategoryItem
           key={menuCategory.categoryName}
           categoryName={menuCategory.categoryName}

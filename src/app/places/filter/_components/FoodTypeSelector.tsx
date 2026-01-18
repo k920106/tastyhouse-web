@@ -25,7 +25,7 @@ export function FoodTypeSelectorSkeleton() {
 type FoodItem = {
   code: PlaceFoodType
   name: string
-  imageUrl: string,
+  imageUrl: string
 }
 
 interface FoodTypeSelectorProps {

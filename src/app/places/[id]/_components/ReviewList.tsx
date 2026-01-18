@@ -170,10 +170,7 @@ type ReviewListItem = {
   imageUrls: string[]
 }
 
-const sortReviews = (
-  reviews: ReviewListItem[],
-  sortType: ReviewSortType,
-) => {
+const sortReviews = (reviews: ReviewListItem[], sortType: ReviewSortType) => {
   const sorted = [...reviews]
   switch (sortType) {
     case 'recommended':
@@ -230,8 +227,7 @@ export default function ReviewList({ placeId }: ReviewListProps) {
     )
   }
 
-  const { reviewsByRating, allReviews, totalReviewCount } =
-    data.data.data
+  const { reviewsByRating, allReviews, totalReviewCount } = data.data.data
 
   // 선택된 평점에 따라 리뷰 필터링
   let filteredReviews = []
