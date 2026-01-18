@@ -1,8 +1,9 @@
 import ReviewAuthorInfo from '@/components/reviews/ReviewAuthorInfo'
+import ReviewDetailHeader from '@/components/reviews/ReviewDetailHeader'
 import ReviewImageGallery from '@/components/reviews/ReviewImageGallery'
 import ReviewRatingDetail from '@/components/reviews/ReviewRatingDetail'
 import BorderedSection from '@/components/ui/BorderedSection'
-import ErrorMessage from '@/components/ui/ErrorMessage'
+import ErrorStateSection from '@/components/ui/ErrorStateSection'
 import Rating from '@/components/ui/Rating'
 import SectionStack from '@/components/ui/SectionStack'
 import TextContent from '@/components/ui/TextContent'
@@ -21,13 +22,11 @@ function Layout({ children }: { children: React.ReactNode }) {
   return <section>{children}</section>
 }
 
-interface ReviewProductInfoSectionProps {
+interface ReviewProductSectionProps {
   reviewId: number
 }
 
-export default async function ReviewProductInfoSection({
-  reviewId,
-}: ReviewProductInfoSectionProps) {
+export default async function ReviewProductSection({ reviewId }: ReviewProductSectionProps) {
   // API 생성
   const { error, data } = await api.get<ApiResponse<ReviewDetailProductResponse>>(
     API_ENDPOINTS.REVIEW_DETAIL_PRODUCT(reviewId),
@@ -35,30 +34,19 @@ export default async function ReviewProductInfoSection({
 
   // Expected Error: API 호출 실패 (네트워크 오류, timeout 등)
   if (error) {
-    return (
-      <Layout>
-        <div className="relative -top-[55px] flex items-center justify-center min-h-screen">
-          <ErrorMessage message={COMMON_ERROR_MESSAGES.API_FETCH_ERROR} />
-        </div>
-      </Layout>
-    )
+    return <ErrorStateSection message={COMMON_ERROR_MESSAGES.API_FETCH_ERROR} />
   }
 
   // Expected Error: API 응답은 받았지만 데이터가 없거나 실패 응답
   if (!data || !data.success || !data.data) {
-    return (
-      <Layout>
-        <div className="relative -top-[55px] flex items-center justify-center min-h-screen">
-          <ErrorMessage message={COMMON_ERROR_MESSAGES.FETCH_ERROR('리뷰')} />
-        </div>
-      </Layout>
-    )
+    return <ErrorStateSection message={COMMON_ERROR_MESSAGES.FETCH_ERROR('리뷰')} />
   }
 
   const {
+    memberNickname,
     productId,
-    productName,
     productImageUrl,
+    productName,
     productPrice,
     content,
     totalRating,
@@ -69,7 +57,6 @@ export default async function ReviewProductInfoSection({
     kindnessRating,
     hygieneRating,
     willRevisit,
-    memberNickname,
     memberProfileImageUrl,
     createdAt,
     imageUrls,
@@ -78,6 +65,7 @@ export default async function ReviewProductInfoSection({
 
   return (
     <Layout>
+      <ReviewDetailHeader memberNickname={memberNickname} />
       <SectionStack>
         {productId && (
           <>

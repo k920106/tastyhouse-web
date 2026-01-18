@@ -1,5 +1,4 @@
-import ReviewProductHeaderSection from "./_components/ReviewProductHeaderSection"
-import ReviewProductInfoSection from "./_components/ReviewProductInfoSection"
+import ReviewProductSection from './_components/ReviewProductSection'
 
 interface ReviewProductDetailPageProps {
   params: Promise<{ id: string }>
@@ -10,10 +9,5 @@ export default async function ReviewProductDetailPage({ params }: ReviewProductD
 
   const reviewId = Number(id)
 
-  return (
-    <>
-      <ReviewProductHeaderSection reviewId={reviewId} />
-      <ReviewProductInfoSection reviewId={reviewId} />
-    </>
-  )
+  return <ReviewProductSection reviewId={reviewId} />
 }
