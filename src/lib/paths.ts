@@ -63,7 +63,7 @@ export const PAGE_PATHS = {
   LOGIN: '/login',
   REGISTER: '/register',
 
-  FAVICON: 'favicon.ico',
+  FAVICON: '/favicon.ico',
 } as const
 
 export type PagePath = (typeof PAGE_PATHS)[keyof typeof PAGE_PATHS]
