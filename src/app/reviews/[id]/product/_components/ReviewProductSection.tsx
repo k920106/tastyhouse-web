@@ -7,30 +7,21 @@ import ErrorStateSection from '@/components/ui/ErrorStateSection'
 import Rating from '@/components/ui/Rating'
 import SectionStack from '@/components/ui/SectionStack'
 import TextContent from '@/components/ui/TextContent'
-import { api } from '@/lib/api'
+import { reviewService } from '@/domains/review'
 import { COMMON_ERROR_MESSAGES } from '@/lib/constants'
-import { API_ENDPOINTS } from '@/lib/endpoints'
 import { formatNumber } from '@/lib/number'
 import { PAGE_PATHS } from '@/lib/paths'
-import { ApiResponse } from '@/types/api/api'
-import { ReviewDetailProductResponse } from '@/types/api/review'
 import Image from 'next/image'
 import Link from 'next/link'
 import ReviewTagList from '../../_components/ReviewTagList'
-
-function Layout({ children }: { children: React.ReactNode }) {
-  return <section>{children}</section>
-}
 
 interface ReviewProductSectionProps {
   reviewId: number
 }
 
 export default async function ReviewProductSection({ reviewId }: ReviewProductSectionProps) {
-  // API 생성
-  const { error, data } = await api.get<ApiResponse<ReviewDetailProductResponse>>(
-    API_ENDPOINTS.REVIEW_DETAIL_PRODUCT(reviewId),
-  )
+  // API 호출
+  const { error, data } = await reviewService.getReviewProductDetail(reviewId)
 
   // Expected Error: API 호출 실패 (네트워크 오류, timeout 등)
   if (error) {
@@ -43,10 +34,9 @@ export default async function ReviewProductSection({ reviewId }: ReviewProductSe
   }
 
   const {
-    memberNickname,
     productId,
-    productImageUrl,
     productName,
+    productImageUrl,
     productPrice,
     content,
     totalRating,
@@ -57,6 +47,7 @@ export default async function ReviewProductSection({ reviewId }: ReviewProductSe
     kindnessRating,
     hygieneRating,
     willRevisit,
+    memberNickname,
     memberProfileImageUrl,
     createdAt,
     imageUrls,
@@ -64,7 +55,7 @@ export default async function ReviewProductSection({ reviewId }: ReviewProductSe
   } = data.data
 
   return (
-    <Layout>
+    <section>
       <ReviewDetailHeader memberNickname={memberNickname} />
       <SectionStack>
         {productId && (
@@ -133,6 +124,6 @@ export default async function ReviewProductSection({ reviewId }: ReviewProductSe
           </div>
         </BorderedSection>
       </SectionStack>
-    </Layout>
+    </section>
   )
 }
