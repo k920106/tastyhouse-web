@@ -126,7 +126,7 @@ export type MenuCategory = {
 }
 
 export type PlacePhotoCategoryResponse = {
-  categoryName: string
+  name: string
   imageUrls: string[]
 }
 

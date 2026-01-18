@@ -54,8 +54,8 @@ export default function PlacePhotoListFetcher({ placeId }: PlacePhotoListFetcher
   return (
     <div>
       {categories.map((category) => (
-        <div key={category.categoryName} className="pt-[30px]">
-          <h3 className="mb-[15px] text-sm leading-[14px]">{category.categoryName}</h3>
+        <div key={category.name} className="pt-[30px]">
+          <h3 className="mb-[15px] text-sm leading-[14px]">{category.name}</h3>
           <ReviewImageGallery imageUrls={category.imageUrls} />
         </div>
       ))}
