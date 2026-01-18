@@ -35,6 +35,8 @@ export default async function ReviewProductInfoSection({ reviewId }: ReviewProdu
     API_ENDPOINTS.REVIEW_DETAIL_PRODUCT(reviewId),
   )
 
+  console.log(data)
+
   // Expected Error: API 호출 실패 (네트워크 오류, timeout 등)
   if (error) {
     return (
@@ -59,22 +61,26 @@ export default async function ReviewProductInfoSection({ reviewId }: ReviewProdu
 
   const { productId, productName, productImageUrl, productPrice, content, totalRating, tasteRating, amountRating, priceRating, atmosphereRating, kindnessRating, hygieneRating, willRevisit, memberNickname, memberProfileImageUrl, createdAt, imageUrls, tagNames } = data.data
 
+  console.log(productId)
+
   return (
     <Layout>
       <SectionStack>
-        <BorderedSection className="border-t-0 px-[15px] py-5">
-          <Link href={PAGE_PATHS.PRODUCT_DETAIL(productId)}>
-            <div className="flex items-center gap-4">
-              <div className="relative w-[50px] h-[50px] flex-shrink-0 overflow-hidden">
-                <Image src={productImageUrl} alt={productName} fill className="object-cover" sizes="50px" />
+        {productId && (
+          <>
+            <BorderedSection className="border-t-0 px-[15px] py-5">
+              <div className="flex items-center gap-4">
+                <div className="relative w-[50px] h-[50px] flex-shrink-0 overflow-hidden">
+                  <Image src={productImageUrl} alt={productName} fill className="object-cover" sizes="50px" />
+                </div>
+                <div className="flex-1 flex flex-col min-w-0">
+                  <h3 className="text-sm leading-[14px] truncate">{productName}</h3>
+                  <span className="mt-2.5 text-sm leading-[14px]">{formatNumber(productPrice)}원</span>
+                </div>
               </div>
-              <div className="flex-1 flex flex-col min-w-0">
-                <h3 className="text-sm leading-[14px] truncate">{productName}</h3>
-                <span className="mt-2.5 text-sm leading-[14px]">{formatNumber(productPrice)}원</span>
-              </div>
-            </div>
-          </Link>
-        </BorderedSection>
+            </BorderedSection>
+            </>
+          )}
         <BorderedSection className="px-[15px] border-b-0">
           <div className="py-5 border-b border-[#eeeeee] box-border">
             <ReviewRatingDetail
@@ -96,11 +102,13 @@ export default async function ReviewProductInfoSection({ reviewId }: ReviewProdu
               />
               <Rating as="p" value={totalRating} />
             </div>
-            <div className="mt-[25px]">
-              <Link href={PAGE_PATHS.PRODUCT_DETAIL(productId)} className="block text-sm leading-[14px] text-[#999999]">
-                [선택] {productName}
-              </Link>
-            </div>
+            {productId && (
+                <div className="mt-[25px]">
+                  <Link href={PAGE_PATHS.PRODUCT_DETAIL(productId)} className="block text-sm leading-[14px] text-[#999999]">
+                    [선택] {productName}
+                  </Link>
+                </div>
+            )}
             <div className="mt-[15px]">
               <TextContent text={content} />
             </div>
