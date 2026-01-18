@@ -49,7 +49,7 @@ export default function PlaceReviewListItem({
         </div>
       )}
       <div className="mt-[15px]">
-        <ClampedText text={content} href={PAGE_PATHS.REVIEW_DETAIL(id)} />
+        <ClampedText text={content} href={PAGE_PATHS.REVIEW_PRODUCT_DETAIL(id)} />
       </div>
       {imageUrls.length > 0 && (
         <div className="mt-5">

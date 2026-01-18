@@ -27,6 +27,7 @@ export const PAGE_PATHS = {
   // 리뷰
   REVIEWS: '/reviews',
   REVIEW_DETAIL: (id: string | number) => `/reviews/${id}`,
+  REVIEW_PRODUCT_DETAIL: (id: string | number) => `/reviews/${id}/product`,
   REVIEW_CREATE: '/reviews/create',
   REVIEW_CREATE_WITH_MENU: (menuId: string | number) => `/reviews/create?menuId=${menuId}`,
   REVIEW_EDIT: (id: string | number) => `/reviews/${id}/edit`,
