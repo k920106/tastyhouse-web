@@ -1,4 +1,6 @@
 import { Skeleton } from '@/components/ui/shadcn/skeleton'
+import Header, { HeaderCenter, HeaderLeft } from '../layouts/Header'
+import { BackButton } from '../layouts/header-parts'
 
 export function ReviewDetailHeaderSkeleton() {
   return <Skeleton className="h-[17px] w-[120px]" />
@@ -10,15 +12,20 @@ interface ReviewDetailHeaderProps {
 
 export default function ReviewDetailHeader({ memberNickname }: ReviewDetailHeaderProps) {
   return (
-    <>
-      {memberNickname ? (
-        <h1 className="text-[17px] leading-[17px]">
-          <span className="font-bold">{memberNickname}</span>
-          님의 리뷰
-        </h1>
-      ) : (
-        '-'
-      )}
-    </>
+    <Header variant="white" height={55}>
+      <HeaderLeft>
+        <BackButton />
+      </HeaderLeft>
+      <HeaderCenter>
+        {memberNickname ? (
+          <h1 className="text-[17px] leading-[17px]">
+            <span className="font-bold">{memberNickname}</span>
+            님의 리뷰
+          </h1>
+        ) : (
+          <p>-</p>
+        )}
+      </HeaderCenter>
+    </Header>
   )
 }
