@@ -1,9 +1,9 @@
 import ReviewRatingDetail, { ReviewRatingDetailSkeleton } from '@/components/reviews/ReviewRatingDetail'
+import RatingStar from '@/components/ui/RatingStar'
+import { Skeleton } from '@/components/ui/shadcn/skeleton'
 import { formatDecimal, formatNumber } from '@/lib/number'
 import { PlaceReviewStatistics } from '@/types/api/place-detail'
-import { Skeleton } from '@/components/ui/shadcn/skeleton'
 import RatingDistributionChart from './RatingDistributionChart'
-import RatingStar from '@/components/ui/RatingStar'
 
 export function ReviewStatisticsSkeleton() {
   return (
@@ -11,7 +11,7 @@ export function ReviewStatisticsSkeleton() {
       <div className="flex items-center justify-center gap-[30px] pt-[30px] pb-[21px] border-b border-[#eeeeee] box-border">
         <div className="flex flex-col items-center">
           <div className="flex items-baseline gap-1 mb-[15px]">
-            <Skeleton className="w-[60px] h-[32px]" />
+            <Skeleton className="w-10 h-9" />
             <Skeleton className="w-[8px] h-[16px]" />
             <Skeleton className="w-[12px] h-[16px]" />
           </div>
@@ -20,13 +20,13 @@ export function ReviewStatisticsSkeleton() {
               <Skeleton key={star} className="w-[14px] h-[14px]" />
             ))}
           </div>
-          <Skeleton className="w-[80px] h-[10px]" />
+          <Skeleton className="w-16 h-[10px]" />
         </div>
         <div className="flex items-end justify-center gap-[13px]">
           {[5, 4, 3, 2, 1].map((rating) => (
             <div key={rating} className="flex flex-col items-center gap-[13px]">
               <Skeleton className="w-[5px] h-[50px] rounded-full" />
-              <Skeleton className="w-[20px] h-[12px]" />
+              <Skeleton className="w-[18px] h-[12px]" />
             </div>
           ))}
         </div>
