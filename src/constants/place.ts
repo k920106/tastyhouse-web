@@ -1,4 +1,4 @@
-import { PlaceAmenityCode, PlaceFoodType, PlaceImageCategoryCode } from '@/domains/place'
+import { PlaceAmenityCode, PlaceFoodType } from '@/domains/place'
 
 /**
  * Name constants
@@ -25,26 +25,10 @@ const PLACE_AMENITY_CODE_NAMES: Record<PlaceAmenityCode, string> = {
   DELIVERY: '배달',
 }
 
-const PLACE_IMAGE_CATEGORY_CODE_NAMES: Record<PlaceImageCategoryCode, string> = {
-  EXTERIOR: '가게 외관',
-  INTERIOR: '가게 내부',
-  FOOD: '음식',
-  OTHER: '기타',
-}
-
-/**
- * Getter functions
- */
 export const getPlaceFoodTypeCodeName = (foodType: PlaceFoodType): string => {
   return PLACE_FOOD_TYPE_NAMES[foodType] || foodType
 }
 
 export const getPlaceAmenityCodeName = (amenityCode: PlaceAmenityCode): string => {
   return PLACE_AMENITY_CODE_NAMES[amenityCode]
-}
-
-export const getPlaceImageCategoryCodeName = (
-  imageCategoryCode: PlaceImageCategoryCode,
-): string => {
-  return PLACE_IMAGE_CATEGORY_CODE_NAMES[imageCategoryCode]
 }
