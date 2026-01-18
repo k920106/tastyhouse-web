@@ -5,7 +5,7 @@ import { Skeleton } from '@/components/ui/shadcn/skeleton'
 import { useIntersectionObserver } from '@/hooks/useIntersectionObserver'
 import { COMMON_ERROR_MESSAGES } from '@/lib/constants'
 import { getCurrentMemberId, getLatestReviews } from '@/services/review'
-import type { ReviewType } from '@/types/api/review'
+import type { ReviewLatestListItemResponse, ReviewType } from '@/types/api/review'
 import { useInfiniteQuery, useQuery } from '@tanstack/react-query'
 import { useEffect } from 'react'
 import LatestReviewListItem from './LatestReviewListItem'
@@ -73,6 +73,9 @@ export default function LatestReviewList({ reviewType }: LatestReviewListProps) 
         }),
       initialPageParam: 0,
       getNextPageParam: (lastPage) => {
+        if (!lastPage.pagination) {
+          return undefined
+        }
         const { page, totalPages } = lastPage.pagination
         return page + 1 < totalPages ? page + 1 : undefined
       },
@@ -110,7 +113,14 @@ export default function LatestReviewList({ reviewType }: LatestReviewListProps) 
     )
   }
 
-  const reviews = data.pages.flatMap((page) => page.data)
+  const reviews: ReviewLatestListItemResponse[] = data.pages.flatMap((page) => {
+    if (!page.data || !Array.isArray(page.data)) {
+      return []
+    }
+    return page.data.filter(
+      (review): review is ReviewLatestListItemResponse => review !== undefined,
+    )
+  })
 
   if (reviews.length === 0) {
     return <div className="py-10 bg-white text-center text-sm text-[#aaaaaa]">리뷰가 없습니다.</div>

@@ -17,7 +17,12 @@ import { getPlaceFoodTypeCodeName } from '@/constants/place'
 import { useIntersectionObserver } from '@/hooks/useIntersectionObserver'
 import { COMMON_ERROR_MESSAGES } from '@/lib/constants'
 import { getLatestPlaces } from '@/services/place'
-import type { PlaceAmenityCode, PlaceFilterParams, PlaceFoodType } from '@/types/api/place'
+import type {
+  PlaceAmenityCode,
+  PlaceFilterParams,
+  PlaceFoodType,
+  PlaceLatestListItemResponse,
+} from '@/types/api/place'
 import { useInfiniteQuery } from '@tanstack/react-query'
 import { useEffect } from 'react'
 import PlaceFilterBar from './PlaceFilterBar'
@@ -120,6 +125,9 @@ export default function PlaceListContent({
         }),
       initialPageParam: 0,
       getNextPageParam: (lastPage) => {
+        if (!lastPage.pagination) {
+          return undefined
+        }
         const { page, totalPages } = lastPage.pagination
         return page + 1 < totalPages ? page + 1 : undefined
       },
@@ -149,8 +157,13 @@ export default function PlaceListContent({
     return <ErrorMessage message={COMMON_ERROR_MESSAGES.FETCH_ERROR('플레이스')} />
   }
 
-  const places = data.pages.flatMap((page) => page.data)
-  const totalCount = data.pages[0]?.pagination.totalElements ?? 0
+  const places: PlaceLatestListItemResponse[] = data.pages.flatMap((page) => {
+    if (!page.data || !Array.isArray(page.data)) {
+      return []
+    }
+    return page.data.filter((place): place is PlaceLatestListItemResponse => place !== undefined)
+  })
+  const totalCount = data.pages[0]?.pagination?.totalElements ?? 0
 
   return (
     <>

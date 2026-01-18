@@ -19,22 +19,22 @@ function ReviewListSkeleton() {
   return (
     <section className="flex flex-col gap-[3px] px-[15px] py-5">
       <div className="flex flex-col gap-[30px] pb-2.5 border-b border-[#eeeeee] box-border">
-      <div className="flex gap-2.5">
-        {[1, 2, 3, 4, 5, 6].map((i) => (
-          <Skeleton key={i} className="h-[42px] w-[70px] rounded-[1px]" />
-        ))}
-      </div>
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-2">
-          <Skeleton className="w-[25px] h-[25px] rounded-full" />
-          <Skeleton className="w-24 h-[14px]" />
+        <div className="flex gap-2.5">
+          {[1, 2, 3, 4, 5, 6].map((i) => (
+            <Skeleton key={i} className="h-[42px] w-[70px] rounded-[1px]" />
+          ))}
         </div>
-        <div className="flex items-center gap-1.5">
-          <Skeleton className="w-12 h-5" />
-          <Skeleton className="w-5 h-5" />
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <Skeleton className="w-[25px] h-[25px] rounded-full" />
+            <Skeleton className="w-24 h-[14px]" />
+          </div>
+          <div className="flex items-center gap-1.5">
+            <Skeleton className="w-12 h-5" />
+            <Skeleton className="w-5 h-5" />
+          </div>
         </div>
       </div>
-    </div>
       <div className="flex flex-col divide-y divide-[#eeeeee]">
         {[1, 2, 3].map((i) => (
           <ReviewListItemSkeleton key={i} />
@@ -137,7 +137,9 @@ function ReviewFilter({
               <BsCheckLg size={20} className={photoOnly ? 'text-white' : 'text-[#dddddd]'} />
             </div>
           </button>
-          <span className="text-sm leading-[14px]">포토리뷰 ({formatReviewCount(totalReviewCount)})</span>
+          <span className="text-sm leading-[14px]">
+            포토리뷰 ({formatReviewCount(totalReviewCount)})
+          </span>
         </label>
         <div className="flex items-center gap-1.5">
           <select
@@ -167,9 +169,13 @@ const sortReviews = (
       // 추천순은 서버에서 정렬된 상태로 받아오므로 그대로 반환
       return sorted
     case 'latest':
-      return sorted.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
+      return sorted.sort(
+        (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
+      )
     case 'oldest':
-      return sorted.sort((a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime())
+      return sorted.sort(
+        (a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime(),
+      )
     default:
       return sorted
   }
@@ -209,7 +215,8 @@ export default function ReviewList({ placeId }: ReviewListProps) {
     )
   }
 
-  const { reviewsByRating, allReviews, totalReviewCount }: PlaceReviewsByRatingResponse = data.data.data
+  const { reviewsByRating, allReviews, totalReviewCount }: PlaceReviewsByRatingResponse =
+    data.data.data
 
   // 선택된 평점에 따라 리뷰 필터링
   let filteredReviews: PlaceReviewListItemResponse[] = []
@@ -265,10 +272,10 @@ export default function ReviewList({ placeId }: ReviewListProps) {
         )}
       </div>
       {selectedRating == null && totalReviewCount > 5 && (
-          <div className="flex justify-center">
-            <ViewMoreButton href={PAGE_PATHS.PLACE_REVIEWS(placeId)} />
-          </div>
-        )}
+        <div className="flex justify-center">
+          <ViewMoreButton href={PAGE_PATHS.PLACE_REVIEWS(placeId)} />
+        </div>
+      )}
     </div>
   )
 }

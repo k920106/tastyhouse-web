@@ -1,4 +1,6 @@
-import ReviewRatingDetail, { ReviewRatingDetailSkeleton } from '@/components/reviews/ReviewRatingDetail'
+import ReviewRatingDetail, {
+  ReviewRatingDetailSkeleton,
+} from '@/components/reviews/ReviewRatingDetail'
 import ErrorMessage from '@/components/ui/ErrorMessage'
 import RatingStar from '@/components/ui/RatingStar'
 import { Skeleton } from '@/components/ui/shadcn/skeleton'
@@ -47,7 +49,7 @@ interface ReviewStatisticProps {
 }
 
 export default function ReviewStatistic({ placeId }: ReviewStatisticProps) {
-const { data, isLoading, error } = useQuery({
+  const { data, isLoading, error } = useQuery({
     queryKey: ['place', placeId, 'place-detail-review-statistics'],
     queryFn: () => getPlaceReviewStatistics(placeId),
   })
