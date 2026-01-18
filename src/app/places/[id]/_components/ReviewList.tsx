@@ -263,7 +263,7 @@ export default function ReviewList({ placeId }: ReviewListProps) {
           <div className="w-full py-4 text-sm leading-relaxed text-[#999999] text-center whitespace-pre-line">
             {selectedRating !== null
               ? `${selectedRating}점 리뷰가 없습니다.`
-              : '아직 등록된 리뷰가 없습니다.<br />첫 번째 리뷰를 남겨보세요!'}
+              : '아직 등록된 리뷰가 없습니다.\n첫 번째 리뷰를 남겨보세요!'}
           </div>
         ) : (
           sortedReviews.map((review) => (
