@@ -1,6 +1,6 @@
 /** @type {import('prettier').Config} */
 module.exports = {
-  semi: false, // 문장 끝에 세미콜론 제거
+  semi: false, // 문장 끝에 세미콜론 제거 (ESLint의 semi: never와 일치)
   singleQuote: true, // 문자열에 ' ' 사용
   trailingComma: 'all', // 가능하면 항상 마지막에 쉼표
   printWidth: 100, // 한 줄 최대 길이
@@ -16,9 +16,10 @@ module.exports = {
   bracketSameLine: false, // JSX 닫는 꺾쇠는 새 줄
   overrides: [
     {
-      files: '*.ts,*.tsx',
+      files: ['*.ts', '*.tsx'],
       options: {
         parser: 'typescript',
+        semi: false, // TypeScript 파일에서도 세미콜론 사용 안 함
       },
     },
   ],
