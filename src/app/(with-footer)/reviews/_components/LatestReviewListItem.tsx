@@ -3,10 +3,21 @@ import ReviewImageGallery from '@/components/reviews/ReviewImageGallery'
 import ReviewOptionDrawer from '@/components/reviews/ReviewOptionDrawer'
 import ClampedText from '@/components/ui/ClampedText'
 import { PAGE_PATHS } from '@/lib/paths'
-import type { ReviewLatestListItemResponse } from '@/types/api/review'
+
+type LatestReviewItem = {
+  id: number
+  imageUrls: string[]
+  content: string
+  memberId: number
+  memberNickname: string
+  memberProfileImageUrl: string | null
+  likeCount: number
+  commentCount: number
+  createdAt: string
+}
 
 interface LatestReviewListItemProps {
-  review: ReviewLatestListItemResponse
+  review: LatestReviewItem
   currentMemberId: number | null
 }
 
@@ -14,33 +25,35 @@ export default function LatestReviewListItem({
   review,
   currentMemberId,
 }: LatestReviewListItemProps) {
+  const { id, imageUrls, content, memberId, memberNickname, memberProfileImageUrl, likeCount, commentCount, createdAt } = review
+
   return (
     <div className="px-[15px] pt-3 pb-[30px] bg-white">
       <div className="flex justify-between">
         <ReviewAuthorInfo
-          profileImageUrl={review.memberProfileImageUrl}
-          nickname={review.memberNickname}
-          createdAt={review.createdAt}
+          profileImageUrl={memberProfileImageUrl}
+          nickname={memberNickname}
+          createdAt={createdAt}
         />
         <ReviewOptionDrawer
-          reviewId={review.id}
-          memberId={review.memberId}
+          reviewId={id}
+          memberId={memberId}
           currentMemberId={currentMemberId}
-          memberNickname={review.memberNickname}
-          content={review.content}
+          memberNickname={memberNickname}
+          content={content}
         />
       </div>
-      {review.imageUrls.length > 0 && (
+      {imageUrls.length > 0 && (
         <div className="mt-[15px]">
-          <ReviewImageGallery imageUrls={review.imageUrls} />
+          <ReviewImageGallery imageUrls={imageUrls} />
         </div>
       )}
       <div className="mt-5">
-        <ClampedText text={review.content} href={PAGE_PATHS.REVIEW_DETAIL(review.id)} />
+        <ClampedText text={content} href={PAGE_PATHS.REVIEW_DETAIL(id)} />
       </div>
       <div className="flex gap-4 mt-3.5">
-        <span className="text-xs leading-[12px] text-[#aaaaaa]">좋아요 {review.likeCount}개</span>
-        <span className="text-xs leading-[12px] text-[#aaaaaa]">댓글 {review.commentCount}개</span>
+        <span className="text-xs leading-[12px] text-[#aaaaaa]">좋아요 {likeCount}개</span>
+        <span className="text-xs leading-[12px] text-[#aaaaaa]">댓글 {commentCount}개</span>
       </div>
     </div>
   )

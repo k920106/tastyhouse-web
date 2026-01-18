@@ -1,30 +1,36 @@
 'use server'
 
-import { api } from '@/lib/api'
-import { API_ENDPOINTS } from '@/lib/endpoints'
-import { ApiResponse } from '@/types/api/api'
-import { MemberInfo } from '@/types/api/member'
-import { ReviewLatestListItemResponse, ReviewLatestQuery } from '@/types/api/review'
+import { reviewService } from '@/domains/review/review.service'
+import type { CommentCreateRequest, ReplyCreateRequest, ReviewLatestQuery } from '@/domains/review/review.type'
+import { revalidatePath } from 'next/cache'
 
 export async function getLatestReviews(params: ReviewLatestQuery) {
-  const { data, error } = await api.get<ApiResponse<ReviewLatestListItemResponse>>(
-    API_ENDPOINTS.REVIEWS_LATEST,
-    { params },
-  )
-
-  if (error || !data || !data.success || !data.data) {
-    throw new Error(error || 'Failed to fetch reviews')
-  }
-
-  return data
+  return await reviewService.getLatestReviews(params)
 }
 
-export async function getCurrentMemberId(): Promise<number | null> {
-  const { data, error } = await api.get<ApiResponse<MemberInfo>>(API_ENDPOINTS.MEMBER_ME)
+export async function toggleReviewLike(reviewId: number) {
+  return await reviewService.toggleReviewLike(reviewId)
+}
 
-  if (error || !data || !data.success || !data.data) {
-    throw new Error(error || 'Failed to fetch reviews')
+export async function createComment(reviewId: number, request: CommentCreateRequest) {
+  const result = await reviewService.createReviewComment(reviewId, request)
+
+  if (!result.error && result.data && result.data.success && result.data.data) {
+    revalidatePath(`/reviews/${reviewId}`)
   }
 
-  return data.data.id
+  return result
+}
+
+export async function createReply(
+  reviewId: number,
+  commentId: number,
+  request: ReplyCreateRequest,
+) {
+  const result = await reviewService.createReviewReply(reviewId, commentId, request)
+  if (!result.error && result.data && result.data.success && result.data.data) {
+    revalidatePath(`/reviews/${reviewId}`)
+  }
+
+  return result
 }

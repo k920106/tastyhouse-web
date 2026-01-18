@@ -4,9 +4,9 @@ import ErrorMessage from '@/components/ui/ErrorMessage'
 import { Skeleton } from '@/components/ui/shadcn/skeleton'
 import { useIntersectionObserver } from '@/hooks/useIntersectionObserver'
 import { COMMON_ERROR_MESSAGES } from '@/lib/constants'
-import { getCurrentMemberId, getLatestReviews } from '@/services/review'
-import type { ReviewLatestListItemResponse, ReviewType } from '@/types/api/review'
-import { useInfiniteQuery, useQuery } from '@tanstack/react-query'
+import { getLatestReviews } from '@/services/review'
+import type { ReviewType } from '@/types/api/review'
+import { useInfiniteQuery } from '@tanstack/react-query'
 import { useEffect } from 'react'
 import LatestReviewListItem from './LatestReviewListItem'
 
@@ -56,30 +56,51 @@ interface LatestReviewListProps {
 }
 
 export default function LatestReviewList({ reviewType }: LatestReviewListProps) {
-  const { data: currentMemberId } = useQuery({
-    queryKey: ['member', 'me'],
-    queryFn: getCurrentMemberId,
-    staleTime: 1000 * 60 * 5,
-  })
+  const {
+    data,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+    isLoading,
+    isError,
+    error,
+  } = useInfiniteQuery({
+    queryKey: ['reviews', 'latest', reviewType],
+    queryFn: async ({ pageParam }) => {
+      const response = await getLatestReviews({
+        page: pageParam as number,
+        size: PAGE_SIZE,
+        type: reviewType,
+      })
 
-  const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading, isError } =
-    useInfiniteQuery({
-      queryKey: ['reviews', 'latest', reviewType],
-      queryFn: ({ pageParam }) =>
-        getLatestReviews({
-          page: pageParam,
-          size: PAGE_SIZE,
-          type: reviewType,
-        }),
-      initialPageParam: 0,
-      getNextPageParam: (lastPage) => {
-        if (!lastPage.pagination) {
-          return undefined
-        }
-        const { page, totalPages } = lastPage.pagination
-        return page + 1 < totalPages ? page + 1 : undefined
-      },
-    })
+      // API 에러 처리
+      if (response.error) {
+        throw new Error(response.error)
+      }
+
+      // 응답 데이터 검증
+      if (!response.data) {
+        throw new Error('응답 데이터가 없습니다.')
+      }
+
+      return response.data
+    },
+    initialPageParam: 0,
+    getNextPageParam: (lastPage) => {
+      // pagination 정보가 없으면 더 이상 페이지가 없음
+      if (!lastPage.pagination) {
+        return undefined
+      }
+
+      const { page, totalPages } = lastPage.pagination
+
+      // 다음 페이지가 있으면 페이지 번호 반환, 없으면 undefined
+      return page + 1 < totalPages ? page + 1 : undefined
+    },
+    retry: 1,
+    staleTime: 1000 * 60 * 5, // 5분
+    gcTime: 1000 * 60 * 10, // 10분
+  })
 
   const { targetRef, isIntersecting, resetIntersecting } = useIntersectionObserver({
     threshold: 0.1,
@@ -94,17 +115,23 @@ export default function LatestReviewList({ reviewType }: LatestReviewListProps) 
     }
   }, [isIntersecting, hasNextPage, isFetchingNextPage, fetchNextPage, resetIntersecting])
 
+  // 로딩 상태
   if (isLoading) {
     return <LatestReviewListSkeleton />
   }
 
+  // 에러 상태
   if (isError) {
     return (
-      <ErrorMessage message={COMMON_ERROR_MESSAGES.API_FETCH_ERROR} className="py-10 bg-white" />
+      <ErrorMessage
+        message={error?.message || COMMON_ERROR_MESSAGES.API_FETCH_ERROR}
+        className="py-10 bg-white"
+      />
     )
   }
 
-  if (!data) {
+  // 데이터가 없는 경우
+  if (!data?.pages || data.pages.length === 0) {
     return (
       <ErrorMessage
         message={COMMON_ERROR_MESSAGES.FETCH_ERROR('리뷰')}
@@ -113,15 +140,15 @@ export default function LatestReviewList({ reviewType }: LatestReviewListProps) 
     )
   }
 
-  const reviews: ReviewLatestListItemResponse[] = data.pages.flatMap((page) => {
+  // 모든 페이지의 리뷰를 평탄화
+  const reviews = data.pages.flatMap((page) => {
     if (!page.data || !Array.isArray(page.data)) {
       return []
     }
-    return page.data.filter(
-      (review): review is ReviewLatestListItemResponse => review !== undefined,
-    )
+    return page.data
   })
 
+  // 리뷰가 없는 경우
   if (reviews.length === 0) {
     return <div className="py-10 bg-white text-center text-sm text-[#aaaaaa]">리뷰가 없습니다.</div>
   }
@@ -129,11 +156,7 @@ export default function LatestReviewList({ reviewType }: LatestReviewListProps) 
   return (
     <>
       {reviews.map((review) => (
-        <LatestReviewListItem
-          key={review.id}
-          review={review}
-          currentMemberId={currentMemberId ?? null}
-        />
+        <LatestReviewListItem key={review.id} review={review} currentMemberId={null} />
       ))}
       {isFetchingNextPage && <LatestReviewListSkeleton />}
       <div ref={targetRef} className="h-1" aria-hidden="true" />

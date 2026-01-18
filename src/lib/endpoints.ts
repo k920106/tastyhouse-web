@@ -40,14 +40,6 @@ export const API_ENDPOINTS = {
   POINTS: '/api/points/v1',
   POINT_HISTORY: '/api/points/v1/history',
 
-  // 리뷰
-  REVIEWS: '/api/reviews/v1',
-  REVIEW_DETAIL: (id: string | number) => `/api/reviews/v1/${id}`,
-  REVIEW_DETAIL_PRODUCT: (id: string | number) => `/api/reviews/v1/${id}/product`,
-  REVIEW_COMMENTS: (reviewId: string | number) => `/api/reviews/v1/${reviewId}/comments`,
-  REVIEW_LIKE: (reviewId: string | number) => `/api/reviews/v1/${reviewId}/like`,
-  COMMENT_REPLIES: (commentId: string | number) => `/api/reviews/v1/comments/${commentId}/replies`,
-
   // 랭킹
   RANKS: '/api/ranks/v1',
   RANK_DETAIL: (id: string | number) => `/api/ranks/v1/${id}`,

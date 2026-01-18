@@ -1,5 +1,5 @@
 import { Skeleton } from '@/components/ui/shadcn/skeleton'
-import { Comment } from '@/types/api/review'
+import type { ReviewComment } from '@/types/api/review'
 import CommentItem from './CommentItem'
 
 export function CommentListSkeleton() {
@@ -29,7 +29,7 @@ function CommentListItemSkeleton() {
 }
 
 interface CommentListProps {
-  comments: Comment[]
+  comments: ReviewComment[]
   currentMemberId: number
 }
 

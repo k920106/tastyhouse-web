@@ -2,7 +2,6 @@ import ReviewAuthorInfo from '@/components/reviews/ReviewAuthorInfo'
 import ReviewImageGallery from '@/components/reviews/ReviewImageGallery'
 import TextContent from '@/components/ui/TextContent'
 import { Skeleton } from '@/components/ui/shadcn/skeleton'
-import { ReviewDetailResponse } from '@/types/api/review'
 import { ReactNode } from 'react'
 import ReviewActions from './ReviewActions'
 import ReviewTagList from './ReviewTagList'
@@ -39,19 +38,28 @@ export function ReviewInfoSkeleton() {
 }
 
 interface ReviewInfoProps {
-  reviewDetail: ReviewDetailResponse
+  memberProfileImageUrl: string | null
+  memberNickname: string
+  createdAt: string
+  imageUrls: string[]
+  content: string
+  tagNames: string[]
+  id: number
   reviewOption: ReactNode
   reviewLike: ReactNode
 }
 
 export default async function ReviewInfo({
-  reviewDetail,
+  memberProfileImageUrl,
+  memberNickname,
+  createdAt,
+  imageUrls,
+  content,
+  tagNames,
+  id,
   reviewOption,
   reviewLike,
 }: ReviewInfoProps) {
-  const { memberProfileImageUrl, memberNickname, createdAt, imageUrls, content, tagNames, id } =
-    reviewDetail
-
   return (
     <>
       <div className="flex justify-between">

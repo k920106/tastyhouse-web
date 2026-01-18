@@ -1,9 +1,6 @@
 import ErrorMessage from '@/components/ui/ErrorMessage'
-import { api } from '@/lib/api'
+import { reviewService } from '@/domains/review'
 import { COMMON_ERROR_MESSAGES } from '@/lib/constants'
-import { API_ENDPOINTS } from '@/lib/endpoints'
-import { ApiResponse } from '@/types/api/api'
-import { ReviewDetailResponse } from '@/types/api/review'
 import { ReactNode } from 'react'
 import ReviewInfo from './ReviewInfo'
 
@@ -19,9 +16,7 @@ export default async function ReviewInfoServer({
   reviewOption,
 }: ReviewInfoServerProps) {
   // API 호출
-  const { error, data } = await api.get<ApiResponse<ReviewDetailResponse>>(
-    API_ENDPOINTS.REVIEW_DETAIL(reviewId),
-  )
+  const { error, data } = await reviewService.getReviewDetail(reviewId)
 
   // Expected Error: API 호출 실패 (네트워크 오류, timeout 등)
   if (error) {
@@ -33,5 +28,5 @@ export default async function ReviewInfoServer({
     return <ErrorMessage message={COMMON_ERROR_MESSAGES.FETCH_ERROR('리뷰')} />
   }
 
-  return <ReviewInfo reviewDetail={data.data} reviewLike={reviewLike} reviewOption={reviewOption} />
+  return <ReviewInfo memberProfileImageUrl={data.data.memberProfileImageUrl} memberNickname={data.data.memberNickname} createdAt={data.data.createdAt} imageUrls={data.data.imageUrls} content={data.data.content} tagNames={data.data.tagNames} id={data.data.id} reviewLike={reviewLike} reviewOption={reviewOption} />
 }

@@ -1,9 +1,8 @@
 'use client'
 
 import { toast } from '@/components/ui/AppToaster'
-import { CommentCreateRequest, ReplyCreateRequest } from '@/types/api/review'
+import { createComment, createReply } from '@/services/review'
 import { useState } from 'react'
-import { createComment, createReply } from '../actions'
 import CommentSubmitButton from './CommentSubmitButton'
 import { useReply } from './ReplyContext'
 
@@ -39,7 +38,7 @@ export default function CommentSubmitButtonClient({ reviewId }: CommentSubmitBut
     if (!replyTarget) {
       // 댓글 등록
       // API 호출
-      const request = { content } satisfies CommentCreateRequest
+      const request = { content }
       const { error, data } = await createComment(reviewId, request)
 
       if (error || !data || !data.success || !data.data) {
@@ -53,7 +52,7 @@ export default function CommentSubmitButtonClient({ reviewId }: CommentSubmitBut
       const request = {
         content,
         replyToMemberId: replyTarget.memberId,
-      } satisfies ReplyCreateRequest
+      }
       const { error, data } = await createReply(reviewId, replyTarget.commentId, request)
 
       if (error || !data || !data.success || !data.data) {

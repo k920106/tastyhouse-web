@@ -1,12 +1,12 @@
 import ReviewOptionButton from '@/components/reviews/ReviewOptionButton'
 import ReviewOptionDrawer from '@/components/reviews/ReviewOptionDrawer'
 import ReviewOptionError from '@/components/reviews/ReviewOptionError'
+import { reviewService } from '@/domains/review'
 import { api } from '@/lib/api'
 import { API_ENDPOINTS } from '@/lib/endpoints'
 import { PAGE_PATHS } from '@/lib/paths'
 import { ApiResponse } from '@/types/api/api'
 import { MemberInfo } from '@/types/api/member'
-import { ReviewDetailResponse } from '@/types/api/review'
 import { cookies } from 'next/headers'
 import Link from 'next/link'
 
@@ -30,7 +30,7 @@ export default async function ReviewOptionDrawerServer({
 
   // API 호출
   const [reviewResponse, memberResponse] = await Promise.all([
-    api.get<ApiResponse<ReviewDetailResponse>>(API_ENDPOINTS.REVIEW_DETAIL(reviewId)),
+    reviewService.getReviewDetail(reviewId),
     api.get<ApiResponse<MemberInfo>>(API_ENDPOINTS.MEMBER_ME),
   ])
 

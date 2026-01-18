@@ -8,7 +8,6 @@ import Rating from '@/components/ui/Rating'
 import { Skeleton } from '@/components/ui/shadcn/skeleton'
 import { PAGE_PATHS } from '@/lib/paths'
 import { cn } from '@/lib/utils'
-import { ReviewBestListItemResponse } from '@/types/api/review'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useEffect, useRef, useState } from 'react'
@@ -55,8 +54,17 @@ function ReviewCardSkeleton({ className }: { className?: string }) {
   )
 }
 
+type BestReviewItem = {
+  id: number
+  content: string
+  imageUrl: string
+  stationName: string
+  title: string
+  totalRating: number
+}
+
 interface BestReviewSwiperProps {
-  reviews: ReviewBestListItemResponse[]
+  reviews: BestReviewItem[]
 }
 
 export default function BestReviewSwiper({ reviews }: BestReviewSwiperProps) {

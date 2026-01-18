@@ -1,8 +1,8 @@
 'use client'
 
 import { toast } from '@/components/ui/AppToaster'
+import { toggleReviewLike } from '@/services/review'
 import { useState, useTransition } from 'react'
-import { toggleReviewLike } from '../actions'
 import ReviewLikeButton from './ReviewLikeButton'
 
 interface ReviewLikeButtonClientProps {

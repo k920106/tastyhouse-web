@@ -1,10 +1,10 @@
 import ErrorMessage from '@/components/ui/ErrorMessage'
+import { reviewService } from '@/domains/review'
 import { api } from '@/lib/api'
 import { COMMON_ERROR_MESSAGES } from '@/lib/constants'
 import { API_ENDPOINTS } from '@/lib/endpoints'
 import { ApiResponse } from '@/types/api/api'
 import { MemberInfo } from '@/types/api/member'
-import { CommentListResponse } from '@/types/api/review'
 import CommentList from './CommentList'
 
 interface CommentListServerProps {
@@ -17,7 +17,7 @@ export default async function CommentListServer({ params }: CommentListServerPro
 
   // API 호출
   const [commentResponse, memberResponse] = await Promise.all([
-    api.get<ApiResponse<CommentListResponse>>(API_ENDPOINTS.REVIEW_COMMENTS(reviewId)),
+    reviewService.getReviewComments(reviewId),
     api.get<ApiResponse<MemberInfo>>(API_ENDPOINTS.MEMBER_ME),
   ])
 

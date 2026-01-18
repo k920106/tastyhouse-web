@@ -1,9 +1,6 @@
 import ReviewLikeButtonError from '@/app/reviews/[id]/_components/ReviewLikeButtonError'
-import { api } from '@/lib/api'
-import { API_ENDPOINTS } from '@/lib/endpoints'
+import { reviewService } from '@/domains/review'
 import { PAGE_PATHS } from '@/lib/paths'
-import { ApiResponse } from '@/types/api/api'
-import { ReviewLikeResponse } from '@/types/api/review'
 import { cookies } from 'next/headers'
 import Link from 'next/link'
 import ReviewLikeButton from './ReviewLikeButton'
@@ -26,9 +23,7 @@ export default async function ReviewLikeButtonServer({ reviewId }: ReviewLikeBut
   }
 
   // API 호출
-  const { error, data } = await api.get<ApiResponse<ReviewLikeResponse>>(
-    API_ENDPOINTS.REVIEW_LIKE(reviewId),
-  )
+  const { error, data } = await reviewService.getReviewLike(reviewId)
 
   // Expected Error: API 호출 실패 (네트워크 오류, timeout 등)
   if (error) {
