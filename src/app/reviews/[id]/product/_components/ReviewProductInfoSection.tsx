@@ -2,40 +2,65 @@ import ReviewAuthorInfo from '@/components/reviews/ReviewAuthorInfo'
 import ReviewImageGallery from '@/components/reviews/ReviewImageGallery'
 import ReviewRatingDetail from '@/components/reviews/ReviewRatingDetail'
 import BorderedSection from '@/components/ui/BorderedSection'
+import ErrorState from '@/components/ui/ErrorState'
 import Rating from '@/components/ui/Rating'
 import SectionStack from '@/components/ui/SectionStack'
 import TextContent from '@/components/ui/TextContent'
+import { api } from '@/lib/api'
+import { COMMON_ERROR_MESSAGES } from '@/lib/constants'
+import { API_ENDPOINTS } from '@/lib/endpoints'
 import { formatNumber } from '@/lib/number'
 import { PAGE_PATHS } from '@/lib/paths'
+import { ApiResponse } from '@/types/api/api'
+import { ReviewDetailProductResponse } from '@/types/api/review'
 import Image from 'next/image'
 import Link from 'next/link'
 import ReviewTagList from '../../_components/ReviewTagList'
 
+function Layout({ children }: { children: React.ReactNode }) {
+  return (
+    <section>
+      {children}
+    </section>
+  )
+}
+
 interface ReviewProductInfoSectionProps {
-  productId: number
-  productName: string
-  productImageUrl: string
-  productPrice: number
-  content: string
-  totalRating: number
-  tasteRating: number
-  amountRating: number
-  priceRating: number
-  atmosphereRating: number
-  kindnessRating: number
-  hygieneRating: number
-  willRevisit: boolean
-  memberNickname: string
-  memberProfileImageUrl: string
-  createdAt: string
-  imageUrls: string[]
-  tagNames: string[]
   reviewId: number
 }
 
-export default async function ReviewProductInfoSection({ productId, productName, productImageUrl, productPrice, content, totalRating, tasteRating, amountRating, priceRating, atmosphereRating, kindnessRating, hygieneRating, willRevisit, memberNickname, memberProfileImageUrl, createdAt, imageUrls, tagNames }: ReviewProductInfoSectionProps) {
+export default async function ReviewProductInfoSection({ reviewId }: ReviewProductInfoSectionProps) {
+  // API 생성
+  const { error, data } = await api.get<ApiResponse<ReviewDetailProductResponse>>(
+    API_ENDPOINTS.REVIEW_DETAIL_PRODUCT(reviewId),
+  )
+
+  // Expected Error: API 호출 실패 (네트워크 오류, timeout 등)
+  if (error) {
+    return (
+      <Layout>
+        <div className="relative -top-[55px] flex items-center justify-center min-h-screen">
+          <ErrorState message={COMMON_ERROR_MESSAGES.API_FETCH_ERROR} />
+        </div>
+      </Layout>
+    )
+  }
+
+  // Expected Error: API 응답은 받았지만 데이터가 없거나 실패 응답
+  if (!data || !data.success || !data.data) {
+    return (
+      <Layout>
+        <div className="relative -top-[55px] flex items-center justify-center min-h-screen">
+          <ErrorState message={COMMON_ERROR_MESSAGES.FETCH_ERROR('리뷰')} />
+        </div>
+      </Layout>
+    )
+  }
+
+  const { productId, productName, productImageUrl, productPrice, content, totalRating, tasteRating, amountRating, priceRating, atmosphereRating, kindnessRating, hygieneRating, willRevisit, memberNickname, memberProfileImageUrl, createdAt, imageUrls, tagNames } = data.data
+
   return (
-    <section>
+    <Layout>
       <SectionStack>
         <BorderedSection className="border-t-0 px-[15px] py-5">
           <Link href={PAGE_PATHS.PRODUCT_DETAIL(productId)}>
@@ -88,6 +113,6 @@ export default async function ReviewProductInfoSection({ productId, productName,
           </div>
         </BorderedSection>
       </SectionStack>
-    </section>
+    </Layout>
   )
 }
