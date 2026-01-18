@@ -2,7 +2,7 @@ import ErrorMessage from '@/components/ui/ErrorMessage'
 import { COMMON_ERROR_MESSAGES } from '@/lib/constants'
 import { getPlaceReviewStatistics } from '@/services/place'
 import { useQuery } from '@tanstack/react-query'
-import ReviewStatistics from './ReviewStatistics'
+import ReviewStatistics, { ReviewStatisticsSkeleton } from './ReviewStatistics'
 
 interface ReviewStatisticsFetcherProps {
   placeId: number
@@ -15,7 +15,7 @@ export default function ReviewStatisticsFetcher({ placeId }: ReviewStatisticsFet
   })
 
   if (isLoading) {
-    return <div>Loading...</div>
+    return <ReviewStatisticsSkeleton />
   }
 
   if (error) {
