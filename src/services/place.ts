@@ -2,18 +2,18 @@
 
 import { api } from '@/lib/api'
 import { API_ENDPOINTS } from '@/lib/endpoints'
-import { ApiResponse, PagedApiResponse } from '@/types/api/api'
+import { ApiResponse } from '@/types/api/api'
 import { PlaceLatestListItemResponse, PlaceListQuery } from '@/types/api/place'
 import {
   PlaceInfoResponse,
   PlaceMenuCategory,
   PlacePhotoCategory,
-  PlaceReviewListItemResponse,
   PlaceReviewStatistics,
+  PlaceReviewsByRatingResponse,
 } from '@/types/api/place-detail'
 
 export async function getLatestPlaces(params: PlaceListQuery) {
-  const { data, error } = await api.get<PagedApiResponse<PlaceLatestListItemResponse>>(
+  const { data, error } = await api.get<ApiResponse<PlaceLatestListItemResponse[]>>(
     API_ENDPOINTS.PLACES_LATEST,
     { params },
   )
@@ -51,8 +51,26 @@ export async function getPlaceReviewStatistics(placeId: number) {
   )
 }
 
-export async function getPlaceReviews(placeId: number) {
-  return api.get<PagedApiResponse<PlaceReviewListItemResponse>>(
+export interface GetPlaceReviewsParams {
+  page?: number
+  size?: number
+}
+
+export async function getPlaceReviews(
+  placeId: number,
+  params?: GetPlaceReviewsParams,
+) {
+  const queryParams: Record<string, string | number> = {}
+
+  if (params?.page !== undefined) {
+    queryParams.page = params.page
+  }
+  if (params?.size !== undefined) {
+    queryParams.size = params.size
+  }
+
+  return api.get<ApiResponse<PlaceReviewsByRatingResponse>>(
     API_ENDPOINTS.PLACES_REVIEWS(placeId),
+    { params: queryParams },
   )
 }

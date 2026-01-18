@@ -100,8 +100,8 @@ export type PlaceReviewListItemResponse = {
   memberNickname: string
   memberProfileImageUrl: string | null
   createdAt: string
-  productId: number
-  productName: string
+  productId: number | null
+  productName: string | null
 }
 
 export type PlaceReviewStatistics = {
@@ -116,4 +116,10 @@ export type PlaceReviewStatistics = {
   willRevisitPercentage: number
   monthlyReviewCounts: Record<string, number>
   ratingCounts: Record<string, number>
+}
+
+export type PlaceReviewsByRatingResponse = {
+  reviewsByRating: Record<string, PlaceReviewListItemResponse[]>
+  allReviews: PlaceReviewListItemResponse[]
+  totalReviewCount: number
 }

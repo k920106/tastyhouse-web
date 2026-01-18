@@ -1,1 +1,1 @@
-export type ReviewSortType = 'recommended' | 'latest'
+export type ReviewSortType = 'recommended' | 'latest' | 'oldest'

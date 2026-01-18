@@ -2,12 +2,12 @@
 
 import { api } from '@/lib/api'
 import { API_ENDPOINTS } from '@/lib/endpoints'
-import { ApiResponse, PagedApiResponse } from '@/types/api/api'
+import { ApiResponse } from '@/types/api/api'
 import { MemberInfo } from '@/types/api/member'
 import { ReviewLatestListItemResponse, ReviewLatestQuery } from '@/types/api/review'
 
 export async function getLatestReviews(params: ReviewLatestQuery) {
-  const { data, error } = await api.get<PagedApiResponse<ReviewLatestListItemResponse>>(
+  const { data, error } = await api.get<ApiResponse<ReviewLatestListItemResponse>>(
     API_ENDPOINTS.REVIEWS_LATEST,
     { params },
   )

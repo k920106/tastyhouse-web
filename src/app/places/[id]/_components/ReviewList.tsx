@@ -2,10 +2,13 @@
 
 import { ReviewImageGallerySkeleton } from '@/components/reviews/ReviewImageGallery'
 import ErrorMessage from '@/components/ui/ErrorMessage'
+import ViewMoreButton from '@/components/ui/ViewMoreButton'
 import { Skeleton } from '@/components/ui/shadcn/skeleton'
 import { ReviewSortType } from '@/constants/review'
 import { COMMON_ERROR_MESSAGES } from '@/lib/constants'
+import { PAGE_PATHS } from '@/lib/paths'
 import { getPlaceReviews } from '@/services/place'
+import { PlaceReviewListItemResponse, PlaceReviewsByRatingResponse } from '@/types/api/place-detail'
 import { useQuery } from '@tanstack/react-query'
 import { useState } from 'react'
 import { BsCheckLg } from 'react-icons/bs'
@@ -15,19 +18,7 @@ import PlaceReviewListItem from './PlaceReviewItem'
 function ReviewListSkeleton() {
   return (
     <section className="flex flex-col gap-[3px] px-[15px] py-5">
-      <ReviewFilterSkeleton />
-      <div className="flex flex-col divide-y divide-[#eeeeee]">
-        {[1, 2, 3].map((i) => (
-          <ReviewListItemSkeleton key={i} />
-        ))}
-      </div>
-    </section>
-  )
-}
-
-function ReviewFilterSkeleton() {
-  return (
-    <div className="flex flex-col gap-[30px] pb-2.5 border-b border-[#eeeeee] box-border">
+      <div className="flex flex-col gap-[30px] pb-2.5 border-b border-[#eeeeee] box-border">
       <div className="flex gap-2.5">
         {[1, 2, 3, 4, 5, 6].map((i) => (
           <Skeleton key={i} className="h-[42px] w-[70px] rounded-[1px]" />
@@ -44,6 +35,12 @@ function ReviewFilterSkeleton() {
         </div>
       </div>
     </div>
+      <div className="flex flex-col divide-y divide-[#eeeeee]">
+        {[1, 2, 3].map((i) => (
+          <ReviewListItemSkeleton key={i} />
+        ))}
+      </div>
+    </section>
   )
 }
 
@@ -75,8 +72,12 @@ function ReviewListItemSkeleton() {
   )
 }
 
+const formatReviewCount = (count: number): string => {
+  return count >= 99 ? '99+' : String(count)
+}
+
 interface ReviewFilterProps {
-  photoReviewCount: number
+  totalReviewCount: number
   photoOnly: boolean
   onPhotoOnlyChange: (value: boolean) => void
   selectedRating: number | null
@@ -86,7 +87,7 @@ interface ReviewFilterProps {
 }
 
 function ReviewFilter({
-  photoReviewCount,
+  totalReviewCount,
   photoOnly,
   onPhotoOnlyChange,
   selectedRating,
@@ -136,7 +137,7 @@ function ReviewFilter({
               <BsCheckLg size={20} className={photoOnly ? 'text-white' : 'text-[#dddddd]'} />
             </div>
           </button>
-          <span className="text-sm leading-[14px]">포토리뷰 ({photoReviewCount})</span>
+          <span className="text-sm leading-[14px]">포토리뷰 ({formatReviewCount(totalReviewCount)})</span>
         </label>
         <div className="flex items-center gap-1.5">
           <select
@@ -146,6 +147,7 @@ function ReviewFilter({
           >
             <option value="recommended">추천순</option>
             <option value="latest">최신순</option>
+            <option value="oldest">오래된순</option>
           </select>
           <FiChevronDown size={20} className="pointer-events-none" />
         </div>
@@ -154,18 +156,37 @@ function ReviewFilter({
   )
 }
 
+const sortReviews = (
+  reviews: PlaceReviewListItemResponse[],
+  sortType: ReviewSortType,
+): PlaceReviewListItemResponse[] => {
+  const sorted = [...reviews]
+  switch (sortType) {
+    case 'recommended':
+      // 추천순은 서버에서 정렬된 상태로 받아오므로 그대로 반환
+      return sorted
+    case 'latest':
+      return sorted.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
+    case 'oldest':
+      return sorted.sort((a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime())
+    default:
+      return sorted
+  }
+}
+
 interface ReviewListProps {
   placeId: number
 }
 
 export default function ReviewList({ placeId }: ReviewListProps) {
-  const [photoOnly, setPhotoOnly] = useState(true)
+  const [photoOnly, setPhotoOnly] = useState(false)
   const [selectedRating, setSelectedRating] = useState<number | null>(null)
-  const [sortType, setSortType] = useState<ReviewSortType>('recommended')
+  const [sortType, setSortType] = useState<ReviewSortType>('latest')
 
+  // 페이지 로딩 시 한 번만 API 호출
   const { data, isLoading, error } = useQuery({
     queryKey: ['place', placeId, 'place-detail-reviews'],
-    queryFn: () => getPlaceReviews(placeId),
+    queryFn: () => getPlaceReviews(placeId, { page: 0, size: 5 }),
   })
 
   if (isLoading) {
@@ -187,14 +208,30 @@ export default function ReviewList({ placeId }: ReviewListProps) {
     )
   }
 
-  const reviews = data.data.data
+  const { reviewsByRating, allReviews, totalReviewCount }: PlaceReviewsByRatingResponse = data.data.data
 
-  const photoReviewCount = reviews.filter((review) => review.imageUrls.length > 0).length
+  // 선택된 평점에 따라 리뷰 필터링
+  let filteredReviews: PlaceReviewListItemResponse[] = []
+  if (selectedRating !== null) {
+    filteredReviews = reviewsByRating[String(selectedRating)] || []
+  } else {
+    filteredReviews = allReviews
+  }
+
+  // 포토리뷰만 보기 필터 적용
+  if (photoOnly) {
+    filteredReviews = filteredReviews.filter(
+      (review: PlaceReviewListItemResponse) => review.imageUrls.length > 0,
+    )
+  }
+
+  // 정렬 적용
+  const sortedReviews = sortReviews(filteredReviews, sortType)
 
   return (
     <div className="flex flex-col gap-[3px] px-[15px] py-5">
       <ReviewFilter
-        photoReviewCount={photoReviewCount}
+        totalReviewCount={totalReviewCount}
         photoOnly={photoOnly}
         onPhotoOnlyChange={setPhotoOnly}
         selectedRating={selectedRating}
@@ -203,13 +240,14 @@ export default function ReviewList({ placeId }: ReviewListProps) {
         onSortTypeChange={setSortType}
       />
       <div className="flex flex-col divide-y divide-[#eeeeee]">
-        {reviews.length === 0 ? (
+        {sortedReviews.length === 0 ? (
           <div className="w-full py-4 text-sm leading-relaxed text-[#999999] text-center whitespace-pre-line">
-            아직 등록된 리뷰가 없습니다.<br />
-            첫 번째 리뷰를 남겨보세요!
+            {selectedRating !== null
+              ? `${selectedRating}점 리뷰가 없습니다.`
+              : '아직 등록된 리뷰가 없습니다.<br />첫 번째 리뷰를 남겨보세요!'}
           </div>
         ) : (
-          reviews.map((review) => (
+          sortedReviews.map((review) => (
             <PlaceReviewListItem
               key={review.id}
               memberProfileImageUrl={review.memberProfileImageUrl}
@@ -225,6 +263,11 @@ export default function ReviewList({ placeId }: ReviewListProps) {
           ))
         )}
       </div>
+      {selectedRating == null && totalReviewCount > 5 && (
+          <div className="flex justify-center">
+            <ViewMoreButton href={PAGE_PATHS.PLACE_REVIEWS(placeId)} />
+          </div>
+        )}
     </div>
   )
 }

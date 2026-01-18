@@ -10,15 +10,9 @@ type PageInfo = {
   totalPages: number
 }
 
-export type PagedApiResponse<T> = {
-  success: boolean
-  message: string | null
-  data: T[]
-  pagination: PageInfo
-}
-
 export type ApiResponse<T> = {
   success: boolean
   message: string | null
-  data: T
+  data?: T
+  pagination?: PageInfo
 }

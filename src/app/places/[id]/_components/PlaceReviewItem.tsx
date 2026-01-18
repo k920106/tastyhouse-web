@@ -10,8 +10,8 @@ interface PlaceReviewListItemProps {
   memberNickname: string
   createdAt: string
   totalRating: number
-  productId: number
-  productName: string
+  productId: number | null
+  productName: string | null
   content: string
   id: number
   imageUrls: string[]
