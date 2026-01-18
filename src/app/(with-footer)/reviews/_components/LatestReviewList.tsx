@@ -2,10 +2,10 @@
 
 import ErrorMessage from '@/components/ui/ErrorMessage'
 import { Skeleton } from '@/components/ui/shadcn/skeleton'
+import { ReviewType } from '@/domains/review'
 import { useIntersectionObserver } from '@/hooks/useIntersectionObserver'
 import { COMMON_ERROR_MESSAGES } from '@/lib/constants'
 import { getLatestReviews } from '@/services/review'
-import type { ReviewType } from '@/types/review'
 import { useInfiniteQuery } from '@tanstack/react-query'
 import { useEffect } from 'react'
 import LatestReviewListItem from './LatestReviewListItem'

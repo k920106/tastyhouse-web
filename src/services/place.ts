@@ -1,7 +1,6 @@
 'use server'
 
-import { placeService } from '@/domains/place'
-import { PlaceLatestQuery, PlaceReviewsByRatingQuery } from '@/domains/place/place.type'
+import { PlaceLatestQuery, PlaceReviewsByRatingQuery, placeService } from '@/domains/place'
 
 export async function getLatestPlaces(query: PlaceLatestQuery) {
   return await placeService.getLatestPlaces(query)

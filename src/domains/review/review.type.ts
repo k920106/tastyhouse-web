@@ -1,5 +1,31 @@
 import { PaginationParams } from '@/types/api/api'
-import { ReviewComment, ReviewReply, ReviewType } from '@/types/review'
+
+export type ReviewType = 'ALL' | 'FOLLOWING'
+
+export type ReviewSortType = 'recommended' | 'latest' | 'oldest'
+
+export type ReviewComment = {
+  id: number
+  reviewId: number
+  memberId: number
+  memberNickname: string
+  memberProfileImageUrl: string | null
+  content: string
+  createdAt: string
+  replies?: ReviewReply[]
+}
+
+export type ReviewReply = {
+  id: number
+  commentId: number
+  memberId: number
+  memberNickname: string
+  memberProfileImageUrl: string | null
+  replyToMemberId: number
+  replyToMemberNickname: string
+  content: string
+  createdAt: string
+}
 
 export type ReviewBestQuery = PaginationParams & {}
 

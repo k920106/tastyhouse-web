@@ -1,4 +1,4 @@
-import { placeService } from '@/domains/place/place.service'
+import { placeService } from '@/domains/place'
 import PlaceDetailHeader from './PlaceDetailHeader'
 
 interface PlaceDetailHeaderServerProps {

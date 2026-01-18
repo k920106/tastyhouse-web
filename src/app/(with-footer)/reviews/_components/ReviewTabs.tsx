@@ -2,7 +2,7 @@
 
 import SectionStack from '@/components/ui/SectionStack'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/shadcn/tabs'
-import type { ReviewType } from '@/types/review'
+import { ReviewType } from '@/domains/review'
 import { usePathname, useRouter } from 'next/navigation'
 import { useCallback } from 'react'
 import LatestReviewList from './LatestReviewList'

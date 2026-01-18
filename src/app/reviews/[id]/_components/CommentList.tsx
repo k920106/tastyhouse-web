@@ -1,5 +1,5 @@
 import { Skeleton } from '@/components/ui/shadcn/skeleton'
-import type { ReviewComment } from '@/types/review'
+import { ReviewComment } from '@/domains/review'
 import CommentItem from './CommentItem'
 
 export function CommentListSkeleton() {
