@@ -1,5 +1,5 @@
-import { PaginationParams } from "@/types/api/api"
-import { ReviewComment, ReviewReply, ReviewType } from "@/types/api/review"
+import { PaginationParams } from '@/types/api/api'
+import { ReviewComment, ReviewReply, ReviewType } from '@/types/api/review'
 
 export type ReviewBestQuery = PaginationParams & {}
 

@@ -1,5 +1,10 @@
 import { reviewRepository } from './review.repository'
-import { CommentCreateRequest, ReplyCreateRequest, ReviewBestQuery, ReviewLatestQuery } from './review.type'
+import {
+  CommentCreateRequest,
+  ReplyCreateRequest,
+  ReviewBestQuery,
+  ReviewLatestQuery,
+} from './review.type'
 
 export const reviewService = {
   async getBestReviews(params: ReviewBestQuery) {

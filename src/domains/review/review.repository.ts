@@ -1,8 +1,21 @@
-import { api } from '@/lib/api';
-import { ApiResponse } from '@/types/api/api';
-import { CommentCreateRequest, CommentCreateResponse, CommentListResponse, ReplyCreateRequest, ReplyCreateResponse, ReviewBestListItemResponse, ReviewBestQuery, ReviewDetailResponse, ReviewLatestListItemResponse, ReviewLatestQuery, ReviewLikeResponse, ReviewProductDetailResponse } from './review.type';
+import { api } from '@/lib/api'
+import { ApiResponse } from '@/types/api/api'
+import {
+  CommentCreateRequest,
+  CommentCreateResponse,
+  CommentListResponse,
+  ReplyCreateRequest,
+  ReplyCreateResponse,
+  ReviewBestListItemResponse,
+  ReviewBestQuery,
+  ReviewDetailResponse,
+  ReviewLatestListItemResponse,
+  ReviewLatestQuery,
+  ReviewLikeResponse,
+  ReviewProductDetailResponse,
+} from './review.type'
 
-const ENDPOINT = '/api/reviews';
+const ENDPOINT = '/api/reviews'
 
 export const reviewRepository = {
   async getBestReviews(params: ReviewBestQuery) {
@@ -24,12 +37,18 @@ export const reviewRepository = {
     return api.get<ApiResponse<ReviewLikeResponse>>(`${ENDPOINT}/v1/${reviewId}/like`)
   },
   async createReviewComment(reviewId: number, request: CommentCreateRequest) {
-    return api.post<ApiResponse<CommentCreateResponse>>(`${ENDPOINT}/v1/${reviewId}/comments`, request)
+    return api.post<ApiResponse<CommentCreateResponse>>(
+      `${ENDPOINT}/v1/${reviewId}/comments`,
+      request,
+    )
   },
   async getReviewComments(reviewId: number) {
     return api.get<ApiResponse<CommentListResponse>>(`${ENDPOINT}/v1/${reviewId}/comments`)
   },
   async createReviewReply(reviewId: number, commentId: number, request: ReplyCreateRequest) {
-    return api.post<ApiResponse<ReplyCreateResponse>>(`${ENDPOINT}/v1/comments/${commentId}/replies`, request)
+    return api.post<ApiResponse<ReplyCreateResponse>>(
+      `${ENDPOINT}/v1/comments/${commentId}/replies`,
+      request,
+    )
   },
 }

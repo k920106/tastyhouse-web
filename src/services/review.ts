@@ -1,7 +1,11 @@
 'use server'
 
 import { reviewService } from '@/domains/review/review.service'
-import type { CommentCreateRequest, ReplyCreateRequest, ReviewLatestQuery } from '@/domains/review/review.type'
+import type {
+  CommentCreateRequest,
+  ReplyCreateRequest,
+  ReviewLatestQuery,
+} from '@/domains/review/review.type'
 import { revalidatePath } from 'next/cache'
 
 export async function getLatestReviews(params: ReviewLatestQuery) {

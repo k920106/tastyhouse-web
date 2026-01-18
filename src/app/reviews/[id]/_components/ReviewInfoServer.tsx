@@ -28,5 +28,17 @@ export default async function ReviewInfoServer({
     return <ErrorMessage message={COMMON_ERROR_MESSAGES.FETCH_ERROR('리뷰')} />
   }
 
-  return <ReviewInfo memberProfileImageUrl={data.data.memberProfileImageUrl} memberNickname={data.data.memberNickname} createdAt={data.data.createdAt} imageUrls={data.data.imageUrls} content={data.data.content} tagNames={data.data.tagNames} id={data.data.id} reviewLike={reviewLike} reviewOption={reviewOption} />
+  return (
+    <ReviewInfo
+      memberProfileImageUrl={data.data.memberProfileImageUrl}
+      memberNickname={data.data.memberNickname}
+      createdAt={data.data.createdAt}
+      imageUrls={data.data.imageUrls}
+      content={data.data.content}
+      tagNames={data.data.tagNames}
+      id={data.data.id}
+      reviewLike={reviewLike}
+      reviewOption={reviewOption}
+    />
+  )
 }

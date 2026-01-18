@@ -25,7 +25,17 @@ export default function LatestReviewListItem({
   review,
   currentMemberId,
 }: LatestReviewListItemProps) {
-  const { id, imageUrls, content, memberId, memberNickname, memberProfileImageUrl, likeCount, commentCount, createdAt } = review
+  const {
+    id,
+    imageUrls,
+    content,
+    memberId,
+    memberNickname,
+    memberProfileImageUrl,
+    likeCount,
+    commentCount,
+    createdAt,
+  } = review
 
   return (
     <div className="px-[15px] pt-3 pb-[30px] bg-white">
