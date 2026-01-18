@@ -1,10 +1,6 @@
 'use server'
 
-import type {
-  CommentCreateRequest,
-  ReplyCreateRequest,
-  ReviewLatestQuery,
-} from '@/domains/review'
+import type { CommentCreateRequest, ReplyCreateRequest, ReviewLatestQuery } from '@/domains/review'
 import { reviewService } from '@/domains/review'
 import { revalidatePath } from 'next/cache'
 
