@@ -141,9 +141,10 @@ function ReviewFilter({
         </label>
         <div className="flex items-center gap-1.5">
           <select
+            name="review-sort"
             value={sortType}
             onChange={(e) => onSortTypeChange(e.target.value as ReviewSortType)}
-            className="text-xs leading-[20px] appearance-none cursor-pointer focus:outline-none"
+            className="w-fit min-w-[30px] text-xs leading-[12px] text-right appearance-none cursor-pointer focus:outline-none"
           >
             <option value="recommended">추천순</option>
             <option value="latest">최신순</option>
