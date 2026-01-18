@@ -1,11 +1,15 @@
 import ReviewRatingDetail, { ReviewRatingDetailSkeleton } from '@/components/reviews/ReviewRatingDetail'
+import ErrorMessage from '@/components/ui/ErrorMessage'
 import RatingStar from '@/components/ui/RatingStar'
 import { Skeleton } from '@/components/ui/shadcn/skeleton'
+import { COMMON_ERROR_MESSAGES } from '@/lib/constants'
 import { formatDecimal, formatNumber } from '@/lib/number'
+import { getPlaceReviewStatistics } from '@/services/place'
 import { PlaceReviewStatistics } from '@/types/api/place-detail'
+import { useQuery } from '@tanstack/react-query'
 import RatingDistributionChart from './RatingDistributionChart'
 
-export function ReviewStatisticsSkeleton() {
+function ReviewStatisticSkeleton() {
   return (
     <>
       <div className="flex items-center justify-center gap-[30px] pt-[30px] pb-[21px] border-b border-[#eeeeee] box-border">
@@ -38,11 +42,37 @@ export function ReviewStatisticsSkeleton() {
   )
 }
 
-interface ReviewStatisticsProps {
-  statistics: PlaceReviewStatistics
+interface ReviewStatisticProps {
+  placeId: number
 }
 
-export default function ReviewStatistics({ statistics }: ReviewStatisticsProps) {
+export default function ReviewStatistic({ placeId }: ReviewStatisticProps) {
+const { data, isLoading, error } = useQuery({
+    queryKey: ['place', placeId, 'place-detail-review-statistics'],
+    queryFn: () => getPlaceReviewStatistics(placeId),
+  })
+
+  if (isLoading) {
+    return <ReviewStatisticSkeleton />
+  }
+
+  if (error) {
+    return (
+      <ErrorMessage message={COMMON_ERROR_MESSAGES.API_FETCH_ERROR} className="py-10 bg-white" />
+    )
+  }
+
+  if (!data || !data.data || !data.data.success || !data.data.data) {
+    return (
+      <ErrorMessage
+        message={COMMON_ERROR_MESSAGES.FETCH_ERROR('리뷰 통계')}
+        className="py-10 bg-white"
+      />
+    )
+  }
+
+  const statistics: PlaceReviewStatistics = data.data.data
+
   const {
     totalRating,
     totalReviewCount,
