@@ -1,14 +1,9 @@
-import { api } from '@/lib/api'
+import { eventService } from '@/domains/event'
 import { formatDate, formatRemainingTime, getTimeDifference } from '@/lib/date'
-import { API_ENDPOINTS } from '@/lib/endpoints'
-import { ApiResponse } from '@/types/api/api'
-import { RankEventDurationResponse } from '@/types/api/rank'
 
 export default async function RankSchedule() {
   // API 호출
-  const { error, data } = await api.get<ApiResponse<RankEventDurationResponse>>(
-    API_ENDPOINTS.RANK_EVENT_DURATION,
-  )
+  const { error, data } = await eventService.getRankEventDuration()
 
   // Expected Error: API 호출 실패 (네트워크 오류, timeout 등)
   if (error) {

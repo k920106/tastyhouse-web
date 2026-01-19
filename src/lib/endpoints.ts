@@ -1,31 +1,4 @@
 export const API_ENDPOINTS = {
-  // 상품
-  // PRODUCTS: '/api/products/v1',
-  // PRODUCT_DETAIL: (id: string | number) => `/api/products/v1/${id}`,
-
-  // 장바구니
-  // CART: '/api/cart/v1',
-  // CART_ITEM: (id: string | number) => `/api/cart/v1/${id}`,
-
-  // 쿠폰
-  COUPONS: '/api/coupons/v1',
-  COUPON_DETAIL: (id: string | number) => `/api/coupons/v1/${id}`,
-
-  // 이벤트
-  EVENTS: '/api/events/v1',
-  EVENT_DETAIL: (id: string | number) => `/api/events/v1/${id}`,
-
-  // 포인트
-  POINTS: '/api/points/v1',
-  POINT_HISTORY: '/api/points/v1/history',
-
-  // 랭킹
-  RANKS: '/api/ranks/v1',
-  RANK_DETAIL: (id: string | number) => `/api/ranks/v1/${id}`,
-  RANK_EVENT_DURATION: '/api/event/v1/ranking/duration',
-  RANK_MEMBERS: '/api/ranks/v1/members',
-  RANK_MEMBERS_ME: '/api/ranks/v1/members/me',
-
   // 경품
   PRIZES: '/api/prizes/v1',
 

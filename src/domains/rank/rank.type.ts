@@ -17,17 +17,16 @@ export type RankMemberQuery = {
   limit: number
 }
 
+export type RankMembersMeQuery = {
+  type: RankType
+}
+
 export type RankMemberMeResponse = {
   nickname: string
   profileImageUrl: string
   reviewCount: number
   rankNo: number
   grade: MemberGradeCode
-}
-
-export type RankEventDurationResponse = {
-  startAt: Date
-  endAt: Date
 }
 
 export type RankMemberListItemResponse = {
