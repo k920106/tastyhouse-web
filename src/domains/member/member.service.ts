@@ -1,4 +1,4 @@
-import { memberRepository } from "./member.repository"
+import { memberRepository } from './member.repository'
 
 export const memberService = {
   async getMemberMe() {
