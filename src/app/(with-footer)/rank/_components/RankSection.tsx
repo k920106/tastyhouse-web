@@ -1,4 +1,4 @@
-import { RankPeriod } from '@/types/api/rank'
+import { RankPeriod } from '@/domains/rank'
 import RankHeaderSection from './RankHeaderSection'
 import RankListSection from './RankListSection'
 

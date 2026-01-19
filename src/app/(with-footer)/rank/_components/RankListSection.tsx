@@ -1,4 +1,4 @@
-import { RankPeriod } from '@/types/api/rank'
+import { RankPeriod } from '@/domains/rank'
 import { Suspense } from 'react'
 import RankList, { RankListSkeleton } from './RankList'
 
