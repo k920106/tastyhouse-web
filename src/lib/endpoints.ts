@@ -1,7 +1,4 @@
 export const API_ENDPOINTS = {
-  // 배너
-  BANNERS: '/api/banners/v1',
-
   // 상품
   PRODUCTS: '/api/products/v1',
   PRODUCT_DETAIL: (id: string | number) => `/api/products/v1/${id}`,

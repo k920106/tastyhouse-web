@@ -5,7 +5,7 @@ import 'swiper/css/pagination'
 import styles from './BannerSwiper.module.css'
 
 import { Skeleton } from '@/components/ui/shadcn/skeleton'
-import { Banner } from '@/types/api/banner'
+import { Banner } from '@/domains/banner'
 import Image from 'next/image'
 import Link from 'next/link'
 import { Autoplay, Pagination } from 'swiper/modules'

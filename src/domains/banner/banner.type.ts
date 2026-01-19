@@ -1,8 +1,5 @@
-import { PaginationParams } from './api'
+import { PaginationParams } from "@/types/api/api"
 
-/**
- * Domain types
- */
 export type Banner = {
   id: number
   imageUrl: string
@@ -10,7 +7,4 @@ export type Banner = {
   title: string
 }
 
-/**
- * Query types
- */
 export type BannerQuery = PaginationParams & {}

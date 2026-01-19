@@ -1,20 +1,15 @@
 import ErrorMessage from '@/components/ui/ErrorMessage'
-import { api } from '@/lib/api'
+import { bannerService } from '@/domains/banner'
 import { COMMON_ERROR_MESSAGES } from '@/lib/constants'
-import { API_ENDPOINTS } from '@/lib/endpoints'
-import { ApiResponse } from '@/types/api/api'
-import { Banner, BannerQuery } from '@/types/api/banner'
 import BannerSwiper from './BannerSwiper'
 
 export default async function BannerContent() {
   // API 호출
   const query = {
-    params: {
-      page: 0,
-      size: 10,
-    } satisfies BannerQuery,
+    page: 0,
+    size: 10,
   }
-  const { data, error } = await api.get<ApiResponse<Banner[]>>(API_ENDPOINTS.BANNERS, query)
+  const { data, error } = await bannerService.getBanners(query)
 
   // Expected Error: API 호출 실패 (네트워크 오류, timeout 등)
   if (error) {
