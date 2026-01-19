@@ -1,4 +1,4 @@
-import { PaginationParams } from "@/types/api/api"
+import { PaginationParams } from '@/types/api/api'
 
 export type Banner = {
   id: number

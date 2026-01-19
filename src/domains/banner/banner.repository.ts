@@ -1,6 +1,6 @@
-import { api } from "@/lib/api"
-import { ApiResponse } from "@/types/api/api"
-import { Banner, BannerQuery } from "./banner.type"
+import { api } from '@/lib/api'
+import { ApiResponse } from '@/types/api/api'
+import { Banner, BannerQuery } from './banner.type'
 
 const ENDPOINT = '/api/banners'
 
