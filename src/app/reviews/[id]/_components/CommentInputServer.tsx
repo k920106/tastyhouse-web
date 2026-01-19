@@ -1,8 +1,5 @@
 import Avatar from '@/components/ui/Avatar'
-import { api } from '@/lib/api'
-import { API_ENDPOINTS } from '@/lib/endpoints'
-import { ApiResponse } from '@/types/api/api'
-import { MemberInfo } from '@/types/api/member'
+import { memberService } from '@/domains/member'
 import { cookies } from 'next/headers'
 import CommentInput from './CommentInput'
 import CommentSubmitButtonClient from './CommentSubmitButtonClient'
@@ -21,7 +18,7 @@ export default async function CommentInputServer({ params }: CommentInputServerP
   }
 
   // API 호출
-  const { error, data } = await api.get<ApiResponse<MemberInfo>>(API_ENDPOINTS.MEMBER_ME)
+  const { data, error } = await memberService.getMemberMe()
 
   // Expected Error: API 호출 실패 (네트워크 오류, timeout 등)
   if (error) {

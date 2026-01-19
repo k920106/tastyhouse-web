@@ -1,16 +1,9 @@
-/**
- * Code types
- */
-
-import { MemberGradeCode } from './member'
+import { MemberGradeCode } from '@/domains/member'
 
 type RankType = 'ALL' | 'MONTHLY' | 'WEEKLY'
 
 export type RankPeriod = 'all' | 'monthly'
 
-/**
- * Helper functions
- */
 export const rankPeriodToRankType = (period: RankPeriod): RankType => {
   const periodMap: Record<RankPeriod, RankType> = {
     all: 'ALL',
@@ -19,17 +12,11 @@ export const rankPeriodToRankType = (period: RankPeriod): RankType => {
   return periodMap[period]
 }
 
-/**
- * Query types
- */
 export type RankMemberQuery = {
   type: RankType
   limit: number
 }
 
-/**
- * Response types
- */
 export type RankMemberMeResponse = {
   nickname: string
   profileImageUrl: string

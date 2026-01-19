@@ -1,7 +1,7 @@
 import Avatar from '@/components/ui/Avatar'
 import Nickname from '@/components/ui/Nickname'
-import { getMemberGradeColor, getMemberGradeIcon, getMemberGradeName } from '@/constants/rank'
-import { MemberGradeCode } from '@/types/api/member'
+import { getMemberGradeColor, getMemberGradeIcon, getMemberGradeName } from '@/constants/member'
+import { MemberGradeCode } from '@/domains/member'
 import Image from 'next/image'
 
 interface RankItemProps {

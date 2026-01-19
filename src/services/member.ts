@@ -1,16 +1,7 @@
 'use server'
 
-import { api } from '@/lib/api'
-import { API_ENDPOINTS } from '@/lib/endpoints'
-import { ApiResponse } from '@/types/api/api'
-import { MemberInfo } from '@/types/api/member'
+import { memberService } from '@/domains/member'
 
-export async function getCurrentMemberId(): Promise<number | null> {
-  const { data, error } = await api.get<ApiResponse<MemberInfo>>(API_ENDPOINTS.MEMBER_ME)
-
-  if (error || !data || !data.success || !data.data) {
-    throw new Error(error || 'Failed to fetch reviews')
-  }
-
-  return data.data.id
+export async function getMemberMe() {
+  return await memberService.getMemberMe()
 }

@@ -1,8 +1,5 @@
-import { MemberGradeCode } from '@/types/api/member'
+import { MemberGradeCode } from '@/domains/member'
 
-/**
- * Name constants
- */
 const MEMBER_GRADE_NAMES: Record<MemberGradeCode, string> = {
   NEWCOMER: '신입멤버',
   ACTIVE: '열심멤버',
@@ -27,9 +24,6 @@ const MEMBER_GRADE_COLORS: Record<MemberGradeCode, string> = {
   TEHA: 'text-main',
 }
 
-/**
- * Getter functions
- */
 export const getMemberGradeName = (grade: MemberGradeCode): string => {
   return MEMBER_GRADE_NAMES[grade]
 }

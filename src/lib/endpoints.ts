@@ -1,16 +1,11 @@
 export const API_ENDPOINTS = {
   // 상품
-  PRODUCTS: '/api/products/v1',
-  PRODUCT_DETAIL: (id: string | number) => `/api/products/v1/${id}`,
+  // PRODUCTS: '/api/products/v1',
+  // PRODUCT_DETAIL: (id: string | number) => `/api/products/v1/${id}`,
 
   // 장바구니
-  CART: '/api/cart/v1',
-  CART_ITEM: (id: string | number) => `/api/cart/v1/${id}`,
-
-  // 회원
-  MEMBER: '/api/members/v1',
-  MEMBER_PROFILE: '/api/members/v1/profile',
-  MEMBER_ME: '/api/members/v1/me',
+  // CART: '/api/cart/v1',
+  // CART_ITEM: (id: string | number) => `/api/cart/v1/${id}`,
 
   // 쿠폰
   COUPONS: '/api/coupons/v1',
