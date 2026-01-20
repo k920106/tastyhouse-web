@@ -1,4 +1,4 @@
-import PlaceOrderMethodSection from "./_components/PlaceOrderMethodSection"
+import PlaceOrderMethodSection from './_components/PlaceOrderMethodSection'
 
 interface OrderMethodPageProps {
   params: Promise<{

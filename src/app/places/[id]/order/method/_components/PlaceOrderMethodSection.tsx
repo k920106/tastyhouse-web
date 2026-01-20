@@ -1,8 +1,8 @@
 'use client'
 
-import { PAGE_PATHS } from "@/lib/paths"
-import { useRouter } from "next/navigation"
-import { useState } from "react"
+import { PAGE_PATHS } from '@/lib/paths'
+import { useRouter } from 'next/navigation'
+import { useState } from 'react'
 
 type OrderMethod = 'immediate' | 'reservation' | 'takeout' | 'gift'
 
