@@ -72,19 +72,19 @@ export default function EventsPage() {
         <button
           onClick={() => setActiveTab('ongoing')}
           className={`flex-1 py-4 text-[15px] relative ${
-            activeTab === 'ongoing' ? 'text-[#FF6B35]' : 'text-gray-500'
-          }`}
+            activeTab === 'ongoing' ? 'text-[#a11c20] border-[#a11c20]' : 'text-[#aaaaaa] border-[#eeeeee]'
+          } border`}
         >
           진행중인 이벤트
           {activeTab === 'ongoing' && (
-            <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-[#FF6B35]" />
+            <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-[#a11c20]" />
           )}
         </button>
         <button
           onClick={() => setActiveTab('ended')}
           className={`flex-1 py-4 text-[15px] relative ${
             activeTab === 'ended' ? 'text-[#FF6B35]' : 'text-gray-500'
-          }`}
+          } border`}
         >
           종료된 이벤트
           {activeTab === 'ended' && (
