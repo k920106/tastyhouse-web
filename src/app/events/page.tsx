@@ -7,7 +7,7 @@ import { useState } from 'react'
 const dummyEvents: Event[] = [
   {
     id: 1,
-    title: '8� �܌� �� `x t��',
+    title: '8월 이벤트',
     imageUrl: '/images/events/event1.png',
     startDate: '2020-08-03',
     endDate: '2020-08-31',
@@ -16,7 +16,7 @@ const dummyEvents: Event[] = [
   },
   {
     id: 2,
-    title: '8� �܌� �� `x t��',
+    title: '8월 이벤트',
     imageUrl: '/images/events/event2.png',
     startDate: '2020-08-03',
     endDate: '2020-08-31',
@@ -25,7 +25,7 @@ const dummyEvents: Event[] = [
   },
   {
     id: 3,
-    title: '8� �܌� �� `x t��',
+    title: '8월 이벤트',
     imageUrl: '/images/events/event3.png',
     startDate: '2020-08-03',
     endDate: '2020-08-31',
@@ -43,7 +43,7 @@ export default function EventsPage() {
 
   return (
     <div className="min-h-screen bg-white">
-      {/* Header */}
+      {/* 헤더 */}
       <header className="sticky top-0 z-10 bg-white border-b border-gray-100">
         <div className="flex items-center h-[56px] px-4">
           <button className="p-2 -ml-2" onClick={() => window.history.back()}>
@@ -63,11 +63,11 @@ export default function EventsPage() {
               />
             </svg>
           </button>
-          <h1 className="flex-1 text-lg leading-[18px] text-center pr-10">t��</h1>
+          <h1 className="flex-1 text-lg leading-[18px] text-center pr-10">이벤트</h1>
         </div>
       </header>
 
-      {/* Tabs */}
+      {/* 탭 */}
       <div className="flex border-b border-gray-200 bg-white sticky top-[56px] z-10">
         <button
           onClick={() => setActiveTab('ongoing')}
@@ -75,7 +75,7 @@ export default function EventsPage() {
             activeTab === 'ongoing' ? 'text-[#FF6B35]' : 'text-gray-500'
           }`}
         >
-          ĉ t��
+          진행중인 이벤트
           {activeTab === 'ongoing' && (
             <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-[#FF6B35]" />
           )}
@@ -86,7 +86,7 @@ export default function EventsPage() {
             activeTab === 'ended' ? 'text-[#FF6B35]' : 'text-gray-500'
           }`}
         >
-          �� t��
+          종료된 이벤트
           {activeTab === 'ended' && (
             <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-[#FF6B35]" />
           )}
@@ -97,14 +97,14 @@ export default function EventsPage() {
             activeTab === 'winner' ? 'text-[#FF6B35]' : 'text-gray-500'
           }`}
         >
-          ��� \
+          당첨자 발표
           {activeTab === 'winner' && (
             <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-[#FF6B35]" />
           )}
         </button>
       </div>
 
-      {/* Event List */}
+      {/* 이벤트 목록 */}
       <div className="p-4 space-y-4">
         {filteredEvents.map((event) => (
           <div

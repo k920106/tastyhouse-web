@@ -55,7 +55,7 @@ export default function EventDetailPage() {
   if (isWinnerPage) {
     return (
       <div className="min-h-screen bg-white">
-        {/* Header */}
+        {/* 헤더 */}
         <header className="sticky top-0 z-50 bg-white border-b border-gray-100">
           <div className="flex items-center justify-between px-4 py-3">
             <button onClick={() => router.back()} className="p-1">
@@ -66,9 +66,9 @@ export default function EventDetailPage() {
           </div>
         </header>
 
-        {/* Winner Announcement Content */}
+        {/* 당첨자 발표 내용 */}
         <div className="px-4 py-6 space-y-8">
-          {/* Repeat for each announcement */}
+          {/* 당첨자 발표 내용 반복 */}
           {[1, 2, 3, 4].map((index) => (
             <div key={index} className="border-b border-gray-100 pb-8 last:border-b-0">
               <h2 className="mb-2 text-lg leading-[18px]">{mockWinnerEvent.title}</h2>
@@ -91,7 +91,7 @@ export default function EventDetailPage() {
 
   return (
     <div className="min-h-screen bg-white">
-      {/* Header */}
+      {/* 헤더 */}
       <header className="sticky top-0 z-50 bg-white border-b border-gray-100">
         <div className="flex items-center justify-between px-4 py-3">
           <button onClick={() => router.back()} className="p-1">
@@ -102,7 +102,7 @@ export default function EventDetailPage() {
         </div>
       </header>
 
-      {/* Main Image Section */}
+      {/* 메인 이미지 섹션 */}
       <div className="relative w-full bg-[#1a5850]">
         <div className="relative w-full aspect-[3/4]">
           <Image
@@ -113,7 +113,7 @@ export default function EventDetailPage() {
             priority
           />
 
-          {/* Text Overlay */}
+          {/* 텍스트 오버레이 */}
           <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-6">
             <p className="text-white text-[13px] tracking-wider mb-3 font-light">
               {mockEvent.subtitle}
@@ -128,7 +128,7 @@ export default function EventDetailPage() {
           </div>
         </div>
 
-        {/* Christmas Decoration */}
+        {/* 크리스마스 데코레이션 */}
         <div className="relative w-full h-24 bg-gradient-to-b from-[#1a5850] to-[#f5f0e8]">
           <div className="absolute top-0 left-0 right-0">
             <div className="w-full h-16 relative">
@@ -143,11 +143,11 @@ export default function EventDetailPage() {
         </div>
       </div>
 
-      {/* Content Section */}
+      {/* 내용 섹션 */}
       <div className="bg-[#f5f0e8]">
         {mockEvent.sections.map((section) => (
           <div key={section.id} className="px-4 py-12">
-            {/* Santa Sleigh Icon */}
+            {/* 산타 선물 아이콘 */}
             <div className="flex justify-center mb-6">
               <div className="relative w-32 h-24">
                 <Image
@@ -159,7 +159,7 @@ export default function EventDetailPage() {
               </div>
             </div>
 
-            {/* Section Title */}
+            {/* 섹션 제목 */}
             <div className="text-center mb-8">
               <div className="inline-block px-6 py-2 border border-[#c9b896] rounded-full mb-4">
                 <p className="text-[#8b7355] text-[13px] tracking-wider">{section.title}</p>
@@ -172,16 +172,16 @@ export default function EventDetailPage() {
               </p>
             </div>
 
-            {/* Product List Area */}
+            {/* 상품 목록 영역 */}
             <div className="mt-8">{/* TODO: Add special offer products component */}</div>
           </div>
         ))}
 
-        {/* Bottom Spacing */}
+        {/* 하단 여백 */}
         <div className="h-20" />
       </div>
 
-      {/* Event Period Notice */}
+      {/* 이벤트 기간 안내 */}
       <FixedBottomSection>
         <div className="flex items-center justify-between">
           <div className="text-[13px] text-gray-500">
