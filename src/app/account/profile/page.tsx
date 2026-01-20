@@ -6,8 +6,8 @@ import { useState } from 'react'
 
 export default function ProfileEditPage() {
   const router = useRouter()
-  const [nickname, setNickname] = useState('�$�DP|�X�')
-  const [statusMessage, setStatusMessage] = useState('��T8�� P|� �%t|X�')
+  const [nickname, setNickname] = useState('닉네임을뭐라고하지')
+  const [statusMessage, setStatusMessage] = useState('상태메시지는뭐라고입력해야하지')
   const [profileImage, setProfileImage] = useState<string | null>(null)
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -27,7 +27,7 @@ export default function ProfileEditPage() {
 
   return (
     <div className="min-h-screen bg-white">
-      {/* �T */}
+      {/* 헤더 */}
       <header className="sticky top-0 z-50 bg-white border-b border-gray-100">
         <div className="flex items-center justify-between px-4 h-14">
           <button onClick={() => router.back()} className="p-2 -ml-2">
@@ -48,14 +48,14 @@ export default function ProfileEditPage() {
         </div>
       </header>
 
-      {/* \D t�� 9X */}
+      {/* 프로필 이미지 */}
       <div className="flex justify-center pt-12 pb-8">
         <div className="relative">
           <div className="w-[140px] h-[140px] rounded-full bg-gradient-to-br from-yellow-100 to-green-200 flex items-center justify-center overflow-hidden">
             {profileImage ? (
               <Image
                 src={profileImage}
-                alt="\D t��"
+                alt="프로필 이미지"
                 width={140}
                 height={140}
                 className="object-cover"
@@ -65,7 +65,7 @@ export default function ProfileEditPage() {
                 <div className="absolute top-6 left-10 w-8 h-8 bg-yellow-400 rounded-full" />
                 <div className="absolute top-6 right-10 w-8 h-8 bg-yellow-400 rounded-full" />
                 <div className="absolute top-8 left-1/2 -translate-x-1/2">
-                  <Image src="/images/tomato.png" alt="�Ƞ" width={40} height={40} />
+                  <Image src="/images/tomato.png" alt="프로필 이미지" width={40} height={40} />
                 </div>
                 <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-2">
                   <svg width="60" height="40" viewBox="0 0 60 40">
@@ -82,7 +82,7 @@ export default function ProfileEditPage() {
             )}
           </div>
 
-          {/* tT| �� */}
+          {/* 프로필 이미지 수정 */}
           <label
             htmlFor="profile-image"
             className="absolute bottom-0 right-0 w-10 h-10 bg-black rounded-full flex items-center justify-center cursor-pointer"
@@ -111,31 +111,31 @@ export default function ProfileEditPage() {
         </div>
       </div>
 
-      {/* �$� �% */}
+      {/* 닉네임 */}
       <div className="px-6 mb-6">
-        <label className="block mb-2 text-[15px] text-gray-900">�$�</label>
+        <label className="block mb-2 text-[15px] text-gray-900">닉네임</label>
         <input
           type="text"
           value={nickname}
           onChange={(e) => setNickname(e.target.value)}
-          placeholder="�$�DP|�X�"
+          placeholder="닉네임을 입력해주세요"
           className="w-full px-4 py-4 text-[15px] text-gray-900 bg-white border border-gray-200 rounded-lg focus:outline-none focus:border-gray-300"
         />
       </div>
 
-      {/* ��T8� �% */}
+      {/* 상태메시지 */}
       <div className="px-6 mb-8">
-        <label className="block mb-2 text-[15px] text-gray-900">��T8�</label>
+        <label className="block mb-2 text-[15px] text-gray-900">상태메시지</label>
         <input
           type="text"
           value={statusMessage}
           onChange={(e) => setStatusMessage(e.target.value)}
-          placeholder="��T8�� P|� �%t|X�"
+          placeholder="상태메시지를 입력해주세요"
           className="w-full px-4 py-4 text-[15px] text-gray-900 bg-white border border-gray-200 rounded-lg focus:outline-none focus:border-gray-300"
         />
       </div>
 
-      {/* D� �� */}
+      {/* 저장 */}
       <div className="px-6">
         <button
           onClick={handleSubmit}
