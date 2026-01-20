@@ -1,10 +1,7 @@
 import ErrorMessage from '@/components/ui/ErrorMessage'
 import { Skeleton } from '@/components/ui/shadcn/skeleton'
-import { api } from '@/lib/api'
+import { eventService } from '@/domains/event/event.service'
 import { COMMON_ERROR_MESSAGES } from '@/lib/constants'
-import { API_ENDPOINTS } from '@/lib/endpoints'
-import { ApiResponse } from '@/types/api/api'
-import { EventPrize } from '@/types/api/event'
 import Image from 'next/image'
 
 export function PrizeListSkeleton() {
@@ -33,7 +30,7 @@ function PrizeListItemSkeleton() {
 
 export default async function PrizeList() {
   // API 호출
-  const { error, data } = await api.get<ApiResponse<EventPrize[]>>(API_ENDPOINTS.PRIZES)
+  const { error, data } = await eventService.getRankEventPrizes()
 
   // Expected Error: API 호출 실패 (네트워크 오류, timeout 등)
   if (error) {

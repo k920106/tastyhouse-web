@@ -1,10 +1,9 @@
 'use client'
 
-import { Event } from '@/types/api/event'
+import { Event } from '@/domains/event'
 import Image from 'next/image'
 import { useState } from 'react'
 
-// �� T� pt0
 const dummyEvents: Event[] = [
   {
     id: 1,

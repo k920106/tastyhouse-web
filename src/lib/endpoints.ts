@@ -1,7 +1,4 @@
 export const API_ENDPOINTS = {
-  // 경품
-  PRIZES: '/api/prizes/v1',
-
   // 장소 추가 엔드포인트
   PLACES_EDITOR_CHOICE: '/api/places/v1/editor-choice',
   PLACES_BEST: '/api/places/v1/best',
