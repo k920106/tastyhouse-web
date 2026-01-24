@@ -8,6 +8,7 @@ interface OrderMethodPageProps {
 
 export default async function OrderMethodPage({ params }: OrderMethodPageProps) {
   const { id } = await params
+
   const placeId = Number(id)
 
   return <PlaceOrderMethodSection placeId={placeId} />
