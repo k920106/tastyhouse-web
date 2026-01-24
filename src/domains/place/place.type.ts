@@ -1,5 +1,6 @@
 import { PaginationParams } from '@/types/api/api'
 import { Product } from '@/types/api/product'
+import { OrderMethodItem } from '../order/order.type'
 
 export type PlaceFoodType =
   | 'KOREAN'
@@ -237,4 +238,9 @@ export type PlaceMapListItemResponse = {
   name: string
   latitude: number
   longitude: number
+}
+
+export type PlaceOrderMethodResponse = {
+  placeId: number
+  orderMethods: OrderMethodItem[]
 }

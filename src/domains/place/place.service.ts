@@ -55,4 +55,7 @@ export const placeService = {
   async getPlaceReviews(placeId: number, params: PlaceReviewsByRatingQuery) {
     return placeRepository.getPlaceReviews(placeId, params)
   },
+  async getPlaceOrderMethods(placeId: number) {
+    return placeRepository.getPlaceOrderMethods(placeId)
+  },
 }

@@ -3,7 +3,7 @@
 import Header, { HeaderCenter, HeaderLeft } from '@/components/layouts/Header'
 import { BackButton } from '@/components/layouts/header-parts'
 import AppButton from '@/components/ui/AppButton'
-import { OrderMethod } from '@/domains/order/order.type'
+import { OrderMethod, OrderMethodItem } from '@/domains/order'
 import { PAGE_PATHS } from '@/lib/paths'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
@@ -11,45 +11,59 @@ import { useState } from 'react'
 
 interface PlaceOrderMethodSectionProps {
   placeId: number
+  orderMethods: OrderMethodItem[]
 }
 
-export default function PlaceOrderMethodSection({ placeId }: PlaceOrderMethodSectionProps) {
+export default function PlaceOrderMethodSection({
+  placeId,
+  orderMethods,
+}: PlaceOrderMethodSectionProps) {
   const router = useRouter()
 
   const [selectedMethod, setSelectedMethod] = useState<OrderMethod | null>(null)
 
   const handleNext = () => {
     if (selectedMethod) {
-      router.push(PAGE_PATHS.ORDER_MENUS(placeId))
+      router.push(PAGE_PATHS.ORDER_MENUS(placeId, selectedMethod))
     }
   }
 
-  const methods = [
+  const methodConfigMap: Record<OrderMethod, { title: string; imageOff: string; imageOn: string }> =
     {
-      id: 'TABLE_ORDER' as const,
-      title: '바로 주문하기',
-      imageOff: '/images/place/method/icon-table-off.png',
-      imageOn: '/images/place/method/icon-table-on.png',
-    },
-    {
-      id: 'RESERVATION' as const,
-      title: '예약하기',
-      imageOff: '/images/place/method/icon-reservation-off.png',
-      imageOn: '/images/place/method/icon-reservation-on.png',
-    },
-    {
-      id: 'DELIVERY' as const,
-      title: '배달하기',
-      imageOff: '/images/place/icon-delivery-off.png',
-      imageOn: '/images/place/icon-delivery-on.png',
-    },
-    {
-      id: 'TAKEOUT' as const,
-      title: '포장하기',
-      imageOff: '/images/place/method/icon-packaging-off.png',
-      imageOn: '/images/place/method/icon-packaging-on.png',
-    },
-  ]
+      TABLE_ORDER: {
+        title: '바로 주문하기',
+        imageOff: '/images/place/method/icon-table-off.png',
+        imageOn: '/images/place/method/icon-table-on.png',
+      },
+      RESERVATION: {
+        title: '예약하기',
+        imageOff: '/images/place/method/icon-reservation-off.png',
+        imageOn: '/images/place/method/icon-reservation-on.png',
+      },
+      DELIVERY: {
+        title: '배달하기',
+        imageOff: '/images/place/icon-delivery-off.png',
+        imageOn: '/images/place/icon-delivery-on.png',
+      },
+      TAKEOUT: {
+        title: '포장하기',
+        imageOff: '/images/place/method/icon-packaging-off.png',
+        imageOn: '/images/place/method/icon-packaging-on.png',
+      },
+    }
+
+  // 순서대로 정렬
+  const methodOrder: OrderMethod[] = ['TABLE_ORDER', 'RESERVATION', 'DELIVERY', 'TAKEOUT']
+  const sortedOrderMethods = [...orderMethods].sort(
+    (a, b) => methodOrder.indexOf(a.code) - methodOrder.indexOf(b.code),
+  )
+
+  const methods = sortedOrderMethods.map((method) => ({
+    id: method.code,
+    title: methodConfigMap[method.code].title,
+    imageOff: methodConfigMap[method.code].imageOff,
+    imageOn: methodConfigMap[method.code].imageOn,
+  }))
 
   return (
     <>

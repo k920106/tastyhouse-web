@@ -14,6 +14,7 @@ import {
   PlaceLatestListItemResponse,
   PlaceLatestQuery,
   PlaceNameResponse,
+  PlaceOrderMethodResponse,
   PlacePhotoCategoryResponse,
   PlaceReviewStatisticsResponse,
   PlaceReviewsByRatingQuery,
@@ -78,5 +79,8 @@ export const placeRepository = {
     return api.get<ApiResponse<PlaceReviewsByRatingResponse>>(`${ENDPOINT}/v1/${placeId}/reviews`, {
       params,
     })
+  },
+  async getPlaceOrderMethods(placeId: number) {
+    return api.get<ApiResponse<PlaceOrderMethodResponse>>(`${ENDPOINT}/v1/${placeId}/order-methods`)
   },
 }
