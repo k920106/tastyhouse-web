@@ -3,7 +3,7 @@
 import Header, { HeaderCenter, HeaderLeft } from '@/components/layouts/Header'
 import { BackButton } from '@/components/layouts/header-parts'
 import AppButton from '@/components/ui/AppButton'
-import { OrderMethod, OrderMethodItem } from '@/domains/order'
+import type { OrderMethod, OrderMethodItem } from '@/domains/order'
 import { PAGE_PATHS } from '@/lib/paths'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'

@@ -1,7 +1,7 @@
 import MenuCategoryItem, { MenuCategoryItemSkeleton } from '@/components/menus/MenuCategoryItem'
 import MenuItem from '@/components/menus/MenuItem'
 import ErrorMessage from '@/components/ui/ErrorMessage'
-import { MenuCategory } from '@/domains/place'
+import type { MenuCategory } from '@/domains/place'
 import { COMMON_ERROR_MESSAGES } from '@/lib/constants'
 import { PAGE_PATHS } from '@/lib/paths'
 import { getPlaceMenus } from '@/services/place'

@@ -1,5 +1,6 @@
 'use client'
 
+import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 
@@ -182,7 +183,15 @@ export default function BugReportsPage() {
                   fill="none"
                   className="text-gray-400 mb-1"
                 >
-                  <rect x="8" y="8" width="24" height="24" rx="2" stroke="currentColor" strokeWidth="1.5" />
+                  <rect
+                    x="8"
+                    y="8"
+                    width="24"
+                    height="24"
+                    rx="2"
+                    stroke="currentColor"
+                    strokeWidth="1.5"
+                  />
                   <circle cx="15" cy="16" r="2" fill="currentColor" />
                   <path
                     d="M8 26l6-6 4 4 6-6 8 8"
@@ -192,18 +201,18 @@ export default function BugReportsPage() {
                     strokeLinejoin="round"
                   />
                 </svg>
-                <span className="text-[13px] text-gray-500">
-                  {formData.images.length}/5
-                </span>
+                <span className="text-[13px] text-gray-500">{formData.images.length}/5</span>
               </label>
 
               {/* 이미지 미리보기 */}
               {formData.images.map((image, index) => (
                 <div key={index} className="relative flex-shrink-0 w-24 h-24">
-                  <img
+                  <Image
                     src={URL.createObjectURL(image)}
                     alt={`Preview ${index + 1}`}
                     className="w-full h-full object-cover rounded-lg"
+                    width={96}
+                    height={96}
                   />
                   <button
                     type="button"

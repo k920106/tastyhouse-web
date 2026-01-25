@@ -4,7 +4,7 @@ import { ReviewImageGallerySkeleton } from '@/components/reviews/ReviewImageGall
 import ErrorMessage from '@/components/ui/ErrorMessage'
 import ViewMoreButton from '@/components/ui/ViewMoreButton'
 import { Skeleton } from '@/components/ui/shadcn/skeleton'
-import { ReviewSortType } from '@/domains/review'
+import type { ReviewSortType } from '@/domains/review'
 import { COMMON_ERROR_MESSAGES } from '@/lib/constants'
 import { PAGE_PATHS } from '@/lib/paths'
 import { getPlaceReviews } from '@/services/place'

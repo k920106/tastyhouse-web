@@ -1,5 +1,6 @@
 import ErrorStateSection from '@/components/ui/ErrorStateSection'
-import { MenuCategory, placeService } from '@/domains/place'
+import { placeService } from '@/domains/place'
+import type { MenuCategory } from '@/domains/place'
 import { COMMON_ERROR_MESSAGES } from '@/lib/constants'
 import PlaceOrderMenuListSection from './_components/PlaceOrderMenuListSection'
 

@@ -4,7 +4,7 @@ import PlaceOwnerMessageModal from '@/components/modals/PlaceOwnerMessageModal'
 import { FacilityDiv } from '@/components/places/FacilityItem'
 import ClampedText, { MoreButton } from '@/components/ui/ClampedText'
 import { Skeleton } from '@/components/ui/shadcn/skeleton'
-import { PlaceAmenity, PlaceBreakTimes, PlaceBusinessHour, PlaceClosedDay } from '@/domains/place'
+import type { PlaceAmenity, PlaceBreakTimes, PlaceBusinessHour, PlaceClosedDay } from '@/domains/place'
 import Link from 'next/link'
 import { useState } from 'react'
 import {
