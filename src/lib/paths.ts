@@ -7,6 +7,7 @@ export const PAGE_PATHS = {
   // 상품
   PRODUCTS: '/products',
   PRODUCT_DETAIL: (id: string | number) => `/products/${id}`,
+  PRODUCT_REVIEWS: (id: number) => `/products/${id}/reviews`,
 
   // 장소
   PLACES: '/places',

@@ -34,3 +34,34 @@ export type ProductDetailResponse = {
   categoryName: string
   optionGroups: ProductOptionGroup[]
 }
+
+export type ProductReviewListItemResponse = {
+  id: number
+  imageUrls: string[]
+  totalRating: number
+  content: string
+  memberNickname: string
+  memberProfileImageUrl: string | null
+  createdAt: string
+  productId: number
+  productName: string
+}
+
+export type ProductReviewStatisticsResponse = {
+  totalRating: number | null
+  totalReviewCount: number
+  averageTasteRating: number
+  averageAmountRating: number
+  averagePriceRating: number
+}
+
+export type ProductReviewsByRatingResponse = {
+  reviewsByRating: Record<string, ProductReviewListItemResponse[]>
+  allReviews: ProductReviewListItemResponse[]
+  totalReviewCount: number
+}
+
+export type ProductReviewsByRatingQuery = {
+  page?: number
+  size?: number
+}

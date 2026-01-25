@@ -38,6 +38,7 @@ export default function ProductOptionSelector({
   reviewCount,
 }: ProductOptionSelectorProps) {
   const router = useRouter()
+  const [activeTab, setActiveTab] = useState('options')
 
   // 각 옵션 그룹별 선택 상태 관리
   // isMultipleSelect가 false면 단일 선택(number), true면 다중 선택(number[])
@@ -178,7 +179,7 @@ export default function ProductOptionSelector({
   return (
     <>
       <BorderedSection>
-        <Tabs value="options" className="gap-0">
+        <Tabs value={activeTab} onValueChange={setActiveTab} className="gap-0">
           <TabsList className="sticky top-0 w-full h-[50px] rounded-none bg-white z-40 p-0">
             <TabsTrigger
               value="options"
