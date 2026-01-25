@@ -34,7 +34,7 @@ export default function PlaceOrderMenuListSection({
         {menuCategories.map((menuCategory, index) => (
           <BorderedSection
             key={menuCategory.categoryName}
-            className={`px-[15px] border-b-0 ${index === 0 ? '!border-t-0' : ''}`}
+            className={`px-[15px] ${index === 0 ? '!border-t-0' : ''}`}
           >
             <MenuCategoryItem categoryName={menuCategory.categoryName}>
               {menuCategory.menus.map((menu) => (
@@ -50,13 +50,14 @@ export default function PlaceOrderMenuListSection({
           </BorderedSection>
         ))}
       </SectionStack>
-      <FixedBottomSection className="px-[15px] py-2.5 bg-[#f9f9f9]!">
+      <FixedBottomSection className="px-[15px] py-2.5 !bg-[#f9f9f9]">
         <Link href={PAGE_PATHS.ORDER_CART(placeId)}>
           <AppButton className="bg-main gap-1">
             <CartItemCount placeId={placeId} />
           </AppButton>
         </Link>
       </FixedBottomSection>
+      <div className="h-[71px] bg-white" />
     </section>
   )
 }

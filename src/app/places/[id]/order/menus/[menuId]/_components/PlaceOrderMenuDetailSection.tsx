@@ -67,6 +67,7 @@ export default function PlaceOrderMenuDetailSection({
           reviewCount={product.reviewCount}
         />
       </SectionStack>
+      <div className="h-[71px] bg-white" />
     </section>
   )
 }

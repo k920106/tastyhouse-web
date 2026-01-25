@@ -102,7 +102,7 @@ export default function PlaceInfoDetail({ placeInfo }: PlaceInfoDetailProps) {
               MoreButton={
                 <MoreButton
                   onClick={() => setIsPlaceOwnerMessageModalOpen(true)}
-                  className="bg-[#f9f9f9]! text-xs leading-[12px]"
+                  className="!bg-[#f9f9f9] text-xs leading-[12px]"
                 />
               }
             />

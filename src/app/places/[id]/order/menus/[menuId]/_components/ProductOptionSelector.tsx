@@ -233,12 +233,11 @@ export default function ProductOptionSelector({
           </TabsContent>
         </Tabs>
       </BorderedSection>
-      <FixedBottomSection className="p-4">
+      <FixedBottomSection className="px-[15px] py-2.5 !bg-[#f9f9f9]">
         <AppButton className="!bg-[#a91201]" onClick={handleAddToCart}>
           장바구니 담기
         </AppButton>
       </FixedBottomSection>
-      <div className="h-[82px] bg-white" />
     </>
   )
 }
