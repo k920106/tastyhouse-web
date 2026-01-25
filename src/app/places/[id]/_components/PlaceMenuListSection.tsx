@@ -12,7 +12,7 @@ export default function PlaceMenuListSection({ placeId }: PlaceMenuListSectionPr
   return (
     <section className="px-[15px]">
       <PlaceMenuListFetcher placeId={placeId} />
-      <FixedBottomSection className="px-[15px] py-[10px] bg-[#f9f9f9]!">
+      <FixedBottomSection className="px-[15px] py-2.5 bg-[#f9f9f9]!">
         <Link href={PAGE_PATHS.ORDER_METHOD(placeId)}>
           <AppButton className="bg-main">주문하기</AppButton>
         </Link>

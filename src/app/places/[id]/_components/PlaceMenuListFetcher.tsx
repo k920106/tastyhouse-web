@@ -1,9 +1,12 @@
 import MenuCategoryItem, { MenuCategoryItemSkeleton } from '@/components/menus/MenuCategoryItem'
+import MenuItem from '@/components/menus/MenuItem'
 import ErrorMessage from '@/components/ui/ErrorMessage'
 import { MenuCategory } from '@/domains/place'
 import { COMMON_ERROR_MESSAGES } from '@/lib/constants'
+import { PAGE_PATHS } from '@/lib/paths'
 import { getPlaceMenus } from '@/services/place'
 import { useQuery } from '@tanstack/react-query'
+import Link from 'next/link'
 
 interface PlaceMenuListFetcherProps {
   placeId: number
@@ -52,8 +55,18 @@ export default function PlaceMenuListFetcher({ placeId }: PlaceMenuListFetcherPr
         <MenuCategoryItem
           key={menuCategory.categoryName}
           categoryName={menuCategory.categoryName}
-          menus={menuCategory.menus}
-        />
+          className="border-b border-[#eeeeee] box-border"
+        >
+          {menuCategory.menus.map((menu) => (
+            <Link
+              key={menu.id}
+              href={PAGE_PATHS.PLACE_MENU_DETAIL(placeId, menu.id)}
+              className="block"
+            >
+              <MenuItem key={menu.id} menu={menu} />
+            </Link>
+          ))}
+        </MenuCategoryItem>
       ))}
     </>
   )
