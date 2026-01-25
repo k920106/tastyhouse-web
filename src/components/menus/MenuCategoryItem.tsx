@@ -1,6 +1,5 @@
-import { PlaceMenu } from '@/domains/place'
 import { Skeleton } from '../ui/shadcn/skeleton'
-import MenuItem, { MenuItemSkeleton } from './MenuItem'
+import { MenuItemSkeleton } from './MenuItem'
 
 export function MenuCategoryItemSkeleton() {
   return (
@@ -17,18 +16,19 @@ export function MenuCategoryItemSkeleton() {
 
 interface MenuCategoryItemProps {
   categoryName: string
-  menus: PlaceMenu[]
+  children: React.ReactNode
+  className?: string
 }
 
-export default function MenuCategoryItem({ categoryName, menus }: MenuCategoryItemProps) {
+export default function MenuCategoryItem({
+  categoryName,
+  children,
+  className = '',
+}: MenuCategoryItemProps) {
   return (
-    <div className="pt-[30px] border-b border-[#eeeeee] box-border">
+    <div className={`pt-[30px] ${className}`}>
       <h3 className="mb-[5px] text-base leading-[16px] font-bold">{categoryName}</h3>
-      <div className="divide-y divide-[#eeeeee]">
-        {menus.map((menu) => (
-          <MenuItem key={menu.id} menu={menu} />
-        ))}
-      </div>
+      <div className="divide-y divide-[#eeeeee]">{children}</div>
     </div>
   )
 }
