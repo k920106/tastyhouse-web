@@ -372,7 +372,7 @@ export default function ProductReviewTab({ productId }: ProductReviewTabProps) {
 
   const query = {
     page: 0,
-    size: 10,
+    size: 5,
   }
 
   const { data, isLoading, error } = useQuery({
