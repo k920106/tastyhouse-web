@@ -1,9 +1,9 @@
 'use client'
 
+import ShareButton from '@/components/layouts/header-parts/ShareButton'
 import { PAGE_PATHS } from '@/lib/paths'
 import { share } from '@/lib/share'
 import { useCallback } from 'react'
-import ShareButton from './ShareButton'
 
 interface ShareButtonClientProps {
   placeId: number

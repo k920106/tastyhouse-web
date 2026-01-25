@@ -1,5 +1,5 @@
 import { Suspense } from 'react'
-import { PlaceImageGallerySkeleton } from './PlaceImageGallery'
+import { ImageGallerySkeleton } from './ImageGallery'
 import PlaceImageGalleryServer from './PlaceImageGalleryServer'
 
 interface PlaceImageGallerySectionProps {
@@ -9,7 +9,7 @@ interface PlaceImageGallerySectionProps {
 export default function PlaceImageGallerySection({ placeId }: PlaceImageGallerySectionProps) {
   return (
     <section>
-      <Suspense fallback={<PlaceImageGallerySkeleton />}>
+      <Suspense fallback={<ImageGallerySkeleton />}>
         <PlaceImageGalleryServer placeId={placeId} />
       </Suspense>
     </section>

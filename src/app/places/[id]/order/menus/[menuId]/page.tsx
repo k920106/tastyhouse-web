@@ -1,119 +1,35 @@
-'use client'
+import ErrorMessage from '@/components/ui/ErrorMessage'
+import { productService } from '@/domains/product'
+import { COMMON_ERROR_MESSAGES } from '@/lib/constants'
+import PlaceOrderMenuDetailSection from './_components/PlaceOrderMenuDetailSection'
 
-import { toast } from '@/components/ui/AppToaster'
-import FixedBottomSection from '@/components/ui/FixedBottomSection'
-import Image from 'next/image'
-import { useRouter } from 'next/navigation'
-import { useState } from 'react'
-import { IoChevronBack, IoShareOutline } from 'react-icons/io5'
-
-// Mock data - Replace with actual API call
-const MOCK_MENU = {
-  id: 1,
-  name: '아보카도 햄치즈 샌드위치',
-  description:
-    '슬라이스 아보카도와 리코타치즈, 수란, 베이컨에 페퍼론치노를 곁들인 샌드위치 입니다.',
-  price: 18500,
-  imageUrl: '/images/sample/place-sample-01.jpg',
-  placeName: '리틀넥 청담',
+interface PlaceOrderMenuDetailPageProps {
+  params: Promise<{
+    id: string
+    menuId: string
+  }>
 }
 
-type SpiceLevel = '순한맛' | '기본맛' | '매운맛'
-
-export default function MenuDetailPage({
+export default async function PlaceOrderMenuDetailPage({
   params,
-}: {
-  params: { placeId: string; menuId: string }
-}) {
-  const router = useRouter()
-  const [selectedSpice, setSelectedSpice] = useState<SpiceLevel>('순한맛')
+}: PlaceOrderMenuDetailPageProps) {
+  const { id, menuId } = await params
 
-  const handleAddToCart = () => {
-    // TODO: Implement add to cart functionality
-    // console.log('Added to cart:', {
-    //   menuId: params.menuId,
-    //   placeId: params.placeId,
-    //   spiceLevel: selectedSpice,
-    // })
-    toast(params.menuId)
+  const placeId = Number(id)
+  const productId = Number(menuId)
+
+  // API 호출
+  const { error, data } = await productService.getProductById(productId)
+
+  // Expected Error: API 호출 실패 (네트워크 오류, timeout 등)
+  if (error) {
+    return <ErrorMessage message={COMMON_ERROR_MESSAGES.API_FETCH_ERROR} />
   }
 
-  return (
-    <div className="min-h-screen bg-white pb-20">
-      {/* Header */}
-      <header className="sticky top-0 z-50 flex items-center justify-between h-[60px] px-4 bg-white">
-        <button onClick={() => router.back()} className="p-2 -ml-2">
-          <IoChevronBack size={24} />
-        </button>
-        <div className="flex items-center gap-2">
-          <button className="p-2">
-            <IoShareOutline size={24} />
-          </button>
-          <button className="p-2 -mr-2 relative">
-            <div className="relative w-6 h-6 flex items-center justify-center">
-              <Image
-                src="/images/icon-cart.png"
-                alt="장바구니"
-                width={44}
-                height={44}
-                className="z-1"
-              />
-              <span className="absolute top-2 right-1 flex items-center justify-center w-4 h-4 text-[10px] text-white bg-main">
-                0
-              </span>
-            </div>
-          </button>
-        </div>
-      </header>
+  // Expected Error: API 응답은 받았지만 데이터가 없거나 실패 응답
+  if (!data || !data.success || !data.data) {
+    return <ErrorMessage message={COMMON_ERROR_MESSAGES.FETCH_ERROR('상품 정보')} />
+  }
 
-      {/* Hero Image */}
-      <div className="relative w-full aspect-[16/9]">
-        <Image src={MOCK_MENU.imageUrl} alt={MOCK_MENU.name} fill className="object-cover" />
-      </div>
-
-      {/* Menu Info */}
-      <div className="px-4 py-5">
-        <h2 className="text-[19px] mb-3">{MOCK_MENU.name}</h2>
-
-        <p className="text-[15px] text-[#666666] leading-[1.6] mb-4">{MOCK_MENU.description}</p>
-
-        <div className="flex items-center gap-3 mb-6">
-          <span className="text-[26px] text-main">{MOCK_MENU.price.toLocaleString()}원</span>
-        </div>
-
-        {/* Divider */}
-        <div className="h-[1px] bg-[#eeeeee] -mx-4 mb-6" />
-
-        {/* Spice Level Selection */}
-        <div className="mb-6">
-          <h3 className="text-[15px] mb-3">맵기조절</h3>
-          <div className="space-y-3">
-            {(['순한맛', '기본맛', '매운맛'] as SpiceLevel[]).map((level) => (
-              <button
-                key={level}
-                onClick={() => setSelectedSpice(level)}
-                className="flex items-center gap-3 w-full"
-              >
-                <div
-                  className={`w-6 h-6 rounded-full border-2 flex items-center justify-center ${
-                    selectedSpice === level ? 'border-main' : 'border-[#dddddd]'
-                  }`}
-                >
-                  {selectedSpice === level && <div className="w-4 h-4 rounded-full bg-main" />}
-                </div>
-                <span className="text-[15px]">{level}</span>
-              </button>
-            ))}
-          </div>
-        </div>
-      </div>
-
-      {/* Add to Cart Button */}
-      <FixedBottomSection className="z-50">
-        <button onClick={handleAddToCart} className="w-full py-4 bg-main text-white text-[17px]">
-          장바구니 담기
-        </button>
-      </FixedBottomSection>
-    </div>
-  )
+  return <PlaceOrderMenuDetailSection placeId={placeId} product={data.data} />
 }

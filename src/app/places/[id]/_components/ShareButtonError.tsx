@@ -1,7 +1,7 @@
 'use client'
 
 import { toast } from '@/components/ui/AppToaster'
-import ShareButton from './ShareButton'
+import ShareButton from '../../../../components/layouts/header-parts/ShareButton'
 
 export default function ShareButtonError() {
   const handleClick = () => {

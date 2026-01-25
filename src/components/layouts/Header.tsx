@@ -41,7 +41,7 @@ export function HeaderCenter({ children }: HeaderSlotProps) {
 
 export function HeaderRight({ children }: HeaderSlotProps) {
   return (
-    <div className="absolute right-0 top-1/2 -translate-y-1/2 flex items-center justify-center">
+    <div className="absolute right-0 top-1/2 -translate-y-1/2 flex items-center justify-center gap-5 pr-[15px]">
       {children}
     </div>
   )

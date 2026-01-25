@@ -1,7 +1,7 @@
 import ErrorMessage from '@/components/ui/ErrorMessage'
 import { placeService } from '@/domains/place'
 import { COMMON_ERROR_MESSAGES } from '@/lib/constants'
-import PlaceImageGallery from './PlaceImageGallery'
+import ImageGallery from './ImageGallery'
 
 interface PlaceImageGalleryServerProps {
   placeId: number
@@ -23,5 +23,5 @@ export default async function PlaceImageGalleryServer({ placeId }: PlaceImageGal
 
   const imageUrls = data.data.map((banner) => banner.imageUrl)
 
-  return <PlaceImageGallery imageUrls={imageUrls} />
+  return <ImageGallery imageUrls={imageUrls} />
 }

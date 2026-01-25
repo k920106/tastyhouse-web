@@ -7,7 +7,7 @@ interface ShareButtonProps {
 export default function ShareButton({ onClick }: ShareButtonProps) {
   return (
     <button
-      className="w-[55px] h-[55px] flex items-center justify-center cursor-pointer"
+      className="w-[20px] h-[20px] flex items-center justify-center cursor-pointer"
       onClick={onClick}
     >
       <BsShare size={20} />
