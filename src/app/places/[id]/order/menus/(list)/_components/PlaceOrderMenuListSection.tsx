@@ -9,6 +9,7 @@ import SectionStack from '@/components/ui/SectionStack'
 import { MenuCategory } from '@/domains/place'
 import { PAGE_PATHS } from '@/lib/paths'
 import Link from 'next/link'
+import CartItemCount from './CartItemCount'
 
 interface PlaceOrderMenuListSectionProps {
   placeId: number
@@ -51,7 +52,9 @@ export default function PlaceOrderMenuListSection({
       </SectionStack>
       <FixedBottomSection className="px-[15px] py-2.5 bg-[#f9f9f9]!">
         <Link href={PAGE_PATHS.ORDER_CART(placeId)}>
-          <AppButton className="bg-main">장바구니(0)</AppButton>
+          <AppButton className="bg-main gap-1">
+            <CartItemCount placeId={placeId} />
+          </AppButton>
         </Link>
       </FixedBottomSection>
     </section>

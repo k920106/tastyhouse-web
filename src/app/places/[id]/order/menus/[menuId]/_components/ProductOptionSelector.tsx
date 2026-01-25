@@ -38,6 +38,7 @@ export default function ProductOptionSelector({
   reviewCount,
 }: ProductOptionSelectorProps) {
   const router = useRouter()
+
   const [activeTab, setActiveTab] = useState('options')
 
   // 각 옵션 그룹별 선택 상태 관리
