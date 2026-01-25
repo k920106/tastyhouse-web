@@ -1,5 +1,6 @@
 'use client'
 
+import { useRouter } from 'next/navigation'
 import { MdRefresh } from 'react-icons/md'
 import Header, { HeaderCenter, HeaderLeft } from '../layouts/Header'
 import { BackButton } from '../layouts/header-parts'
@@ -7,17 +8,14 @@ import AppButton from './AppButton'
 import ErrorMessage from './ErrorMessage'
 
 interface ErrorStateSectionProps {
-  onRetry?: () => void | Promise<void>
   message: string
 }
 
-export default function ErrorStateSection({ onRetry, message }: ErrorStateSectionProps) {
+export default function ErrorStateSection({ message }: ErrorStateSectionProps) {
+  const router = useRouter()
+
   const handleRetry = () => {
-    if (onRetry) {
-      onRetry()
-    } else {
-      window.location.reload()
-    }
+    router.refresh()
   }
 
   return (
