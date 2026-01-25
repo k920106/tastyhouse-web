@@ -202,7 +202,7 @@ export default function ProductOptionSelector({
                       {group.name}
                       {group.isRequired && <span className="text-main ml-1">*</span>}
                     </h3>
-                    <div className="flex flex-col gap-3">
+                    <div className="flex flex-col gap-[15px]">
                       {group.options.map((option) => (
                         <OptionItem
                           key={option.id}
@@ -256,7 +256,7 @@ function OptionItem({ option, isMultiple, isSelected, onSelect }: OptionItemProp
       type="button"
       onClick={onSelect}
       disabled={isDisabled}
-      className={`flex items-center gap-3 w-full text-left ${isDisabled ? 'opacity-50 cursor-not-allowed' : ''}`}
+      className={`flex items-center gap-2.5 w-full text-left cursor-pointer ${isDisabled ? 'opacity-50 cursor-not-allowed' : ''}`}
     >
       {isMultiple ? (
         isSelected ? (
@@ -269,14 +269,12 @@ function OptionItem({ option, isMultiple, isSelected, onSelect }: OptionItemProp
       ) : (
         <RiRadioButtonFill size={28} className="text-[#dddddd] flex-shrink-0" />
       )}
-      <span className="text-[15px] flex-1">
+      <span className="flex-1 text-sm leading-[14px]">
         {option.name}
         {option.isSoldOut && <span className="text-[#aaaaaa] ml-2">(품절)</span>}
       </span>
       {option.additionalPrice > 0 && (
-        <span className="text-[#666666] text-[14px]">
-          +{option.additionalPrice.toLocaleString()}원
-        </span>
+        <span className="text-sm leading-[14px]">+{option.additionalPrice.toLocaleString()}원</span>
       )}
     </button>
   )
