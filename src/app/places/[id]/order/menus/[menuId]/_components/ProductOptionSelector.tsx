@@ -178,7 +178,7 @@ export default function ProductOptionSelector({
 
   return (
     <>
-      <BorderedSection>
+      <BorderedSection className="border-b-0">
         <Tabs value={activeTab} onValueChange={setActiveTab} className="gap-0">
           <TabsList className="sticky top-0 w-full h-[50px] rounded-none bg-white z-40 p-0">
             <TabsTrigger
@@ -199,11 +199,11 @@ export default function ProductOptionSelector({
               {optionGroups.map((group) => (
                 <BorderedSection key={group.id}>
                   <div className="px-4 py-5">
-                    <h3 className="text-[15px] font-medium mb-4">
+                    <h3 className="text-base leading-[16px] font-bold">
                       {group.name}
                       {group.isRequired && <span className="text-main ml-1">*</span>}
                     </h3>
-                    <div className="flex flex-col gap-[15px]">
+                    <div className="flex flex-col gap-[15px] mt-5">
                       {group.options.map((option) => (
                         <OptionItem
                           key={option.id}
@@ -237,7 +237,7 @@ export default function ProductOptionSelector({
           장바구니 담기
         </AppButton>
       </FixedBottomSection>
-      <div className="h-[82px]" />
+      <div className="h-[82px] bg-white" />
     </>
   )
 }
