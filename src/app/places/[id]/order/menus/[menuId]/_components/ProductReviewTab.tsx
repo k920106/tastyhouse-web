@@ -1,5 +1,6 @@
 'use client'
 
+import CheckboxWithCount from '@/components/reviews/CheckboxWithCount'
 import ReviewAuthorInfo from '@/components/reviews/ReviewAuthorInfo'
 import ReviewImageGallery from '@/components/reviews/ReviewImageGallery'
 import ClampedText from '@/components/ui/ClampedText'
@@ -16,7 +17,6 @@ import { getProductReviewStatistics, getProductReviews } from '@/services/produc
 import { useQuery } from '@tanstack/react-query'
 import Link from 'next/link'
 import { useState } from 'react'
-import { BsCheckLg } from 'react-icons/bs'
 import { FiChevronDown } from 'react-icons/fi'
 
 function ReviewStatisticSkeleton() {
@@ -209,10 +209,6 @@ function ReviewListItemSkeleton() {
   )
 }
 
-const formatReviewCount = (count: number): string => {
-  return count >= 99 ? '99+' : String(count)
-}
-
 interface ReviewFilterProps {
   photoReviewCount: number
   photoOnly: boolean
@@ -260,24 +256,12 @@ function ReviewFilter({
         ))}
       </div>
       <div className="flex items-center justify-between">
-        <label className="flex items-center gap-2 cursor-pointer">
-          <button
-            type="button"
-            onClick={() => onPhotoOnlyChange(!photoOnly)}
-            className="w-[25px] h-[25px] flex items-center justify-center cursor-pointer"
-          >
-            <div
-              className={`w-[25px] h-[25px] rounded-full flex items-center justify-center ${
-                photoOnly ? 'bg-main' : 'border-[1.5px] border-[#dddddd] box-border'
-              }`}
-            >
-              <BsCheckLg size={20} className={photoOnly ? 'text-white' : 'text-[#dddddd]'} />
-            </div>
-          </button>
-          <span className="text-sm leading-[14px]">
-            포토리뷰 ({formatReviewCount(photoReviewCount)})
-          </span>
-        </label>
+        <CheckboxWithCount
+          label="포토리뷰"
+          count={photoReviewCount}
+          checked={photoOnly}
+          onChange={onPhotoOnlyChange}
+        />
         <div className="flex items-center gap-1.5">
           <select
             name="review-sort"
