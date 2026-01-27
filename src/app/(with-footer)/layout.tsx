@@ -1,10 +1,15 @@
 import Footer from '@/components/layouts/Footer'
+import MenuSidebar from '@/components/layouts/MenuSidebar'
+import { SidebarProvider, SidebarInset } from '@/components/ui/shadcn/sidebar'
 
 export default function WithFooterLayout({ children }: { children: React.ReactNode }) {
   return (
-    <>
-      {children}
-      <Footer />
-    </>
+    <SidebarProvider defaultOpen={false}>
+      <MenuSidebar />
+      <SidebarInset>
+        {children}
+        <Footer />
+      </SidebarInset>
+    </SidebarProvider>
   )
 }
