@@ -6,36 +6,45 @@ import { HiOutlineXMark } from 'react-icons/hi2'
 import CircleCheckbox from '../ui/CircleCheckbox'
 
 interface CartItemProps {
-  id: number
+  optionKey: string
   name: string
   imageUrl: string
   price: number
   originalPrice?: number
   quantity: number
   selected: boolean
-  onToggleSelect: (id: number) => void
-  onQuantityChange: (id: number, quantity: number) => void
-  onRemove: (id: number) => void
+  selectedOptions?: Array<{ optionName: string }>
+  onToggleSelect: (optionKey: string) => void
+  onQuantityChange: (optionKey: string, quantity: number) => void
+  onRemove: (optionKey: string) => void
 }
 
 export default function CartItem({
-  id,
+  optionKey,
   name,
   imageUrl,
   price,
   originalPrice,
   quantity,
   selected,
+  selectedOptions,
   onToggleSelect,
   onQuantityChange,
   onRemove,
 }: CartItemProps) {
   return (
     <div className="flex py-5">
-      <CircleCheckbox checked={selected} onChange={() => onToggleSelect(id)} />
+      <CircleCheckbox checked={selected} onChange={() => onToggleSelect(optionKey)} />
       <ImageContainer src={imageUrl} alt={name} size={65} className="ml-2.5" />
       <div className="flex-1 ml-4">
         <h3 className="text-sm leading-[14px] truncate">{name}</h3>
+        {selectedOptions && selectedOptions.length > 0 && (
+          <div className="mt-1">
+            <p className="text-xs text-[#999999]">
+              {selectedOptions.map((opt) => opt.optionName).join(', ')}
+            </p>
+          </div>
+        )}
         <div className="flex items-baseline mt-[15px]">
           <span className="text-base leading-[16px]">{formatNumber(price)}원</span>
           {originalPrice && originalPrice > price && (
@@ -46,13 +55,13 @@ export default function CartItem({
         </div>
       </div>
       <div className="flex flex-col items-end justify-between">
-        <button onClick={() => onRemove(id)} className="w-5 h-5 -mt-1">
+        <button onClick={() => onRemove(optionKey)} className="w-5 h-5 -mt-1">
           <HiOutlineXMark size={20} color="#cccccc" />
         </button>
         <div className="flex items-center gap-2">
           <div className="flex items-center border border-[#cccccc]">
             <button
-              onClick={() => onQuantityChange(id, Math.max(1, quantity - 1))}
+              onClick={() => onQuantityChange(optionKey, Math.max(1, quantity - 1))}
               className="w-[30px] h-[30px] flex items-center justify-center text-sm leading-[14px] text-[#999999]"
             >
               −
@@ -61,7 +70,7 @@ export default function CartItem({
               {quantity}
             </span>
             <button
-              onClick={() => onQuantityChange(id, quantity + 1)}
+              onClick={() => onQuantityChange(optionKey, quantity + 1)}
               className="w-[30px] h-[30px] flex items-center justify-center text-sm leading-[14px] text-[#999999]"
             >
               +

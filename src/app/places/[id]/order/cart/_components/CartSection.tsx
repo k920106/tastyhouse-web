@@ -8,64 +8,50 @@ import AppButton from '@/components/ui/AppButton'
 import BorderedSection from '@/components/ui/BorderedSection'
 import FixedBottomSection from '@/components/ui/FixedBottomSection'
 import SectionStack from '@/components/ui/SectionStack'
+import {
+  CartItemData,
+  getCartItemsByPlace,
+  removeFromCart,
+  updateCartItemQuantity,
+} from '@/lib/cart'
 import { formatNumber } from '@/lib/number'
 import { PAGE_PATHS } from '@/lib/paths'
-import { CartItem as CartItemType } from '@/types/api/cart'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { LiaPlusSolid } from 'react-icons/lia'
 
 interface CartSectionProps {
   placeId: number
 }
 
+interface CartItemWithSelection extends CartItemData {
+  selected: boolean
+}
+
 export default function CartSection({ placeId }: CartSectionProps) {
   const router = useRouter()
 
-  const [cartItems, setCartItems] = useState<CartItemType[]>([
-    {
-      id: 1,
-      name: '매뉴이름은여기까지표시...',
-      imageUrl: '/images/sample/food/food-image1.png',
-      price: 7900,
-      originalPrice: undefined,
-      quantity: 1,
-      selected: true,
-      placeName: '땡스오트',
-    },
-    {
-      id: 2,
-      name: '블루나잇',
-      imageUrl: '/images/sample/food/food-image2.png',
-      price: 7500,
-      originalPrice: 8500,
-      quantity: 1,
-      selected: true,
-      placeName: '땡스오트',
-    },
-    {
-      id: 3,
-      name: '아보카도 햄치즈 샌드위치',
-      imageUrl: '/images/sample/food/food-image3.png',
-      price: 17000,
-      originalPrice: undefined,
-      quantity: 2,
-      selected: false,
-      placeName: '땡스오트',
-    },
-  ])
+  const [cartItems, setCartItems] = useState<CartItemWithSelection[]>([])
+
+  useEffect(() => {
+    const items = getCartItemsByPlace(placeId)
+    setCartItems(items.map((item) => ({ ...item, selected: true })))
+  }, [placeId])
 
   const allSelected = cartItems.length > 0 && cartItems.every((item) => item.selected)
   const selectedCount = cartItems.filter((item) => item.selected).length
 
   const totalProductPrice = cartItems
     .filter((item) => item.selected)
-    .reduce((sum, item) => sum + item.price * item.quantity, 0)
+    .reduce((sum, item) => {
+      const itemPrice = item.basePrice + item.selectedOptions.reduce((opt, o) => opt + o.additionalPrice, 0)
+      return sum + itemPrice * item.quantity
+    }, 0)
 
   const totalDiscountAmount = cartItems
-    .filter((item) => item.selected && item.originalPrice)
-    .reduce((sum, item) => sum + (item.originalPrice! - item.price) * item.quantity, 0)
+    .filter((item) => item.selected && item.originalPrice > item.basePrice)
+    .reduce((sum, item) => sum + (item.originalPrice - item.basePrice) * item.quantity, 0)
 
   const totalPaymentPrice = totalProductPrice
 
@@ -78,21 +64,29 @@ export default function CartSection({ placeId }: CartSectionProps) {
     )
   }
 
-  const handleToggleSelect = (id: number) => {
+  const handleToggleSelect = (optionKey: string) => {
     setCartItems((items) =>
-      items.map((item) => (item.id === id ? { ...item, selected: !item.selected } : item)),
+      items.map((item) =>
+        item.optionKey === optionKey ? { ...item, selected: !item.selected } : item,
+      ),
     )
   }
 
-  const handleQuantityChange = (id: number, quantity: number) => {
-    setCartItems((items) => items.map((item) => (item.id === id ? { ...item, quantity } : item)))
+  const handleQuantityChange = (optionKey: string, quantity: number) => {
+    updateCartItemQuantity(optionKey, quantity)
+    setCartItems((items) =>
+      items.map((item) => (item.optionKey === optionKey ? { ...item, quantity } : item)),
+    )
   }
 
-  const handleRemove = (id: number) => {
-    setCartItems((items) => items.filter((item) => item.id !== id))
+  const handleRemove = (optionKey: string) => {
+    removeFromCart(optionKey)
+    setCartItems((items) => items.filter((item) => item.optionKey !== optionKey))
   }
 
   const handleDeleteSelected = () => {
+    const selectedOptionKeys = cartItems.filter((item) => item.selected).map((item) => item.optionKey)
+    selectedOptionKeys.forEach((key) => removeFromCart(key))
     setCartItems((items) => items.filter((item) => !item.selected))
   }
 
@@ -141,16 +135,28 @@ export default function CartSection({ placeId }: CartSectionProps) {
             ) : (
               <>
                 <div className="px-[15px] divide-y divide-[#f2f2f2]">
-                  <h2 className="py-5 text-base leading-[16px]">땡스오트</h2>
-                  {cartItems.map((item) => (
-                    <CartItem
-                      key={item.id}
-                      {...item}
-                      onToggleSelect={handleToggleSelect}
-                      onQuantityChange={handleQuantityChange}
-                      onRemove={handleRemove}
-                    />
-                  ))}
+                  <h2 className="py-5 text-base leading-[16px]">{cartItems[0]?.placeName}</h2>
+                  {cartItems.map((item) => {
+                    const itemPrice =
+                      item.basePrice +
+                      item.selectedOptions.reduce((sum, opt) => sum + opt.additionalPrice, 0)
+                    return (
+                      <CartItem
+                        key={item.optionKey}
+                        optionKey={item.optionKey}
+                        name={item.productName}
+                        imageUrl={item.imageUrl}
+                        price={itemPrice}
+                        originalPrice={item.originalPrice}
+                        quantity={item.quantity}
+                        selected={item.selected}
+                        selectedOptions={item.selectedOptions}
+                        onToggleSelect={handleToggleSelect}
+                        onQuantityChange={handleQuantityChange}
+                        onRemove={handleRemove}
+                      />
+                    )
+                  })}
                 </div>
                 <div className="py-[18px] border-t border-[#f2f2f2] box-border">
                   <div
