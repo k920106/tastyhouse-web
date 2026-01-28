@@ -18,7 +18,7 @@ export default function SelectAllCheckbox({
   return (
     <button onClick={() => onChange(!checked)} className="flex items-center gap-2">
       <CircleCheckbox checked={checked} onChange={onChange} />
-      <span className="text-[15px]">
+      <span className="text-sm leading-[14px]">
         {label} ({selectedCount}/{totalCount})
       </span>
     </button>
