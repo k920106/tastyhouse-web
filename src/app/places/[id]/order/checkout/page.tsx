@@ -2,8 +2,8 @@
 
 import { toast } from '@/components/ui/AppToaster'
 import FixedBottomSection from '@/components/ui/FixedBottomSection'
+import ImageContainer from '@/components/ui/ImageContainer'
 import { PAGE_PATHS } from '@/lib/paths'
-import Image from 'next/image'
 import Link from 'next/link'
 import { useState } from 'react'
 
@@ -144,15 +144,7 @@ export default function CheckoutPage() {
             <div className="px-4 pb-4 space-y-4">
               {orderInfo.items.map((item) => (
                 <div key={item.id} className="flex gap-3">
-                  <div className="relative w-[75px] h-[75px] flex-shrink-0">
-                    <Image
-                      src={item.imageUrl}
-                      alt={item.name}
-                      fill
-                      className="object-cover rounded"
-                      sizes="75px"
-                    />
-                  </div>
+                  <ImageContainer src={item.imageUrl} alt={item.name} size={65} />
                   <div className="flex-1">
                     <h3 className="text-[15px] mb-1">{item.name}</h3>
                     <p className="text-sm text-[#666666]">

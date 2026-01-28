@@ -1,7 +1,7 @@
+import ImageContainer from '@/components/ui/ImageContainer'
 import { Skeleton } from '@/components/ui/shadcn/skeleton'
 import { formatDecimal, formatNumber } from '@/lib/number'
 import { PAGE_PATHS } from '@/lib/paths'
-import Image from 'next/image'
 import Link from 'next/link'
 
 export function ProductItemSkeleton() {
@@ -48,9 +48,7 @@ export default function ProductItem({
 }: ProductItemProps) {
   return (
     <Link href={PAGE_PATHS.PRODUCT_DETAIL(id)} className="flex items-center gap-4 py-[15px]">
-      <div className="relative w-[75px] h-[75px] flex-shrink-0 overflow-hidden">
-        <Image src={imageUrl} alt={name} fill className="object-cover" sizes="160px" />
-      </div>
+      <ImageContainer src={imageUrl} alt={name} size={75} />
       <div className="flex-1 flex flex-col min-w-0">
         <p className="mb-2.5 text-xs leading-[12px] truncate">{placeName}</p>
         <h3 className="mb-[17px] text-base leading-[16px] truncate">{name}</h3>
