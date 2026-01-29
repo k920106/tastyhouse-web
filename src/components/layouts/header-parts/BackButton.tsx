@@ -1,8 +1,7 @@
 'use client'
 
-import { useHeaderContext } from '@/components/layouts/Header'
+import Image from 'next/image'
 import { useRouter } from 'next/navigation'
-import { IoChevronBackOutline } from 'react-icons/io5'
 
 interface BackButtonProps {
   onClick?: () => void
@@ -10,8 +9,6 @@ interface BackButtonProps {
 
 export default function BackButton({ onClick }: BackButtonProps) {
   const router = useRouter()
-  const { variant } = useHeaderContext()
-  const isPrimary = variant === 'primary'
 
   const handleClick = () => {
     if (onClick) {
@@ -26,7 +23,7 @@ export default function BackButton({ onClick }: BackButtonProps) {
       className="w-[55px] h-[55px] flex items-center justify-center cursor-pointer"
       onClick={handleClick}
     >
-      <IoChevronBackOutline size={20} color={isPrimary ? 'white' : 'black'} />
+      <Image src="/images/layout/nav-left-black.png" alt="뒤로가기" width={9} height={16} />
     </button>
   )
 }
