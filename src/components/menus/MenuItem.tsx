@@ -1,5 +1,5 @@
-import Rating from '@/components/ui/Rating'
 import ImageContainer from '@/components/ui/ImageContainer'
+import Rating from '@/components/ui/Rating'
 import { PlaceMenu } from '@/domains/place'
 import { formatDecimal, formatNumber } from '@/lib/number'
 import Image from 'next/image'
@@ -33,11 +33,7 @@ interface MenuItemProps {
 export default function MenuItem({ menu }: MenuItemProps) {
   return (
     <div className="flex items-center gap-[15px] py-[15px] pr-3">
-      <ImageContainer
-        src="/images/sample/food/food-image1.png"
-        alt="메뉴 이미지"
-        size={65}
-      />
+      <ImageContainer src="/images/sample/food/food-image1.png" alt="메뉴 이미지" size={65} />
       <div className="flex-1 flex flex-col min-w-0">
         <div className="flex items-center justify-between">
           <div className="flex flex-col">
