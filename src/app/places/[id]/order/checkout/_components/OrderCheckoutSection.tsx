@@ -2,6 +2,7 @@
 
 import Header, { HeaderCenter, HeaderLeft } from '@/components/layouts/Header'
 import { BackButton } from '@/components/layouts/header-parts'
+import AppButton from '@/components/ui/AppButton'
 import { toast } from '@/components/ui/AppToaster'
 import BorderedSection from '@/components/ui/BorderedSection'
 import FixedBottomSection from '@/components/ui/FixedBottomSection'
@@ -13,8 +14,11 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from '@/components/ui/shadcn/accordion'
+import { Input } from '@/components/ui/shadcn/input'
 import { formatNumber } from '@/lib/number'
+import Image from 'next/image'
 import { useState } from 'react'
+import { IoIosCloseCircle } from 'react-icons/io'
 
 interface OrderItem {
   id: number
@@ -145,107 +149,93 @@ export default function OrderCheckoutSection({ placeId }: OrderCheckoutSectionPr
             </AccordionItem>
           </Accordion>
         </BorderedSection>
+        <BorderedSection>
+          <Accordion type="single" collapsible defaultValue="customer-info">
+            <AccordionItem value="customer-info" className="border-b-0">
+              <AccordionTrigger className="items-center px-[15px] py-5 hover:no-underline">
+                <h2 className="text-base leading-[16px]">주문자 정보</h2>
+              </AccordionTrigger>
+              <AccordionContent className="p-0">
+                <div className="px-[15px] py-2.5 pb-5">
+                  {isCustomerExpanded && (
+                    <div className="space-y-[15px]">
+                      <div className="flex">
+                        <span className="w-30 text-sm leading-[14px] text-[#666666]">
+                          주문하는 분
+                        </span>
+                        <span className="text-sm leading-[14px]">{customerInfo.name}</span>
+                      </div>
+                      <div className="flex">
+                        <span className="w-30 text-sm leading-[14px] text-[#666666]">휴대폰</span>
+                        <span className="text-sm leading-[14px]">{customerInfo.phone}</span>
+                      </div>
+                      <div className="flex">
+                        <span className="w-30 text-sm leading-[14px] text-[#666666]">이메일</span>
+                        <span className="text-sm leading-[14px]">{customerInfo.email}</span>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </AccordionContent>
+            </AccordionItem>
+          </Accordion>
+        </BorderedSection>
+        <BorderedSection>
+          <div className="px-[15px] py-5">
+            <h2 className="text-base leading-[16px]">쿠폰/적립금 사용</h2>
+            <div className="pt-[30px] space-y-5">
+              <div>
+                <h3 className="text-xs leading-[12px] mb-2.5">쿠폰</h3>
+                <button className="w-full h-[50px] px-[15px] py-[17px] flex items-center justify-between border border-[#eeeeee] box-border">
+                  <span className="text-sm leading-[14px] text-[#aaaaaa]">
+                    사용할 수 있는 쿠폰이 없습니다.
+                  </span>
+                  <Image src="/images/layout/nav-right.png" alt="닫기" width={9} height={16} />
+                </button>
+              </div>
+              <div>
+                <h3 className="text-xs leading-[12px] mb-2.5">포인트</h3>
+                <div className="flex gap-2">
+                  <div className="flex-1 relative">
+                    {/* <input
+                      type="text"
+                      value={pointInput}
+                      onChange={(e) => setPointInput(e.target.value)}
+                      placeholder="0"
+                      className="w-full h-[50px] pl-[16px] pr-[40px] py-5 text-sm leading-[14px] border border-[#eeeeee] box-border"
+                    /> */}
+                    <Input
+                      type="text"
+                      value={pointInput}
+                      onChange={(e) => setPointInput(e.target.value)}
+                      placeholder="0"
+                      className="w-full h-[50px] pl-[16px] pr-[40px] py-5 text-sm leading-[14px] border border-[#eeeeee] box-border rounded-none"
+                    />
+                    {pointInput && (
+                      <button
+                        onClick={() => setPointInput('')}
+                        className="absolute right-3 top-1/2 -translate-y-1/2 flex items-center justify-center w-5 h-5"
+                      >
+                        <IoIosCloseCircle size={19} color="#aaaaaa" />
+                      </button>
+                    )}
+                  </div>
+                  <AppButton className="w-[105px] text-sm leading-[14px] text-white bg-[#a91201]">
+                    전액사용
+                  </AppButton>
+                </div>
+                <p className="flex gap-1 mt-2.5">
+                  <span className="text-xs leading-[12px] text-[#aaaaaa]">사용 가능한 포인트</span>
+                  <span className="text-xs leading-[12px]">{formatNumber(availablePoints)}원</span>
+                </p>
+              </div>
+            </div>
+          </div>
+        </BorderedSection>
       </SectionStack>
       <div className="pb-32">
-        <div className="border-b-8 border-[#f5f5f5]">
-          <button
-            onClick={() => setIsCustomerExpanded(!isCustomerExpanded)}
-            className="w-full px-4 py-4 flex items-center justify-between"
-          >
-            <h2 className="text-[15px]">주문자 정보</h2>
-            <svg
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              className={`transform transition-transform ${isCustomerExpanded ? 'rotate-180' : ''}`}
-            >
-              <path
-                d="M6 9L12 15L18 9"
-                stroke="#000"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
-          </button>
-          {isCustomerExpanded && (
-            <div className="px-4 pb-4 space-y-3">
-              <div className="flex">
-                <span className="text-[15px] text-[#666666] w-20">주문하는 분</span>
-                <span className="text-[15px]">{customerInfo.name}</span>
-              </div>
-              <div className="flex">
-                <span className="text-[15px] text-[#666666] w-20">휴대폰</span>
-                <span className="text-[15px]">{customerInfo.phone}</span>
-              </div>
-              <div className="flex">
-                <span className="text-[15px] text-[#666666] w-20">이메일</span>
-                <span className="text-[15px]">{customerInfo.email}</span>
-              </div>
-            </div>
-          )}
-        </div>
-        <div className="border-b-8 border-[#f5f5f5] px-4 py-6">
-          <h2 className="text-[15px] mb-4">쿠폰/적립금 사용</h2>
-          <div className="mb-6">
-            <h3 className="text-[15px] mb-3">쿠폰</h3>
-            <button className="w-full px-4 py-4 border border-[#eeeeee] rounded flex items-center justify-between bg-white">
-              <span className="text-[15px] text-[#aaaaaa]">사용할 수 있는 쿠폰이 없습니다.</span>
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                <path
-                  d="M9 18L15 12L9 6"
-                  stroke="#CCCCCC"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
-            </button>
-          </div>
-          <div>
-            <h3 className="text-[15px] mb-3">포인트</h3>
-            <div className="flex gap-2">
-              <div className="flex-1 relative">
-                <input
-                  type="number"
-                  value={pointInput}
-                  onChange={(e) => setPointInput(e.target.value)}
-                  placeholder="0"
-                  className="w-full px-4 py-4 border border-[#eeeeee] rounded text-[15px]"
-                />
-                {pointInput && (
-                  <button
-                    onClick={() => setPointInput('')}
-                    className="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 flex items-center justify-center"
-                  >
-                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-                      <circle cx="10" cy="10" r="10" fill="#CCCCCC" />
-                      <path
-                        d="M6 6L14 14M6 14L14 6"
-                        stroke="white"
-                        strokeWidth="1.5"
-                        strokeLinecap="round"
-                      />
-                    </svg>
-                  </button>
-                )}
-              </div>
-              <button
-                onClick={handleApplyAllPoints}
-                className="px-6 py-4 bg-main text-white text-[15px]"
-              >
-                전액사용
-              </button>
-            </div>
-            <p className="text-sm text-[#666666] mt-2">
-              사용 가능한 포인트 {availablePoints.toLocaleString()}원
-            </p>
-          </div>
-        </div>
         <div className="border-b-8 border-[#f5f5f5] px-4 py-6">
           <h2 className="text-[15px] mb-4">결제 금액</h2>
-
           <div className="space-y-3">
             <div className="flex justify-between text-[15px]">
               <span className="text-[#666666]">상품금액</span>
