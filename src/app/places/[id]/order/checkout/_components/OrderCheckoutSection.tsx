@@ -182,8 +182,10 @@ export default function OrderCheckoutSection({ placeId }: OrderCheckoutSectionPr
         </BorderedSection>
         <BorderedSection>
           <div className="px-[15px] py-5">
-            <h2 className="text-base leading-[16px]">쿠폰/적립금 사용</h2>
-            <div className="pt-[30px] space-y-5">
+            <div className="pb-[30px]">
+              <h2 className="text-base leading-[16px]">쿠폰/적립금 사용</h2>
+            </div>
+            <div className="space-y-5">
               <div>
                 <h3 className="text-xs leading-[12px] mb-2.5">쿠폰</h3>
                 <button className="w-full h-[50px] px-[15px] py-[17px] flex items-center justify-between border border-[#eeeeee] box-border">
@@ -223,9 +225,57 @@ export default function OrderCheckoutSection({ placeId }: OrderCheckoutSectionPr
             </div>
           </div>
         </BorderedSection>
+        <BorderedSection>
+          <div className="px-[15px] py-5">
+            <div className="pb-[30px]">
+              <h2 className="text-base leading-[16px]">결제 금액</h2>
+            </div>
+            <div className="space-y-[15px]">
+              <div className="flex justify-between">
+                <span className="text-sm leading-[14px]">상품금액</span>
+                <span className="text-sm leading-[14px]">{formatNumber(productTotal)}원</span>
+              </div>
+              <div>
+                <div className="flex justify-between">
+                  <span className="text-sm leading-[14px]">할인금액</span>
+                  <span className="text-sm leading-[14px]">
+                    - {formatNumber(shippingDiscount)}원
+                  </span>
+                </div>
+                <div className="pt-2.5 space-y-2.5">
+                  <div className="flex justify-between">
+                    <span className="text-xs leading-[12px] text-[#aaaaaa]">상품 할인</span>
+                    <span className="text-xs leading-[12px] text-[#aaaaaa]">
+                      - {formatNumber(shippingDiscount)}원
+                    </span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-xs leading-[12px] text-[#aaaaaa]">쿠폰 사용</span>
+                    <span className="text-xs leading-[12px] text-[#aaaaaa]">
+                      {formatNumber(couponDiscount)}원
+                    </span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-xs leading-[12px] text-[#aaaaaa]">포인트 사용</span>
+                    <span className="text-xs leading-[12px] text-[#aaaaaa]">
+                      {pointsUsed > 0 ? '-' : ''}
+                      {formatNumber(pointsUsed)}원
+                    </span>
+                  </div>
+                </div>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-sm leading-[14px]">최종 결제금액</span>
+                <span className="text-sm leading-[14px] text-[#a91201]">
+                  {formatNumber(finalTotal)}원
+                </span>
+              </div>
+            </div>
+          </div>
+        </BorderedSection>
       </SectionStack>
       <div className="pb-32">
-        <div className="border-b-8 border-[#f5f5f5] px-4 py-6">
+        {/* <div className="border-b-8 border-[#f5f5f5] px-4 py-6">
           <h2 className="text-[15px] mb-4">결제 금액</h2>
           <div className="space-y-3">
             <div className="flex justify-between text-[15px]">
@@ -257,7 +307,7 @@ export default function OrderCheckoutSection({ placeId }: OrderCheckoutSectionPr
               <span className="text-main">{finalTotal.toLocaleString()}원</span>
             </div>
           </div>
-        </div>
+        </div> */}
         <div className="px-4 py-6">
           <button
             onClick={() => setIsPaymentMethodExpanded(!isPaymentMethodExpanded)}
