@@ -72,11 +72,19 @@ export default function OrderCheckoutSection() {
       .map((cartProduct) => {
         const detail = productDetails.get(cartProduct.productId)
         if (!detail) return null
+
+        const basePrice = detail.discountPrice ?? detail.originalPrice
+        const optionAdditionalPrice = cartProduct.selectedOptions.reduce((sum, so) => {
+          const group = detail.optionGroups.find((g) => g.id === so.groupId)
+          const option = group?.options.find((o) => o.id === so.optionId)
+          return sum + (option?.additionalPrice ?? 0)
+        }, 0)
+
         return {
           id: detail.id,
           name: detail.name,
           imageUrl: detail.imageUrls[0] ?? '',
-          price: detail.discountPrice ?? detail.originalPrice,
+          price: basePrice + optionAdditionalPrice,
           quantity: cartProduct.quantity,
         }
       })
