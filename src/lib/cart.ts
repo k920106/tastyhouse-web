@@ -1,24 +1,20 @@
 'use client'
 
-export interface SelectedOption {
+export interface CartSelectedOption {
   groupId: number
-  groupName: string
   optionId: number
-  optionName: string
-  additionalPrice: number
 }
 
-export interface CartItemData {
+export interface CartProduct {
   productId: number
-  placeId: number
-  placeName: string
-  productName: string
-  imageUrl: string
-  basePrice: number
-  originalPrice: number
   quantity: number
-  selectedOptions: SelectedOption[]
-  optionKey: string // 동일 상품+옵션 식별용 키
+  selectedOptions: CartSelectedOption[]
+  optionKey: string
+}
+
+export interface CartData {
+  placeId: number
+  products: CartProduct[]
 }
 
 const CART_STORAGE_KEY = 'cart'
@@ -27,7 +23,7 @@ const CART_STORAGE_KEY = 'cart'
  * 선택한 옵션들로 고유 키 생성
  * 같은 상품이라도 옵션이 다르면 다른 항목으로 취급
  */
-export function generateOptionKey(productId: number, selectedOptions: SelectedOption[]): string {
+export function generateOptionKey(productId: number, selectedOptions: CartSelectedOption[]): string {
   const sortedOptions = [...selectedOptions].sort((a, b) => a.groupId - b.groupId)
   const optionIds = sortedOptions.map((opt) => `${opt.groupId}:${opt.optionId}`).join('|')
   return `${productId}_${optionIds}`
@@ -36,88 +32,120 @@ export function generateOptionKey(productId: number, selectedOptions: SelectedOp
 /**
  * localStorage에서 장바구니 데이터 조회
  */
-export function getCartItems(): CartItemData[] {
-  if (typeof window === 'undefined') return []
+export function getCartData(): CartData | null {
+  if (typeof window === 'undefined') return null
 
   try {
     const data = localStorage.getItem(CART_STORAGE_KEY)
-    return data ? JSON.parse(data) : []
+    return data ? JSON.parse(data) : null
   } catch {
-    return []
+    return null
   }
 }
 
 /**
- * 특정 가게의 장바구니 아이템 조회
+ * 장바구니 상품 목록 조회
  */
-export function getCartItemsByPlace(placeId: number): CartItemData[] {
-  return getCartItems().filter((item) => item.placeId === placeId)
+export function getCartProducts(): CartProduct[] {
+  return getCartData()?.products ?? []
+}
+
+/**
+ * 장바구니의 placeId 조회
+ */
+export function getCartPlaceId(): number | null {
+  return getCartData()?.placeId ?? null
 }
 
 /**
  * 장바구니에 상품 추가
  * 같은 상품+옵션 조합이면 수량만 증가
+ * 다른 가게의 상품이 이미 있으면 false 반환 (교체 필요)
  */
 export function addToCart(
-  item: Omit<CartItemData, 'optionKey' | 'quantity'>,
+  placeId: number,
+  item: Omit<CartProduct, 'optionKey' | 'quantity'>,
   quantity: number = 1,
-): CartItemData[] {
-  const items = getCartItems()
+): CartData {
+  const cart = getCartData()
   const optionKey = generateOptionKey(item.productId, item.selectedOptions)
 
-  const existingIndex = items.findIndex((cartItem) => cartItem.optionKey === optionKey)
+  const products = cart?.products ?? []
+  const existingIndex = products.findIndex((p) => p.optionKey === optionKey)
 
   if (existingIndex >= 0) {
-    // 기존 항목이 있으면 수량 증가
-    items[existingIndex].quantity += quantity
+    products[existingIndex].quantity += quantity
   } else {
-    // 새 항목 추가
-    items.push({
+    products.push({
       ...item,
       optionKey,
       quantity,
     })
   }
 
-  localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(items))
-  return items
+  const newCart: CartData = { placeId, products }
+  localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(newCart))
+  return newCart
+}
+
+/**
+ * 장바구니를 초기화하고 새 가게의 상품 추가
+ */
+export function replaceCartAndAdd(
+  placeId: number,
+  item: Omit<CartProduct, 'optionKey' | 'quantity'>,
+  quantity: number = 1,
+): CartData {
+  const optionKey = generateOptionKey(item.productId, item.selectedOptions)
+  const newCart: CartData = {
+    placeId,
+    products: [{ ...item, optionKey, quantity }],
+  }
+  localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(newCart))
+  return newCart
 }
 
 /**
  * 장바구니 아이템 수량 변경
  */
-export function updateCartItemQuantity(optionKey: string, quantity: number): CartItemData[] {
-  const items = getCartItems()
-  const index = items.findIndex((item) => item.optionKey === optionKey)
+export function updateCartItemQuantity(optionKey: string, quantity: number): CartData | null {
+  const cart = getCartData()
+  if (!cart) return null
 
-  if (index >= 0) {
-    if (quantity <= 0) {
-      items.splice(index, 1)
-    } else {
-      items[index].quantity = quantity
+  if (quantity <= 0) {
+    cart.products = cart.products.filter((p) => p.optionKey !== optionKey)
+  } else {
+    const index = cart.products.findIndex((p) => p.optionKey === optionKey)
+    if (index >= 0) {
+      cart.products[index].quantity = quantity
     }
   }
 
-  localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(items))
-  return items
+  if (cart.products.length === 0) {
+    localStorage.removeItem(CART_STORAGE_KEY)
+    return null
+  }
+
+  localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(cart))
+  return cart
 }
 
 /**
  * 장바구니에서 아이템 제거
  */
-export function removeFromCart(optionKey: string): CartItemData[] {
-  const items = getCartItems().filter((item) => item.optionKey !== optionKey)
-  localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(items))
-  return items
-}
+export function removeFromCart(optionKey: string): CartData | null {
+  const cart = getCartData()
+  if (!cart) return null
 
-/**
- * 특정 가게의 장바구니 전체 삭제
- */
-export function clearCartByPlace(placeId: number): CartItemData[] {
-  const items = getCartItems().filter((item) => item.placeId !== placeId)
-  localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(items))
-  return items
+  cart.products = cart.products.filter((p) => p.optionKey !== optionKey)
+
+  if (cart.products.length === 0) {
+    localStorage.removeItem(CART_STORAGE_KEY)
+    return null
+  }
+
+  localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(cart))
+  return cart
 }
 
 /**
@@ -128,16 +156,8 @@ export function clearCart(): void {
 }
 
 /**
- * 특정 가게의 장바구니 아이템 수 조회
+ * 장바구니 아이템 수 조회
  */
-export function getCartItemCount(placeId: number): number {
-  return getCartItemsByPlace(placeId).reduce((sum, item) => sum + item.quantity, 0)
-}
-
-/**
- * 특정 가게의 첫 번째 상품명 조회
- */
-export function getFirstProductName(placeId: number): string {
-  const items = getCartItemsByPlace(placeId)
-  return items.length > 0 ? items[0].productName : ''
+export function getCartItemCount(): number {
+  return getCartProducts().reduce((sum, item) => sum + item.quantity, 0)
 }

@@ -3,11 +3,12 @@
 import AppButton from '@/components/ui/AppButton'
 import { toast } from '@/components/ui/AppToaster'
 import BorderedSection from '@/components/ui/BorderedSection'
+import ConfirmModal from '@/components/ui/ConfirmModal'
 import FixedBottomSection from '@/components/ui/FixedBottomSection'
 import SectionStack from '@/components/ui/SectionStack'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/shadcn/tabs'
 import type { ProductOption, ProductOptionGroup } from '@/domains/product'
-import { SelectedOption, addToCart } from '@/lib/cart'
+import { CartSelectedOption, addToCart, getCartPlaceId, replaceCartAndAdd } from '@/lib/cart'
 import { useRouter } from 'next/navigation'
 import { useCallback, useState } from 'react'
 import { IoIosCheckbox, IoIosCheckboxOutline } from 'react-icons/io'
@@ -17,11 +18,6 @@ import ProductReviewTab from './ProductReviewTab'
 interface ProductOptionSelectorProps {
   productId: number
   placeId: number
-  placeName: string
-  productName: string
-  imageUrl: string
-  basePrice: number
-  originalPrice: number
   optionGroups: ProductOptionGroup[]
   reviewCount: number
 }
@@ -29,17 +25,13 @@ interface ProductOptionSelectorProps {
 export default function ProductOptionSelector({
   productId,
   placeId,
-  placeName,
-  productName,
-  imageUrl,
-  basePrice,
-  originalPrice,
   optionGroups,
   reviewCount,
 }: ProductOptionSelectorProps) {
   const router = useRouter()
 
   const [activeTab, setActiveTab] = useState('options')
+  const [showPlaceChangeModal, setShowPlaceChangeModal] = useState(false)
 
   // 각 옵션 그룹별 선택 상태 관리
   // isMultipleSelect가 false면 단일 선택(number), true면 다중 선택(number[])
@@ -91,9 +83,9 @@ export default function ProductOptionSelector({
     [],
   )
 
-  // 선택된 옵션 정보 추출
-  const getSelectedOptionsData = useCallback((): SelectedOption[] => {
-    const result: SelectedOption[] = []
+  // 선택된 옵션 정보 추출 (ID만)
+  const getSelectedOptionsData = useCallback((): CartSelectedOption[] => {
+    const result: CartSelectedOption[] = []
 
     optionGroups.forEach((group) => {
       const selected = selectedOptions[group.id]
@@ -101,28 +93,12 @@ export default function ProductOptionSelector({
       if (group.isMultipleSelect) {
         const selectedIds = selected as number[]
         selectedIds.forEach((optionId) => {
-          const option = group.options.find((opt) => opt.id === optionId)
-          if (option) {
-            result.push({
-              groupId: group.id,
-              groupName: group.name,
-              optionId: option.id,
-              optionName: option.name,
-              additionalPrice: option.additionalPrice,
-            })
-          }
+          result.push({ groupId: group.id, optionId })
         })
       } else {
         const optionId = selected as number
-        const option = group.options.find((opt) => opt.id === optionId)
-        if (option) {
-          result.push({
-            groupId: group.id,
-            groupName: group.name,
-            optionId: option.id,
-            optionName: option.name,
-            additionalPrice: option.additionalPrice,
-          })
+        if (optionId !== -1) {
+          result.push({ groupId: group.id, optionId })
         }
       }
     })
@@ -130,11 +106,8 @@ export default function ProductOptionSelector({
     return result
   }, [optionGroups, selectedOptions])
 
-  // 장바구니에 담기
-  const handleAddToCart = useCallback(() => {
-    const selectedOptionsData = getSelectedOptionsData()
-
-    // 필수 옵션 체크
+  // 필수 옵션 검증
+  const validateRequiredOptions = useCallback((): boolean => {
     const missingRequired = optionGroups.filter((group) => {
       if (!group.isRequired) return false
       const selected = selectedOptions[group.id]
@@ -146,36 +119,51 @@ export default function ProductOptionSelector({
 
     if (missingRequired.length > 0) {
       alert(`필수 옵션을 선택해주세요: ${missingRequired.map((g) => g.name).join(', ')}`)
+      return false
+    }
+    return true
+  }, [optionGroups, selectedOptions])
+
+  // 실제 장바구니 추가 실행
+  const executeAddToCart = useCallback(
+    (replace: boolean = false) => {
+      const selectedOptionsData = getSelectedOptionsData()
+      const cartItem = { productId, selectedOptions: selectedOptionsData }
+
+      if (replace) {
+        replaceCartAndAdd(placeId, cartItem)
+      } else {
+        addToCart(placeId, cartItem)
+      }
+
+      window.dispatchEvent(new Event('cartUpdated'))
+      toast('메뉴를 장바구니에 담았습니다.')
+      router.back()
+    },
+    [productId, placeId, getSelectedOptionsData, router],
+  )
+
+  // 장바구니에 담기
+  const handleAddToCart = useCallback(() => {
+    if (!validateRequiredOptions()) return
+
+    const currentCartPlaceId = getCartPlaceId()
+
+    // 장바구니가 비어있거나 같은 가게면 바로 추가
+    if (currentCartPlaceId === null || currentCartPlaceId === placeId) {
+      executeAddToCart()
       return
     }
 
-    addToCart({
-      productId,
-      placeId,
-      placeName,
-      productName,
-      imageUrl,
-      basePrice,
-      originalPrice,
-      selectedOptions: selectedOptionsData,
-    })
+    // 다른 가게면 확인 팝업 표시
+    setShowPlaceChangeModal(true)
+  }, [placeId, validateRequiredOptions, executeAddToCart])
 
-    toast('메뉴를 장바구니에 담았습니다.')
-
-    router.back()
-  }, [
-    productId,
-    placeId,
-    placeName,
-    productName,
-    imageUrl,
-    basePrice,
-    originalPrice,
-    optionGroups,
-    selectedOptions,
-    getSelectedOptionsData,
-    router,
-  ])
+  // 가게 변경 확인
+  const handleConfirmPlaceChange = useCallback(() => {
+    setShowPlaceChangeModal(false)
+    executeAddToCart(true)
+  }, [executeAddToCart])
 
   return (
     <>
@@ -238,6 +226,12 @@ export default function ProductOptionSelector({
           장바구니 담기
         </AppButton>
       </FixedBottomSection>
+      <ConfirmModal
+        open={showPlaceChangeModal}
+        description="가게를 변경하실 경우 장바구니에 담은 메뉴가 삭제됩니다."
+        onConfirm={handleConfirmPlaceChange}
+        onCancel={() => setShowPlaceChangeModal(false)}
+      />
     </>
   )
 }

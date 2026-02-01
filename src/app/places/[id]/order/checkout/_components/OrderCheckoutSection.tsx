@@ -16,10 +16,12 @@ import {
   AccordionTrigger,
 } from '@/components/ui/shadcn/accordion'
 import { PaymentMethod } from '@/domains/order'
-import { getCartItemCount, getCartItemsByPlace, getFirstProductName } from '@/lib/cart'
+import type { ProductDetailResponse } from '@/domains/product'
+import { getCartData, getCartItemCount } from '@/lib/cart'
 import { formatNumber } from '@/lib/number'
+import { getProductById } from '@/services/product'
 import Image from 'next/image'
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { IoIosCloseCircle } from 'react-icons/io'
 
 interface OrderItem {
@@ -33,35 +35,64 @@ interface OrderItem {
 interface OrderInfo {
   placeName: string
   items: OrderItem[]
+  firstProductName: string
+  totalItemCount: number
 }
 
-interface OrderCheckoutSectionProps {
-  placeId: number
-}
-
-export default function OrderCheckoutSection({ placeId }: OrderCheckoutSectionProps) {
+export default function OrderCheckoutSection() {
   const [pointInput, setPointInput] = useState('')
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState<PaymentMethod | null>(null)
   const [agreedToTerms, setAgreedToTerms] = useState(false)
-  const [orderInfo, setOrderInfo] = useState<OrderInfo>({ placeName: '', items: [] })
+  const [orderInfo, setOrderInfo] = useState<OrderInfo>({
+    placeName: '',
+    items: [],
+    firstProductName: '',
+    totalItemCount: 0,
+  })
 
-  // 장바구니 데이터 로드
-  useEffect(() => {
-    const cartItems = getCartItemsByPlace(placeId)
+  const fetchOrderData = useCallback(async () => {
+    const cart = getCartData()
+    if (!cart || cart.products.length === 0) return
 
-    if (cartItems.length > 0) {
-      setOrderInfo({
-        placeName: cartItems[0].placeName,
-        items: cartItems.map((item) => ({
-          id: item.productId,
-          name: item.productName,
-          imageUrl: item.imageUrl,
-          price: item.basePrice,
-          quantity: item.quantity,
-        })),
+    const uniqueProductIds = [...new Set(cart.products.map((p) => p.productId))]
+    const productDetails = new Map<number, ProductDetailResponse>()
+
+    await Promise.all(
+      uniqueProductIds.map(async (productId) => {
+        const result = await getProductById(productId)
+        if (result.data?.data) {
+          productDetails.set(productId, result.data.data)
+        }
+      }),
+    )
+
+    const firstDetail = productDetails.values().next().value
+
+    const items: OrderItem[] = cart.products
+      .map((cartProduct) => {
+        const detail = productDetails.get(cartProduct.productId)
+        if (!detail) return null
+        return {
+          id: detail.id,
+          name: detail.name,
+          imageUrl: detail.imageUrls[0] ?? '',
+          price: detail.discountPrice ?? detail.originalPrice,
+          quantity: cartProduct.quantity,
+        }
       })
-    }
-  }, [placeId])
+      .filter((item): item is OrderItem => item !== null)
+
+    setOrderInfo({
+      placeName: firstDetail?.placeName ?? '',
+      items,
+      firstProductName: items[0]?.name ?? '',
+      totalItemCount: getCartItemCount(),
+    })
+  }, [])
+
+  useEffect(() => {
+    fetchOrderData()
+  }, [fetchOrderData])
 
   const customerInfo = {
     name: '김철수',
@@ -114,8 +145,8 @@ export default function OrderCheckoutSection({ placeId }: OrderCheckoutSectionPr
                 <div className="flex-1 flex items-center justify-between gap-2">
                   <h2 className="text-base leading-[16px]">{orderInfo.placeName}</h2>
                   <span className="text-xs leading-[12px] text-[#aaaaaa]">
-                    {getFirstProductName(placeId)}
-                    {getCartItemCount(placeId) > 1 ? ` 외 ${getCartItemCount(placeId)}건` : ' 1건'}
+                    {orderInfo.firstProductName}
+                    {orderInfo.totalItemCount > 1 ? ` 외 ${orderInfo.totalItemCount}건` : ' 1건'}
                   </span>
                 </div>
               </AccordionTrigger>

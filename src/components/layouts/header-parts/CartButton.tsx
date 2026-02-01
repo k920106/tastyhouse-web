@@ -15,7 +15,7 @@ export default function CartButton({ placeId, variant = 'black' }: CartButtonPro
   const [cartItemCount, setCartItemCount] = useState(0)
 
   useEffect(() => {
-    setCartItemCount(getCartItemCount(placeId))
+    setCartItemCount(getCartItemCount())
   }, [placeId])
 
   return (

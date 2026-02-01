@@ -58,11 +58,6 @@ export default function PlaceOrderMenuDetailSection({
         <ProductOptionSelector
           productId={product.id}
           placeId={placeId}
-          placeName={product.placeName}
-          productName={product.name}
-          imageUrl={product.imageUrls[0] || ''}
-          basePrice={basePrice}
-          originalPrice={product.originalPrice}
           optionGroups={product.optionGroups}
           reviewCount={product.reviewCount}
         />

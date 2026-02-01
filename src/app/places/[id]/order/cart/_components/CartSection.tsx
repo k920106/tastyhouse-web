@@ -8,36 +8,116 @@ import AppButton from '@/components/ui/AppButton'
 import BorderedSection from '@/components/ui/BorderedSection'
 import FixedBottomSection from '@/components/ui/FixedBottomSection'
 import SectionStack from '@/components/ui/SectionStack'
-import {
-  CartItemData,
-  getCartItemsByPlace,
-  removeFromCart,
-  updateCartItemQuantity,
-} from '@/lib/cart'
+import type { ProductDetailResponse } from '@/domains/product'
+import { CartProduct, getCartData, removeFromCart, updateCartItemQuantity } from '@/lib/cart'
 import { formatNumber } from '@/lib/number'
 import { PAGE_PATHS } from '@/lib/paths'
+import { getProductById } from '@/services/product'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { LiaPlusSolid } from 'react-icons/lia'
 
 interface CartSectionProps {
   placeId: number
 }
 
-interface CartItemWithSelection extends CartItemData {
+interface CartDisplayItem {
+  optionKey: string
+  productId: number
+  productName: string
+  imageUrl: string
+  basePrice: number
+  originalPrice: number
+  quantity: number
+  selectedOptions: Array<{
+    groupId: number
+    groupName: string
+    optionId: number
+    optionName: string
+    additionalPrice: number
+  }>
   selected: boolean
+}
+
+function buildDisplayItems(
+  cartProducts: CartProduct[],
+  productDetails: Map<number, ProductDetailResponse>,
+): CartDisplayItem[] {
+  return cartProducts
+    .map((cartProduct) => {
+      const detail = productDetails.get(cartProduct.productId)
+      if (!detail) return null
+
+      const selectedOptions = cartProduct.selectedOptions.map((so) => {
+        const group = detail.optionGroups.find((g) => g.id === so.groupId)
+        const option = group?.options.find((o) => o.id === so.optionId)
+        return {
+          groupId: so.groupId,
+          groupName: group?.name ?? '',
+          optionId: so.optionId,
+          optionName: option?.name ?? '',
+          additionalPrice: option?.additionalPrice ?? 0,
+        }
+      })
+
+      const basePrice = detail.discountPrice ?? detail.originalPrice
+
+      return {
+        optionKey: cartProduct.optionKey,
+        productId: cartProduct.productId,
+        productName: detail.name,
+        imageUrl: detail.imageUrls[0] ?? '',
+        basePrice,
+        originalPrice: detail.originalPrice,
+        quantity: cartProduct.quantity,
+        selectedOptions,
+        selected: true as boolean,
+      }
+    })
+    .filter((item): item is CartDisplayItem => item !== null)
 }
 
 export default function CartSection({ placeId }: CartSectionProps) {
   const router = useRouter()
 
-  const [cartItems, setCartItems] = useState<CartItemWithSelection[]>([])
+  const [cartItems, setCartItems] = useState<CartDisplayItem[]>([])
+  const [placeName, setPlaceName] = useState('')
+  const [isLoading, setIsLoading] = useState(true)
+
+  const fetchCartData = useCallback(async () => {
+    const cart = getCartData()
+    if (!cart || cart.products.length === 0) {
+      setCartItems([])
+      setIsLoading(false)
+      return
+    }
+
+    const uniqueProductIds = [...new Set(cart.products.map((p) => p.productId))]
+    const productDetails = new Map<number, ProductDetailResponse>()
+
+    await Promise.all(
+      uniqueProductIds.map(async (productId) => {
+        const result = await getProductById(productId)
+        if (result.data?.data) {
+          productDetails.set(productId, result.data.data)
+        }
+      }),
+    )
+
+    const firstDetail = productDetails.values().next().value
+    if (firstDetail) {
+      setPlaceName(firstDetail.placeName)
+    }
+
+    const displayItems = buildDisplayItems(cart.products, productDetails)
+    setCartItems(displayItems)
+    setIsLoading(false)
+  }, [])
 
   useEffect(() => {
-    const items = getCartItemsByPlace(placeId)
-    setCartItems(items.map((item) => ({ ...item, selected: true })))
-  }, [placeId])
+    fetchCartData()
+  }, [fetchCartData])
 
   const allSelected = cartItems.length > 0 && cartItems.every((item) => item.selected)
   const selectedCount = cartItems.filter((item) => item.selected).length
@@ -45,7 +125,8 @@ export default function CartSection({ placeId }: CartSectionProps) {
   const totalProductPrice = cartItems
     .filter((item) => item.selected)
     .reduce((sum, item) => {
-      const itemPrice = item.basePrice + item.selectedOptions.reduce((opt, o) => opt + o.additionalPrice, 0)
+      const itemPrice =
+        item.basePrice + item.selectedOptions.reduce((opt, o) => opt + o.additionalPrice, 0)
       return sum + itemPrice * item.quantity
     }, 0)
 
@@ -85,9 +166,29 @@ export default function CartSection({ placeId }: CartSectionProps) {
   }
 
   const handleDeleteSelected = () => {
-    const selectedOptionKeys = cartItems.filter((item) => item.selected).map((item) => item.optionKey)
+    const selectedOptionKeys = cartItems
+      .filter((item) => item.selected)
+      .map((item) => item.optionKey)
     selectedOptionKeys.forEach((key) => removeFromCart(key))
     setCartItems((items) => items.filter((item) => !item.selected))
+  }
+
+  if (isLoading) {
+    return (
+      <section className="min-h-screen flex flex-col bg-white">
+        <Header variant="white" height={55}>
+          <HeaderLeft>
+            <BackButton />
+          </HeaderLeft>
+          <HeaderCenter>
+            <h1 className="text-[17px] leading-[17px]">장바구니</h1>
+          </HeaderCenter>
+        </Header>
+        <div className="flex-1 flex items-center justify-center">
+          <p className="text-sm text-[#aaaaaa]">장바구니를 불러오는 중...</p>
+        </div>
+      </section>
+    )
   }
 
   return (
@@ -135,7 +236,7 @@ export default function CartSection({ placeId }: CartSectionProps) {
             ) : (
               <>
                 <div className="px-[15px] divide-y divide-[#f2f2f2]">
-                  <h2 className="py-5 text-base leading-[16px]">{cartItems[0]?.placeName}</h2>
+                  <h2 className="py-5 text-base leading-[16px]">{placeName}</h2>
                   {cartItems.map((item) => {
                     const itemPrice =
                       item.basePrice +

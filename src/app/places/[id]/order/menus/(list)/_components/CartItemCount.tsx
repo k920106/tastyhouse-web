@@ -12,7 +12,7 @@ export default function CartItemCount({ placeId }: CartItemCountProps) {
 
   useEffect(() => {
     const updateCount = () => {
-      setCount(getCartItemCount(placeId))
+      setCount(getCartItemCount())
     }
 
     // 초기 카운트 설정
