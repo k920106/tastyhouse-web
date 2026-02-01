@@ -25,7 +25,6 @@ import { useCallback, useEffect, useState } from 'react'
 import { IoIosCloseCircle } from 'react-icons/io'
 
 interface OrderItem {
-  id: number
   name: string
   imageUrl: string
   price: number
@@ -81,7 +80,6 @@ export default function OrderCheckoutSection() {
         }, 0)
 
         return {
-          id: detail.id,
           name: detail.name,
           imageUrl: detail.imageUrls[0] ?? '',
           price: basePrice + optionAdditionalPrice,
@@ -161,8 +159,8 @@ export default function OrderCheckoutSection() {
               <AccordionContent className="p-0">
                 <div className="px-4">
                   <div className="divide-y divide-[#eeeeee] first:border-t border-[#eeeeee]">
-                    {orderInfo.items.map((item) => (
-                      <div key={item.id} className="flex items-center gap-[15px] py-[15px]">
+                    {orderInfo.items.map((item, index) => (
+                      <div key={index} className="flex items-center gap-[15px] py-[15px]">
                         <ImageContainer src={item.imageUrl} alt={item.name} size={50} />
                         <div className="flex flex-col gap-2.5">
                           <h3 className="text-sm leading-[14px]">{item.name}</h3>
