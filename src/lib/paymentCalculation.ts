@@ -1,6 +1,7 @@
 import type { MemberCouponListItemResponse } from '@/domains/member'
 
 export interface PaymentSummary {
+  productDiscount: number
   shippingDiscount: number
   couponDiscount: number
   pointsUsed: number
@@ -26,16 +27,18 @@ export function calculateProductTotal(items: PaymentItem[]): number {
  * 결제 금액을 계산합니다.
  *
  * @param productTotal - 상품 총액
+ * @param productDiscount - 상품 할인 총액
  * @param selectedCoupon - 선택된 쿠폰 (선택 사항)
  * @param pointInput - 사용할 포인트 입력값
- * @returns 배송 할인, 쿠폰 할인, 사용 포인트, 최종 결제 금액을 포함한 객체
+ * @returns 상품 할인, 배송 할인, 쿠폰 할인, 사용 포인트, 최종 결제 금액을 포함한 객체
  */
 export function calculatePaymentSummary(
   productTotal: number,
+  productDiscount: number,
   selectedCoupon: MemberCouponListItemResponse | null,
   pointInput: string,
 ): PaymentSummary {
-  const shippingDiscount = 1000
+  const shippingDiscount = 0
 
   const couponDiscount = selectedCoupon
     ? selectedCoupon.discountType === 'AMOUNT'
@@ -50,6 +53,7 @@ export function calculatePaymentSummary(
   const finalTotal = productTotal - shippingDiscount - couponDiscount - pointsUsed
 
   return {
+    productDiscount,
     shippingDiscount,
     couponDiscount,
     pointsUsed,

@@ -39,6 +39,7 @@ export default function OrderCheckoutSection({
   const productTotal = calculateProductTotal(orderInfo.items)
   const { shippingDiscount, couponDiscount, pointsUsed, finalTotal } = calculatePaymentSummary(
     productTotal,
+    orderInfo.totalProductDiscount,
     selectedCoupon,
     pointInput,
   )

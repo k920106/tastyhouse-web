@@ -1,16 +1,17 @@
 'use client'
 
-import { useCallback, useEffect, useState } from 'react'
+import type { ProductDetailResponse } from '@/domains/product'
 import type { CartSelectedOption } from '@/lib/cart'
 import { getCartData, getCartProductTypeCount } from '@/lib/cart'
-import type { ProductDetailResponse } from '@/domains/product'
 import { getProductById } from '@/services/product'
+import { useCallback, useEffect, useState } from 'react'
 
 export interface OrderItem {
   name: string
   imageUrl: string
   price: number
   quantity: number
+  originalPrice: number
 }
 
 export interface OrderInfo {
@@ -18,6 +19,7 @@ export interface OrderInfo {
   items: OrderItem[]
   firstProductName: string
   totalItemCount: number
+  totalProductDiscount: number
 }
 
 const INITIAL_ORDER_INFO: OrderInfo = {
@@ -25,13 +27,22 @@ const INITIAL_ORDER_INFO: OrderInfo = {
   items: [],
   firstProductName: '',
   totalItemCount: 0,
+  totalProductDiscount: 0,
 }
 
+/**
+ * 상품 가격을 계산합니다.
+ *
+ * @param detail - 상품 상세 정보
+ * @param selectedOptions - 선택된 옵션
+ * @returns 상품 가격과 원래 가격
+ */
 function calculateItemPrice(
   detail: ProductDetailResponse,
   selectedOptions: CartSelectedOption[],
-): number {
+): { price: number; originalPrice: number } {
   const basePrice = detail.discountPrice ?? detail.originalPrice
+  const baseOriginalPrice = detail.originalPrice
 
   const optionAdditionalPrice = selectedOptions.reduce((sum, so) => {
     const group = detail.optionGroups.find((g) => g.id === so.groupId)
@@ -39,9 +50,18 @@ function calculateItemPrice(
     return sum + (option?.additionalPrice ?? 0)
   }, 0)
 
-  return basePrice + optionAdditionalPrice
+  return {
+    price: basePrice + optionAdditionalPrice,
+    originalPrice: baseOriginalPrice + optionAdditionalPrice,
+  }
 }
 
+/**
+ * 상품 상세 정보를 조회합니다.
+ *
+ * @param productIds - 상품 ID 목록
+ * @returns 상품 상세 정보 맵
+ */
 async function fetchProductDetails(
   productIds: number[],
 ): Promise<Map<number, ProductDetailResponse>> {
@@ -72,10 +92,13 @@ export function useOrderInfo() {
         const detail = productDetailMap.get(cartProduct.productId)
         if (!detail) return null
 
+        const { price, originalPrice } = calculateItemPrice(detail, cartProduct.selectedOptions)
+
         return {
           name: detail.name,
           imageUrl: detail.imageUrls[0] ?? '',
-          price: calculateItemPrice(detail, cartProduct.selectedOptions),
+          price,
+          originalPrice,
           quantity: cartProduct.quantity,
         }
       })
@@ -83,11 +106,17 @@ export function useOrderInfo() {
 
     const firstDetail = productDetailMap.values().next().value
 
+    const totalProductDiscount = items.reduce((sum, item) => {
+      const itemDiscount = (item.originalPrice - item.price) * item.quantity
+      return sum + itemDiscount
+    }, 0)
+
     setOrderInfo({
       placeName: firstDetail?.placeName ?? '',
       items,
       firstProductName: items[0]?.name ?? '',
       totalItemCount: getCartProductTypeCount(),
+      totalProductDiscount,
     })
   }, [])
 
