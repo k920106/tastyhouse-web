@@ -2,33 +2,22 @@
 
 import type { ProductDetailResponse } from '@/domains/product'
 import type { CartSelectedOption } from '@/lib/cart'
-import { getCartData, getCartProductTypeCount } from '@/lib/cart'
+import { getCartData } from '@/lib/cart'
 import { getPlaceName } from '@/services/place'
 import { getProductById } from '@/services/product'
+import { OrderItem } from '@/types/api/order'
 import { useCallback, useEffect, useState } from 'react'
-
-export interface OrderItem {
-  name: string
-  imageUrl: string
-  price: number
-  quantity: number
-  originalPrice: number
-}
 
 export interface OrderInfo {
   placeName: string
   items: OrderItem[]
   firstProductName: string
-  totalItemCount: number
-  totalProductDiscount: number
 }
 
 const INITIAL_ORDER_INFO: OrderInfo = {
   placeName: '',
   items: [],
   firstProductName: '',
-  totalItemCount: 0,
-  totalProductDiscount: 0,
 }
 
 /**
@@ -41,9 +30,10 @@ const INITIAL_ORDER_INFO: OrderInfo = {
 function calculateItemPrice(
   detail: ProductDetailResponse,
   selectedOptions: CartSelectedOption[],
-): { price: number; originalPrice: number } {
+): { price: number; originalPrice: number; discountPrice: number } {
   const basePrice = detail.discountPrice ?? detail.originalPrice
-  const baseOriginalPrice = detail.originalPrice
+  const originalPrice = detail.originalPrice
+  const discountPrice = originalPrice - basePrice
 
   const optionAdditionalPrice = selectedOptions.reduce((sum, so) => {
     const group = detail.optionGroups.find((g) => g.id === so.groupId)
@@ -53,7 +43,8 @@ function calculateItemPrice(
 
   return {
     price: basePrice + optionAdditionalPrice,
-    originalPrice: baseOriginalPrice + optionAdditionalPrice,
+    originalPrice: originalPrice + optionAdditionalPrice,
+    discountPrice,
   }
 }
 
@@ -96,29 +87,26 @@ export function useOrderInfo() {
         const productDetail = productDetailMap.get(cartProduct.productId)
         if (!productDetail) return null
 
-        const { price, originalPrice } = calculateItemPrice(productDetail, cartProduct.selectedOptions)
+        const { price, originalPrice, discountPrice } = calculateItemPrice(
+          productDetail,
+          cartProduct.selectedOptions,
+        )
 
         return {
           name: productDetail.name,
           imageUrl: productDetail.imageUrls[0] ?? '',
           price,
           originalPrice,
+          discountPrice,
           quantity: cartProduct.quantity,
         }
       })
       .filter((item): item is OrderItem => item !== null)
 
-    const totalProductDiscount = items.reduce((sum, item) => {
-      const itemDiscount = (item.originalPrice - item.price) * item.quantity
-      return sum + itemDiscount
-    }, 0)
-
     setOrderInfo({
       placeName: placeNameResult.data?.data?.name ?? '',
       items,
       firstProductName: items[0]?.name ?? '',
-      totalItemCount: getCartProductTypeCount(),
-      totalProductDiscount,
     })
   }, [])
 

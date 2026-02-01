@@ -10,7 +10,12 @@ import SectionStack from '@/components/ui/SectionStack'
 import type { MemberContactResponse, MemberCouponListItemResponse } from '@/domains/member'
 import { PaymentMethod } from '@/domains/order'
 import { useOrderInfo } from '@/hooks/useOrderInfo'
-import { calculatePaymentSummary, calculateTotalProductAmount } from '@/lib/paymentCalculation'
+import { getCartProductTypeCount } from '@/lib/cart'
+import {
+  calculatePaymentSummary,
+  calculateTotalProductAmount,
+  calculateTotalProductDiscount,
+} from '@/lib/paymentCalculation'
 import { useState } from 'react'
 import CouponSelector from './CouponSelector'
 import CustomerInfoSection from './CustomerInfoSection'
@@ -30,17 +35,20 @@ export default function OrderCheckoutSection({
   availableCoupons,
   usablePoints,
 }: OrderCheckoutSectionProps) {
-  const orderInfo = useOrderInfo()
+  const { placeName, items, firstProductName } = useOrderInfo()
+  const totalItemCount = getCartProductTypeCount()
+  const totalProductAmount = calculateTotalProductAmount(items)
+  const totalProductDiscountAmount = calculateTotalProductDiscount(items)
+
   const [selectedCoupon, setSelectedCoupon] = useState<MemberCouponListItemResponse | null>(null)
   const [pointInput, setPointInput] = useState('')
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState<PaymentMethod | null>(null)
   const [agreedToTerms, setAgreedToTerms] = useState(false)
 
-  const totalProductAmount = calculateTotalProductAmount(orderInfo.items)
   const { totalDiscountAmount, couponDiscount, pointsUsed, paymentAmount } =
     calculatePaymentSummary(
       totalProductAmount,
-      orderInfo.totalProductDiscount,
+      totalProductDiscountAmount,
       selectedCoupon,
       pointInput,
     )
@@ -66,10 +74,10 @@ export default function OrderCheckoutSection({
       <SectionStack>
         <BorderedSection className="border-t-0">
           <OrderInfoSection
-            placeName={orderInfo.placeName}
-            items={orderInfo.items}
-            firstProductName={orderInfo.firstProductName}
-            totalItemCount={orderInfo.totalItemCount}
+            placeName={placeName}
+            items={items}
+            firstProductName={firstProductName}
+            totalItemCount={totalItemCount}
           />
         </BorderedSection>
         <BorderedSection>
@@ -97,7 +105,7 @@ export default function OrderCheckoutSection({
         <BorderedSection>
           <PaymentSummarySection
             totalProductAmount={totalProductAmount}
-            totalProductDiscountAmount={orderInfo.totalProductDiscount}
+            totalProductDiscountAmount={totalProductDiscountAmount}
             totalDiscountAmount={totalDiscountAmount}
             couponDiscount={couponDiscount}
             pointsUsed={pointsUsed}
