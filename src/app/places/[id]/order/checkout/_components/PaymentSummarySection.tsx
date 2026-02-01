@@ -2,7 +2,8 @@ import { formatNumber } from '@/lib/number'
 
 interface PaymentSummarySectionProps {
   productTotal: number
-  shippingDiscount: number
+  totalDiscount: number
+  productDiscount: number
   couponDiscount: number
   pointsUsed: number
   finalTotal: number
@@ -10,7 +11,8 @@ interface PaymentSummarySectionProps {
 
 export default function PaymentSummarySection({
   productTotal,
-  shippingDiscount,
+  totalDiscount,
+  productDiscount,
   couponDiscount,
   pointsUsed,
   finalTotal,
@@ -28,29 +30,38 @@ export default function PaymentSummarySection({
         <div>
           <div className="flex justify-between">
             <span className="text-sm leading-[14px]">할인금액</span>
-            <span className="text-sm leading-[14px]">- {formatNumber(shippingDiscount)}원</span>
+            <span className="text-sm leading-[14px]">
+              {totalDiscount > 0 ? `- ${formatNumber(totalDiscount)}원` : '0원'}
+            </span>
           </div>
-          <div className="pt-2.5 space-y-2.5">
-            <div className="flex justify-between">
-              <span className="text-xs leading-[12px] text-[#aaaaaa]">상품 할인</span>
-              <span className="text-xs leading-[12px] text-[#aaaaaa]">
-                - {formatNumber(shippingDiscount)}원
-              </span>
+          {totalDiscount > 0 && (
+            <div className="pt-2.5 space-y-2.5">
+              {productDiscount > 0 && (
+                <div className="flex justify-between">
+                  <span className="text-xs leading-[12px] text-[#aaaaaa]">상품 할인</span>
+                  <span className="text-xs leading-[12px] text-[#aaaaaa]">
+                    - {formatNumber(productDiscount)}원
+                  </span>
+                </div>
+              )}
+              {couponDiscount > 0 && (
+                <div className="flex justify-between">
+                  <span className="text-xs leading-[12px] text-[#aaaaaa]">쿠폰 사용</span>
+                  <span className="text-xs leading-[12px] text-[#aaaaaa]">
+                    {formatNumber(couponDiscount)}원
+                  </span>
+                </div>
+              )}
+              {pointsUsed > 0 && (
+                <div className="flex justify-between">
+                  <span className="text-xs leading-[12px] text-[#aaaaaa]">포인트 사용</span>
+                  <span className="text-xs leading-[12px] text-[#aaaaaa]">
+                    {formatNumber(pointsUsed)}원
+                  </span>
+                </div>
+              )}
             </div>
-            <div className="flex justify-between">
-              <span className="text-xs leading-[12px] text-[#aaaaaa]">쿠폰 사용</span>
-              <span className="text-xs leading-[12px] text-[#aaaaaa]">
-                {formatNumber(couponDiscount)}원
-              </span>
-            </div>
-            <div className="flex justify-between">
-              <span className="text-xs leading-[12px] text-[#aaaaaa]">포인트 사용</span>
-              <span className="text-xs leading-[12px] text-[#aaaaaa]">
-                {pointsUsed > 0 ? '-' : ''}
-                {formatNumber(pointsUsed)}원
-              </span>
-            </div>
-          </div>
+          )}
         </div>
         <div className="flex justify-between">
           <span className="text-sm leading-[14px]">최종 결제금액</span>

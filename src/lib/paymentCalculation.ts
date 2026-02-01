@@ -2,9 +2,9 @@ import type { MemberCouponListItemResponse } from '@/domains/member'
 
 export interface PaymentSummary {
   productDiscount: number
-  shippingDiscount: number
   couponDiscount: number
   pointsUsed: number
+  totalDiscount: number
   finalTotal: number
 }
 
@@ -38,8 +38,6 @@ export function calculatePaymentSummary(
   selectedCoupon: MemberCouponListItemResponse | null,
   pointInput: string,
 ): PaymentSummary {
-  const shippingDiscount = 0
-
   const couponDiscount = selectedCoupon
     ? selectedCoupon.discountType === 'AMOUNT'
       ? selectedCoupon.discountAmount
@@ -50,11 +48,12 @@ export function calculatePaymentSummary(
     : 0
 
   const pointsUsed = parseInt(pointInput) || 0
-  const finalTotal = productTotal - shippingDiscount - couponDiscount - pointsUsed
+  const totalDiscount = productDiscount + couponDiscount + pointsUsed
+  const finalTotal = productTotal - totalDiscount
 
   return {
+    totalDiscount,
     productDiscount,
-    shippingDiscount,
     couponDiscount,
     pointsUsed,
     finalTotal,
