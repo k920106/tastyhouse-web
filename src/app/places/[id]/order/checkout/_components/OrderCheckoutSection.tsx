@@ -15,6 +15,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from '@/components/ui/shadcn/accordion'
+import { PaymentMethod } from '@/domains/order'
 import { formatNumber } from '@/lib/number'
 import Image from 'next/image'
 import { useState } from 'react'
@@ -38,10 +39,8 @@ interface OrderCheckoutSectionProps {
 }
 
 export default function OrderCheckoutSection({ placeId }: OrderCheckoutSectionProps) {
-  const [isCustomerExpanded, setIsCustomerExpanded] = useState(true)
-  const [isPaymentMethodExpanded, setIsPaymentMethodExpanded] = useState(true)
   const [pointInput, setPointInput] = useState('')
-  const [selectedPaymentMethod, setSelectedPaymentMethod] = useState('현장에서 현금 결제')
+  const [selectedPaymentMethod, setSelectedPaymentMethod] = useState<PaymentMethod | null>(null)
   const [agreedToTerms, setAgreedToTerms] = useState(false)
 
   // Mock data
@@ -87,12 +86,10 @@ export default function OrderCheckoutSection({ placeId }: OrderCheckoutSectionPr
   const finalTotal = productTotal - shippingDiscount - couponDiscount - pointsUsed
 
   const paymentMethods = [
-    { id: 'cash', label: '현장에서 현금 결제', badge: '5%' },
-    { id: 'card', label: '현장에서 카드 결제', badge: '' },
-    { id: 'credit', label: '신용카드', badge: '' },
-    { id: 'phone', label: '휴대폰 결제', badge: '' },
-    { id: 'kakaopay', label: 'kakao pay', badge: '', icon: 'kakao' },
-    { id: 'zeropay', label: 'zero pay', badge: '', icon: 'zero' },
+    { type: 'CASH', label: '현장에서 현금 결제', badge: '혜택' },
+    { type: 'CARD', label: '현장에서 카드 결제', badge: '혜택' },
+    { type: 'CREDIT', label: '신용카드', badge: '' },
+    { type: 'PHONE', label: '휴대폰 결제', badge: '' },
   ]
 
   const handleApplyAllPoints = () => {
@@ -157,24 +154,22 @@ export default function OrderCheckoutSection({ placeId }: OrderCheckoutSectionPr
               </AccordionTrigger>
               <AccordionContent className="p-0">
                 <div className="px-[15px] py-2.5 pb-5">
-                  {isCustomerExpanded && (
-                    <div className="space-y-[15px]">
-                      <div className="flex">
-                        <span className="w-30 text-sm leading-[14px] text-[#666666]">
-                          주문하는 분
-                        </span>
-                        <span className="text-sm leading-[14px]">{customerInfo.name}</span>
-                      </div>
-                      <div className="flex">
-                        <span className="w-30 text-sm leading-[14px] text-[#666666]">휴대폰</span>
-                        <span className="text-sm leading-[14px]">{customerInfo.phone}</span>
-                      </div>
-                      <div className="flex">
-                        <span className="w-30 text-sm leading-[14px] text-[#666666]">이메일</span>
-                        <span className="text-sm leading-[14px]">{customerInfo.email}</span>
-                      </div>
+                  <div className="space-y-[15px]">
+                    <div className="flex">
+                      <span className="w-30 text-sm leading-[14px] text-[#666666]">
+                        주문하는 분
+                      </span>
+                      <span className="text-sm leading-[14px]">{customerInfo.name}</span>
                     </div>
-                  )}
+                    <div className="flex">
+                      <span className="w-30 text-sm leading-[14px] text-[#666666]">휴대폰</span>
+                      <span className="text-sm leading-[14px]">{customerInfo.phone}</span>
+                    </div>
+                    <div className="flex">
+                      <span className="w-30 text-sm leading-[14px] text-[#666666]">이메일</span>
+                      <span className="text-sm leading-[14px]">{customerInfo.email}</span>
+                    </div>
+                  </div>
                 </div>
               </AccordionContent>
             </AccordionItem>
@@ -273,43 +268,63 @@ export default function OrderCheckoutSection({ placeId }: OrderCheckoutSectionPr
             </div>
           </div>
         </BorderedSection>
+        <BorderedSection>
+          <Accordion type="single" collapsible defaultValue="payment-method">
+            <AccordionItem value="payment-method" className="border-b-0">
+              <AccordionTrigger className="items-center px-[15px] py-5 hover:no-underline">
+                <h2 className="text-base leading-[16px]">결제방법 선택</h2>
+              </AccordionTrigger>
+              <AccordionContent className="p-0">
+                <div className="px-[15px] pt-2.5 pb-5">
+                  <div className="grid grid-cols-2 gap-2.5">
+                    {paymentMethods.map((method) => (
+                      <button
+                        key={method.type}
+                        onClick={() => setSelectedPaymentMethod(method.type as PaymentMethod)}
+                        className={`relative flex items-center justify-center py-[19px] text-sm leading-[14px] border box-border ${
+                          selectedPaymentMethod === method.type
+                            ? 'border-[#a91201]'
+                            : 'border-[#cccccc]'
+                        }`}
+                      >
+                        {method.badge && (
+                          <span className="absolute top-0 left-0 bg-[#a91201] text-[5px] text-white px-2 py-0.5">
+                            {method.badge}
+                          </span>
+                        )}
+                        <span>{method.label}</span>
+                      </button>
+                    ))}
+                  </div>
+                  {selectedPaymentMethod === 'CASH' && (
+                    <div className="mt-5 px-[16px] py-5 space-y-5 bg-[#f9f9f9] border border-[#eeeeee] box-border">
+                      <p className="text-sm leading-[14px]">
+                        <span className="font-bold">현장에서 현금 결제</span>시 드리는 혜택
+                      </p>
+                      <p className="text-xs leading-[12px] text-[#666666]">
+                        현장(가게)에서 현금으로 결제시 최대 10% 포인트 적립
+                      </p>
+                    </div>
+                  )}
+                  {selectedPaymentMethod === 'CARD' && (
+                    <div className="mt-5 px-[16px] py-5 space-y-5 bg-[#f9f9f9] border border-[#eeeeee] box-border">
+                      <p className="text-sm leading-[14px]">
+                        <span className="font-bold">현장에서 카드 결제</span>시 드리는 혜택
+                      </p>
+                      <p className="text-xs leading-[12px] text-[#666666]">
+                        현장(가게)에서 카드로 결제시 최대 10% 포인트 적립
+                      </p>
+                    </div>
+                  )}
+                </div>
+              </AccordionContent>
+            </AccordionItem>
+          </Accordion>
+        </BorderedSection>
       </SectionStack>
       <div className="pb-32">
-        {/* <div className="border-b-8 border-[#f5f5f5] px-4 py-6">
-          <h2 className="text-[15px] mb-4">결제 금액</h2>
-          <div className="space-y-3">
-            <div className="flex justify-between text-[15px]">
-              <span className="text-[#666666]">상품금액</span>
-              <span>{productTotal.toLocaleString()}원</span>
-            </div>
-            <div className="flex justify-between text-[15px]">
-              <span className="text-[#666666]">할인금액</span>
-              <span>- {shippingDiscount.toLocaleString()}원</span>
-            </div>
-            <div className="flex justify-between text-[13px] text-[#cccccc] pl-4">
-              <span>상품 할인</span>
-              <span>- {shippingDiscount.toLocaleString()}원</span>
-            </div>
-            <div className="flex justify-between text-[13px] text-[#cccccc] pl-4">
-              <span>쿠폰 사용</span>
-              <span>{couponDiscount}원</span>
-            </div>
-            <div className="flex justify-between text-[13px] text-[#cccccc] pl-4">
-              <span>포인트 사용</span>
-              <span>
-                {pointsUsed > 0 ? '-' : ''}
-                {pointsUsed.toLocaleString()}원
-              </span>
-            </div>
-            <div className="h-px bg-[#eeeeee] my-3" />
-            <div className="flex justify-between ">
-              <span>최종 결제금액</span>
-              <span className="text-main">{finalTotal.toLocaleString()}원</span>
-            </div>
-          </div>
-        </div> */}
         <div className="px-4 py-6">
-          <button
+          {/* <button
             onClick={() => setIsPaymentMethodExpanded(!isPaymentMethodExpanded)}
             className="w-full flex items-center justify-between mb-4"
           >
@@ -375,7 +390,7 @@ export default function OrderCheckoutSection({ placeId }: OrderCheckoutSectionPr
                 </div>
               )}
             </>
-          )}
+          )} */}
           <button
             onClick={() => setAgreedToTerms(!agreedToTerms)}
             className="flex items-center gap-3 py-4"
