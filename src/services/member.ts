@@ -9,3 +9,7 @@ export async function getMemberMe() {
 export async function getMemberContact() {
   return await memberService.getMyContact()
 }
+
+export async function getMemberAvailableCoupons() {
+  return await memberService.getMyAvailableCoupons()
+}

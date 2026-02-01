@@ -15,13 +15,13 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from '@/components/ui/shadcn/accordion'
-import type { MemberContactResponse } from '@/domains/member'
+import type { MemberContactResponse, MemberCouponListItemResponse } from '@/domains/member'
 import { PaymentMethod } from '@/domains/order'
 import type { ProductDetailResponse } from '@/domains/product'
 import { getCartData, getCartItemCount } from '@/lib/cart'
 import { formatNumber } from '@/lib/number'
 import { getProductById } from '@/services/product'
-import { getMemberContact } from '@/services/member'
+import { getMemberContact, getMemberAvailableCoupons } from '@/services/member'
 import Image from 'next/image'
 import { useCallback, useEffect, useState } from 'react'
 import { IoIosCloseCircle } from 'react-icons/io'
@@ -51,13 +51,16 @@ export default function OrderCheckoutSection() {
     totalItemCount: 0,
   })
   const [customerInfo, setCustomerInfo] = useState<MemberContactResponse | null>(null)
+  const [availableCoupons, setAvailableCoupons] = useState<MemberCouponListItemResponse[]>([])
+  const [selectedCoupon, setSelectedCoupon] = useState<MemberCouponListItemResponse | null>(null)
 
   const fetchOrderData = useCallback(async () => {
     const cart = getCartData()
     if (!cart || cart.products.length === 0) return
 
-    const [contactResult, ...productResults] = await Promise.all([
+    const [contactResult, couponsResult, ...productResults] = await Promise.all([
       getMemberContact(),
+      getMemberAvailableCoupons(),
       ...([...new Set(cart.products.map((p) => p.productId))].map((productId) =>
         getProductById(productId),
       )),
@@ -65,6 +68,10 @@ export default function OrderCheckoutSection() {
 
     if (contactResult.data?.data) {
       setCustomerInfo(contactResult.data.data)
+    }
+
+    if (couponsResult.data?.data) {
+      setAvailableCoupons(couponsResult.data.data)
     }
 
     const uniqueProductIds = [...new Set(cart.products.map((p) => p.productId))]
@@ -114,7 +121,7 @@ export default function OrderCheckoutSection() {
   // 계산
   const productTotal = orderInfo.items.reduce((sum, item) => sum + item.price * item.quantity, 0)
   const shippingDiscount = 1000
-  const couponDiscount = 0
+  const couponDiscount = selectedCoupon?.discountAmount || 0
   const pointsUsed = parseInt(pointInput) || 0
   const availablePoints = 5000
   const finalTotal = productTotal - shippingDiscount - couponDiscount - pointsUsed
@@ -218,12 +225,54 @@ export default function OrderCheckoutSection() {
             <div className="space-y-5">
               <div>
                 <h3 className="text-xs leading-[12px] mb-2.5">쿠폰</h3>
-                <button className="w-full h-[50px] px-[15px] py-[17px] flex items-center justify-between border border-[#eeeeee] box-border">
-                  <span className="text-sm leading-[14px] text-[#aaaaaa]">
-                    사용할 수 있는 쿠폰이 없습니다.
-                  </span>
-                  <Image src="/images/layout/nav-right.png" alt="닫기" width={9} height={16} />
-                </button>
+                {availableCoupons.length === 0 ? (
+                  <button className="w-full h-[50px] px-[15px] py-[17px] flex items-center justify-between border border-[#eeeeee] box-border">
+                    <span className="text-sm leading-[14px] text-[#aaaaaa]">
+                      사용할 수 있는 쿠폰이 없습니다.
+                    </span>
+                    <Image src="/images/layout/nav-right.png" alt="닫기" width={9} height={16} />
+                  </button>
+                ) : (
+                  <div className="space-y-2.5">
+                    <button
+                      onClick={() => setSelectedCoupon(null)}
+                      className={`w-full h-[50px] px-[15px] py-[17px] flex items-center justify-between border box-border ${
+                        selectedCoupon === null ? 'border-[#a91201]' : 'border-[#eeeeee]'
+                      }`}
+                    >
+                      <span className="text-sm leading-[14px] text-[#aaaaaa]">쿠폰 사용 안 함</span>
+                    </button>
+                    {availableCoupons.map((coupon) => (
+                      <button
+                        key={coupon.id}
+                        onClick={() => setSelectedCoupon(coupon)}
+                        className={`w-full px-[15px] py-[12px] flex flex-col gap-1.5 border box-border ${
+                          selectedCoupon?.id === coupon.id ? 'border-[#a91201]' : 'border-[#eeeeee]'
+                        }`}
+                      >
+                        <div className="flex items-center justify-between">
+                          <span className="text-sm leading-[14px] font-medium">{coupon.name}</span>
+                          <span className="text-sm leading-[14px] text-[#a91201] font-bold">
+                            {formatNumber(coupon.discountAmount)}원 할인
+                          </span>
+                        </div>
+                        <div className="flex items-center justify-between">
+                          <span className="text-xs leading-[12px] text-[#666666]">
+                            {coupon.description}
+                          </span>
+                          <span className="text-xs leading-[12px] text-[#aaaaaa]">
+                            {coupon.daysRemaining}일 남음
+                          </span>
+                        </div>
+                        {coupon.minOrderAmount > 0 && (
+                          <span className="text-xs leading-[12px] text-[#aaaaaa] text-left">
+                            {formatNumber(coupon.minOrderAmount)}원 이상 구매 시
+                          </span>
+                        )}
+                      </button>
+                    ))}
+                  </div>
+                )}
               </div>
               <div>
                 <h3 className="text-xs leading-[12px] mb-2.5">포인트</h3>

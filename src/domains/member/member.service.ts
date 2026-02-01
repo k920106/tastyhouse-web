@@ -7,4 +7,7 @@ export const memberService = {
   async getMyContact() {
     return await memberRepository.getMyContact()
   },
+  async getMyAvailableCoupons() {
+    return await memberRepository.getMyAvailableCoupons()
+  },
 }

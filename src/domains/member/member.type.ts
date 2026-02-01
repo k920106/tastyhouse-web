@@ -10,3 +10,18 @@ export type MemberContactResponse = {
   phoneNumber: string
   email: string
 }
+
+export type MemberCouponListItemResponse = {
+  id: number
+  couponId: number
+  name: string
+  description: string
+  discountAmount: number
+  minOrderAmount: number
+  useStartAt: string
+  useEndAt: string
+  expiredAt: string
+  isUsed: boolean
+  usedAt: string | null
+  daysRemaining: number
+}

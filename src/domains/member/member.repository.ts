@@ -1,6 +1,6 @@
 import { api } from '@/lib/api'
 import { ApiResponse } from '@/types/api/api'
-import { MemberContactResponse, MemberInfo } from './member.type'
+import { MemberContactResponse, MemberCouponListItemResponse, MemberInfo } from './member.type'
 
 const ENDPOINT = '/api/members'
 
@@ -10,5 +10,8 @@ export const memberRepository = {
   },
   async getMyContact() {
     return api.get<ApiResponse<MemberContactResponse>>(`${ENDPOINT}/v1/me/contact`)
+  },
+  async getMyAvailableCoupons() {
+    return api.get<ApiResponse<MemberCouponListItemResponse[]>>(`${ENDPOINT}/v1/me/coupons/available`)
   },
 }
