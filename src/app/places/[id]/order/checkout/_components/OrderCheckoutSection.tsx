@@ -281,16 +281,19 @@ export default function OrderCheckoutSection({ placeId }: OrderCheckoutSectionPr
                       <button
                         key={method.type}
                         onClick={() => setSelectedPaymentMethod(method.type as PaymentMethod)}
-                        className={`relative flex items-center justify-center py-[19px] text-sm leading-[14px] border box-border ${
+                        className={`relative flex items-center justify-center py-[19px] text-sm leading-[14px] border box-border overflow-hidden ${
                           selectedPaymentMethod === method.type
                             ? 'border-[#a91201]'
                             : 'border-[#cccccc]'
                         }`}
                       >
                         {method.badge && (
-                          <span className="absolute top-0 left-0 bg-[#a91201] text-[5px] text-white px-2 py-0.5">
-                            {method.badge}
-                          </span>
+                          <>
+                            <div className="absolute -top-[24px] -left-[24px] w-[48px] h-[48px] bg-[#a91201] rotate-45" />
+                            <span className="absolute top-[6px] left-[3px] text-[8px] leading-[8px] text-white font-medium -rotate-45">
+                              {method.badge}
+                            </span>
+                          </>
                         )}
                         <span>{method.label}</span>
                       </button>
