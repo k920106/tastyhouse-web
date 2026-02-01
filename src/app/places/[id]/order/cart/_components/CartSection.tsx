@@ -12,10 +12,7 @@ import { useCartInfo } from '@/hooks/useCartInfo'
 import { removeFromCart, updateCartItemQuantity } from '@/lib/cart'
 import { formatNumber } from '@/lib/number'
 import { PAGE_PATHS } from '@/lib/paths'
-import {
-  calculateTotalProductAmount,
-  calculateTotalProductDiscount,
-} from '@/lib/paymentCalculation'
+
 import type { OrderItem } from '@/types/api/order'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
@@ -28,7 +25,14 @@ interface CartSectionProps {
 
 export default function CartSection({ placeId }: CartSectionProps) {
   const router = useRouter()
-  const { items: initialItems, placeName, isLoading } = useCartInfo()
+  const {
+    items: initialItems,
+    placeName,
+    isLoading,
+    totalProductAmount,
+    totalProductDiscount,
+    totalProductPaymentAmount,
+  } = useCartInfo()
 
   const [cartItems, setCartItems] = useState<OrderItem[]>([])
   const [selectedKeys, setSelectedKeys] = useState<Set<string>>(new Set())
@@ -46,9 +50,9 @@ export default function CartSection({ placeId }: CartSectionProps) {
   const allSelected = cartItems.length > 0 && selectedKeys.size === cartItems.length
   const selectedCount = selectedKeys.size
 
-  const totalProductAmount = calculateTotalProductAmount(selectedItems)
-  const totalDiscountAmount = calculateTotalProductDiscount(selectedItems)
-  const totalPaymentAmount = totalProductAmount
+  // const totalProductAmount = calculateTotalProductAmount(selectedItems)
+  // const totalDiscountAmount = calculateTotalProductDiscount(selectedItems)
+  // const totalPaymentAmount = totalProductAmount - totalDiscountAmount
 
   const handleToggleSelectAll = () => {
     if (allSelected) {
@@ -197,13 +201,13 @@ export default function CartSection({ placeId }: CartSectionProps) {
           <div className="flex justify-between">
             <span className="text-sm leading-[14px]">상품할인금액</span>
             <span className="text-sm leading-[14px]">
-              {totalDiscountAmount > 0 ? '-' : ''}
-              {formatNumber(totalDiscountAmount)}원
+              {totalProductDiscount > 0 ? '-' : ''}
+              {formatNumber(totalProductDiscount)}원
             </span>
           </div>
           <div className="flex justify-between items-center">
             <span className="text-sm leading-[14px]">결제예정금액</span>
-            <span className="text-[#a91201]">{formatNumber(totalPaymentAmount)}원</span>
+            <span className="text-[#a91201]">{formatNumber(totalProductPaymentAmount)}원</span>
           </div>
         </div>
         <FixedBottomSection className="px-[15px] py-2.5 !bg-[#f9f9f9]">

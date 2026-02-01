@@ -18,6 +18,7 @@ export interface CartInfo {
   totalItemCount: number
   totalProductAmount: number
   totalProductDiscount: number
+  totalProductPaymentAmount: number
   isLoading: boolean
   reload: () => Promise<void>
 }
@@ -152,6 +153,7 @@ export function useCartInfo(): CartInfo {
 
   const totalProductAmount = calculateTotalProductAmount(items)
   const totalProductDiscount = calculateTotalProductDiscount(items)
+  const totalProductPaymentAmount = totalProductAmount - totalProductDiscount
 
   return {
     items,
@@ -160,6 +162,7 @@ export function useCartInfo(): CartInfo {
     totalItemCount,
     totalProductAmount,
     totalProductDiscount,
+    totalProductPaymentAmount,
     isLoading,
     reload: loadCartInfo,
   }
