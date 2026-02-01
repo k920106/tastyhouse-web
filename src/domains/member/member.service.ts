@@ -10,4 +10,7 @@ export const memberService = {
   async getMyAvailableCoupons() {
     return await memberRepository.getMyAvailableCoupons()
   },
+  async getMyUsablePoint() {
+    return await memberRepository.getMyUsablePoint()
+  },
 }

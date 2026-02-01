@@ -27,3 +27,7 @@ export type MemberCouponListItemResponse = {
   usedAt: string | null
   daysRemaining: number
 }
+
+export type UsablePointResponse = {
+  usablePoints: number
+}

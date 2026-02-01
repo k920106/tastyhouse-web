@@ -36,11 +36,13 @@ interface OrderInfo {
 interface OrderCheckoutSectionProps {
   customerInfo: MemberContactResponse | null
   availableCoupons: MemberCouponListItemResponse[]
+  usablePoints: number
 }
 
 export default function OrderCheckoutSection({
   customerInfo,
   availableCoupons,
+  usablePoints,
 }: OrderCheckoutSectionProps) {
   const [pointInput, setPointInput] = useState('')
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState<PaymentMethod | null>(null)
@@ -119,7 +121,6 @@ export default function OrderCheckoutSection({
         )
     : 0
   const pointsUsed = parseInt(pointInput) || 0
-  const availablePoints = 5000
   const finalTotal = productTotal - shippingDiscount - couponDiscount - pointsUsed
 
   const handlePayment = () => {
@@ -164,7 +165,7 @@ export default function OrderCheckoutSection({
                 onCouponSelect={setSelectedCoupon}
               />
               <PointSelector
-                availablePoints={availablePoints}
+                availablePoints={usablePoints}
                 pointInput={pointInput}
                 onPointInputChange={setPointInput}
               />
