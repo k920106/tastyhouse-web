@@ -6,6 +6,7 @@ import { getCartData, getCartProductTypeCount } from '@/lib/cart'
 import {
   calculateTotalProductAmount,
   calculateTotalProductDiscount,
+  calculateTotalProductPaymentAmount,
 } from '@/lib/paymentCalculation'
 import { getProductById } from '@/services/product'
 import { OrderItem, OrderItemOption } from '@/types/api/order'
@@ -20,7 +21,6 @@ export interface CartInfo {
   totalProductDiscount: number
   totalProductPaymentAmount: number
   isLoading: boolean
-  reload: () => Promise<void>
 }
 
 /**
@@ -33,7 +33,7 @@ export interface CartInfo {
 function calculateItemPrice(
   detail: ProductDetailResponse,
   selectedOptions: CartSelectedOption[],
-): { price: number; originalPrice: number; discountPrice: number } {
+): { salePrice: number; originalPrice: number; discountPrice: number } {
   const basePrice = detail.discountPrice ?? detail.originalPrice
   const originalPrice = detail.originalPrice
   const discountPrice = originalPrice - basePrice
@@ -45,7 +45,7 @@ function calculateItemPrice(
   }, 0)
 
   return {
-    price: basePrice + optionAdditionalPrice,
+    salePrice: basePrice + optionAdditionalPrice,
     originalPrice: originalPrice + optionAdditionalPrice,
     discountPrice,
   }
@@ -121,7 +121,7 @@ export function useCartInfo(): CartInfo {
         const productDetail = productDetailMap.get(cartProduct.productId)
         if (!productDetail) return null
 
-        const { price, originalPrice, discountPrice } = calculateItemPrice(
+        const { salePrice, originalPrice, discountPrice } = calculateItemPrice(
           productDetail,
           cartProduct.selectedOptions,
         )
@@ -132,7 +132,7 @@ export function useCartInfo(): CartInfo {
           optionKey: cartProduct.optionKey,
           name: productDetail.name,
           imageUrl: productDetail.imageUrls[0] ?? '',
-          price,
+          salePrice,
           originalPrice,
           discountPrice,
           quantity: cartProduct.quantity,
@@ -153,7 +153,7 @@ export function useCartInfo(): CartInfo {
 
   const totalProductAmount = calculateTotalProductAmount(items)
   const totalProductDiscount = calculateTotalProductDiscount(items)
-  const totalProductPaymentAmount = totalProductAmount - totalProductDiscount
+  const totalProductPaymentAmount = calculateTotalProductPaymentAmount(items)
 
   return {
     items,
@@ -164,6 +164,5 @@ export function useCartInfo(): CartInfo {
     totalProductDiscount,
     totalProductPaymentAmount,
     isLoading,
-    reload: loadCartInfo,
   }
 }

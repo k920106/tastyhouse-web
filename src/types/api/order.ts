@@ -10,8 +10,8 @@ export interface OrderItem {
   optionKey: string
   name: string
   imageUrl: string
-  price: number
   quantity: number
+  salePrice: number
   originalPrice: number
   discountPrice: number
   selectedOptions: OrderItemOption[]

@@ -9,8 +9,8 @@ interface CartItemProps {
   optionKey: string
   name: string
   imageUrl: string
-  price: number
-  originalPrice?: number
+  salePrice: number
+  originalPrice: number
   quantity: number
   selected: boolean
   selectedOptions?: Array<{ optionName: string }>
@@ -23,7 +23,7 @@ export default function CartItem({
   optionKey,
   name,
   imageUrl,
-  price,
+  salePrice,
   originalPrice,
   quantity,
   selected,
@@ -46,8 +46,8 @@ export default function CartItem({
           </div>
         )}
         <div className="flex items-baseline mt-[15px]">
-          <span className="text-base leading-[16px]">{formatNumber(price)}원</span>
-          {originalPrice && originalPrice > price && (
+          <span className="text-base leading-[16px]">{formatNumber(salePrice)}원</span>
+          {originalPrice > salePrice && (
             <span className="ml-[7px] text-xs text-[#aaaaaa] line-through">
               {formatNumber(originalPrice)}원
             </span>

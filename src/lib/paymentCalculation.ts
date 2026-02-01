@@ -15,7 +15,7 @@ export interface PaymentSummary {
  * @returns 계산된 상품 총액
  */
 export function calculateTotalProductAmount(items: OrderItem[]): number {
-  return items.reduce((sum, item) => sum + item.price * item.quantity, 0)
+  return items.reduce((sum, item) => sum + item.originalPrice * item.quantity, 0)
 }
 
 /**
@@ -26,6 +26,16 @@ export function calculateTotalProductAmount(items: OrderItem[]): number {
  */
 export function calculateTotalProductDiscount(items: OrderItem[]): number {
   return items.reduce((sum, item) => sum + item.discountPrice * item.quantity, 0)
+}
+
+/**
+ * 상품 결제 총액을 계산합니다.
+ *
+ * @param items - 결제 금액과 수량 정보를 포함한 상품 목록
+ * @returns 계산된 상품 결제 총액
+ */
+export function calculateTotalProductPaymentAmount(items: OrderItem[]): number {
+  return calculateTotalProductAmount(items) - calculateTotalProductDiscount(items)
 }
 
 /**

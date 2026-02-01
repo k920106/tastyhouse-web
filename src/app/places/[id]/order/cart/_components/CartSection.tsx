@@ -12,6 +12,11 @@ import { useCartInfo } from '@/hooks/useCartInfo'
 import { removeFromCart, updateCartItemQuantity } from '@/lib/cart'
 import { formatNumber } from '@/lib/number'
 import { PAGE_PATHS } from '@/lib/paths'
+import {
+  calculateTotalProductAmount,
+  calculateTotalProductDiscount,
+  calculateTotalProductPaymentAmount,
+} from '@/lib/paymentCalculation'
 
 import type { OrderItem } from '@/types/api/order'
 import Link from 'next/link'
@@ -25,14 +30,7 @@ interface CartSectionProps {
 
 export default function CartSection({ placeId }: CartSectionProps) {
   const router = useRouter()
-  const {
-    items: initialItems,
-    placeName,
-    isLoading,
-    totalProductAmount,
-    totalProductDiscount,
-    totalProductPaymentAmount,
-  } = useCartInfo()
+  const { items: initialItems, placeName, isLoading } = useCartInfo()
 
   const [cartItems, setCartItems] = useState<OrderItem[]>([])
   const [selectedKeys, setSelectedKeys] = useState<Set<string>>(new Set())
@@ -50,9 +48,9 @@ export default function CartSection({ placeId }: CartSectionProps) {
   const allSelected = cartItems.length > 0 && selectedKeys.size === cartItems.length
   const selectedCount = selectedKeys.size
 
-  // const totalProductAmount = calculateTotalProductAmount(selectedItems)
-  // const totalDiscountAmount = calculateTotalProductDiscount(selectedItems)
-  // const totalPaymentAmount = totalProductAmount - totalDiscountAmount
+  const totalProductAmount = calculateTotalProductAmount(selectedItems)
+  const totalDiscountAmount = calculateTotalProductDiscount(selectedItems)
+  const totalProductPaymentAmount = calculateTotalProductPaymentAmount(selectedItems)
 
   const handleToggleSelectAll = () => {
     if (allSelected) {
@@ -167,7 +165,7 @@ export default function CartSection({ placeId }: CartSectionProps) {
                       optionKey={item.optionKey}
                       name={item.name}
                       imageUrl={item.imageUrl}
-                      price={item.price}
+                      salePrice={item.salePrice}
                       originalPrice={item.originalPrice}
                       quantity={item.quantity}
                       selected={selectedKeys.has(item.optionKey)}
@@ -201,8 +199,8 @@ export default function CartSection({ placeId }: CartSectionProps) {
           <div className="flex justify-between">
             <span className="text-sm leading-[14px]">상품할인금액</span>
             <span className="text-sm leading-[14px]">
-              {totalProductDiscount > 0 ? '-' : ''}
-              {formatNumber(totalProductDiscount)}원
+              {totalDiscountAmount > 0 ? '-' : ''}
+              {formatNumber(totalDiscountAmount)}원
             </span>
           </div>
           <div className="flex justify-between items-center">

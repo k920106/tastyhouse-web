@@ -12,7 +12,7 @@ import { formatNumber } from '@/lib/number'
 interface OrderItem {
   name: string
   imageUrl: string
-  price: number
+  salePrice: number
   quantity: number
 }
 
@@ -50,7 +50,7 @@ export default function OrderInfoSection({
                   <div className="flex flex-col gap-2.5">
                     <h3 className="text-sm leading-[14px]">{item.name}</h3>
                     <p className="text-sm leading-[14px]">
-                      {formatNumber(item.price)}원 | {item.quantity}개
+                      {formatNumber(item.salePrice)}원 | {item.quantity}개
                     </p>
                   </div>
                 </div>
