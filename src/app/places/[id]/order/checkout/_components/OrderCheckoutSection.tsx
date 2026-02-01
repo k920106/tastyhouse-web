@@ -9,30 +9,15 @@ import CircleCheckbox from '@/components/ui/CircleCheckbox'
 import SectionStack from '@/components/ui/SectionStack'
 import type { MemberContactResponse, MemberCouponListItemResponse } from '@/domains/member'
 import { PaymentMethod } from '@/domains/order'
-import { getCartData, getCartProductTypeCount } from '@/lib/cart'
+import { useOrderInfo } from '@/hooks/useOrderInfo'
 import { calculatePaymentSummary, calculateProductTotal } from '@/lib/paymentCalculation'
-import { getProductById } from '@/services/product'
-import { useCallback, useEffect, useState } from 'react'
+import { useState } from 'react'
 import CouponSelector from './CouponSelector'
 import CustomerInfoSection from './CustomerInfoSection'
 import OrderInfoSection from './OrderInfoSection'
 import PaymentMethodSelector from './PaymentMethodSelector'
 import PaymentSummarySection from './PaymentSummarySection'
 import PointSelector from './PointSelector'
-
-interface OrderItem {
-  name: string
-  imageUrl: string
-  price: number
-  quantity: number
-}
-
-interface OrderInfo {
-  placeName: string
-  items: OrderItem[]
-  firstProductName: string
-  totalItemCount: number
-}
 
 interface OrderCheckoutSectionProps {
   customerInfo: MemberContactResponse | null
@@ -45,72 +30,12 @@ export default function OrderCheckoutSection({
   availableCoupons,
   usablePoints,
 }: OrderCheckoutSectionProps) {
-  const [orderInfo, setOrderInfo] = useState<OrderInfo>({
-    placeName: '',
-    items: [],
-    firstProductName: '',
-    totalItemCount: 0,
-  })
+  const orderInfo = useOrderInfo()
   const [selectedCoupon, setSelectedCoupon] = useState<MemberCouponListItemResponse | null>(null)
   const [pointInput, setPointInput] = useState('')
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState<PaymentMethod | null>(null)
   const [agreedToTerms, setAgreedToTerms] = useState(false)
 
-  const fetchOrderData = useCallback(async () => {
-    const cart = getCartData()
-    if (!cart || cart.products.length === 0) return
-
-    const uniqueProductIds = [...new Set(cart.products.map((p) => p.productId))]
-    const productResults = await Promise.all(
-      uniqueProductIds.map((productId) => getProductById(productId)),
-    )
-
-    const productDetailsMap = new Map()
-    productResults.forEach((result, index) => {
-      if (result.data?.data) {
-        productDetailsMap.set(uniqueProductIds[index], result.data.data)
-      }
-    })
-
-    const firstDetail = productDetailsMap.values().next().value
-
-    const items: OrderItem[] = cart.products
-      .map((cartProduct) => {
-        const detail = productDetailsMap.get(cartProduct.productId)
-        if (!detail) return null
-
-        const basePrice = detail.discountPrice ?? detail.originalPrice
-        const optionAdditionalPrice = cartProduct.selectedOptions.reduce(
-          (sum: number, so: { groupId: number; optionId: number }) => {
-            const group = detail.optionGroups.find((g: { id: number }) => g.id === so.groupId)
-            const option = group?.options.find((o: { id: number }) => o.id === so.optionId)
-            return sum + (option?.additionalPrice ?? 0)
-          },
-          0,
-        )
-
-        return {
-          name: detail.name,
-          imageUrl: detail.imageUrls[0] ?? '',
-          price: basePrice + optionAdditionalPrice,
-          quantity: cartProduct.quantity,
-        }
-      })
-      .filter((item): item is OrderItem => item !== null)
-
-    setOrderInfo({
-      placeName: firstDetail?.placeName ?? '',
-      items,
-      firstProductName: items[0]?.name ?? '',
-      totalItemCount: getCartProductTypeCount(),
-    })
-  }, [])
-
-  useEffect(() => {
-    fetchOrderData()
-  }, [fetchOrderData])
-
-  // 계산
   const productTotal = calculateProductTotal(orderInfo.items)
   const { shippingDiscount, couponDiscount, pointsUsed, finalTotal } = calculatePaymentSummary(
     productTotal,
