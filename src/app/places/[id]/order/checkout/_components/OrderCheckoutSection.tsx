@@ -16,11 +16,11 @@ import {
 import type { MemberContactResponse, MemberCouponListItemResponse } from '@/domains/member'
 import { PaymentMethod } from '@/domains/order'
 import { getCartData, getCartProductTypeCount } from '@/lib/cart'
-import { formatNumber } from '@/lib/number'
 import { getProductById } from '@/services/product'
 import { useCallback, useEffect, useState } from 'react'
 import CouponSelector from './CouponSelector'
 import OrderInfoSection from './OrderInfoSection'
+import PaymentSummarySection from './PaymentSummarySection'
 import PointSelector from './PointSelector'
 
 interface OrderItem {
@@ -209,52 +209,13 @@ export default function OrderCheckoutSection({
           </div>
         </BorderedSection>
         <BorderedSection>
-          <div className="px-[15px] py-5">
-            <div className="pb-[30px]">
-              <h2 className="text-base leading-[16px]">결제 금액</h2>
-            </div>
-            <div className="space-y-[15px]">
-              <div className="flex justify-between">
-                <span className="text-sm leading-[14px]">상품금액</span>
-                <span className="text-sm leading-[14px]">{formatNumber(productTotal)}원</span>
-              </div>
-              <div>
-                <div className="flex justify-between">
-                  <span className="text-sm leading-[14px]">할인금액</span>
-                  <span className="text-sm leading-[14px]">
-                    - {formatNumber(shippingDiscount)}원
-                  </span>
-                </div>
-                <div className="pt-2.5 space-y-2.5">
-                  <div className="flex justify-between">
-                    <span className="text-xs leading-[12px] text-[#aaaaaa]">상품 할인</span>
-                    <span className="text-xs leading-[12px] text-[#aaaaaa]">
-                      - {formatNumber(shippingDiscount)}원
-                    </span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-xs leading-[12px] text-[#aaaaaa]">쿠폰 사용</span>
-                    <span className="text-xs leading-[12px] text-[#aaaaaa]">
-                      {formatNumber(couponDiscount)}원
-                    </span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-xs leading-[12px] text-[#aaaaaa]">포인트 사용</span>
-                    <span className="text-xs leading-[12px] text-[#aaaaaa]">
-                      {pointsUsed > 0 ? '-' : ''}
-                      {formatNumber(pointsUsed)}원
-                    </span>
-                  </div>
-                </div>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-sm leading-[14px]">최종 결제금액</span>
-                <span className="text-sm leading-[14px] text-[#a91201]">
-                  {formatNumber(finalTotal)}원
-                </span>
-              </div>
-            </div>
-          </div>
+          <PaymentSummarySection
+            productTotal={productTotal}
+            shippingDiscount={shippingDiscount}
+            couponDiscount={couponDiscount}
+            pointsUsed={pointsUsed}
+            finalTotal={finalTotal}
+          />
         </BorderedSection>
         <BorderedSection>
           <Accordion type="single" collapsible defaultValue="payment-method">
