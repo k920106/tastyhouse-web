@@ -3,7 +3,6 @@
 import Header, { HeaderCenter, HeaderLeft } from '@/components/layouts/Header'
 import { BackButton } from '@/components/layouts/header-parts'
 import AppButton from '@/components/ui/AppButton'
-import AppInputAmount from '@/components/ui/AppInputAmount'
 import { toast } from '@/components/ui/AppToaster'
 import BorderedSection from '@/components/ui/BorderedSection'
 import CircleCheckbox from '@/components/ui/CircleCheckbox'
@@ -23,8 +22,8 @@ import { formatNumber } from '@/lib/number'
 import { getMemberAvailableCoupons, getMemberContact } from '@/services/member'
 import { getProductById } from '@/services/product'
 import { useCallback, useEffect, useState } from 'react'
-import { IoIosCloseCircle } from 'react-icons/io'
 import CouponSelector from './CouponSelector'
+import PointSelector from './PointSelector'
 
 interface OrderItem {
   name: string
@@ -237,33 +236,11 @@ export default function OrderCheckoutSection() {
                 selectedCoupon={selectedCoupon}
                 onCouponSelect={setSelectedCoupon}
               />
-              <div>
-                <h3 className="text-xs leading-[12px] mb-2.5">포인트</h3>
-                <div className="flex gap-2">
-                  <div className="flex-1 relative">
-                    <AppInputAmount
-                      value={pointInput}
-                      onChange={(e) => setPointInput(e.target.value)}
-                      placeholder="0"
-                    />
-                    {pointInput && (
-                      <button
-                        onClick={() => setPointInput('')}
-                        className="absolute right-3 top-1/2 -translate-y-1/2 flex items-center justify-center w-5 h-5"
-                      >
-                        <IoIosCloseCircle size={19} color="#aaaaaa" />
-                      </button>
-                    )}
-                  </div>
-                  <AppButton className="w-[105px] text-sm leading-[14px] text-white bg-[#a91201]">
-                    전액사용
-                  </AppButton>
-                </div>
-                <p className="flex gap-1 mt-2.5">
-                  <span className="text-xs leading-[12px] text-[#aaaaaa]">사용 가능한 포인트</span>
-                  <span className="text-xs leading-[12px]">{formatNumber(availablePoints)}원</span>
-                </p>
-              </div>
+              <PointSelector
+                availablePoints={availablePoints}
+                pointInput={pointInput}
+                onPointInputChange={setPointInput}
+              />
             </div>
           </div>
         </BorderedSection>
