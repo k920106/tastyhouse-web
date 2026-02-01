@@ -132,7 +132,14 @@ export default function OrderCheckoutSection() {
   // 계산
   const productTotal = orderInfo.items.reduce((sum, item) => sum + item.price * item.quantity, 0)
   const shippingDiscount = 1000
-  const couponDiscount = selectedCoupon?.discountAmount || 0
+  const couponDiscount = selectedCoupon
+    ? selectedCoupon.discountType === 'AMOUNT'
+      ? selectedCoupon.discountAmount
+      : Math.min(
+          Math.floor((productTotal * selectedCoupon.discountAmount) / 100),
+          selectedCoupon.maxDiscountAmount || Infinity,
+        )
+    : 0
   const pointsUsed = parseInt(pointInput) || 0
   const availablePoints = 5000
   const finalTotal = productTotal - shippingDiscount - couponDiscount - pointsUsed
@@ -257,7 +264,9 @@ export default function OrderCheckoutSection() {
                           className={`text-sm leading-[14px] ${selectedCoupon ? 'text-black' : 'text-[#aaaaaa]'}`}
                         >
                           {selectedCoupon
-                            ? `${selectedCoupon.name} (${formatNumber(selectedCoupon.discountAmount)}원)`
+                            ? selectedCoupon.discountType === 'AMOUNT'
+                              ? `${selectedCoupon.name} (${formatNumber(selectedCoupon.discountAmount)}원)`
+                              : `${selectedCoupon.name} (${selectedCoupon.discountAmount}%)`
                             : '쿠폰을 선택해 주세요.'}
                         </span>
                         <Image src="/images/layout/nav-right.png" alt="선택" width={9} height={16} />
@@ -283,13 +292,20 @@ export default function OrderCheckoutSection() {
                                 >
                                   <div className="flex-1 px-[20px] py-[20px] flex flex-col gap-2">
                                     <span className="text-[22px] leading-[26px] text-[#a91201] font-bold">
-                                      {formatNumber(coupon.discountAmount)}p
+                                      {coupon.discountType === 'AMOUNT'
+                                        ? `${formatNumber(coupon.discountAmount)}p`
+                                        : `${coupon.discountAmount}%`}
                                     </span>
                                     <span className="text-sm leading-[18px]">{coupon.name}</span>
                                     <div className="flex flex-col gap-1">
                                       {coupon.minOrderAmount > 0 && (
                                         <span className="text-xs leading-[14px] text-[#aaaaaa]">
                                           {formatNumber(coupon.minOrderAmount)}원 이상 결제시
+                                        </span>
+                                      )}
+                                      {coupon.discountType === 'RATE' && coupon.maxDiscountAmount && (
+                                        <span className="text-xs leading-[14px] text-[#aaaaaa]">
+                                          최대 {formatNumber(coupon.maxDiscountAmount)}원 할인
                                         </span>
                                       )}
                                       <span className="text-xs leading-[14px] text-[#aaaaaa]">

@@ -16,7 +16,9 @@ export type MemberCouponListItemResponse = {
   couponId: number
   name: string
   description: string
+  discountType: 'AMOUNT' | 'RATE'
   discountAmount: number
+  maxDiscountAmount: number | null
   minOrderAmount: number
   useStartAt: string
   useEndAt: string
