@@ -25,17 +25,19 @@ import PaymentSummarySection from './PaymentSummarySection'
 import PointSelector from './PointSelector'
 
 interface OrderCheckoutSectionProps {
+  placeName: string
   customerInfo: MemberContactResponse | null
   availableCoupons: MemberCouponListItemResponse[]
   usablePoints: number
 }
 
 export default function OrderCheckoutSection({
+  placeName,
   customerInfo,
   availableCoupons,
   usablePoints,
 }: OrderCheckoutSectionProps) {
-  const { placeName, items, firstProductName } = useOrderInfo()
+  const { items, firstProductName } = useOrderInfo()
   const totalItemCount = getCartProductTypeCount()
   const totalProductAmount = calculateTotalProductAmount(items)
   const totalProductDiscountAmount = calculateTotalProductDiscount(items)

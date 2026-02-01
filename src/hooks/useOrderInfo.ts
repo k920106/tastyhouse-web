@@ -3,19 +3,16 @@
 import type { ProductDetailResponse } from '@/domains/product'
 import type { CartSelectedOption } from '@/lib/cart'
 import { getCartData } from '@/lib/cart'
-import { getPlaceName } from '@/services/place'
 import { getProductById } from '@/services/product'
 import { OrderItem } from '@/types/api/order'
 import { useCallback, useEffect, useState } from 'react'
 
 export interface OrderInfo {
-  placeName: string
   items: OrderItem[]
   firstProductName: string
 }
 
 const INITIAL_ORDER_INFO: OrderInfo = {
-  placeName: '',
   items: [],
   firstProductName: '',
 }
@@ -76,9 +73,6 @@ export function useOrderInfo() {
     const cart = getCartData()
     if (!cart || cart.products.length === 0) return
 
-    const placeId = cart.placeId
-    const placeNameResult = await getPlaceName(placeId)
-
     const uniqueProductIds = [...new Set(cart.products.map((p) => p.productId))]
     const productDetailMap = await fetchProductDetails(uniqueProductIds)
 
@@ -104,7 +98,6 @@ export function useOrderInfo() {
       .filter((item): item is OrderItem => item !== null)
 
     setOrderInfo({
-      placeName: placeNameResult.data?.data?.name ?? '',
       items,
       firstProductName: items[0]?.name ?? '',
     })
