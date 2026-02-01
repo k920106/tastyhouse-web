@@ -2,7 +2,7 @@
 
 import type { ProductDetailResponse } from '@/domains/product'
 import type { CartSelectedOption } from '@/lib/cart'
-import { getCartData } from '@/lib/cart'
+import { getCartData, getCartProductTypeCount } from '@/lib/cart'
 import { getProductById } from '@/services/product'
 import { OrderItem } from '@/types/api/order'
 import { useCallback, useEffect, useState } from 'react'
@@ -10,11 +10,13 @@ import { useCallback, useEffect, useState } from 'react'
 export interface OrderInfo {
   items: OrderItem[]
   firstProductName: string
+  totalItemCount: number
 }
 
 const INITIAL_ORDER_INFO: OrderInfo = {
   items: [],
   firstProductName: '',
+  totalItemCount: 0,
 }
 
 /**
@@ -97,9 +99,12 @@ export function useOrderInfo() {
       })
       .filter((item): item is OrderItem => item !== null)
 
+    const totalItemCount = getCartProductTypeCount()
+
     setOrderInfo({
       items,
       firstProductName: items[0]?.name ?? '',
+      totalItemCount,
     })
   }, [])
 

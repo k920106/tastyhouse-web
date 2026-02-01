@@ -10,7 +10,6 @@ import SectionStack from '@/components/ui/SectionStack'
 import type { MemberContactResponse, MemberCouponListItemResponse } from '@/domains/member'
 import { PaymentMethod } from '@/domains/order'
 import { useOrderInfo } from '@/hooks/useOrderInfo'
-import { getCartProductTypeCount } from '@/lib/cart'
 import {
   calculatePaymentSummary,
   calculateTotalProductAmount,
@@ -37,8 +36,7 @@ export default function OrderCheckoutSection({
   availableCoupons,
   usablePoints,
 }: OrderCheckoutSectionProps) {
-  const { items, firstProductName } = useOrderInfo()
-  const totalItemCount = getCartProductTypeCount()
+  const { items, firstProductName, totalItemCount } = useOrderInfo()
   const totalProductAmount = calculateTotalProductAmount(items)
   const totalProductDiscountAmount = calculateTotalProductDiscount(items)
 
