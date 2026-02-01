@@ -3,6 +3,7 @@
 import Header, { HeaderCenter, HeaderLeft } from '@/components/layouts/Header'
 import { BackButton } from '@/components/layouts/header-parts'
 import AppButton from '@/components/ui/AppButton'
+import AppInputAmount from '@/components/ui/AppInputAmount'
 import { toast } from '@/components/ui/AppToaster'
 import BorderedSection from '@/components/ui/BorderedSection'
 import FixedBottomSection from '@/components/ui/FixedBottomSection'
@@ -14,7 +15,6 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from '@/components/ui/shadcn/accordion'
-import { Input } from '@/components/ui/shadcn/input'
 import { formatNumber } from '@/lib/number'
 import Image from 'next/image'
 import { useState } from 'react'
@@ -197,19 +197,10 @@ export default function OrderCheckoutSection({ placeId }: OrderCheckoutSectionPr
                 <h3 className="text-xs leading-[12px] mb-2.5">포인트</h3>
                 <div className="flex gap-2">
                   <div className="flex-1 relative">
-                    {/* <input
-                      type="text"
+                    <AppInputAmount
                       value={pointInput}
                       onChange={(e) => setPointInput(e.target.value)}
                       placeholder="0"
-                      className="w-full h-[50px] pl-[16px] pr-[40px] py-5 text-sm leading-[14px] border border-[#eeeeee] box-border"
-                    /> */}
-                    <Input
-                      type="text"
-                      value={pointInput}
-                      onChange={(e) => setPointInput(e.target.value)}
-                      placeholder="0"
-                      className="w-full h-[50px] pl-[16px] pr-[40px] py-5 text-sm leading-[14px] border border-[#eeeeee] box-border rounded-none"
                     />
                     {pointInput && (
                       <button
