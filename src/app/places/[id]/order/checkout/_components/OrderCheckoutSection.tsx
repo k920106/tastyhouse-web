@@ -201,7 +201,9 @@ export default function OrderCheckoutSection({
         </BorderedSection>
       </SectionStack>
       <div className="px-[15px] py-5">
-        <AppButton className="!bg-[#a91201]">결제하기</AppButton>
+        <AppButton className="!bg-[#a91201]" onClick={handlePayment}>
+          결제하기
+        </AppButton>
       </div>
     </section>
   )
