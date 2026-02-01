@@ -6,7 +6,6 @@ import AppButton from '@/components/ui/AppButton'
 import { toast } from '@/components/ui/AppToaster'
 import BorderedSection from '@/components/ui/BorderedSection'
 import CircleCheckbox from '@/components/ui/CircleCheckbox'
-import ImageContainer from '@/components/ui/ImageContainer'
 import SectionStack from '@/components/ui/SectionStack'
 import {
   Accordion,
@@ -23,6 +22,7 @@ import { getMemberAvailableCoupons, getMemberContact } from '@/services/member'
 import { getProductById } from '@/services/product'
 import { useCallback, useEffect, useState } from 'react'
 import CouponSelector from './CouponSelector'
+import OrderInfoSection from './OrderInfoSection'
 import PointSelector from './PointSelector'
 
 interface OrderItem {
@@ -163,38 +163,12 @@ export default function OrderCheckoutSection() {
       </Header>
       <SectionStack>
         <BorderedSection className="border-t-0">
-          <Accordion type="single" collapsible defaultValue="order-info">
-            <AccordionItem value="order-info" className="border-b-0">
-              <AccordionTrigger className="items-center px-[15px] py-5 hover:no-underline">
-                <div className="flex-1 flex items-center justify-between gap-2">
-                  <h2 className="text-base leading-[16px]">{orderInfo.placeName}</h2>
-                  <span className="text-xs leading-[12px] text-[#aaaaaa]">
-                    {orderInfo.firstProductName}
-                    {orderInfo.totalItemCount > 1
-                      ? ` 외 ${orderInfo.totalItemCount - 1}건`
-                      : ' 1건'}
-                  </span>
-                </div>
-              </AccordionTrigger>
-              <AccordionContent className="p-0">
-                <div className="px-4">
-                  <div className="divide-y divide-[#eeeeee] first:border-t border-[#eeeeee]">
-                    {orderInfo.items.map((item, index) => (
-                      <div key={index} className="flex items-center gap-[15px] py-[15px]">
-                        <ImageContainer src={item.imageUrl} alt={item.name} size={50} />
-                        <div className="flex flex-col gap-2.5">
-                          <h3 className="text-sm leading-[14px]">{item.name}</h3>
-                          <p className="text-sm leading-[14px]">
-                            {formatNumber(item.price)}원 | {item.quantity}개
-                          </p>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </AccordionContent>
-            </AccordionItem>
-          </Accordion>
+          <OrderInfoSection
+            placeName={orderInfo.placeName}
+            items={orderInfo.items}
+            firstProductName={orderInfo.firstProductName}
+            totalItemCount={orderInfo.totalItemCount}
+          />
         </BorderedSection>
         <BorderedSection>
           <Accordion type="single" collapsible defaultValue="customer-info">
