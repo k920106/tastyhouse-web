@@ -3,20 +3,23 @@
 import type { ProductDetailResponse } from '@/domains/product'
 import type { CartSelectedOption } from '@/lib/cart'
 import { getCartData, getCartProductTypeCount } from '@/lib/cart'
+import {
+  calculateTotalProductAmount,
+  calculateTotalProductDiscount,
+} from '@/lib/paymentCalculation'
 import { getProductById } from '@/services/product'
-import { OrderItem } from '@/types/api/order'
+import { OrderItem, OrderItemOption } from '@/types/api/order'
 import { useCallback, useEffect, useState } from 'react'
 
-export interface OrderInfo {
+export interface CartInfo {
   items: OrderItem[]
+  placeName: string
   firstProductName: string
   totalItemCount: number
-}
-
-const INITIAL_ORDER_INFO: OrderInfo = {
-  items: [],
-  firstProductName: '',
-  totalItemCount: 0,
+  totalProductAmount: number
+  totalProductDiscount: number
+  isLoading: boolean
+  reload: () => Promise<void>
 }
 
 /**
@@ -48,6 +51,26 @@ function calculateItemPrice(
 }
 
 /**
+ * 선택된 옵션의 상세 정보를 조회합니다.
+ */
+function resolveOptionDetails(
+  detail: ProductDetailResponse,
+  selectedOptions: CartSelectedOption[],
+): OrderItemOption[] {
+  return selectedOptions.map((so) => {
+    const group = detail.optionGroups.find((g) => g.id === so.groupId)
+    const option = group?.options.find((o) => o.id === so.optionId)
+    return {
+      groupId: so.groupId,
+      groupName: group?.name ?? '',
+      optionId: so.optionId,
+      optionName: option?.name ?? '',
+      additionalPrice: option?.additionalPrice ?? 0,
+    }
+  })
+}
+
+/**
  * 상품 상세 정보를 조회합니다.
  *
  * @param productIds - 상품 ID 목록
@@ -68,17 +91,31 @@ async function fetchProductDetails(
   return detailMap
 }
 
-export function useOrderInfo() {
-  const [orderInfo, setOrderInfo] = useState<OrderInfo>(INITIAL_ORDER_INFO)
+export function useCartInfo(): CartInfo {
+  const [items, setItems] = useState<OrderItem[]>([])
+  const [placeName, setPlaceName] = useState('')
+  const [firstProductName, setFirstProductName] = useState('')
+  const [totalItemCount, setTotalItemCount] = useState(0)
+  const [isLoading, setIsLoading] = useState(true)
 
-  const loadOrderInfo = useCallback(async () => {
+  const loadCartInfo = useCallback(async () => {
     const cart = getCartData()
-    if (!cart || cart.products.length === 0) return
+    if (!cart || cart.products.length === 0) {
+      setItems([])
+      setPlaceName('')
+      setFirstProductName('')
+      setTotalItemCount(0)
+      setIsLoading(false)
+      return
+    }
 
     const uniqueProductIds = [...new Set(cart.products.map((p) => p.productId))]
     const productDetailMap = await fetchProductDetails(uniqueProductIds)
 
-    const items: OrderItem[] = cart.products
+    const firstDetail = productDetailMap.values().next().value
+    setPlaceName(firstDetail?.placeName ?? '')
+
+    const orderItems: OrderItem[] = cart.products
       .map((cartProduct) => {
         const productDetail = productDetailMap.get(cartProduct.productId)
         if (!productDetail) return null
@@ -88,29 +125,42 @@ export function useOrderInfo() {
           cartProduct.selectedOptions,
         )
 
+        const selectedOptions = resolveOptionDetails(productDetail, cartProduct.selectedOptions)
+
         return {
+          optionKey: cartProduct.optionKey,
           name: productDetail.name,
           imageUrl: productDetail.imageUrls[0] ?? '',
           price,
           originalPrice,
           discountPrice,
           quantity: cartProduct.quantity,
+          selectedOptions,
         }
       })
       .filter((item): item is OrderItem => item !== null)
 
-    const totalItemCount = getCartProductTypeCount()
-
-    setOrderInfo({
-      items,
-      firstProductName: items[0]?.name ?? '',
-      totalItemCount,
-    })
+    setItems(orderItems)
+    setFirstProductName(orderItems[0]?.name ?? '')
+    setTotalItemCount(getCartProductTypeCount())
+    setIsLoading(false)
   }, [])
 
   useEffect(() => {
-    loadOrderInfo()
-  }, [loadOrderInfo])
+    loadCartInfo()
+  }, [loadCartInfo])
 
-  return orderInfo
+  const totalProductAmount = calculateTotalProductAmount(items)
+  const totalProductDiscount = calculateTotalProductDiscount(items)
+
+  return {
+    items,
+    placeName,
+    firstProductName,
+    totalItemCount,
+    totalProductAmount,
+    totalProductDiscount,
+    isLoading,
+    reload: loadCartInfo,
+  }
 }

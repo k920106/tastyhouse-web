@@ -8,149 +8,66 @@ import AppButton from '@/components/ui/AppButton'
 import BorderedSection from '@/components/ui/BorderedSection'
 import FixedBottomSection from '@/components/ui/FixedBottomSection'
 import SectionStack from '@/components/ui/SectionStack'
-import type { ProductDetailResponse } from '@/domains/product'
-import { CartProduct, getCartData, removeFromCart, updateCartItemQuantity } from '@/lib/cart'
+import { useCartInfo } from '@/hooks/useCartInfo'
+import { removeFromCart, updateCartItemQuantity } from '@/lib/cart'
 import { formatNumber } from '@/lib/number'
 import { PAGE_PATHS } from '@/lib/paths'
-import { getProductById } from '@/services/product'
+import {
+  calculateTotalProductAmount,
+  calculateTotalProductDiscount,
+} from '@/lib/paymentCalculation'
+import type { OrderItem } from '@/types/api/order'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import { useCallback, useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { LiaPlusSolid } from 'react-icons/lia'
 
 interface CartSectionProps {
   placeId: number
 }
 
-interface CartDisplayItem {
-  optionKey: string
-  productId: number
-  productName: string
-  imageUrl: string
-  basePrice: number
-  originalPrice: number
-  quantity: number
-  selectedOptions: Array<{
-    groupId: number
-    groupName: string
-    optionId: number
-    optionName: string
-    additionalPrice: number
-  }>
-  selected: boolean
-}
-
-function buildDisplayItems(
-  cartProducts: CartProduct[],
-  productDetails: Map<number, ProductDetailResponse>,
-): CartDisplayItem[] {
-  return cartProducts
-    .map((cartProduct) => {
-      const detail = productDetails.get(cartProduct.productId)
-      if (!detail) return null
-
-      const selectedOptions = cartProduct.selectedOptions.map((so) => {
-        const group = detail.optionGroups.find((g) => g.id === so.groupId)
-        const option = group?.options.find((o) => o.id === so.optionId)
-        return {
-          groupId: so.groupId,
-          groupName: group?.name ?? '',
-          optionId: so.optionId,
-          optionName: option?.name ?? '',
-          additionalPrice: option?.additionalPrice ?? 0,
-        }
-      })
-
-      const basePrice = detail.discountPrice ?? detail.originalPrice
-
-      return {
-        optionKey: cartProduct.optionKey,
-        productId: cartProduct.productId,
-        productName: detail.name,
-        imageUrl: detail.imageUrls[0] ?? '',
-        basePrice,
-        originalPrice: detail.originalPrice,
-        quantity: cartProduct.quantity,
-        selectedOptions,
-        selected: true as boolean,
-      }
-    })
-    .filter((item): item is CartDisplayItem => item !== null)
-}
-
 export default function CartSection({ placeId }: CartSectionProps) {
   const router = useRouter()
+  const { items: initialItems, placeName, isLoading } = useCartInfo()
 
-  const [cartItems, setCartItems] = useState<CartDisplayItem[]>([])
-  const [placeName, setPlaceName] = useState('')
-  const [isLoading, setIsLoading] = useState(true)
-
-  const fetchCartData = useCallback(async () => {
-    const cart = getCartData()
-    if (!cart || cart.products.length === 0) {
-      setCartItems([])
-      setIsLoading(false)
-      return
-    }
-
-    const uniqueProductIds = [...new Set(cart.products.map((p) => p.productId))]
-    const productDetails = new Map<number, ProductDetailResponse>()
-
-    await Promise.all(
-      uniqueProductIds.map(async (productId) => {
-        const result = await getProductById(productId)
-        if (result.data?.data) {
-          productDetails.set(productId, result.data.data)
-        }
-      }),
-    )
-
-    const firstDetail = productDetails.values().next().value
-    if (firstDetail) {
-      setPlaceName(firstDetail.placeName)
-    }
-
-    const displayItems = buildDisplayItems(cart.products, productDetails)
-    setCartItems(displayItems)
-    setIsLoading(false)
-  }, [])
+  const [cartItems, setCartItems] = useState<OrderItem[]>([])
+  const [selectedKeys, setSelectedKeys] = useState<Set<string>>(new Set())
 
   useEffect(() => {
-    fetchCartData()
-  }, [fetchCartData])
+    setCartItems(initialItems)
+    setSelectedKeys(new Set(initialItems.map((item) => item.optionKey)))
+  }, [initialItems])
 
-  const allSelected = cartItems.length > 0 && cartItems.every((item) => item.selected)
-  const selectedCount = cartItems.filter((item) => item.selected).length
+  const selectedItems = useMemo(
+    () => cartItems.filter((item) => selectedKeys.has(item.optionKey)),
+    [cartItems, selectedKeys],
+  )
 
-  const totalProductAmount = cartItems
-    .filter((item) => item.selected)
-    .reduce((sum, item) => {
-      const itemPrice =
-        item.basePrice + item.selectedOptions.reduce((opt, o) => opt + o.additionalPrice, 0)
-      return sum + itemPrice * item.quantity
-    }, 0)
+  const allSelected = cartItems.length > 0 && selectedKeys.size === cartItems.length
+  const selectedCount = selectedKeys.size
 
-  const totalDiscountAmount = cartItems
-    .filter((item) => item.selected && item.originalPrice > item.basePrice)
-    .reduce((sum, item) => sum + (item.originalPrice - item.basePrice) * item.quantity, 0)
-
+  const totalProductAmount = calculateTotalProductAmount(selectedItems)
+  const totalDiscountAmount = calculateTotalProductDiscount(selectedItems)
   const totalPaymentAmount = totalProductAmount
 
   const handleToggleSelectAll = () => {
-    setCartItems((items) =>
-      items.map((item) => ({
-        ...item,
-        selected: !allSelected,
-      })),
-    )
+    if (allSelected) {
+      setSelectedKeys(new Set())
+    } else {
+      setSelectedKeys(new Set(cartItems.map((item) => item.optionKey)))
+    }
   }
 
   const handleToggleSelect = (optionKey: string) => {
-    setCartItems((items) =>
-      items.map((item) =>
-        item.optionKey === optionKey ? { ...item, selected: !item.selected } : item,
-      ),
-    )
+    setSelectedKeys((prev) => {
+      const next = new Set(prev)
+      if (next.has(optionKey)) {
+        next.delete(optionKey)
+      } else {
+        next.add(optionKey)
+      }
+      return next
+    })
   }
 
   const handleQuantityChange = (optionKey: string, quantity: number) => {
@@ -163,14 +80,17 @@ export default function CartSection({ placeId }: CartSectionProps) {
   const handleRemove = (optionKey: string) => {
     removeFromCart(optionKey)
     setCartItems((items) => items.filter((item) => item.optionKey !== optionKey))
+    setSelectedKeys((prev) => {
+      const next = new Set(prev)
+      next.delete(optionKey)
+      return next
+    })
   }
 
   const handleDeleteSelected = () => {
-    const selectedOptionKeys = cartItems
-      .filter((item) => item.selected)
-      .map((item) => item.optionKey)
-    selectedOptionKeys.forEach((key) => removeFromCart(key))
-    setCartItems((items) => items.filter((item) => !item.selected))
+    selectedKeys.forEach((key) => removeFromCart(key))
+    setCartItems((items) => items.filter((item) => !selectedKeys.has(item.optionKey)))
+    setSelectedKeys(new Set())
   }
 
   if (isLoading) {
@@ -237,27 +157,22 @@ export default function CartSection({ placeId }: CartSectionProps) {
               <>
                 <div className="px-[15px] divide-y divide-[#f2f2f2]">
                   <h2 className="py-5 text-base leading-[16px]">{placeName}</h2>
-                  {cartItems.map((item) => {
-                    const itemPrice =
-                      item.basePrice +
-                      item.selectedOptions.reduce((sum, opt) => sum + opt.additionalPrice, 0)
-                    return (
-                      <CartItem
-                        key={item.optionKey}
-                        optionKey={item.optionKey}
-                        name={item.productName}
-                        imageUrl={item.imageUrl}
-                        price={itemPrice}
-                        originalPrice={item.originalPrice}
-                        quantity={item.quantity}
-                        selected={item.selected}
-                        selectedOptions={item.selectedOptions}
-                        onToggleSelect={handleToggleSelect}
-                        onQuantityChange={handleQuantityChange}
-                        onRemove={handleRemove}
-                      />
-                    )
-                  })}
+                  {cartItems.map((item) => (
+                    <CartItem
+                      key={item.optionKey}
+                      optionKey={item.optionKey}
+                      name={item.name}
+                      imageUrl={item.imageUrl}
+                      price={item.price}
+                      originalPrice={item.originalPrice}
+                      quantity={item.quantity}
+                      selected={selectedKeys.has(item.optionKey)}
+                      selectedOptions={item.selectedOptions}
+                      onToggleSelect={handleToggleSelect}
+                      onQuantityChange={handleQuantityChange}
+                      onRemove={handleRemove}
+                    />
+                  ))}
                 </div>
                 <div className="py-[18px] border-t border-[#f2f2f2] box-border">
                   <div

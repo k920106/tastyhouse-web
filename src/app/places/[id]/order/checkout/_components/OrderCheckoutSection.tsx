@@ -9,12 +9,8 @@ import CircleCheckbox from '@/components/ui/CircleCheckbox'
 import SectionStack from '@/components/ui/SectionStack'
 import type { MemberContactResponse, MemberCouponListItemResponse } from '@/domains/member'
 import { PaymentMethod } from '@/domains/order'
-import { useOrderInfo } from '@/hooks/useOrderInfo'
-import {
-  calculatePaymentSummary,
-  calculateTotalProductAmount,
-  calculateTotalProductDiscount,
-} from '@/lib/paymentCalculation'
+import { useCartInfo } from '@/hooks/useCartInfo'
+import { calculatePaymentSummary } from '@/lib/paymentCalculation'
 import { useState } from 'react'
 import CouponSelector from './CouponSelector'
 import CustomerInfoSection from './CustomerInfoSection'
@@ -36,9 +32,8 @@ export default function OrderCheckoutSection({
   availableCoupons,
   usablePoints,
 }: OrderCheckoutSectionProps) {
-  const { items, firstProductName, totalItemCount } = useOrderInfo()
-  const totalProductAmount = calculateTotalProductAmount(items)
-  const totalProductDiscountAmount = calculateTotalProductDiscount(items)
+  const { items, firstProductName, totalItemCount, totalProductAmount, totalProductDiscount } =
+    useCartInfo()
 
   const [selectedCoupon, setSelectedCoupon] = useState<MemberCouponListItemResponse | null>(null)
   const [pointInput, setPointInput] = useState('')
@@ -48,7 +43,7 @@ export default function OrderCheckoutSection({
   const { totalDiscountAmount, couponDiscount, pointsUsed, paymentAmount } =
     calculatePaymentSummary(
       totalProductAmount,
-      totalProductDiscountAmount,
+      totalProductDiscount,
       selectedCoupon,
       pointInput,
     )
@@ -105,7 +100,7 @@ export default function OrderCheckoutSection({
         <BorderedSection>
           <PaymentSummarySection
             totalProductAmount={totalProductAmount}
-            totalProductDiscountAmount={totalProductDiscountAmount}
+            totalProductDiscountAmount={totalProductDiscount}
             totalDiscountAmount={totalDiscountAmount}
             couponDiscount={couponDiscount}
             pointsUsed={pointsUsed}
