@@ -15,13 +15,6 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from '@/components/ui/shadcn/accordion'
-import {
-  Drawer,
-  DrawerContent,
-  DrawerDescription,
-  DrawerTitle,
-  DrawerTrigger,
-} from '@/components/ui/shadcn/drawer'
 import type { MemberContactResponse, MemberCouponListItemResponse } from '@/domains/member'
 import { PaymentMethod } from '@/domains/order'
 import type { ProductDetailResponse } from '@/domains/product'
@@ -29,9 +22,9 @@ import { getCartData, getCartProductTypeCount } from '@/lib/cart'
 import { formatNumber } from '@/lib/number'
 import { getMemberAvailableCoupons, getMemberContact } from '@/services/member'
 import { getProductById } from '@/services/product'
-import Image from 'next/image'
 import { useCallback, useEffect, useState } from 'react'
 import { IoIosCloseCircle } from 'react-icons/io'
+import CouponSelector from './CouponSelector'
 
 interface OrderItem {
   name: string
@@ -60,10 +53,6 @@ export default function OrderCheckoutSection() {
   const [customerInfo, setCustomerInfo] = useState<MemberContactResponse | null>(null)
   const [availableCoupons, setAvailableCoupons] = useState<MemberCouponListItemResponse[]>([])
   const [selectedCoupon, setSelectedCoupon] = useState<MemberCouponListItemResponse | null>(null)
-  const [couponDrawerOpen, setCouponDrawerOpen] = useState(false)
-  const [tempSelectedCoupon, setTempSelectedCoupon] = useState<MemberCouponListItemResponse | null>(
-    null,
-  )
 
   const fetchOrderData = useCallback(async () => {
     const cart = getCartData()
@@ -243,117 +232,11 @@ export default function OrderCheckoutSection() {
               <h2 className="text-base leading-[16px]">쿠폰/적립금 사용</h2>
             </div>
             <div className="space-y-5">
-              <div>
-                <h3 className="text-xs leading-[12px] mb-2.5">쿠폰</h3>
-                {availableCoupons.length === 0 ? (
-                  <button className="w-full h-[50px] px-[15px] py-[17px] flex items-center justify-between border border-[#eeeeee] box-border">
-                    <span className="text-sm leading-[14px] text-[#aaaaaa]">
-                      사용할 수 있는 쿠폰이 없습니다.
-                    </span>
-                    <Image src="/images/layout/nav-right.png" alt="닫기" width={9} height={16} />
-                  </button>
-                ) : (
-                  <Drawer open={couponDrawerOpen} onOpenChange={setCouponDrawerOpen}>
-                    <DrawerTrigger asChild>
-                      <button
-                        onClick={(e) => {
-                          e.currentTarget.blur()
-                          setTempSelectedCoupon(selectedCoupon)
-                        }}
-                        className="w-full h-[50px] px-[15px] py-[17px] flex items-center justify-between border box-border border-[#eeeeee]"
-                      >
-                        <span
-                          className={`text-sm leading-[14px] ${selectedCoupon ? 'text-black' : 'text-[#aaaaaa]'}`}
-                        >
-                          {selectedCoupon
-                            ? selectedCoupon.discountType === 'AMOUNT'
-                              ? `${selectedCoupon.name} (${formatNumber(selectedCoupon.discountAmount)}원)`
-                              : `${selectedCoupon.name} (${selectedCoupon.discountAmount}%)`
-                            : '쿠폰을 선택해 주세요.'}
-                        </span>
-                        <Image
-                          src="/images/layout/nav-right.png"
-                          alt="선택"
-                          width={9}
-                          height={16}
-                        />
-                      </button>
-                    </DrawerTrigger>
-                    <DrawerContent className="rounded-t-[20px]">
-                      <div className="px-[15px] py-5">
-                        <DrawerTitle className="sr-only">쿠폰</DrawerTitle>
-                        <DrawerDescription className="sr-only">쿠폰 선택 목록</DrawerDescription>
-                        <div className="space-y-4">
-                          {availableCoupons.map((coupon) => {
-                            const isSelected = tempSelectedCoupon?.id === coupon.id
-                            return (
-                              <div
-                                key={coupon.id}
-                                className={`relative overflow-hidden rounded-[10px] border ${
-                                  isSelected ? 'border-[#a91201]' : 'border-[#eeeeee]'
-                                }`}
-                              >
-                                <button
-                                  onClick={() => setTempSelectedCoupon(coupon)}
-                                  className="w-full flex text-left"
-                                >
-                                  <div className="flex-1 px-[20px] py-[20px] flex flex-col gap-2">
-                                    <span className="text-[22px] leading-[26px] text-[#a91201] font-bold">
-                                      {coupon.discountType === 'AMOUNT'
-                                        ? `${formatNumber(coupon.discountAmount)}p`
-                                        : `${coupon.discountAmount}%`}
-                                    </span>
-                                    <span className="text-sm leading-[18px]">{coupon.name}</span>
-                                    <div className="flex flex-col gap-1">
-                                      {coupon.minOrderAmount > 0 && (
-                                        <span className="text-xs leading-[14px] text-[#aaaaaa]">
-                                          {formatNumber(coupon.minOrderAmount)}원 이상 결제시
-                                        </span>
-                                      )}
-                                      {coupon.discountType === 'RATE' &&
-                                        coupon.maxDiscountAmount && (
-                                          <span className="text-xs leading-[14px] text-[#aaaaaa]">
-                                            최대 {formatNumber(coupon.maxDiscountAmount)}원 할인
-                                          </span>
-                                        )}
-                                      <span className="text-xs leading-[14px] text-[#aaaaaa]">
-                                        {coupon.useStartAt} ~ {coupon.useEndAt}
-                                      </span>
-                                    </div>
-                                  </div>
-                                  <div className="relative w-[120px] flex items-center justify-center">
-                                    <div
-                                      className={`absolute left-0 top-0 bottom-0 border-l border-dashed ${
-                                        isSelected ? 'border-[#a91201]' : 'border-[#eeeeee]'
-                                      }`}
-                                    />
-                                    <div className="absolute left-[-8px] top-[-8px] w-4 h-4 rounded-full bg-white" />
-                                    <div className="absolute left-[-8px] bottom-[-8px] w-4 h-4 rounded-full bg-white" />
-                                    <span className="text-base leading-[16px] text-[#666666]">
-                                      D-{coupon.daysRemaining}
-                                    </span>
-                                  </div>
-                                </button>
-                              </div>
-                            )
-                          })}
-                        </div>
-                        <div className="mt-5">
-                          <AppButton
-                            className="!bg-[#a91201] text-white"
-                            onClick={() => {
-                              setSelectedCoupon(tempSelectedCoupon)
-                              setCouponDrawerOpen(false)
-                            }}
-                          >
-                            사용하기
-                          </AppButton>
-                        </div>
-                      </div>
-                    </DrawerContent>
-                  </Drawer>
-                )}
-              </div>
+              <CouponSelector
+                availableCoupons={availableCoupons}
+                selectedCoupon={selectedCoupon}
+                onCouponSelect={setSelectedCoupon}
+              />
               <div>
                 <h3 className="text-xs leading-[12px] mb-2.5">포인트</h3>
                 <div className="flex gap-2">
