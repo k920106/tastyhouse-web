@@ -7,6 +7,21 @@ export interface PaymentSummary {
   finalTotal: number
 }
 
+export interface PaymentItem {
+  price: number
+  quantity: number
+}
+
+/**
+ * 상품 총액을 계산합니다.
+ *
+ * @param items - 가격과 수량 정보를 포함한 상품 목록
+ * @returns 계산된 상품 총액
+ */
+export function calculateProductTotal(items: PaymentItem[]): number {
+  return items.reduce((sum, item) => sum + item.price * item.quantity, 0)
+}
+
 /**
  * 결제 금액을 계산합니다.
  *

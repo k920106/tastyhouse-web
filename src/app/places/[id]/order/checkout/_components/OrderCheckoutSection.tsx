@@ -10,7 +10,7 @@ import SectionStack from '@/components/ui/SectionStack'
 import type { MemberContactResponse, MemberCouponListItemResponse } from '@/domains/member'
 import { PaymentMethod } from '@/domains/order'
 import { getCartData, getCartProductTypeCount } from '@/lib/cart'
-import { calculatePaymentSummary } from '@/lib/paymentCalculation'
+import { calculatePaymentSummary, calculateProductTotal } from '@/lib/paymentCalculation'
 import { getProductById } from '@/services/product'
 import { useCallback, useEffect, useState } from 'react'
 import CouponSelector from './CouponSelector'
@@ -111,7 +111,7 @@ export default function OrderCheckoutSection({
   }, [fetchOrderData])
 
   // 계산
-  const productTotal = orderInfo.items.reduce((sum, item) => sum + item.price * item.quantity, 0)
+  const productTotal = calculateProductTotal(orderInfo.items)
   const { shippingDiscount, couponDiscount, pointsUsed, finalTotal } = calculatePaymentSummary(
     productTotal,
     selectedCoupon,
