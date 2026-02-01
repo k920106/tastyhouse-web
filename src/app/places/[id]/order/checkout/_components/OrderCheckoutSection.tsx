@@ -15,11 +15,13 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from '@/components/ui/shadcn/accordion'
+import type { MemberContactResponse } from '@/domains/member'
 import { PaymentMethod } from '@/domains/order'
 import type { ProductDetailResponse } from '@/domains/product'
 import { getCartData, getCartItemCount } from '@/lib/cart'
 import { formatNumber } from '@/lib/number'
 import { getProductById } from '@/services/product'
+import { getMemberContact } from '@/services/member'
 import Image from 'next/image'
 import { useCallback, useEffect, useState } from 'react'
 import { IoIosCloseCircle } from 'react-icons/io'
@@ -48,22 +50,31 @@ export default function OrderCheckoutSection() {
     firstProductName: '',
     totalItemCount: 0,
   })
+  const [customerInfo, setCustomerInfo] = useState<MemberContactResponse | null>(null)
 
   const fetchOrderData = useCallback(async () => {
     const cart = getCartData()
     if (!cart || cart.products.length === 0) return
 
+    const [contactResult, ...productResults] = await Promise.all([
+      getMemberContact(),
+      ...([...new Set(cart.products.map((p) => p.productId))].map((productId) =>
+        getProductById(productId),
+      )),
+    ])
+
+    if (contactResult.data?.data) {
+      setCustomerInfo(contactResult.data.data)
+    }
+
     const uniqueProductIds = [...new Set(cart.products.map((p) => p.productId))]
     const productDetails = new Map<number, ProductDetailResponse>()
 
-    await Promise.all(
-      uniqueProductIds.map(async (productId) => {
-        const result = await getProductById(productId)
-        if (result.data?.data) {
-          productDetails.set(productId, result.data.data)
-        }
-      }),
-    )
+    productResults.forEach((result, index) => {
+      if (result.data?.data) {
+        productDetails.set(uniqueProductIds[index], result.data.data)
+      }
+    })
 
     const firstDetail = productDetails.values().next().value
 
@@ -99,12 +110,6 @@ export default function OrderCheckoutSection() {
   useEffect(() => {
     fetchOrderData()
   }, [fetchOrderData])
-
-  const customerInfo = {
-    name: '김철수',
-    phone: '010-1234-5678',
-    email: 'abc123@naver.com',
-  }
 
   // 계산
   const productTotal = orderInfo.items.reduce((sum, item) => sum + item.price * item.quantity, 0)
@@ -189,15 +194,15 @@ export default function OrderCheckoutSection() {
                       <span className="w-30 text-sm leading-[14px] text-[#666666]">
                         주문하는 분
                       </span>
-                      <span className="text-sm leading-[14px]">{customerInfo.name}</span>
+                      <span className="text-sm leading-[14px]">{customerInfo?.fullName}</span>
                     </div>
                     <div className="flex">
                       <span className="w-30 text-sm leading-[14px] text-[#666666]">휴대폰</span>
-                      <span className="text-sm leading-[14px]">{customerInfo.phone}</span>
+                      <span className="text-sm leading-[14px]">{customerInfo?.phoneNumber}</span>
                     </div>
                     <div className="flex">
                       <span className="w-30 text-sm leading-[14px] text-[#666666]">이메일</span>
-                      <span className="text-sm leading-[14px]">{customerInfo.email}</span>
+                      <span className="text-sm leading-[14px]">{customerInfo?.email}</span>
                     </div>
                   </div>
                 </div>
