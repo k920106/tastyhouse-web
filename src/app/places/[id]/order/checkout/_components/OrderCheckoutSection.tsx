@@ -10,6 +10,7 @@ import SectionStack from '@/components/ui/SectionStack'
 import type { MemberContactResponse, MemberCouponListItemResponse } from '@/domains/member'
 import { PaymentMethod } from '@/domains/order'
 import { getCartData, getCartProductTypeCount } from '@/lib/cart'
+import { calculatePaymentSummary } from '@/lib/paymentCalculation'
 import { getProductById } from '@/services/product'
 import { useCallback, useEffect, useState } from 'react'
 import CouponSelector from './CouponSelector'
@@ -44,16 +45,16 @@ export default function OrderCheckoutSection({
   availableCoupons,
   usablePoints,
 }: OrderCheckoutSectionProps) {
-  const [pointInput, setPointInput] = useState('')
-  const [selectedPaymentMethod, setSelectedPaymentMethod] = useState<PaymentMethod | null>(null)
-  const [agreedToTerms, setAgreedToTerms] = useState(false)
-  const [selectedCoupon, setSelectedCoupon] = useState<MemberCouponListItemResponse | null>(null)
   const [orderInfo, setOrderInfo] = useState<OrderInfo>({
     placeName: '',
     items: [],
     firstProductName: '',
     totalItemCount: 0,
   })
+  const [selectedCoupon, setSelectedCoupon] = useState<MemberCouponListItemResponse | null>(null)
+  const [pointInput, setPointInput] = useState('')
+  const [selectedPaymentMethod, setSelectedPaymentMethod] = useState<PaymentMethod | null>(null)
+  const [agreedToTerms, setAgreedToTerms] = useState(false)
 
   const fetchOrderData = useCallback(async () => {
     const cart = getCartData()
@@ -111,17 +112,11 @@ export default function OrderCheckoutSection({
 
   // 계산
   const productTotal = orderInfo.items.reduce((sum, item) => sum + item.price * item.quantity, 0)
-  const shippingDiscount = 1000
-  const couponDiscount = selectedCoupon
-    ? selectedCoupon.discountType === 'AMOUNT'
-      ? selectedCoupon.discountAmount
-      : Math.min(
-          Math.floor((productTotal * selectedCoupon.discountAmount) / 100),
-          selectedCoupon.maxDiscountAmount || Infinity,
-        )
-    : 0
-  const pointsUsed = parseInt(pointInput) || 0
-  const finalTotal = productTotal - shippingDiscount - couponDiscount - pointsUsed
+  const { shippingDiscount, couponDiscount, pointsUsed, finalTotal } = calculatePaymentSummary(
+    productTotal,
+    selectedCoupon,
+    pointInput,
+  )
 
   const handlePayment = () => {
     if (!agreedToTerms) {
