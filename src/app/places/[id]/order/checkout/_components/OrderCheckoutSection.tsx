@@ -15,10 +15,8 @@ import {
 } from '@/components/ui/shadcn/accordion'
 import type { MemberContactResponse, MemberCouponListItemResponse } from '@/domains/member'
 import { PaymentMethod } from '@/domains/order'
-import type { ProductDetailResponse } from '@/domains/product'
 import { getCartData, getCartProductTypeCount } from '@/lib/cart'
 import { formatNumber } from '@/lib/number'
-import { getMemberAvailableCoupons, getMemberContact } from '@/services/member'
 import { getProductById } from '@/services/product'
 import { useCallback, useEffect, useState } from 'react'
 import CouponSelector from './CouponSelector'
@@ -39,62 +37,58 @@ interface OrderInfo {
   totalItemCount: number
 }
 
-export default function OrderCheckoutSection() {
+interface OrderCheckoutSectionProps {
+  customerInfo: MemberContactResponse | null
+  availableCoupons: MemberCouponListItemResponse[]
+}
+
+export default function OrderCheckoutSection({
+  customerInfo,
+  availableCoupons,
+}: OrderCheckoutSectionProps) {
   const [pointInput, setPointInput] = useState('')
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState<PaymentMethod | null>(null)
   const [agreedToTerms, setAgreedToTerms] = useState(false)
+  const [selectedCoupon, setSelectedCoupon] = useState<MemberCouponListItemResponse | null>(null)
   const [orderInfo, setOrderInfo] = useState<OrderInfo>({
     placeName: '',
     items: [],
     firstProductName: '',
     totalItemCount: 0,
   })
-  const [customerInfo, setCustomerInfo] = useState<MemberContactResponse | null>(null)
-  const [availableCoupons, setAvailableCoupons] = useState<MemberCouponListItemResponse[]>([])
-  const [selectedCoupon, setSelectedCoupon] = useState<MemberCouponListItemResponse | null>(null)
 
   const fetchOrderData = useCallback(async () => {
     const cart = getCartData()
     if (!cart || cart.products.length === 0) return
 
-    const [contactResult, couponsResult, ...productResults] = await Promise.all([
-      getMemberContact(),
-      getMemberAvailableCoupons(),
-      ...[...new Set(cart.products.map((p) => p.productId))].map((productId) =>
-        getProductById(productId),
-      ),
-    ])
-
-    if (contactResult.data?.data) {
-      setCustomerInfo(contactResult.data.data)
-    }
-
-    if (couponsResult.data?.data) {
-      setAvailableCoupons(couponsResult.data.data)
-    }
-
     const uniqueProductIds = [...new Set(cart.products.map((p) => p.productId))]
-    const productDetails = new Map<number, ProductDetailResponse>()
+    const productResults = await Promise.all(
+      uniqueProductIds.map((productId) => getProductById(productId)),
+    )
 
+    const productDetailsMap = new Map()
     productResults.forEach((result, index) => {
       if (result.data?.data) {
-        productDetails.set(uniqueProductIds[index], result.data.data)
+        productDetailsMap.set(uniqueProductIds[index], result.data.data)
       }
     })
 
-    const firstDetail = productDetails.values().next().value
+    const firstDetail = productDetailsMap.values().next().value
 
     const items: OrderItem[] = cart.products
       .map((cartProduct) => {
-        const detail = productDetails.get(cartProduct.productId)
+        const detail = productDetailsMap.get(cartProduct.productId)
         if (!detail) return null
 
         const basePrice = detail.discountPrice ?? detail.originalPrice
-        const optionAdditionalPrice = cartProduct.selectedOptions.reduce((sum, so) => {
-          const group = detail.optionGroups.find((g) => g.id === so.groupId)
-          const option = group?.options.find((o) => o.id === so.optionId)
-          return sum + (option?.additionalPrice ?? 0)
-        }, 0)
+        const optionAdditionalPrice = cartProduct.selectedOptions.reduce(
+          (sum: number, so: { groupId: number; optionId: number }) => {
+            const group = detail.optionGroups.find((g: { id: number }) => g.id === so.groupId)
+            const option = group?.options.find((o: { id: number }) => o.id === so.optionId)
+            return sum + (option?.additionalPrice ?? 0)
+          },
+          0,
+        )
 
         return {
           name: detail.name,
@@ -138,10 +132,6 @@ export default function OrderCheckoutSection() {
     { type: 'CREDIT', label: '신용카드', badge: '' },
     { type: 'PHONE', label: '휴대폰 결제', badge: '' },
   ]
-
-  const handleApplyAllPoints = () => {
-    setPointInput(availablePoints.toString())
-  }
 
   const handlePayment = () => {
     if (!agreedToTerms) {
