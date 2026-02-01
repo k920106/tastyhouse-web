@@ -16,9 +16,10 @@ import {
   AccordionTrigger,
 } from '@/components/ui/shadcn/accordion'
 import { PaymentMethod } from '@/domains/order'
+import { getCartItemCount, getCartItemsByPlace, getFirstProductName } from '@/lib/cart'
 import { formatNumber } from '@/lib/number'
 import Image from 'next/image'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { IoIosCloseCircle } from 'react-icons/io'
 
 interface OrderItem {
@@ -42,34 +43,25 @@ export default function OrderCheckoutSection({ placeId }: OrderCheckoutSectionPr
   const [pointInput, setPointInput] = useState('')
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState<PaymentMethod | null>(null)
   const [agreedToTerms, setAgreedToTerms] = useState(false)
+  const [orderInfo, setOrderInfo] = useState<OrderInfo>({ placeName: '', items: [] })
 
-  // Mock data
-  const orderInfo: OrderInfo = {
-    placeName: '땡스오트',
-    items: [
-      {
-        id: 1,
-        name: '베리스트로베리',
-        imageUrl: '/images/sample/food/food-image1.png',
-        price: 7900,
-        quantity: 1,
-      },
-      {
-        id: 2,
-        name: '블루나잇',
-        imageUrl: '/images/sample/food/food-image2.png',
-        price: 7500,
-        quantity: 1,
-      },
-      {
-        id: 3,
-        name: '아보카도 햄치즈 샌드위치',
-        imageUrl: '/images/sample/food/food-image3.png',
-        price: 8500,
-        quantity: 1,
-      },
-    ],
-  }
+  // 장바구니 데이터 로드
+  useEffect(() => {
+    const cartItems = getCartItemsByPlace(placeId)
+
+    if (cartItems.length > 0) {
+      setOrderInfo({
+        placeName: cartItems[0].placeName,
+        items: cartItems.map((item) => ({
+          id: item.productId,
+          name: item.productName,
+          imageUrl: item.imageUrl,
+          price: item.basePrice,
+          quantity: item.quantity,
+        })),
+      })
+    }
+  }, [placeId])
 
   const customerInfo = {
     name: '김철수',
@@ -122,7 +114,8 @@ export default function OrderCheckoutSection({ placeId }: OrderCheckoutSectionPr
                 <div className="flex-1 flex items-center justify-between gap-2">
                   <h2 className="text-base leading-[16px]">{orderInfo.placeName}</h2>
                   <span className="text-xs leading-[12px] text-[#aaaaaa]">
-                    외 {orderInfo.items.length}건
+                    {getFirstProductName(placeId)}
+                    {getCartItemCount(placeId) > 1 ? ` 외 ${getCartItemCount(placeId)}건` : ' 1건'}
                   </span>
                 </div>
               </AccordionTrigger>
