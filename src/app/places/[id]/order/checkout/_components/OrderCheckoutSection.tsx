@@ -25,7 +25,7 @@ import {
 import type { MemberContactResponse, MemberCouponListItemResponse } from '@/domains/member'
 import { PaymentMethod } from '@/domains/order'
 import type { ProductDetailResponse } from '@/domains/product'
-import { getCartData, getCartItemCount } from '@/lib/cart'
+import { getCartData, getCartProductTypeCount } from '@/lib/cart'
 import { formatNumber } from '@/lib/number'
 import { getMemberAvailableCoupons, getMemberContact } from '@/services/member'
 import { getProductById } from '@/services/product'
@@ -121,7 +121,7 @@ export default function OrderCheckoutSection() {
       placeName: firstDetail?.placeName ?? '',
       items,
       firstProductName: items[0]?.name ?? '',
-      totalItemCount: getCartItemCount(),
+      totalItemCount: getCartProductTypeCount(),
     })
   }, [])
 
@@ -182,7 +182,9 @@ export default function OrderCheckoutSection() {
                   <h2 className="text-base leading-[16px]">{orderInfo.placeName}</h2>
                   <span className="text-xs leading-[12px] text-[#aaaaaa]">
                     {orderInfo.firstProductName}
-                    {orderInfo.totalItemCount > 1 ? ` 외 ${orderInfo.totalItemCount}건` : ' 1건'}
+                    {orderInfo.totalItemCount > 1
+                      ? ` 외 ${orderInfo.totalItemCount - 1}건`
+                      : ' 1건'}
                   </span>
                 </div>
               </AccordionTrigger>
@@ -269,7 +271,12 @@ export default function OrderCheckoutSection() {
                               : `${selectedCoupon.name} (${selectedCoupon.discountAmount}%)`
                             : '쿠폰을 선택해 주세요.'}
                         </span>
-                        <Image src="/images/layout/nav-right.png" alt="선택" width={9} height={16} />
+                        <Image
+                          src="/images/layout/nav-right.png"
+                          alt="선택"
+                          width={9}
+                          height={16}
+                        />
                       </button>
                     </DrawerTrigger>
                     <DrawerContent className="rounded-t-[20px]">
@@ -303,11 +310,12 @@ export default function OrderCheckoutSection() {
                                           {formatNumber(coupon.minOrderAmount)}원 이상 결제시
                                         </span>
                                       )}
-                                      {coupon.discountType === 'RATE' && coupon.maxDiscountAmount && (
-                                        <span className="text-xs leading-[14px] text-[#aaaaaa]">
-                                          최대 {formatNumber(coupon.maxDiscountAmount)}원 할인
-                                        </span>
-                                      )}
+                                      {coupon.discountType === 'RATE' &&
+                                        coupon.maxDiscountAmount && (
+                                          <span className="text-xs leading-[14px] text-[#aaaaaa]">
+                                            최대 {formatNumber(coupon.maxDiscountAmount)}원 할인
+                                          </span>
+                                        )}
                                       <span className="text-xs leading-[14px] text-[#aaaaaa]">
                                         {coupon.useStartAt} ~ {coupon.useEndAt}
                                       </span>

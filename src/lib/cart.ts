@@ -161,3 +161,10 @@ export function clearCart(): void {
 export function getCartItemCount(): number {
   return getCartProducts().reduce((sum, item) => sum + item.quantity, 0)
 }
+
+/**
+ * 장바구니 상품 종류 수 조회
+ */
+export function getCartProductTypeCount(): number {
+  return getCartProducts().length
+}
