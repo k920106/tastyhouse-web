@@ -133,3 +133,11 @@ export function clearCart(): void {
 export function getCartItemCount(placeId: number): number {
   return getCartItemsByPlace(placeId).reduce((sum, item) => sum + item.quantity, 0)
 }
+
+/**
+ * 특정 가게의 첫 번째 상품명 조회
+ */
+export function getFirstProductName(placeId: number): string {
+  const items = getCartItemsByPlace(placeId)
+  return items.length > 0 ? items[0].productName : ''
+}
