@@ -122,7 +122,7 @@ export default function CartSection({ placeId }: CartSectionProps) {
   const allSelected = cartItems.length > 0 && cartItems.every((item) => item.selected)
   const selectedCount = cartItems.filter((item) => item.selected).length
 
-  const totalProductPrice = cartItems
+  const totalProductAmount = cartItems
     .filter((item) => item.selected)
     .reduce((sum, item) => {
       const itemPrice =
@@ -134,7 +134,7 @@ export default function CartSection({ placeId }: CartSectionProps) {
     .filter((item) => item.selected && item.originalPrice > item.basePrice)
     .reduce((sum, item) => sum + (item.originalPrice - item.basePrice) * item.quantity, 0)
 
-  const totalPaymentPrice = totalProductPrice
+  const totalPaymentAmount = totalProductAmount
 
   const handleToggleSelectAll = () => {
     setCartItems((items) =>
@@ -277,7 +277,7 @@ export default function CartSection({ placeId }: CartSectionProps) {
         <div className="space-y-5">
           <div className="flex justify-between">
             <span className="text-sm leading-[14px]">상품금액</span>
-            <span className="text-sm leading-[14px]">{formatNumber(totalProductPrice)}원</span>
+            <span className="text-sm leading-[14px]">{formatNumber(totalProductAmount)}원</span>
           </div>
           <div className="flex justify-between">
             <span className="text-sm leading-[14px]">상품할인금액</span>
@@ -288,7 +288,7 @@ export default function CartSection({ placeId }: CartSectionProps) {
           </div>
           <div className="flex justify-between items-center">
             <span className="text-sm leading-[14px]">결제예정금액</span>
-            <span className="text-[#a91201]">{formatNumber(totalPaymentPrice)}원</span>
+            <span className="text-[#a91201]">{formatNumber(totalPaymentAmount)}원</span>
           </div>
         </div>
         <FixedBottomSection className="px-[15px] py-2.5 !bg-[#f9f9f9]">

@@ -10,6 +10,10 @@ export async function getPlaceInfo(placeId: number) {
   return await placeService.getPlaceInfo(placeId)
 }
 
+export async function getPlaceName(placeId: number) {
+  return await placeService.getPlaceName(placeId)
+}
+
 export async function togglePlaceBookmark(placeId: number) {
   return await placeService.togglePlaceBookmark(placeId)
 }

@@ -3,6 +3,7 @@
 import type { ProductDetailResponse } from '@/domains/product'
 import type { CartSelectedOption } from '@/lib/cart'
 import { getCartData, getCartProductTypeCount } from '@/lib/cart'
+import { getPlaceName } from '@/services/place'
 import { getProductById } from '@/services/product'
 import { useCallback, useEffect, useState } from 'react'
 
@@ -84,19 +85,22 @@ export function useOrderInfo() {
     const cart = getCartData()
     if (!cart || cart.products.length === 0) return
 
+    const placeId = cart.placeId
+    const placeNameResult = await getPlaceName(placeId)
+
     const uniqueProductIds = [...new Set(cart.products.map((p) => p.productId))]
     const productDetailMap = await fetchProductDetails(uniqueProductIds)
 
     const items: OrderItem[] = cart.products
       .map((cartProduct) => {
-        const detail = productDetailMap.get(cartProduct.productId)
-        if (!detail) return null
+        const productDetail = productDetailMap.get(cartProduct.productId)
+        if (!productDetail) return null
 
-        const { price, originalPrice } = calculateItemPrice(detail, cartProduct.selectedOptions)
+        const { price, originalPrice } = calculateItemPrice(productDetail, cartProduct.selectedOptions)
 
         return {
-          name: detail.name,
-          imageUrl: detail.imageUrls[0] ?? '',
+          name: productDetail.name,
+          imageUrl: productDetail.imageUrls[0] ?? '',
           price,
           originalPrice,
           quantity: cartProduct.quantity,
@@ -104,15 +108,13 @@ export function useOrderInfo() {
       })
       .filter((item): item is OrderItem => item !== null)
 
-    const firstDetail = productDetailMap.values().next().value
-
     const totalProductDiscount = items.reduce((sum, item) => {
       const itemDiscount = (item.originalPrice - item.price) * item.quantity
       return sum + itemDiscount
     }, 0)
 
     setOrderInfo({
-      placeName: firstDetail?.placeName ?? '',
+      placeName: placeNameResult.data?.data?.name ?? '',
       items,
       firstProductName: items[0]?.name ?? '',
       totalItemCount: getCartProductTypeCount(),
