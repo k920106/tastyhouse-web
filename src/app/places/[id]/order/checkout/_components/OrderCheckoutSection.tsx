@@ -10,7 +10,7 @@ import SectionStack from '@/components/ui/SectionStack'
 import type { MemberContactResponse, MemberCouponListItemResponse } from '@/domains/member'
 import { PaymentMethod } from '@/domains/order'
 import { useOrderInfo } from '@/hooks/useOrderInfo'
-import { calculatePaymentSummary, calculateProductTotal } from '@/lib/paymentCalculation'
+import { calculatePaymentSummary, calculateTotalProductAmount } from '@/lib/paymentCalculation'
 import { useState } from 'react'
 import CouponSelector from './CouponSelector'
 import CustomerInfoSection from './CustomerInfoSection'
@@ -36,10 +36,10 @@ export default function OrderCheckoutSection({
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState<PaymentMethod | null>(null)
   const [agreedToTerms, setAgreedToTerms] = useState(false)
 
-  const productTotal = calculateProductTotal(orderInfo.items)
-  const { totalDiscount, productDiscount, couponDiscount, pointsUsed, finalTotal } =
+  const totalProductAmount = calculateTotalProductAmount(orderInfo.items)
+  const { totalDiscountAmount, couponDiscount, pointsUsed, paymentAmount } =
     calculatePaymentSummary(
-      productTotal,
+      totalProductAmount,
       orderInfo.totalProductDiscount,
       selectedCoupon,
       pointInput,
@@ -96,12 +96,12 @@ export default function OrderCheckoutSection({
         </BorderedSection>
         <BorderedSection>
           <PaymentSummarySection
-            productTotal={productTotal}
-            productDiscount={productDiscount}
-            totalDiscount={totalDiscount}
+            totalProductAmount={totalProductAmount}
+            totalProductDiscountAmount={orderInfo.totalProductDiscount}
+            totalDiscountAmount={totalDiscountAmount}
             couponDiscount={couponDiscount}
             pointsUsed={pointsUsed}
-            finalTotal={finalTotal}
+            finalTotal={paymentAmount}
           />
         </BorderedSection>
         <BorderedSection>

@@ -1,18 +1,18 @@
 import { formatNumber } from '@/lib/number'
 
 interface PaymentSummarySectionProps {
-  productTotal: number
-  totalDiscount: number
-  productDiscount: number
+  totalProductAmount: number
+  totalDiscountAmount: number
+  totalProductDiscountAmount: number
   couponDiscount: number
   pointsUsed: number
   finalTotal: number
 }
 
 export default function PaymentSummarySection({
-  productTotal,
-  totalDiscount,
-  productDiscount,
+  totalProductAmount,
+  totalDiscountAmount,
+  totalProductDiscountAmount,
   couponDiscount,
   pointsUsed,
   finalTotal,
@@ -25,22 +25,22 @@ export default function PaymentSummarySection({
       <div className="space-y-[15px]">
         <div className="flex justify-between">
           <span className="text-sm leading-[14px]">상품금액</span>
-          <span className="text-sm leading-[14px]">{formatNumber(productTotal)}원</span>
+          <span className="text-sm leading-[14px]">{formatNumber(totalProductAmount)}원</span>
         </div>
         <div>
           <div className="flex justify-between">
             <span className="text-sm leading-[14px]">할인금액</span>
             <span className="text-sm leading-[14px]">
-              {totalDiscount > 0 ? `- ${formatNumber(totalDiscount)}원` : '0원'}
+              {totalDiscountAmount > 0 ? `- ${formatNumber(totalDiscountAmount)}원` : '0원'}
             </span>
           </div>
-          {totalDiscount > 0 && (
+          {totalDiscountAmount > 0 && (
             <div className="pt-2.5 space-y-2.5">
-              {productDiscount > 0 && (
+              {totalProductDiscountAmount > 0 && (
                 <div className="flex justify-between">
                   <span className="text-xs leading-[12px] text-[#aaaaaa]">상품 할인</span>
                   <span className="text-xs leading-[12px] text-[#aaaaaa]">
-                    - {formatNumber(productDiscount)}원
+                    - {formatNumber(totalProductDiscountAmount)}원
                   </span>
                 </div>
               )}
