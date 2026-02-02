@@ -48,7 +48,7 @@ export default function PaymentSummarySection({
                 <div className="flex justify-between">
                   <span className="text-xs leading-[12px] text-[#aaaaaa]">쿠폰 사용</span>
                   <span className="text-xs leading-[12px] text-[#aaaaaa]">
-                    {formatNumber(couponDiscount)}원
+                    - {formatNumber(couponDiscount)}원
                   </span>
                 </div>
               )}

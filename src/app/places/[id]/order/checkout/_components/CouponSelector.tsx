@@ -1,6 +1,7 @@
 'use client'
 
 import AppButton from '@/components/ui/AppButton'
+import { toast } from '@/components/ui/AppToaster'
 import {
   Drawer,
   DrawerContent,
@@ -15,12 +16,14 @@ import { useState } from 'react'
 
 interface CouponSelectorProps {
   availableCoupons: MemberCouponListItemResponse[]
+  totalProductAmount: number
   selectedCoupon: MemberCouponListItemResponse | null
   onCouponSelect: (coupon: MemberCouponListItemResponse | null) => void
 }
 
 export default function CouponSelector({
   availableCoupons,
+  totalProductAmount,
   selectedCoupon,
   onCouponSelect,
 }: CouponSelectorProps) {
@@ -34,6 +37,10 @@ export default function CouponSelector({
   }
 
   const handleApplyCoupon = () => {
+    if (tempSelectedCoupon && tempSelectedCoupon.minOrderAmount > totalProductAmount) {
+      toast(`${formatNumber(tempSelectedCoupon.minOrderAmount)}원 이상 결제 시 사용 가능합니다.`)
+      return
+    }
     onCouponSelect(tempSelectedCoupon)
     setCouponDrawerOpen(false)
   }

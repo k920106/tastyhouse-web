@@ -41,12 +41,7 @@ export default function OrderCheckoutSection({
   const [agreedToTerms, setAgreedToTerms] = useState(false)
 
   const { totalDiscountAmount, couponDiscount, pointsUsed, paymentAmount } =
-    calculatePaymentSummary(
-      totalProductAmount,
-      totalProductDiscount,
-      selectedCoupon,
-      pointInput,
-    )
+    calculatePaymentSummary(totalProductAmount, totalProductDiscount, selectedCoupon, pointInput)
 
   const handlePayment = () => {
     if (!agreedToTerms) {
@@ -86,6 +81,7 @@ export default function OrderCheckoutSection({
             <div className="space-y-5">
               <CouponSelector
                 availableCoupons={availableCoupons}
+                totalProductAmount={totalProductAmount}
                 selectedCoupon={selectedCoupon}
                 onCouponSelect={setSelectedCoupon}
               />
