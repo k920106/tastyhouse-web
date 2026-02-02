@@ -9,7 +9,7 @@ import { PaymentMethod } from '@/domains/order'
 interface PaymentMethodOption {
   type: PaymentMethod
   label: string
-  badge: string
+  badge?: string
   benefitTitle?: string
   benefitDescription?: string
 }
@@ -34,17 +34,15 @@ const paymentMethods: PaymentMethodOption[] = [
     benefitTitle: '현장에서 카드 결제',
     benefitDescription: '현장(가게)에서 카드로 결제시 최대 10% 포인트 적립',
   },
-  { type: 'CREDIT', label: '신용카드', badge: '' },
-  { type: 'PHONE', label: '휴대폰 결제', badge: '' },
+  { type: 'CREDIT', label: '신용카드' },
+  { type: 'PHONE', label: '휴대폰 결제' },
 ]
 
 export default function PaymentMethodSelector({
   selectedPaymentMethod,
   onPaymentMethodSelect,
 }: PaymentMethodSelectorProps) {
-  const selectedMethod = paymentMethods.find(
-    (method) => method.type === selectedPaymentMethod,
-  )
+  const selectedMethod = paymentMethods.find((method) => method.type === selectedPaymentMethod)
 
   return (
     <Accordion type="single" collapsible defaultValue="payment-method">
@@ -60,9 +58,7 @@ export default function PaymentMethodSelector({
                   key={method.type}
                   onClick={() => onPaymentMethodSelect(method.type)}
                   className={`relative flex items-center justify-center py-[19px] text-sm leading-[14px] border box-border overflow-hidden ${
-                    selectedPaymentMethod === method.type
-                      ? 'border-[#a91201]'
-                      : 'border-[#cccccc]'
+                    selectedPaymentMethod === method.type ? 'border-[#a91201]' : 'border-[#cccccc]'
                   }`}
                 >
                   {method.badge && (
