@@ -24,6 +24,22 @@ export default function PointSelector({
     onPointInputChange('')
   }
 
+  const handlePointChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value
+    const numericValue = parseInt(value.replace(/,/g, ''), 10)
+
+    if (isNaN(numericValue) || value === '') {
+      onPointInputChange('')
+      return
+    }
+
+    if (numericValue > availablePoints) {
+      onPointInputChange(availablePoints.toString())
+    } else {
+      onPointInputChange(value)
+    }
+  }
+
   return (
     <div>
       <h3 className="text-xs leading-[12px] mb-2.5">포인트</h3>
@@ -31,7 +47,7 @@ export default function PointSelector({
         <div className="flex-1 relative">
           <AppInputAmount
             value={pointInput}
-            onChange={(e) => onPointInputChange(e.target.value)}
+            onChange={handlePointChange}
             placeholder="0"
           />
           {pointInput && (
