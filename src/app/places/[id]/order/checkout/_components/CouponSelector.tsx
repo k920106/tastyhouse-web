@@ -37,12 +37,26 @@ export default function CouponSelector({
   }
 
   const handleApplyCoupon = () => {
+    // 이미 선택된 쿠폰을 다시 클릭한 경우 취소
+    if (tempSelectedCoupon && selectedCoupon?.id === tempSelectedCoupon.id) {
+      onCouponSelect(null)
+      setCouponDrawerOpen(false)
+      return
+    }
+
     if (tempSelectedCoupon && tempSelectedCoupon.minOrderAmount > totalProductAmount) {
       toast(`${formatNumber(tempSelectedCoupon.minOrderAmount)}원 이상 결제 시 사용 가능합니다.`)
       return
     }
     onCouponSelect(tempSelectedCoupon)
     setCouponDrawerOpen(false)
+  }
+
+  const getButtonText = () => {
+    if (tempSelectedCoupon && selectedCoupon?.id === tempSelectedCoupon.id) {
+      return '사용 취소하기'
+    }
+    return '사용하기'
   }
 
   if (availableCoupons.length === 0) {
@@ -143,7 +157,7 @@ export default function CouponSelector({
             </div>
             <div className="mt-5">
               <AppButton className="!bg-[#a91201] text-white" onClick={handleApplyCoupon}>
-                사용하기
+                {getButtonText()}
               </AppButton>
             </div>
           </div>
