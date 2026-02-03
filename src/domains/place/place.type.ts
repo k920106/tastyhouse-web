@@ -244,3 +244,13 @@ export type PlaceOrderMethodResponse = {
   placeId: number
   orderMethods: OrderMethodItem[]
 }
+
+export type ProductTodayDiscountListItemResponse = {
+  id: number
+  name: string
+  placeName: string
+  imageUrl: string
+  originalPrice: number
+  discountPrice: number
+  discountRate: number
+}

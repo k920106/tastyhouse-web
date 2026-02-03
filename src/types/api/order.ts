@@ -7,6 +7,7 @@ export interface OrderItemOption {
 }
 
 export interface OrderItem {
+  productId: number
   optionKey: string
   name: string
   imageUrl: string

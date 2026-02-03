@@ -31,6 +31,7 @@ export default async function OrderCheckoutPage({ params }: OrderCheckoutPagePro
 
   return (
     <OrderCheckoutSection
+      placeId={placeId}
       placeName={placeName}
       customerInfo={customerInfo}
       availableCoupons={availableCoupons}

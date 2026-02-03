@@ -1,12 +1,11 @@
 import ProductItem, { ProductItemSkeleton } from '@/components/products/ProductItem'
 import ErrorMessage from '@/components/ui/ErrorMessage'
 import ViewMoreButton from '@/components/ui/ViewMoreButton'
-import { ProductTodayDiscountQuery } from '@/domains/place'
+import { ProductTodayDiscountListItemResponse, ProductTodayDiscountQuery } from '@/domains/place'
 import { api } from '@/lib/api'
 import { COMMON_ERROR_MESSAGES } from '@/lib/constants'
 import { API_ENDPOINTS } from '@/lib/endpoints'
 import { ApiResponse } from '@/types/api/api'
-import { ProductTodayDiscountListItemResponse } from '@/types/api/product'
 
 export function TodayDiscountProductListSkeleton() {
   return (

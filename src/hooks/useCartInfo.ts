@@ -129,6 +129,7 @@ export function useCartInfo(): CartInfo {
         const selectedOptions = resolveOptionDetails(productDetail, cartProduct.selectedOptions)
 
         return {
+          productId: cartProduct.productId,
           optionKey: cartProduct.optionKey,
           name: productDetail.name,
           imageUrl: productDetail.imageUrls[0] ?? '',

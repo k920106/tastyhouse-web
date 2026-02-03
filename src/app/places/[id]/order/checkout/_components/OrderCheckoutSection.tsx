@@ -8,9 +8,10 @@ import BorderedSection from '@/components/ui/BorderedSection'
 import CircleCheckbox from '@/components/ui/CircleCheckbox'
 import SectionStack from '@/components/ui/SectionStack'
 import type { MemberContactResponse, MemberCouponListItemResponse } from '@/domains/member'
-import { PaymentMethod } from '@/domains/order'
 import { useCartInfo } from '@/hooks/useCartInfo'
 import { calculatePaymentSummary } from '@/lib/paymentCalculation'
+import { createOrder } from '@/services/order'
+import type { PaymentMethod } from '@/types/payment'
 import { useState } from 'react'
 import CouponSelector from './CouponSelector'
 import CustomerInfoSection from './CustomerInfoSection'
@@ -20,6 +21,7 @@ import PaymentSummarySection from './PaymentSummarySection'
 import PointSelector from './PointSelector'
 
 interface OrderCheckoutSectionProps {
+  placeId: number
   placeName: string
   customerInfo: MemberContactResponse | null
   availableCoupons: MemberCouponListItemResponse[]
@@ -27,6 +29,7 @@ interface OrderCheckoutSectionProps {
 }
 
 export default function OrderCheckoutSection({
+  placeId,
   placeName,
   customerInfo,
   availableCoupons,
@@ -43,12 +46,37 @@ export default function OrderCheckoutSection({
   const { totalDiscountAmount, couponDiscount, pointsUsed, paymentAmount } =
     calculatePaymentSummary(totalProductAmount, totalProductDiscount, selectedCoupon, pointInput)
 
-  const handlePayment = () => {
+  const handlePayment = async () => {
     if (!agreedToTerms) {
       toast('약관에 동의해주세요.')
       return
     }
-    toast('결제를 진행합니다.')
+
+    if (!selectedPaymentMethod) {
+      toast('결제 수단을 선택해주세요.')
+      return
+    }
+
+    const request = {
+      placeId,
+      orderItems: items,
+      memberCouponId: selectedCoupon?.id ?? null,
+      usePoint: pointsUsed,
+      totalProductAmount,
+      totalDiscountAmount,
+      productDiscountAmount: totalProductDiscount,
+      couponDiscountAmount: couponDiscount,
+      finalAmount: paymentAmount,
+    }
+
+    const result = await createOrder(request)
+
+    if (result.error) {
+      toast(result.error)
+      return
+    }
+
+    toast('주문이 완료되었습니다.')
   }
 
   return (
