@@ -1,7 +1,7 @@
 'use client'
 
 import CouponCard from '@/components/coupon/CouponCard'
-import { Coupon } from '@/types/api/coupon'
+import type { Coupon } from '@/domains/member'
 import { useState } from 'react'
 
 const dummyCoupons: Coupon[] = [

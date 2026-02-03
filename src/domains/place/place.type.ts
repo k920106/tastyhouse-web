@@ -1,6 +1,6 @@
-import { PaginationParams } from '@/types/api/api'
-import { Product } from '@/types/api/product'
-import { OrderMethodItem } from '../order/order.type'
+import type { PaginationParams } from '@/types/common'
+import type { Product } from '@/domains/product'
+import type { OrderMethodItem } from '../order/order.type'
 
 export type PlaceFoodType =
   | 'KOREAN'

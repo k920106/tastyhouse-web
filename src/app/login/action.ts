@@ -2,7 +2,7 @@
 
 import { api } from '@/lib/api'
 import { API_ENDPOINTS } from '@/lib/endpoints'
-import { LoginParams, LoginRequest, LoginResponse, LoginResult } from '@/types/api/auth'
+import type { LoginParams, LoginRequest, LoginResponse, LoginResult } from '@/domains/member'
 import { revalidatePath } from 'next/cache'
 import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'

@@ -1,6 +1,7 @@
 'use client'
 
 import type { ProductDetailResponse } from '@/domains/product'
+import type { OrderItem, OrderItemOption } from '@/domains/order'
 import type { CartSelectedOption } from '@/lib/cart'
 import { getCartData, getCartProductTypeCount } from '@/lib/cart'
 import {
@@ -9,7 +10,6 @@ import {
   calculateTotalProductPaymentAmount,
 } from '@/lib/paymentCalculation'
 import { getProductById } from '@/services/product'
-import { OrderItem, OrderItemOption } from '@/types/api/order'
 import { useCallback, useEffect, useState } from 'react'
 
 export interface CartInfo {

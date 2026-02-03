@@ -1,3 +1,13 @@
+export type Product = {
+  id: number
+  name: string
+  placeName: string
+  imageUrl: string
+  originalPrice: number
+  discountPrice: number
+  discountRate: number
+}
+
 export type ProductOption = {
   id: number
   name: string

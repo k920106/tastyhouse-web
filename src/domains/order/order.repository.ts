@@ -1,5 +1,5 @@
 import { api } from '@/lib/api'
-import { ApiResponse } from '@/types/api/api'
+import { ApiResponse } from '@/types/common'
 import type { OrderCreateRequest, OrderResponse } from './order.type'
 
 const ENDPOINT = '/api/orders'

@@ -1,6 +1,6 @@
 'use client'
 
-import type { PointBalance, PointHistory } from '@/types/api/point'
+import type { PointBalance, PointHistory } from '@/domains/member'
 import { useRouter } from 'next/navigation'
 import { IoChevronBack } from 'react-icons/io5'
 

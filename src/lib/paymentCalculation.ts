@@ -1,5 +1,5 @@
 import type { MemberCouponListItemResponse } from '@/domains/member'
-import { OrderItem } from '@/types/api/order'
+import type { OrderItem } from '@/domains/order'
 
 export interface PaymentSummary {
   totalDiscountAmount: number

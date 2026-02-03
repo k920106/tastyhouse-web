@@ -1,4 +1,4 @@
-import { PaginationParams } from '@/types/api/api'
+import type { PaginationParams } from '@/types/common'
 
 export type ReviewType = 'ALL' | 'FOLLOWING'
 

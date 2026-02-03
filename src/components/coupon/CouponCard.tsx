@@ -1,4 +1,4 @@
-import { Coupon } from '@/types/api/coupon'
+import type { Coupon } from '@/domains/member'
 
 interface CouponCardProps {
   coupon: Coupon

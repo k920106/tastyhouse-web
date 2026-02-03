@@ -4,7 +4,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from '@/components/ui/shadcn/accordion'
-import { PaymentMethod } from '@/domains/order'
+import type { PaymentMethod } from '@/domains/order'
 
 interface PaymentMethodOption {
   type: PaymentMethod

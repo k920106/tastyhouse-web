@@ -18,7 +18,7 @@ import {
   calculateTotalProductPaymentAmount,
 } from '@/lib/paymentCalculation'
 
-import type { OrderItem } from '@/types/api/order'
+import type { OrderItem } from '@/domains/order'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { useEffect, useMemo, useState } from 'react'

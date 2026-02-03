@@ -1,7 +1,7 @@
 'use client'
 
 import { loginAndRedirect } from '@/app/login/action'
-import { LoginParams } from '@/types/api/auth'
+import type { LoginParams } from '@/domains/member'
 import { useActionState } from 'react'
 
 export default function LoginPage() {
