@@ -1,5 +1,11 @@
 export type OrderMethod = 'TABLE_ORDER' | 'RESERVATION' | 'DELIVERY' | 'TAKEOUT'
-export type PaymentMethod = 'CASH' | 'CARD' | 'CREDIT' | 'PHONE'
+export type PaymentMethod =
+  | 'CASH_ON_SITE'
+  | 'CARD_ON_SITE'
+  | 'CREDIT_CARD'
+  | 'MOBILE'
+  | 'KAKAO_PAY'
+  | 'ZERO_PAY'
 
 export type OrderMethodItem = {
   code: OrderMethod
@@ -39,5 +45,5 @@ export interface OrderCreateRequest {
 }
 
 export interface OrderResponse {
-  orderId: number
+  id: number
 }

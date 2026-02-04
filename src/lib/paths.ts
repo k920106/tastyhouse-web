@@ -26,6 +26,7 @@ export const PAGE_PATHS = {
   ORDER_CHECKOUT: (placeId: string | number) => `/places/${placeId}/order/checkout`,
   ORDER_DETAIL: (placeId: string | number, orderId: string | number) =>
     `/places/${placeId}/order/${orderId}`,
+  ORDER_COMPLETE: (orderId: string | number) => `/orders/${orderId}`,
 
   // 결제
   PAYMENT_DETAIL: (id: string | number) => `/payments/${id}`,

@@ -10,8 +10,11 @@ import SectionStack from '@/components/ui/SectionStack'
 import type { MemberContactResponse, MemberCouponListItemResponse } from '@/domains/member'
 import type { PaymentMethod } from '@/domains/order'
 import { useCartInfo } from '@/hooks/useCartInfo'
+import { PAGE_PATHS } from '@/lib/paths'
 import { calculatePaymentSummary } from '@/lib/paymentCalculation'
 import { createOrder } from '@/services/order'
+import { completeOnSitePayment, createPayment } from '@/services/payment'
+import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import CouponSelector from './CouponSelector'
 import CustomerInfoSection from './CustomerInfoSection'
@@ -19,6 +22,23 @@ import OrderInfoSection from './OrderInfoSection'
 import PaymentMethodSelector from './PaymentMethodSelector'
 import PaymentSummarySection from './PaymentSummarySection'
 import PointSelector from './PointSelector'
+
+/**
+ *     현장결제
+
+     1. POST /api/orders/v1          → 주문 생성 (PENDING)
+     2. POST /api/payments/v1        → 결제 생성 (PENDING, 자동완료 안 함)
+     3. POST /api/payments/v1/{id}/complete → 구매자가 완료 처리 (COMPLETED)
+     4. 주문 완료 페이지 이동
+
+     카드결제 (기존과 동일)
+
+     1. POST /api/orders/v1          → 주문 생성
+     2. POST /api/payments/v1        → 결제 생성
+     3. PG 결제창
+     4. POST /api/payments/v1/confirm → PG 승인 처리
+     5. 주문 완료 페이지 이동
+ */
 
 interface OrderCheckoutSectionProps {
   placeId: number
@@ -43,6 +63,8 @@ export default function OrderCheckoutSection({
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState<PaymentMethod | null>(null)
   const [agreedToTerms, setAgreedToTerms] = useState(false)
 
+  const router = useRouter()
+
   const { totalDiscountAmount, couponDiscount, pointsUsed, paymentAmount } =
     calculatePaymentSummary(totalProductAmount, totalProductDiscount, selectedCoupon, pointInput)
 
@@ -57,7 +79,8 @@ export default function OrderCheckoutSection({
       return
     }
 
-    const request = {
+    // 1. 주문 생성 (PENDING)
+    const orderResult = await createOrder({
       placeId,
       orderItems: items,
       memberCouponId: selectedCoupon?.id ?? null,
@@ -67,16 +90,48 @@ export default function OrderCheckoutSection({
       productDiscountAmount: totalProductDiscount,
       couponDiscountAmount: couponDiscount,
       finalAmount: paymentAmount,
-    }
+    })
 
-    const result = await createOrder(request)
-
-    if (result.error) {
-      toast(result.error)
+    if (orderResult.error) {
+      toast(orderResult.error)
       return
     }
 
-    toast('주문이 완료되었습니다.')
+    const orderId = orderResult.data?.data?.id
+    if (!orderId) {
+      toast('주문 생성에 실패했습니다.')
+      return
+    }
+
+    // 2. 결제 생성 (PENDING)
+    const paymentResult = await createPayment({
+      orderId,
+      paymentMethod: selectedPaymentMethod,
+    })
+
+    if (paymentResult.error) {
+      toast(paymentResult.error)
+      return
+    }
+
+    const paymentId = paymentResult.data?.data?.id
+    if (!paymentId) {
+      toast('결제 생성에 실패했습니다.')
+      return
+    }
+
+    // 3. 현장결제 완료 처리 (COMPLETED)
+    if (selectedPaymentMethod === 'CASH_ON_SITE' || selectedPaymentMethod === 'CARD_ON_SITE') {
+      const completeResult = await completeOnSitePayment(paymentId)
+
+      if (completeResult.error) {
+        toast(completeResult.error)
+        return
+      }
+    }
+
+    // 4. 주문 완료 페이지 이동
+    router.push(PAGE_PATHS.ORDER_COMPLETE(orderId))
   }
 
   return (
