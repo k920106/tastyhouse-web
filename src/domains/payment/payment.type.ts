@@ -5,6 +5,12 @@ export interface PaymentCreateRequest {
   paymentMethod: PaymentMethod
 }
 
+export interface PaymentConfirmRequest {
+  paymentKey: string
+  orderId: string
+  amount: number
+}
+
 export interface PaymentResponse {
   id: number
 }

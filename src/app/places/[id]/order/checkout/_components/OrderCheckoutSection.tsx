@@ -10,6 +10,7 @@ import SectionStack from '@/components/ui/SectionStack'
 import type { MemberContactResponse, MemberCouponListItemResponse } from '@/domains/member'
 import type { PaymentMethod } from '@/domains/order'
 import { useCartInfo } from '@/hooks/useCartInfo'
+import { useTossPayments } from '@/hooks/useTossPayments'
 import { PAGE_PATHS } from '@/lib/paths'
 import { calculatePaymentSummary } from '@/lib/paymentCalculation'
 import { createOrder } from '@/services/order'
@@ -64,6 +65,7 @@ export default function OrderCheckoutSection({
   const [agreedToTerms, setAgreedToTerms] = useState(false)
 
   const router = useRouter()
+  const { tossPayment } = useTossPayments()
 
   const { totalDiscountAmount, couponDiscount, pointsUsed, paymentAmount } =
     calculatePaymentSummary(totalProductAmount, totalProductDiscount, selectedCoupon, pointInput)
@@ -98,6 +100,7 @@ export default function OrderCheckoutSection({
     }
 
     const orderId = orderResult.data?.data?.id
+    console.log(orderId)
     if (!orderId) {
       toast('주문 생성에 실패했습니다.')
       return
@@ -120,7 +123,7 @@ export default function OrderCheckoutSection({
       return
     }
 
-    // 3. 현장결제 완료 처리 (COMPLETED)
+    // 3-A. 현장결제 완료 처리 (COMPLETED)
     if (selectedPaymentMethod === 'CASH_ON_SITE' || selectedPaymentMethod === 'CARD_ON_SITE') {
       const completeResult = await completeOnSitePayment(paymentId)
 
@@ -128,10 +131,45 @@ export default function OrderCheckoutSection({
         toast(completeResult.error)
         return
       }
+
+      // 주문 완료 페이지 이동
+      router.push(PAGE_PATHS.ORDER_COMPLETE(orderId))
+      return
     }
 
-    // 4. 주문 완료 페이지 이동
-    router.push(PAGE_PATHS.ORDER_COMPLETE(orderId))
+    // 3-B. 신용카드 결제 - PG 결제창 호출
+    if (selectedPaymentMethod === 'CREDIT_CARD') {
+      if (!tossPayment) {
+        toast('결제 모듈을 불러오는 중입니다. 잠시 후 다시 시도해주세요.')
+        return
+      }
+
+      const orderName =
+        totalItemCount > 1 ? `${firstProductName} 외 ${totalItemCount - 1}건` : firstProductName
+
+      console.log(customerInfo)
+
+      await tossPayment.requestPayment({
+        method: 'CARD',
+        amount: {
+          currency: 'KRW',
+          value: paymentAmount,
+        },
+        orderId: `ORDER_${orderId}`,
+        orderName,
+        successUrl: window.location.origin + PAGE_PATHS.PAYMENT_SUCCESS,
+        failUrl: window.location.origin + PAGE_PATHS.PAYMENT_FAIL,
+        customerEmail: customerInfo?.email,
+        customerName: customerInfo?.fullName,
+        customerMobilePhone: customerInfo?.phoneNumber,
+        card: {
+          useEscrow: false,
+          flowMode: 'DEFAULT',
+          useCardPoint: false,
+          useAppCardOnly: false,
+        },
+      })
+    }
   }
 
   return (

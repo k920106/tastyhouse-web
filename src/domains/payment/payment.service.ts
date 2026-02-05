@@ -1,4 +1,4 @@
-import type { PaymentCreateRequest } from './payment.type'
+import type { PaymentConfirmRequest, PaymentCreateRequest } from './payment.type'
 import { paymentRepository } from './payment.repository'
 
 export const paymentService = {
@@ -8,5 +8,9 @@ export const paymentService = {
 
   async completeOnSitePayment(paymentId: number) {
     return await paymentRepository.completeOnSitePayment(paymentId)
+  },
+
+  async confirmPayment(request: PaymentConfirmRequest) {
+    return await paymentRepository.confirmPayment(request)
   },
 }

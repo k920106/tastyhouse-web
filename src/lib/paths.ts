@@ -30,6 +30,8 @@ export const PAGE_PATHS = {
 
   // 결제
   PAYMENT_DETAIL: (id: string | number) => `/payments/${id}`,
+  PAYMENT_SUCCESS: '/payments/success',
+  PAYMENT_FAIL: '/payments/fail',
 
   // 리뷰
   REVIEWS: '/reviews',
