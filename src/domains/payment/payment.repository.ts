@@ -13,7 +13,17 @@ export const paymentRepository = {
     return api.post<ApiResponse<PaymentResponse>>(`${ENDPOINT}/v1/${paymentId}/complete`)
   },
 
-  async confirmPayment(request: PaymentConfirmRequest) {
-    return api.post<ApiResponse<PaymentResponse>>(`${ENDPOINT}/v1/confirm`, request)
+  async confirmPaymentToss(request: PaymentConfirmRequest, accessToken?: string) {
+    return api.post<ApiResponse<PaymentResponse>>(
+      `${ENDPOINT}/v1/toss/confirm`,
+      request,
+      accessToken
+        ? {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          }
+        : undefined,
+    )
   },
 }

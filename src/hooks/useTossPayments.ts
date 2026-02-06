@@ -1,11 +1,11 @@
 'use client'
 
-import { loadTossPayments } from '@tosspayments/tosspayments-sdk'
 import type { TossPaymentsPayment } from '@tosspayments/tosspayments-sdk'
+import { loadTossPayments } from '@tosspayments/tosspayments-sdk'
 import { useEffect, useState } from 'react'
 
-const TOSS_CLIENT_KEY = 'test_ck_D5GePWvyJnrK0W0k6q8gLzN97Eoq'
-const TOSS_CUSTOMER_KEY = 'G8oetVW6rvGiNKBFV1W0F'
+const TOSS_CLIENT_KEY = process.env.NEXT_PUBLIC_TOSSPAY_CLIENT_KEY ?? ''
+const TOSS_CUSTOMER_KEY = process.env.NEXT_PUBLIC_TOSSPAY_CUSTOMER_KEY ?? ''
 
 export function useTossPayments() {
   const [tossPayment, setTossPayment] = useState<TossPaymentsPayment | null>(null)

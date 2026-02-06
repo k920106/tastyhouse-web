@@ -7,10 +7,12 @@ export interface PaymentCreateRequest {
 
 export interface PaymentConfirmRequest {
   paymentKey: string
-  orderId: string
+  pgOrderId: string
   amount: number
 }
 
 export interface PaymentResponse {
   id: number
+  orderId: number
+  pgOrderId: string
 }

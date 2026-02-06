@@ -24,23 +24,6 @@ import PaymentMethodSelector from './PaymentMethodSelector'
 import PaymentSummarySection from './PaymentSummarySection'
 import PointSelector from './PointSelector'
 
-/**
- *     현장결제
-
-     1. POST /api/orders/v1          → 주문 생성 (PENDING)
-     2. POST /api/payments/v1        → 결제 생성 (PENDING, 자동완료 안 함)
-     3. POST /api/payments/v1/{id}/complete → 구매자가 완료 처리 (COMPLETED)
-     4. 주문 완료 페이지 이동
-
-     카드결제 (기존과 동일)
-
-     1. POST /api/orders/v1          → 주문 생성
-     2. POST /api/payments/v1        → 결제 생성
-     3. PG 결제창
-     4. POST /api/payments/v1/confirm → PG 승인 처리
-     5. 주문 완료 페이지 이동
- */
-
 interface OrderCheckoutSectionProps {
   placeId: number
   placeName: string
@@ -56,6 +39,8 @@ export default function OrderCheckoutSection({
   availableCoupons,
   usablePoints,
 }: OrderCheckoutSectionProps) {
+  const router = useRouter()
+
   const { items, firstProductName, totalItemCount, totalProductAmount, totalProductDiscount } =
     useCartInfo()
 
@@ -64,7 +49,6 @@ export default function OrderCheckoutSection({
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState<PaymentMethod | null>(null)
   const [agreedToTerms, setAgreedToTerms] = useState(false)
 
-  const router = useRouter()
   const { tossPayment } = useTossPayments()
 
   const { totalDiscountAmount, couponDiscount, pointsUsed, paymentAmount } =
@@ -100,7 +84,6 @@ export default function OrderCheckoutSection({
     }
 
     const orderId = orderResult.data?.data?.id
-    console.log(orderId)
     if (!orderId) {
       toast('주문 생성에 실패했습니다.')
       return
@@ -117,7 +100,12 @@ export default function OrderCheckoutSection({
       return
     }
 
-    const paymentId = paymentResult.data?.data?.id
+    if (!paymentResult.data?.data) {
+      toast(paymentResult.data?.message ?? '결제 생성에 실패했습니다.')
+      return
+    }
+
+    const paymentId = paymentResult.data.data.id
     if (!paymentId) {
       toast('결제 생성에 실패했습니다.')
       return
@@ -147,18 +135,16 @@ export default function OrderCheckoutSection({
       const orderName =
         totalItemCount > 1 ? `${firstProductName} 외 ${totalItemCount - 1}건` : firstProductName
 
-      console.log(customerInfo)
-
       await tossPayment.requestPayment({
         method: 'CARD',
         amount: {
           currency: 'KRW',
           value: paymentAmount,
         },
-        orderId: `ORDER_${orderId}`,
+        orderId: paymentResult.data.data.pgOrderId,
         orderName,
-        successUrl: window.location.origin + PAGE_PATHS.PAYMENT_SUCCESS,
-        failUrl: window.location.origin + PAGE_PATHS.PAYMENT_FAIL,
+        successUrl: `${window.location.origin}/api/payments/tosspayments/success`,
+        failUrl: `${window.location.origin}/api/payments/tosspayments/fail`,
         customerEmail: customerInfo?.email,
         customerName: customerInfo?.fullName,
         customerMobilePhone: customerInfo?.phoneNumber,

@@ -54,14 +54,14 @@ export async function login(params: LoginParams): Promise<LoginResult> {
     cookieStore.set('accessToken', data.accessToken, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
-      sameSite: 'strict',
+      sameSite: 'lax', // 외부 리다이렉트(토스페이먼츠) 허용
       path: '/',
       maxAge: 60 * 60 * 24, // 1 day
     })
     cookieStore.set('refreshToken', data.refreshToken, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
-      sameSite: 'strict',
+      sameSite: 'lax', // 외부 리다이렉트(토스페이먼츠) 허용
       path: '/',
       maxAge: 60 * 60 * 24 * 7, // 7 days
     })
