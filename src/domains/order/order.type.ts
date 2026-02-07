@@ -94,3 +94,7 @@ export interface OrderDetailResponse {
   payment: PaymentSummaryResponse
   createdAt: string
 }
+
+export interface OrderCancelRequest {
+  reason?: string
+}
