@@ -32,7 +32,13 @@ export function getTimeDifference(end: string | Date): TimeDifference {
 /**
  * Supported date format types.
  */
-export type DateFormat = 'YYYY.MM.DD' | 'MM.DD' | 'YYYY-MM-DD' | 'MM-DD' | 'YYYY년 M월 D일'
+export type DateFormat =
+  | 'YYYY.MM.DD'
+  | 'MM.DD'
+  | 'YYYY-MM-DD'
+  | 'MM-DD'
+  | 'YYYY년 M월 D일'
+  | 'YYYY-MM-DD HH:mm'
 
 /**
  * Represents parsed date components.
@@ -43,6 +49,8 @@ interface DateComponents {
   monthWithoutZero: string
   day: string
   dayWithoutZero: string
+  hour: string
+  minute: string
 }
 
 /**
@@ -56,6 +64,8 @@ function extractDateComponents(date: Date): DateComponents {
   const year = date.getFullYear()
   const month = String(date.getMonth() + 1).padStart(2, '0')
   const day = String(date.getDate()).padStart(2, '0')
+  const hour = String(date.getHours()).padStart(2, '0')
+  const minute = String(date.getMinutes()).padStart(2, '0')
 
   return {
     year,
@@ -63,6 +73,8 @@ function extractDateComponents(date: Date): DateComponents {
     monthWithoutZero: month.replace(/^0/, ''),
     day,
     dayWithoutZero: day.replace(/^0/, ''),
+    hour,
+    minute,
   }
 }
 
@@ -76,6 +88,8 @@ const formatFormatters: Record<DateFormat, (components: DateComponents) => strin
   'MM-DD': ({ month, day }) => `${month}-${day}`,
   'YYYY년 M월 D일': ({ year, monthWithoutZero, dayWithoutZero }) =>
     `${year}년 ${monthWithoutZero}월 ${dayWithoutZero}일`,
+  'YYYY-MM-DD HH:mm': ({ year, month, day, hour, minute }) =>
+    `${year}-${month}-${day} ${hour}:${minute}`,
 }
 
 /**
