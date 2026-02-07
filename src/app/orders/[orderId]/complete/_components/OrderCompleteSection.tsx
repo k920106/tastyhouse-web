@@ -26,10 +26,17 @@ export default function OrderCompleteSection({ orderDetail }: OrderCompleteSecti
     orderStatus,
     placeName,
     orderItems,
-    customerInfo,
-    reservationInfo,
-    paymentInfo,
-    paymentBreakdown,
+    ordererName,
+    ordererPhone,
+    ordererEmail,
+    totalProductAmount,
+    productDiscountAmount,
+    couponDiscountAmount,
+    pointDiscountAmount,
+    totalDiscountAmount,
+    finalAmount,
+    usedPoint,
+    payment,
   } = orderDetail
 
   const statusColor =
@@ -49,6 +56,9 @@ export default function OrderCompleteSection({ orderDetail }: OrderCompleteSecti
         : orderStatus === 'CANCELLED'
           ? '결제취소'
           : orderStatus
+
+  console.log(orderDetail)
+  console.log(orderItems)
 
   return (
     <section className="min-h-screen flex flex-col bg-white">
@@ -77,13 +87,13 @@ export default function OrderCompleteSection({ orderDetail }: OrderCompleteSecti
           </div>
           <div className="px-4 pb-[5px]">
             <div className="divide-y divide-[#eeeeee] first:border-t border-[#eeeeee]">
-              {orderItems.map((item, index) => (
-                <div key={index} className="flex items-center gap-[15px] py-[15px]">
-                  <ImageContainer src={item.imageUrl} alt={item.name} size={50} />
+              {orderItems.map((item) => (
+                <div key={item.id} className="flex items-center gap-[15px] py-[15px]">
+                  <ImageContainer src={item.productImageUrl} alt={item.productName} size={50} />
                   <div className="flex flex-col gap-2.5">
-                    <h3 className="text-sm leading-[14px]">{item.name}</h3>
+                    <h3 className="text-sm leading-[14px]">{item.productName}</h3>
                     <p className="text-sm leading-[14px]">
-                      {formatNumber(item.salePrice)}원 | {item.quantity}개
+                      {formatNumber(item.unitPrice)}원 | {item.quantity}개
                     </p>
                   </div>
                 </div>
@@ -104,52 +114,21 @@ export default function OrderCompleteSection({ orderDetail }: OrderCompleteSecti
                       <span className="w-30 text-sm leading-[14px] text-[#666666]">
                         주문하는 분
                       </span>
-                      <span className="text-sm leading-[14px]">{customerInfo.fullName}</span>
+                      <span className="text-sm leading-[14px]">{ordererName}</span>
                     </div>
                     <div className="flex">
                       <span className="w-30 text-sm leading-[14px] text-[#666666]">휴대폰</span>
-                      <span className="text-sm leading-[14px]">{customerInfo.phoneNumber}</span>
+                      <span className="text-sm leading-[14px]">{ordererPhone}</span>
                     </div>
                     <div className="flex">
                       <span className="w-30 text-sm leading-[14px] text-[#666666]">이메일</span>
-                      <span className="text-sm leading-[14px]">{customerInfo.email}</span>
+                      <span className="text-sm leading-[14px]">{ordererEmail}</span>
                     </div>
                   </div>
                 </div>
               </AccordionContent>
             </AccordionItem>
           </Accordion>
-        </BorderedSection>
-        <BorderedSection>
-          <div className="px-[15px] py-5">
-            <div className="pb-[30px]">
-              <h2 className="text-base leading-[16px]">예약 정보</h2>
-            </div>
-            <div className="space-y-[15px]">
-              <div className="flex">
-                <span className="w-30 text-sm leading-[14px] text-[#666666]">주문방법</span>
-                <span className="text-sm leading-[14px]">{reservationInfo.orderMethod}</span>
-              </div>
-              <div className="flex">
-                <span className="w-30 text-sm leading-[14px] text-[#666666]">주문상태</span>
-                <span className="text-sm leading-[14px]">{reservationInfo.orderStatus}</span>
-              </div>
-              <div className="flex">
-                <span className="w-30 text-sm leading-[14px] text-[#666666]">예약날짜</span>
-                <span className="text-sm leading-[14px]">
-                  {reservationInfo.reservationDateTime}
-                </span>
-              </div>
-              <div className="flex">
-                <span className="w-30 text-sm leading-[14px] text-[#666666]">예약인원</span>
-                <span className="text-sm leading-[14px]">{reservationInfo.numberOfPeople}명</span>
-              </div>
-              <div className="flex">
-                <span className="w-30 text-sm leading-[14px] text-[#666666]">요청사항</span>
-                <span className="text-sm leading-[14px]">{reservationInfo.specialRequest}</span>
-              </div>
-            </div>
-          </div>
         </BorderedSection>
         <BorderedSection>
           <Accordion type="single" collapsible defaultValue="payment-info">
@@ -162,17 +141,15 @@ export default function OrderCompleteSection({ orderDetail }: OrderCompleteSecti
                   <div className="space-y-[15px]">
                     <div className="flex justify-between">
                       <span className="text-sm leading-[14px]">결제시간</span>
-                      <span className="text-sm leading-[14px]">
-                        {paymentInfo.paymentDateTime}
-                      </span>
+                      <span className="text-sm leading-[14px]">{payment.paymentDateTime}</span>
                     </div>
                     <div className="flex justify-between">
                       <span className="text-sm leading-[14px]">결제방법</span>
                       <div className="flex flex-col items-end gap-1">
-                        <p className="text-sm leading-[14px]">{paymentInfo.paymentMethod}</p>
-                        {paymentInfo.cardNumber && (
+                        <p className="text-sm leading-[14px]">{payment.paymentMethod}</p>
+                        {payment.cardNumber && (
                           <p className="text-[11px] leading-[11px] text-[#aaaaaa]">
-                            {paymentInfo.cardNumber}
+                            {payment.cardNumber}
                           </p>
                         )}
                       </div>
@@ -195,47 +172,47 @@ export default function OrderCompleteSection({ orderDetail }: OrderCompleteSecti
                     <div className="flex justify-between">
                       <span className="text-sm leading-[14px]">상품금액</span>
                       <span className="text-sm leading-[14px]">
-                        {formatNumber(paymentBreakdown.totalProductAmount)}원
+                        {formatNumber(totalProductAmount)}원
                       </span>
                     </div>
                     <div>
                       <div className="flex justify-between">
                         <span className="text-sm leading-[14px]">할인금액</span>
                         <span className="text-sm leading-[14px]">
-                          {paymentBreakdown.totalDiscountAmount > 0
-                            ? `- ${formatNumber(paymentBreakdown.totalDiscountAmount)}원`
+                          {totalDiscountAmount > 0
+                            ? `- ${formatNumber(totalDiscountAmount)}원`
                             : '0원'}
                         </span>
                       </div>
-                      {paymentBreakdown.totalDiscountAmount > 0 && (
+                      {totalDiscountAmount > 0 && (
                         <div className="pt-2.5 space-y-2.5">
-                          {paymentBreakdown.productDiscountAmount > 0 && (
+                          {productDiscountAmount > 0 && (
                             <div className="flex justify-between">
                               <span className="text-xs leading-[12px] text-[#aaaaaa]">
                                 상품 할인
                               </span>
                               <span className="text-xs leading-[12px] text-[#aaaaaa]">
-                                - {formatNumber(paymentBreakdown.productDiscountAmount)}원
+                                - {formatNumber(productDiscountAmount)}원
                               </span>
                             </div>
                           )}
-                          {paymentBreakdown.couponDiscountAmount > 0 && (
+                          {couponDiscountAmount > 0 && (
                             <div className="flex justify-between">
                               <span className="text-xs leading-[12px] text-[#aaaaaa]">
                                 쿠폰 사용
                               </span>
                               <span className="text-xs leading-[12px] text-[#aaaaaa]">
-                                - {formatNumber(paymentBreakdown.couponDiscountAmount)}원
+                                - {formatNumber(couponDiscountAmount)}원
                               </span>
                             </div>
                           )}
-                          {paymentBreakdown.pointsUsed > 0 && (
+                          {usedPoint > 0 && (
                             <div className="flex justify-between">
                               <span className="text-xs leading-[12px] text-[#aaaaaa]">
                                 포인트 사용
                               </span>
                               <span className="text-xs leading-[12px] text-[#aaaaaa]">
-                                {formatNumber(paymentBreakdown.pointsUsed)}원
+                                - {formatNumber(usedPoint)}원
                               </span>
                             </div>
                           )}
@@ -244,9 +221,7 @@ export default function OrderCompleteSection({ orderDetail }: OrderCompleteSecti
                     </div>
                     <div className="flex justify-between">
                       <span className="text-sm leading-[14px]">최종 결제금액</span>
-                      <span className="text-sm leading-[14px]">
-                        {formatNumber(paymentBreakdown.finalAmount)}원
-                      </span>
+                      <span className="text-sm leading-[14px]">{formatNumber(finalAmount)}원</span>
                     </div>
                   </div>
                 </div>
