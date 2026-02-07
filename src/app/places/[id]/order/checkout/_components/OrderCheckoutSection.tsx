@@ -2,10 +2,8 @@
 
 import Header, { HeaderCenter, HeaderLeft } from '@/components/layouts/Header'
 import { BackButton } from '@/components/layouts/header-parts'
-import AppButton from '@/components/ui/AppButton'
 import { toast } from '@/components/ui/AppToaster'
 import BorderedSection from '@/components/ui/BorderedSection'
-import CircleCheckbox from '@/components/ui/CircleCheckbox'
 import SectionStack from '@/components/ui/SectionStack'
 import type { MemberContactResponse, MemberCouponListItemResponse } from '@/domains/member'
 import type { PaymentMethod } from '@/domains/order'
@@ -17,12 +15,13 @@ import { createOrder } from '@/services/order'
 import { completeOnSitePayment, createPayment } from '@/services/payment'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
-import CouponSelector from './CouponSelector'
 import CustomerInfoSection from './CustomerInfoSection'
+import DiscountApplicationSection from './DiscountApplicationSection'
 import OrderInfoSection from './OrderInfoSection'
+import OrderTermsAgreement from './OrderTermsAgreement'
+import PaymentActionBar from './PaymentActionBar'
 import PaymentMethodSelector from './PaymentMethodSelector'
 import PaymentSummarySection from './PaymentSummarySection'
-import PointSelector from './PointSelector'
 
 interface OrderCheckoutSectionProps {
   placeId: number
@@ -181,24 +180,15 @@ export default function OrderCheckoutSection({
           <CustomerInfoSection customerInfo={customerInfo} />
         </BorderedSection>
         <BorderedSection>
-          <div className="px-[15px] py-5">
-            <div className="pb-[30px]">
-              <h2 className="text-base leading-[16px]">쿠폰/적립금 사용</h2>
-            </div>
-            <div className="space-y-5">
-              <CouponSelector
-                availableCoupons={availableCoupons}
-                totalProductAmount={totalProductAmount}
-                selectedCoupon={selectedCoupon}
-                onCouponSelect={setSelectedCoupon}
-              />
-              <PointSelector
-                availablePoints={usablePoints}
-                pointInput={pointInput}
-                onPointInputChange={setPointInput}
-              />
-            </div>
-          </div>
+          <DiscountApplicationSection
+            availableCoupons={availableCoupons}
+            totalProductAmount={totalProductAmount}
+            selectedCoupon={selectedCoupon}
+            onCouponSelect={setSelectedCoupon}
+            availablePoints={usablePoints}
+            pointInput={pointInput}
+            onPointInputChange={setPointInput}
+          />
         </BorderedSection>
         <BorderedSection>
           <PaymentSummarySection
@@ -217,24 +207,10 @@ export default function OrderCheckoutSection({
           />
         </BorderedSection>
         <BorderedSection className="border-b-0">
-          <div className="px-[15px] py-5">
-            <label className="flex items-center gap-2.5 cursor-pointer">
-              <CircleCheckbox
-                checked={agreedToTerms}
-                onChange={() => setAgreedToTerms(!agreedToTerms)}
-              />
-              <span className="text-sm leading-[21px]">
-                위 주문의 상품 및 결제, 주문 정보 등을 확인하였으며, 이에 동의합니다. (필수)
-              </span>
-            </label>
-          </div>
+          <OrderTermsAgreement agreed={agreedToTerms} onAgreementChange={setAgreedToTerms} />
         </BorderedSection>
       </SectionStack>
-      <div className="px-[15px] py-5">
-        <AppButton className="!bg-[#a91201]" onClick={handlePayment}>
-          결제하기
-        </AppButton>
-      </div>
+      <PaymentActionBar onPaymentClick={handlePayment} />
     </section>
   )
 }
