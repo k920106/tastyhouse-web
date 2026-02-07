@@ -35,7 +35,6 @@ export default function OrderCompleteSection({ orderDetail }: OrderCompleteSecti
     pointDiscountAmount,
     totalDiscountAmount,
     finalAmount,
-    usedPoint,
     payment,
   } = orderDetail
 
@@ -56,9 +55,6 @@ export default function OrderCompleteSection({ orderDetail }: OrderCompleteSecti
         : orderStatus === 'CANCELLED'
           ? '결제취소'
           : orderStatus
-
-  console.log(orderDetail)
-  console.log(orderItems)
 
   return (
     <section className="min-h-screen flex flex-col bg-white">
@@ -206,13 +202,13 @@ export default function OrderCompleteSection({ orderDetail }: OrderCompleteSecti
                               </span>
                             </div>
                           )}
-                          {usedPoint > 0 && (
+                          {pointDiscountAmount > 0 && (
                             <div className="flex justify-between">
                               <span className="text-xs leading-[12px] text-[#aaaaaa]">
                                 포인트 사용
                               </span>
                               <span className="text-xs leading-[12px] text-[#aaaaaa]">
-                                - {formatNumber(usedPoint)}원
+                                - {formatNumber(pointDiscountAmount)}원
                               </span>
                             </div>
                           )}
