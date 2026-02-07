@@ -1,8 +1,5 @@
 import { PlaceAmenityCode, PlaceFoodType } from '@/domains/place'
 
-/**
- * Name constants
- */
 const PLACE_FOOD_TYPE_NAMES: Record<PlaceFoodType, string> = {
   KOREAN: '한식',
   JAPANESE: '일식',

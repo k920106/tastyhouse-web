@@ -1,11 +1,6 @@
+import { PaymentMethod } from '../payment'
+
 export type OrderMethod = 'TABLE_ORDER' | 'RESERVATION' | 'DELIVERY' | 'TAKEOUT'
-export type PaymentMethod =
-  | 'CASH_ON_SITE'
-  | 'CARD_ON_SITE'
-  | 'CREDIT_CARD'
-  | 'MOBILE'
-  | 'KAKAO_PAY'
-  | 'ZERO_PAY'
 
 export type OrderMethodItem = {
   code: OrderMethod
@@ -75,6 +70,7 @@ export interface PaymentSummaryResponse {
   approvedAt: string
   paymentMethod: PaymentMethod
   paymentStatus: PaymentStatus
+  cardCompany?: string
   cardNumber?: string
 }
 

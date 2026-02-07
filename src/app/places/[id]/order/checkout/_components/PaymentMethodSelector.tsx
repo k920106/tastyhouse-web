@@ -4,47 +4,19 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from '@/components/ui/shadcn/accordion'
-import type { PaymentMethod } from '@/domains/order'
-
-interface PaymentMethodOption {
-  type: PaymentMethod
-  label: string
-  badge?: string
-  benefitTitle?: string
-  benefitDescription?: string
-}
+import { PAYMENT_METHODS } from '@/constants/payment'
+import type { PaymentMethod } from '@/domains/payment'
 
 interface PaymentMethodSelectorProps {
   selectedPaymentMethod: PaymentMethod | null
   onPaymentMethodSelect: (method: PaymentMethod) => void
 }
 
-const paymentMethods: PaymentMethodOption[] = [
-  {
-    type: 'CASH_ON_SITE',
-    label: '현장에서 현금 결제',
-    badge: '혜택',
-    benefitTitle: '현장에서 현금 결제',
-    benefitDescription: '현장(가게)에서 현금으로 결제시 최대 10% 포인트 적립',
-  },
-  {
-    type: 'CARD_ON_SITE',
-    label: '현장에서 카드 결제',
-    badge: '혜택',
-    benefitTitle: '현장에서 카드 결제',
-    benefitDescription: '현장(가게)에서 카드로 결제시 최대 10% 포인트 적립',
-  },
-  { type: 'CREDIT_CARD', label: '신용카드' },
-  { type: 'MOBILE', label: '휴대폰 결제' },
-  // { type: 'KAKAO_PAY', label: '카카오페이' },
-  // { type: 'ZERO_PAY', label: '제로페이' },
-]
-
 export default function PaymentMethodSelector({
   selectedPaymentMethod,
   onPaymentMethodSelect,
 }: PaymentMethodSelectorProps) {
-  const selectedMethod = paymentMethods.find((method) => method.type === selectedPaymentMethod)
+  const selectedMethod = PAYMENT_METHODS.find((method) => method.type === selectedPaymentMethod)
 
   return (
     <Accordion type="single" collapsible defaultValue="payment-method">
@@ -55,7 +27,7 @@ export default function PaymentMethodSelector({
         <AccordionContent className="p-0">
           <div className="px-[15px] pt-2.5 pb-5">
             <div className="grid grid-cols-2 gap-2.5">
-              {paymentMethods.map((method) => (
+              {PAYMENT_METHODS.map((method) => (
                 <button
                   key={method.type}
                   onClick={() => onPaymentMethodSelect(method.type)}
