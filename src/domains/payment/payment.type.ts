@@ -28,10 +28,15 @@ export interface PaymentConfirmRequest {
 }
 
 export interface PaymentCancelRequest {
-  reason?: string
+  cancelReason: string
 }
 
-export type PaymentCancelCode = 'SUCCESS' | 'ALREADY_PREPARING' | 'ALREADY_CANCELLED' | 'ORDER_COMPLETED'
+export type PaymentCancelCode =
+  | 'SUCCESS'
+  | 'ALREADY_PREPARING'
+  | 'ALREADY_CANCELLED'
+  | 'ORDER_COMPLETED'
+  | 'CANCEL_FAILED'
 
 export interface PaymentCancelResponse {
   code: PaymentCancelCode
