@@ -32,7 +32,7 @@ export default function OrderInfoSection({
   return (
     <Accordion type="single" collapsible defaultValue="order-info">
       <AccordionItem value="order-info" className="border-b-0">
-        <AccordionTrigger className="items-center px-[15px] py-5 hover:no-underline">
+        <AccordionTrigger className="items-center px-[15px] pt-5 pb-[15px] hover:no-underline">
           <div className="flex-1 flex items-center justify-between gap-2">
             <h2 className="text-base leading-[16px]">{placeName}</h2>
             <span className="text-xs leading-[12px] text-[#aaaaaa]">
