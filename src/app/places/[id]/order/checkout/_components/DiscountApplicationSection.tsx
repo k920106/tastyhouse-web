@@ -5,6 +5,7 @@ import PointSelector from './PointSelector'
 interface DiscountApplicationSectionProps {
   availableCoupons: MemberCouponListItemResponse[]
   totalProductAmount: number
+  totalProductDiscountAmount: number
   selectedCoupon: MemberCouponListItemResponse | null
   onCouponSelect: (coupon: MemberCouponListItemResponse | null) => void
   availablePoints: number
@@ -15,6 +16,7 @@ interface DiscountApplicationSectionProps {
 export default function DiscountApplicationSection({
   availableCoupons,
   totalProductAmount,
+  totalProductDiscountAmount,
   selectedCoupon,
   onCouponSelect,
   availablePoints,
@@ -30,6 +32,7 @@ export default function DiscountApplicationSection({
         <CouponSelector
           availableCoupons={availableCoupons}
           totalProductAmount={totalProductAmount}
+          totalProductDiscountAmount={totalProductDiscountAmount}
           selectedCoupon={selectedCoupon}
           onCouponSelect={onCouponSelect}
         />

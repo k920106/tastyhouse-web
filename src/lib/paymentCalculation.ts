@@ -53,11 +53,14 @@ export function calculatePaymentSummary(
   selectedCoupon: MemberCouponListItemResponse | null,
   pointInput: string,
 ): PaymentSummary {
+  // 상품 금액에서 상품 할인을 제외한 금액
+  const amountAfterProductDiscount = productTotal - productDiscount
+
   const couponDiscount = selectedCoupon
     ? selectedCoupon.discountType === 'AMOUNT'
       ? selectedCoupon.discountAmount
       : Math.min(
-          Math.floor((productTotal * selectedCoupon.discountAmount) / 100),
+          Math.floor((amountAfterProductDiscount * selectedCoupon.discountAmount) / 100),
           selectedCoupon.maxDiscountAmount || Infinity,
         )
     : 0

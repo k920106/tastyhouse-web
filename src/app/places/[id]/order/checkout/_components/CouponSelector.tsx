@@ -17,6 +17,7 @@ import { useState } from 'react'
 interface CouponSelectorProps {
   availableCoupons: MemberCouponListItemResponse[]
   totalProductAmount: number
+  totalProductDiscountAmount: number
   selectedCoupon: MemberCouponListItemResponse | null
   onCouponSelect: (coupon: MemberCouponListItemResponse | null) => void
 }
@@ -24,6 +25,7 @@ interface CouponSelectorProps {
 export default function CouponSelector({
   availableCoupons,
   totalProductAmount,
+  totalProductDiscountAmount,
   selectedCoupon,
   onCouponSelect,
 }: CouponSelectorProps) {
@@ -31,6 +33,9 @@ export default function CouponSelector({
   const [tempSelectedCoupon, setTempSelectedCoupon] = useState<MemberCouponListItemResponse | null>(
     null,
   )
+
+  // 상품 금액에서 상품 할인을 제외한 금액
+  const amountAfterProductDiscount = totalProductAmount - totalProductDiscountAmount
 
   const handleDrawerOpen = () => {
     setTempSelectedCoupon(selectedCoupon)
@@ -44,7 +49,7 @@ export default function CouponSelector({
       return
     }
 
-    if (tempSelectedCoupon && tempSelectedCoupon.minOrderAmount > totalProductAmount) {
+    if (tempSelectedCoupon && tempSelectedCoupon.minOrderAmount > amountAfterProductDiscount) {
       toast(`${formatNumber(tempSelectedCoupon.minOrderAmount)}원 이상 결제 시 사용 가능합니다.`)
       return
     }

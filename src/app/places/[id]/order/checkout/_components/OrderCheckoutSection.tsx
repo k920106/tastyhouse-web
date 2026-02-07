@@ -183,6 +183,7 @@ export default function OrderCheckoutSection({
           <DiscountApplicationSection
             availableCoupons={availableCoupons}
             totalProductAmount={totalProductAmount}
+            totalProductDiscountAmount={totalProductDiscount}
             selectedCoupon={selectedCoupon}
             onCouponSelect={setSelectedCoupon}
             availablePoints={usablePoints}
