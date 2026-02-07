@@ -5,6 +5,7 @@ import {
   AccordionTrigger,
 } from '@/components/ui/shadcn/accordion'
 import type { MemberContactResponse } from '@/domains/member'
+import { formatPhoneNumber } from '@/lib/utils'
 
 interface CustomerInfoSectionProps {
   customerInfo: MemberContactResponse | null
@@ -26,7 +27,9 @@ export default function CustomerInfoSection({ customerInfo }: CustomerInfoSectio
               </div>
               <div className="flex">
                 <span className="w-30 text-sm leading-[14px] text-[#666666]">휴대폰</span>
-                <span className="text-sm leading-[14px]">{customerInfo?.phoneNumber}</span>
+                <span className="text-sm leading-[14px]">
+                  {formatPhoneNumber(customerInfo?.phoneNumber ?? '')}
+                </span>
               </div>
               <div className="flex">
                 <span className="w-30 text-sm leading-[14px] text-[#666666]">이메일</span>

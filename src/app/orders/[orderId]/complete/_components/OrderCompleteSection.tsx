@@ -15,6 +15,7 @@ import {
 } from '@/components/ui/shadcn/accordion'
 import type { OrderDetailResponse } from '@/domains/order'
 import { formatNumber } from '@/lib/number'
+import { formatPhoneNumber } from '@/lib/utils'
 
 interface OrderCompleteSectionProps {
   orderDetail: OrderDetailResponse
@@ -124,7 +125,7 @@ export default function OrderCompleteSection({ orderDetail }: OrderCompleteSecti
                     </div>
                     <div className="flex">
                       <span className="w-30 text-sm leading-[14px] text-[#666666]">휴대폰</span>
-                      <span className="text-sm leading-[14px]">{ordererPhone}</span>
+                      <span className="text-sm leading-[14px]">{formatPhoneNumber(ordererPhone)}</span>
                     </div>
                     <div className="flex">
                       <span className="w-30 text-sm leading-[14px] text-[#666666]">이메일</span>
