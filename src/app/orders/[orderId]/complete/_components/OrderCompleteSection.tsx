@@ -13,6 +13,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from '@/components/ui/shadcn/accordion'
+import { getPaymentMethodName } from '@/constants/payment'
 import type { OrderDetailResponse } from '@/domains/order'
 import { formatDate } from '@/lib/date'
 import { formatNumber } from '@/lib/number'
@@ -158,10 +159,12 @@ export default function OrderCompleteSection({ orderDetail }: OrderCompleteSecti
                     <div className="flex justify-between">
                       <span className="text-sm leading-[14px]">결제방법</span>
                       <div className="flex flex-col items-end gap-1">
-                        <p className="text-sm leading-[14px]">{payment.paymentMethod}</p>
+                        <p className="text-sm leading-[14px]">
+                          {getPaymentMethodName(payment.paymentMethod)}
+                        </p>
                         {payment.cardNumber && (
                           <p className="text-[11px] leading-[11px] text-[#aaaaaa]">
-                            {payment.cardNumber}
+                            {payment.cardCompany}({payment.cardNumber})
                           </p>
                         )}
                       </div>
