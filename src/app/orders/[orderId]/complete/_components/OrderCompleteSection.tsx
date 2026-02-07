@@ -17,7 +17,6 @@ interface OrderCompleteSectionProps {
 
 export default function OrderCompleteSection({ orderDetail }: OrderCompleteSectionProps) {
   const {
-    id,
     orderNumber,
     orderStatus,
     placeName,
@@ -75,7 +74,7 @@ export default function OrderCompleteSection({ orderDetail }: OrderCompleteSecti
           <RefundPolicySection />
         </BorderedSection>
       </SectionStack>
-      <CancelOrderButton orderId={id} />
+      <CancelOrderButton paymentId={payment.id} />
     </section>
   )
 }

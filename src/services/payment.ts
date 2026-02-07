@@ -1,6 +1,6 @@
 'use server'
 
-import type { PaymentConfirmRequest, PaymentCreateRequest } from '@/domains/payment'
+import type { PaymentCancelRequest, PaymentConfirmRequest, PaymentCreateRequest } from '@/domains/payment'
 import { paymentService } from '@/domains/payment'
 
 export async function createPayment(request: PaymentCreateRequest) {
@@ -13,4 +13,8 @@ export async function completeOnSitePayment(paymentId: number) {
 
 export async function confirmPaymentToss(request: PaymentConfirmRequest, accessToken?: string) {
   return await paymentService.confirmPaymentToss(request, accessToken)
+}
+
+export async function cancelPayment(paymentId: number, request: PaymentCancelRequest) {
+  return await paymentService.cancelPayment(paymentId, request)
 }

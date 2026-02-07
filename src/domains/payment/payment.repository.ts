@@ -1,6 +1,11 @@
 import { api } from '@/lib/api'
 import type { ApiResponse } from '@/types/common'
-import type { PaymentConfirmRequest, PaymentCreateRequest, PaymentResponse } from './payment.type'
+import type {
+  PaymentCancelRequest,
+  PaymentConfirmRequest,
+  PaymentCreateRequest,
+  PaymentResponse,
+} from './payment.type'
 
 const ENDPOINT = '/api/payments'
 
@@ -25,5 +30,9 @@ export const paymentRepository = {
           }
         : undefined,
     )
+  },
+
+  async cancelPayment(paymentId: number, request: PaymentCancelRequest) {
+    return api.post<ApiResponse<PaymentResponse>>(`${ENDPOINT}/v1/${paymentId}/cancel`, request)
   },
 }

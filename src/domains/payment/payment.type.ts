@@ -1,3 +1,5 @@
+export type PaymentStatus = 'PENDING' | 'COMPLETED' | 'FAILED' | 'CANCELLED'
+
 export type PaymentMethod =
   | 'CASH_ON_SITE'
   | 'CARD_ON_SITE'
@@ -15,6 +17,10 @@ export interface PaymentConfirmRequest {
   paymentKey: string
   pgOrderId: string
   amount: number
+}
+
+export interface PaymentCancelRequest {
+  reason?: string
 }
 
 export interface PaymentResponse {

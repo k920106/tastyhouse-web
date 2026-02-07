@@ -1,6 +1,8 @@
-import { PaymentMethod } from '../payment'
+import { PaymentMethod, PaymentStatus } from '../payment'
 
 export type OrderMethod = 'TABLE_ORDER' | 'RESERVATION' | 'DELIVERY' | 'TAKEOUT'
+
+export type OrderStatus = 'PENDING' | 'CONFIRMED' | 'COMPLETED' | 'CANCELLED'
 
 export type OrderMethodItem = {
   code: OrderMethod
@@ -43,9 +45,6 @@ export interface OrderResponse {
   id: number
 }
 
-export type OrderStatus = 'PENDING' | 'CONFIRMED' | 'COMPLETED' | 'CANCELLED'
-export type PaymentStatus = 'PENDING' | 'COMPLETED' | 'FAILED' | 'CANCELLED'
-
 export interface OrderItemOption {
   id: number
   optionGroupName: string
@@ -67,6 +66,7 @@ export interface OrderItemResponse {
 }
 
 export interface PaymentSummaryResponse {
+  id: number
   approvedAt: string
   paymentMethod: PaymentMethod
   paymentStatus: PaymentStatus
@@ -93,8 +93,4 @@ export interface OrderDetailResponse {
   orderItems: OrderItemResponse[]
   payment: PaymentSummaryResponse
   createdAt: string
-}
-
-export interface OrderCancelRequest {
-  reason?: string
 }

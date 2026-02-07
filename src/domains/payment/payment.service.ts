@@ -1,5 +1,5 @@
 import { paymentRepository } from './payment.repository'
-import type { PaymentConfirmRequest, PaymentCreateRequest } from './payment.type'
+import type { PaymentCancelRequest, PaymentConfirmRequest, PaymentCreateRequest } from './payment.type'
 
 export const paymentService = {
   async createPayment(request: PaymentCreateRequest) {
@@ -12,5 +12,9 @@ export const paymentService = {
 
   async confirmPaymentToss(request: PaymentConfirmRequest, accessToken?: string) {
     return await paymentRepository.confirmPaymentToss(request, accessToken)
+  },
+
+  async cancelPayment(paymentId: number, request: PaymentCancelRequest) {
+    return await paymentRepository.cancelPayment(paymentId, request)
   },
 }
