@@ -14,6 +14,7 @@ import {
   AccordionTrigger,
 } from '@/components/ui/shadcn/accordion'
 import type { OrderDetailResponse } from '@/domains/order'
+import { formatDate } from '@/lib/date'
 import { formatNumber } from '@/lib/number'
 import { formatPhoneNumber } from '@/lib/utils'
 
@@ -125,7 +126,9 @@ export default function OrderCompleteSection({ orderDetail }: OrderCompleteSecti
                     </div>
                     <div className="flex">
                       <span className="w-30 text-sm leading-[14px] text-[#666666]">휴대폰</span>
-                      <span className="text-sm leading-[14px]">{formatPhoneNumber(ordererPhone)}</span>
+                      <span className="text-sm leading-[14px]">
+                        {formatPhoneNumber(ordererPhone)}
+                      </span>
                     </div>
                     <div className="flex">
                       <span className="w-30 text-sm leading-[14px] text-[#666666]">이메일</span>
@@ -148,7 +151,9 @@ export default function OrderCompleteSection({ orderDetail }: OrderCompleteSecti
                   <div className="space-y-[15px]">
                     <div className="flex justify-between">
                       <span className="text-sm leading-[14px]">결제시간</span>
-                      <span className="text-sm leading-[14px]">{payment.paymentDateTime}</span>
+                      <span className="text-sm leading-[14px]">
+                        {formatDate(payment.approvedAt, 'YYYY-MM-DD HH:mm')}
+                      </span>
                     </div>
                     <div className="flex justify-between">
                       <span className="text-sm leading-[14px]">결제방법</span>

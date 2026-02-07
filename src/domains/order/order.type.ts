@@ -72,7 +72,7 @@ export interface OrderItemResponse {
 }
 
 export interface PaymentSummaryResponse {
-  paymentDateTime: string // 필요
+  approvedAt: string
   paymentMethod: PaymentMethod
   paymentStatus: PaymentStatus
   cardNumber?: string
