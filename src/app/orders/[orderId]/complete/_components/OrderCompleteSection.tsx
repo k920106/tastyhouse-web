@@ -88,6 +88,16 @@ export default function OrderCompleteSection({ orderDetail }: OrderCompleteSecti
                   <ImageContainer src={item.productImageUrl} alt={item.productName} size={50} />
                   <div className="flex flex-col gap-2.5">
                     <h3 className="text-sm leading-[14px]">{item.productName}</h3>
+                    {item.options && item.options.length > 0 && (
+                      <div className="space-y-1">
+                        {item.options.map((opt, index) => (
+                          <p key={index} className="text-xs text-[#999999]">
+                            {opt.optionName}
+                            {opt.additionalPrice > 0 && ` (${formatNumber(opt.additionalPrice)}원)`}
+                          </p>
+                        ))}
+                      </div>
+                    )}
                     <p className="text-sm leading-[14px]">
                       {formatNumber(item.unitPrice)}원 | {item.quantity}개
                     </p>

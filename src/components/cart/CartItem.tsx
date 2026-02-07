@@ -4,6 +4,7 @@ import ImageContainer from '@/components/ui/ImageContainer'
 import { formatNumber } from '@/lib/number'
 import { HiOutlineXMark } from 'react-icons/hi2'
 import CircleCheckbox from '../ui/CircleCheckbox'
+import type { OrderItemOption } from '@/domains/order'
 
 interface CartItemProps {
   optionKey: string
@@ -13,7 +14,7 @@ interface CartItemProps {
   originalPrice: number
   quantity: number
   selected: boolean
-  selectedOptions?: Array<{ optionName: string }>
+  selectedOptions?: OrderItemOption[]
   onToggleSelect: (optionKey: string) => void
   onQuantityChange: (optionKey: string, quantity: number) => void
   onRemove: (optionKey: string) => void
@@ -39,10 +40,13 @@ export default function CartItem({
       <div className="flex-1 ml-4">
         <h3 className="text-sm leading-[14px] truncate">{name}</h3>
         {selectedOptions && selectedOptions.length > 0 && (
-          <div className="mt-1">
-            <p className="text-xs text-[#999999]">
-              {selectedOptions.map((opt) => opt.optionName).join(', ')}
-            </p>
+          <div className="mt-1 space-y-1">
+            {selectedOptions.map((opt, index) => (
+              <p key={index} className="text-xs text-[#999999]">
+                {opt.optionName}
+                {opt.additionalPrice > 0 && ` (${formatNumber(opt.additionalPrice)}원)`}
+              </p>
+            ))}
           </div>
         )}
         <div className="flex items-baseline mt-[15px]">
