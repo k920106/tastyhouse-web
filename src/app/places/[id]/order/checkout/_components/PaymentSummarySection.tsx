@@ -56,7 +56,7 @@ export default function PaymentSummarySection({
                 <div className="flex justify-between">
                   <span className="text-xs leading-[12px] text-[#aaaaaa]">포인트 사용</span>
                   <span className="text-xs leading-[12px] text-[#aaaaaa]">
-                    {formatNumber(pointsUsed)}원
+                    - {formatNumber(pointsUsed)}원
                   </span>
                 </div>
               )}
