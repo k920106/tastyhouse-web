@@ -8,6 +8,14 @@ export type PaymentMethod =
   | 'KAKAO_PAY'
   | 'ZERO_PAY'
 
+export interface PaymentMethodOption {
+  type: PaymentMethod
+  label: string
+  badge?: string
+  benefitTitle?: string
+  benefitDescription?: string
+}
+
 export interface PaymentCreateRequest {
   orderId: number
   paymentMethod: PaymentMethod
@@ -21,6 +29,13 @@ export interface PaymentConfirmRequest {
 
 export interface PaymentCancelRequest {
   reason?: string
+}
+
+export type PaymentCancelCode = 'SUCCESS' | 'ALREADY_PREPARING' | 'ALREADY_CANCELLED' | 'ORDER_COMPLETED'
+
+export interface PaymentCancelResponse {
+  code: PaymentCancelCode
+  message: string
 }
 
 export interface PaymentResponse {

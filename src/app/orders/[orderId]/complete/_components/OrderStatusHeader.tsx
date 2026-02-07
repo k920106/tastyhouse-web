@@ -1,29 +1,15 @@
 import AppBadge from '@/components/ui/AppBadge'
-import type { OrderStatus } from '@/domains/order'
+import { getPaymentStatusColor, getPaymentStatusName } from '@/constants/payment'
+import type { PaymentStatus } from '@/domains/payment'
 
 interface OrderStatusHeaderProps {
   orderNumber: string
-  orderStatus: OrderStatus
+  paymentStatus: PaymentStatus
 }
 
-export default function OrderStatusHeader({ orderNumber, orderStatus }: OrderStatusHeaderProps) {
-  const statusColor =
-    orderStatus === 'CONFIRMED'
-      ? 'bg-[#4f9857] text-white'
-      : orderStatus === 'COMPLETED'
-        ? 'bg-[#aaaaaa] text-white'
-        : orderStatus === 'CANCELLED'
-          ? 'bg-[#bc4040] text-white'
-          : ''
-
-  const statusText =
-    orderStatus === 'CONFIRMED'
-      ? '결제완료'
-      : orderStatus === 'COMPLETED'
-        ? '사용완료'
-        : orderStatus === 'CANCELLED'
-          ? '결제취소'
-          : orderStatus
+export default function OrderStatusHeader({ orderNumber, paymentStatus }: OrderStatusHeaderProps) {
+  const statusColor = getPaymentStatusColor(paymentStatus)
+  const statusText = getPaymentStatusName(paymentStatus)
 
   return (
     <div className="px-4 py-4 flex items-center justify-between">

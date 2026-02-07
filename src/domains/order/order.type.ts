@@ -2,7 +2,7 @@ import { PaymentMethod, PaymentStatus } from '../payment'
 
 export type OrderMethod = 'TABLE_ORDER' | 'RESERVATION' | 'DELIVERY' | 'TAKEOUT'
 
-export type OrderStatus = 'PENDING' | 'CONFIRMED' | 'COMPLETED' | 'CANCELLED'
+export type OrderStatus = 'PENDING' | 'CONFIRMED' | 'PREPARING' | 'COMPLETED' | 'CANCELLED'
 
 export type OrderMethodItem = {
   code: OrderMethod
@@ -77,8 +77,9 @@ export interface PaymentSummaryResponse {
 export interface OrderDetailResponse {
   id: number
   orderNumber: string
-  orderStatus: OrderStatus
+  paymentStatus: PaymentStatus
   placeName: string
+  placePhoneNumber: string
   ordererName: string
   ordererPhone: string
   ordererEmail: string

@@ -2,6 +2,7 @@ import { api } from '@/lib/api'
 import type { ApiResponse } from '@/types/common'
 import type {
   PaymentCancelRequest,
+  PaymentCancelResponse,
   PaymentConfirmRequest,
   PaymentCreateRequest,
   PaymentResponse,
@@ -33,6 +34,6 @@ export const paymentRepository = {
   },
 
   async cancelPayment(paymentId: number, request: PaymentCancelRequest) {
-    return api.post<ApiResponse<PaymentResponse>>(`${ENDPOINT}/v1/${paymentId}/cancel`, request)
+    return api.post<ApiResponse<PaymentCancelResponse>>(`${ENDPOINT}/v1/${paymentId}/cancel`, request)
   },
 }

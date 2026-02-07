@@ -1,11 +1,17 @@
-import type { PaymentMethod } from '@/domains/payment'
+import type { PaymentMethod, PaymentMethodOption, PaymentStatus } from '@/domains/payment'
 
-export interface PaymentMethodOption {
-  type: PaymentMethod
-  label: string
-  badge?: string
-  benefitTitle?: string
-  benefitDescription?: string
+const PAYMENT_STATUS_NAMES: Record<PaymentStatus, string> = {
+  PENDING: '결제 대기',
+  COMPLETED: '결제 완료',
+  FAILED: '결제 실패',
+  CANCELLED: '결제 취소',
+}
+
+const PAYMENT_STATUS_COLORS: Record<PaymentStatus, string> = {
+  PENDING: 'bg-[#4f9857]',
+  COMPLETED: 'bg-[#4f9857]',
+  FAILED: 'bg-[#bc4040]',
+  CANCELLED: 'bg-[#bc4040]',
 }
 
 export const PAYMENT_METHODS: PaymentMethodOption[] = [
@@ -31,4 +37,12 @@ export const PAYMENT_METHODS: PaymentMethodOption[] = [
 
 export const getPaymentMethodName = (paymentMethod: PaymentMethod): string => {
   return PAYMENT_METHODS.find((m) => m.type === paymentMethod)?.label || paymentMethod
+}
+
+export const getPaymentStatusName = (paymentStatus: PaymentStatus): string => {
+  return PAYMENT_STATUS_NAMES[paymentStatus]
+}
+
+export const getPaymentStatusColor = (paymentStatus: PaymentStatus): string => {
+  return PAYMENT_STATUS_COLORS[paymentStatus]
 }

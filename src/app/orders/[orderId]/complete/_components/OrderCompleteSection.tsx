@@ -18,8 +18,9 @@ interface OrderCompleteSectionProps {
 export default function OrderCompleteSection({ orderDetail }: OrderCompleteSectionProps) {
   const {
     orderNumber,
-    orderStatus,
+    paymentStatus,
     placeName,
+    placePhoneNumber,
     orderItems,
     ordererName,
     ordererPhone,
@@ -45,7 +46,7 @@ export default function OrderCompleteSection({ orderDetail }: OrderCompleteSecti
       </Header>
       <SectionStack>
         <BorderedSection className="border-t-0">
-          <OrderStatusHeader orderNumber={orderNumber} orderStatus={orderStatus} />
+          <OrderStatusHeader orderNumber={orderNumber} paymentStatus={paymentStatus} />
         </BorderedSection>
         <BorderedSection>
           <OrderedProductList placeName={placeName} orderItems={orderItems} />
@@ -74,7 +75,11 @@ export default function OrderCompleteSection({ orderDetail }: OrderCompleteSecti
           <RefundPolicySection />
         </BorderedSection>
       </SectionStack>
-      <CancelOrderButton paymentId={payment.id} />
+      <CancelOrderButton
+        paymentId={payment.id}
+        paymentStatus={paymentStatus}
+        phoneNumber={placePhoneNumber}
+      />
     </section>
   )
 }
