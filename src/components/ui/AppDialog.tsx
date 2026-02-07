@@ -36,7 +36,10 @@ export default function AppDialog({
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       {trigger && <DialogTrigger asChild>{trigger}</DialogTrigger>}
-      <DialogContent showCloseButton={false} className="sm:max-w-sm gap-0 p-0 overflow-hidden">
+      <DialogContent
+        showCloseButton={false}
+        className="sm:max-w-sm gap-0 p-0 overflow-hidden rounded-[2.5px] border-none"
+      >
         <DialogHeader className="gap-[17px] px-7 pt-[30px] pb-6 text-center sm:text-center">
           <DialogTitle className="text-[17px] leading-[17px] font-normal">{title}</DialogTitle>
           <DialogDescription className="text-sm leading-relaxed text-[#999999] whitespace-pre-line">
