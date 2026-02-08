@@ -13,7 +13,7 @@ import MyPagePaymentItem from './MyPagePaymentItem'
 import MyPagePlaceCard from './MyPagePlaceCard'
 import MyPageProfile from './MyPageProfile'
 
-type TabValue = 'reviews' | 'payments' | 'bookmarks'
+export type MyPageTabValue = 'reviews' | 'payments' | 'bookmarks'
 
 // 임시 더미 데이터
 const userData = {
@@ -222,7 +222,7 @@ const TAB_TRIGGER_CLASS =
   'flex-1 h-full rounded-none border-0 border-b border-[#eeeeee] shadow-none cursor-pointer data-[state=active]:shadow-none data-[state=active]:border-b-2 data-[state=active]:border-main'
 
 interface MyPageContentProps {
-  initialTab: TabValue
+  initialTab: MyPageTabValue
 }
 
 export default function MyPageContent({ initialTab }: MyPageContentProps) {
