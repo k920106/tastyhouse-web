@@ -9,6 +9,9 @@ interface MyPageProfileProps {
   userProfileImage: string | null
   grade: MemberGradeCode
   description?: string
+  reviewCount: number
+  followingCount: number
+  followerCount: number
 }
 
 export default function MyPageProfile({
@@ -16,13 +19,16 @@ export default function MyPageProfile({
   userProfileImage,
   grade,
   description,
+  reviewCount,
+  followingCount,
+  followerCount,
 }: MyPageProfileProps) {
   const gradeName = getMemberGradeName(grade)
   const gradeIcon = getMemberGradeIcon(grade)
   const gradeColor = getMemberGradeColor(grade)
 
   return (
-    <div className="flex flex-col items-center bg-white">
+    <div className="flex-1 flex flex-col items-center bg-white">
       <div className="-mt-[63px] relative z-10 w-[125px] h-[125px] rounded-full overflow-hidden">
         {userProfileImage ? (
           <Image
@@ -57,6 +63,20 @@ export default function MyPageProfile({
       {description && (
         <p className="text-[13px] text-gray-500 text-center mt-3 px-8">{description}</p>
       )}
+      <div className="flex items-center justify-center gap-10 mt-[53px]">
+        <button className="flex items-center gap-1">
+          <span className="text-xs leading-[12px]">리뷰</span>
+          <span className="text-xs leading-[12px] font-bold">{reviewCount}</span>
+        </button>
+        <button className="flex items-center gap-1">
+          <span className="text-xs leading-[12px]">팔로잉</span>
+          <span className="text-xs leading-[12px] font-bold">{followingCount}</span>
+        </button>
+        <button className="flex items-center gap-1">
+          <span className="text-xs leading-[12px]">팔로워</span>
+          <span className="text-xs leading-[12px] font-bold">{followerCount}</span>
+        </button>
+      </div>
     </div>
   )
 }
