@@ -8,10 +8,10 @@ const PAYMENT_STATUS_NAMES: Record<PaymentStatus, string> = {
 }
 
 const PAYMENT_STATUS_COLORS: Record<PaymentStatus, string> = {
-  PENDING: 'bg-[#4f9857]',
-  COMPLETED: 'bg-[#4f9857]',
-  FAILED: 'bg-[#bc4040]',
-  CANCELLED: 'bg-[#bc4040]',
+  PENDING: '#4f9857',
+  COMPLETED: '#4f9857',
+  FAILED: '#bc4040',
+  CANCELLED: '#bc4040',
 }
 
 export const PAYMENT_METHODS: PaymentMethodOption[] = [
