@@ -45,7 +45,7 @@ export interface OrderResponse {
   id: number
 }
 
-export interface OrderItemOption {
+interface OrderItemOptionResponse {
   id: number
   optionGroupName: string
   optionName: string
@@ -62,7 +62,7 @@ export interface OrderItemResponse {
   discountPrice: number | null
   optionTotalPrice: number
   totalPrice: number
-  options: OrderItemOption[]
+  options: OrderItemOptionResponse[]
 }
 
 export interface PaymentSummaryResponse {
