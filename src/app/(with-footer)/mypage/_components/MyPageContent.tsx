@@ -22,6 +22,52 @@ const userData = {
   followerCount: 0,
 }
 
+const dummyReviews: {
+  id: number
+  imagePath: string
+}[] = [
+  {
+    id: 1,
+    imagePath: '/images/sample/food/food-image1.png',
+  },
+  {
+    id: 2,
+    imagePath: '/images/sample/food/food-image2.png',
+  },
+  {
+    id: 3,
+    imagePath: '/images/sample/food/food-image3.png',
+  },
+  {
+    id: 4,
+    imagePath: '/images/sample/food/food-image4.png',
+  },
+  {
+    id: 5,
+    imagePath: '/images/sample/food/food-image5.png',
+  },
+  {
+    id: 6,
+    imagePath: '/images/sample/food/food-image6.png',
+  },
+  {
+    id: 7,
+    imagePath: '/images/sample/food/food-image7.png',
+  },
+  {
+    id: 8,
+    imagePath: '/images/sample/food/food-image8.png',
+  },
+  {
+    id: 9,
+    imagePath: '/images/sample/food/food-image1.png',
+  },
+  {
+    id: 10,
+    imagePath: '/images/sample/food/food-image2.png',
+  },
+]
+
 const dummyPayments: {
   id: number
   storeName: string
@@ -92,7 +138,7 @@ export default function MyPageContent({ initialTab }: MyPageContentProps) {
                 height={25}
               />
             </TabsTrigger>
-            <TabsTrigger value="places" className={TAB_TRIGGER_CLASS}>
+            <TabsTrigger value="bookmarks" className={TAB_TRIGGER_CLASS}>
               <Image
                 src={`/images/mypage/icon-bookmark-${initialTab === 'places' ? 'on' : 'off'}.png`}
                 alt="저장"
@@ -101,17 +147,27 @@ export default function MyPageContent({ initialTab }: MyPageContentProps) {
               />
             </TabsTrigger>
           </TabsList>
-          <TabsContent value="reviews" className="mt-0 flex-1 bg-[#f5f5f5]">
-            <div className="flex flex-col items-center justify-center h-full pb-[70px]">
-              <div className="relative w-[35px] h-[40px]">
-                <Image src="/images/mypage/logo-gray.png" alt="로고" width={35} height={40} />
+          <TabsContent value="reviews" className="mt-0 flex-1 bg-[#f9f9f9]">
+            {dummyReviews.length > 0 ? (
+              <div className="grid grid-cols-3 gap-[1.5px] pb-[70px]">
+                {dummyReviews.map((review) => (
+                  <div key={review.id} className="relative aspect-square">
+                    <Image src={review.imagePath} alt="리뷰 이미지" fill sizes="33vw" className="object-cover" />
+                  </div>
+                ))}
               </div>
-              <div className="mt-[15px]">
-                <p className="text-sm leading-[14px] text-[#aaaaaa]">등록된 리뷰가 없습니다.</p>
+            ) : (
+              <div className="flex flex-col items-center justify-center h-full pb-[70px]">
+                <div className="relative w-[35px] h-[40px]">
+                  <Image src="/images/mypage/logo-gray.png" alt="로고" width={35} height={40} />
+                </div>
+                <div className="mt-[15px]">
+                  <p className="text-sm leading-[14px] text-[#aaaaaa]">등록된 리뷰가 없습니다.</p>
+                </div>
               </div>
-            </div>
+            )}
           </TabsContent>
-          <TabsContent value="payments" className="mt-0 flex-1 bg-[#f5f5f5]">
+          <TabsContent value="payments" className="mt-0 flex-1 bg-[#f9f9f9]">
             {dummyPayments.length > 0 ? (
               <div className="pb-[70px]">
                 {dummyPayments.map((payment) => (
@@ -137,7 +193,7 @@ export default function MyPageContent({ initialTab }: MyPageContentProps) {
               </div>
             )}
           </TabsContent>
-          <TabsContent value="places" className="mt-0 flex-1 bg-[#f5f5f5]">
+          <TabsContent value="bookmarks" className="mt-0 flex-1 bg-[#f9f9f9]">
             {dummyPlaces.length > 0 ? (
               <div className="pb-[70px]">
                 {dummyPlaces.map((place) => (
