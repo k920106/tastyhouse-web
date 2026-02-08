@@ -1,9 +1,10 @@
 import { api } from '@/lib/api'
-import { ApiResponse } from '@/types/common'
+import { ApiResponse, PaginationParams } from '@/types/common'
 import {
   MemberContactResponse,
   MemberCouponListItemResponse,
   MemberInfo,
+  MyReviewListItemResponse,
   UsablePointResponse,
 } from './member.type'
 
@@ -26,5 +27,10 @@ export const memberRepository = {
   },
   async getMyUsablePoint() {
     return api.get<ApiResponse<UsablePointResponse>>(`${ENDPOINT}/v1/me/point/usable`)
+  },
+  async getMyReviews(params: PaginationParams) {
+    return api.get<ApiResponse<MyReviewListItemResponse[]>>(`${ENDPOINT}/v1/me/reviews`, {
+      params,
+    })
   },
 }

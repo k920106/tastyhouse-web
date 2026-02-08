@@ -36,6 +36,11 @@ export type UsablePointResponse = {
   usablePoints: number
 }
 
+export type MyReviewListItemResponse = {
+  id: number
+  imageUrl: string
+}
+
 // Cart types
 export interface CartItem {
   id: number

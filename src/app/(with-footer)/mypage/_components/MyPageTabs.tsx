@@ -3,7 +3,7 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/shadcn/tabs'
 import Image from 'next/image'
 import { usePathname, useRouter } from 'next/navigation'
-import { type ReactNode, useCallback } from 'react'
+import { useCallback, type ReactNode } from 'react'
 import { type MyPageTabValue } from './MyPageContent'
 
 const TAB_TRIGGER_CLASS =

@@ -13,4 +13,7 @@ export const memberService = {
   async getMyUsablePoint() {
     return await memberRepository.getMyUsablePoint()
   },
+  async getMyReviews(page: number = 0, size: number = 9) {
+    return await memberRepository.getMyReviews({ page, size })
+  },
 }

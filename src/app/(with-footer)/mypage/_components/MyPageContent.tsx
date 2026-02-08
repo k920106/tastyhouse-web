@@ -1,3 +1,5 @@
+import ViewMoreButton from '@/components/ui/ViewMoreButton'
+import { memberService } from '@/domains/member/member.service'
 import { PaymentStatus } from '@/domains/payment'
 import { PAGE_PATHS } from '@/lib/paths'
 import Image from 'next/image'
@@ -9,76 +11,6 @@ import MyPageProfile from './MyPageProfile'
 import MyPageTabs from './MyPageTabs'
 
 export type MyPageTabValue = 'reviews' | 'payments' | 'bookmarks'
-
-const dummyReviews: {
-  id: number
-  imagePath: string
-}[] = [
-  {
-    id: 1,
-    imagePath: '/images/sample/food/food-image1.png',
-  },
-  {
-    id: 2,
-    imagePath: '/images/sample/food/food-image2.png',
-  },
-  {
-    id: 3,
-    imagePath: '/images/sample/food/food-image3.png',
-  },
-  {
-    id: 4,
-    imagePath: '/images/sample/food/food-image4.png',
-  },
-  {
-    id: 5,
-    imagePath: '/images/sample/food/food-image5.png',
-  },
-  {
-    id: 6,
-    imagePath: '/images/sample/food/food-image6.png',
-  },
-  {
-    id: 7,
-    imagePath: '/images/sample/food/food-image7.png',
-  },
-  {
-    id: 8,
-    imagePath: '/images/sample/food/food-image8.png',
-  },
-  {
-    id: 9,
-    imagePath: '/images/sample/food/food-image1.png',
-  },
-  {
-    id: 10,
-    imagePath: '/images/sample/food/food-image2.png',
-  },
-  {
-    id: 11,
-    imagePath: '/images/sample/food/food-image3.png',
-  },
-  {
-    id: 12,
-    imagePath: '/images/sample/food/food-image4.png',
-  },
-  {
-    id: 13,
-    imagePath: '/images/sample/food/food-image5.png',
-  },
-  {
-    id: 14,
-    imagePath: '/images/sample/food/food-image6.png',
-  },
-  {
-    id: 15,
-    imagePath: '/images/sample/food/food-image7.png',
-  },
-  {
-    id: 16,
-    imagePath: '/images/sample/food/food-image8.png',
-  },
-]
 
 const dummyPayments: {
   id: number
@@ -207,20 +139,25 @@ interface MyPageContentProps {
   initialTab: MyPageTabValue
 }
 
-export default function MyPageContent({ initialTab }: MyPageContentProps) {
+export default async function MyPageContent({ initialTab }: MyPageContentProps) {
+  const reviewsResponse = await memberService.getMyReviews(0, 9)
+  const reviews = reviewsResponse.data?.data || []
+  const reviewsPagination = reviewsResponse.data?.pagination
+  const hasMoreReviews = reviewsPagination ? reviewsPagination.totalElements > 9 : false
+
   const reviewsContent =
-    dummyReviews.length > 0 ? (
+    reviews.length > 0 ? (
       <>
         <div className="py-[1px]">
           <div className="grid grid-cols-3 gap-[1.5px]">
-            {dummyReviews.map((review) => (
+            {reviews.map((review) => (
               <Link
                 key={review.id}
                 href={PAGE_PATHS.REVIEW_DETAIL(review.id)}
                 className="relative aspect-square"
               >
                 <Image
-                  src={review.imagePath}
+                  src={review.imageUrl ?? ''}
                   alt="리뷰 이미지"
                   fill
                   sizes="33vw"
@@ -229,6 +166,11 @@ export default function MyPageContent({ initialTab }: MyPageContentProps) {
               </Link>
             ))}
           </div>
+          {hasMoreReviews && (
+            <div className="flex justify-center py-5">
+              <ViewMoreButton href={PAGE_PATHS.MY_REVIEWS} label="더 보러가기" />
+            </div>
+          )}
         </div>
         <div className="h-[70px]"></div>
       </>
