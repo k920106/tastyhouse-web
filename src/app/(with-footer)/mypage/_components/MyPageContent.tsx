@@ -1,4 +1,3 @@
-import { MemberGradeCode } from '@/domains/member'
 import { PaymentStatus } from '@/domains/payment'
 import { PAGE_PATHS } from '@/lib/paths'
 import Image from 'next/image'
@@ -10,16 +9,6 @@ import MyPageProfile from './MyPageProfile'
 import MyPageTabs from './MyPageTabs'
 
 export type MyPageTabValue = 'reviews' | 'payments' | 'bookmarks'
-
-// 임시 더미 데이터
-const userData = {
-  userName: '닉네임을뭐라고하지',
-  userProfileImage: '/images/sample/profile/minji.png',
-  grade: 'GOURMET' as MemberGradeCode,
-  reviewCount: 0,
-  followingCount: 0,
-  followerCount: 0,
-}
 
 const dummyReviews: {
   id: number
@@ -317,14 +306,7 @@ export default function MyPageContent({ initialTab }: MyPageContentProps) {
     <div className="flex flex-col min-h-dvh bg-white">
       <div className="flex flex-col h-[50dvh]">
         <MyPageHeader />
-        <MyPageProfile
-          userName={userData.userName}
-          userProfileImage={userData.userProfileImage}
-          grade={userData.grade}
-          reviewCount={userData.reviewCount}
-          followingCount={userData.followingCount}
-          followerCount={userData.followerCount}
-        />
+        <MyPageProfile />
       </div>
       <MyPageTabs
         initialTab={initialTab}

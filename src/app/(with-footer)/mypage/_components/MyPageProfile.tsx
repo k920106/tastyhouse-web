@@ -1,39 +1,30 @@
 'use client'
 
 import { getMemberGradeColor, getMemberGradeIcon, getMemberGradeName } from '@/constants/member'
-import { MemberGradeCode } from '@/domains/member'
+import { useMemberProfile } from '@/hooks/useMemberProfile'
 import Image from 'next/image'
 
-interface MyPageProfileProps {
-  userName: string
-  userProfileImage: string | null
-  grade: MemberGradeCode
-  description?: string
-  reviewCount: number
-  followingCount: number
-  followerCount: number
-}
+export default function MyPageProfile() {
+  const { memberProfile } = useMemberProfile()
+  const {
+    nickname,
+    profileImageUrl,
+    grade: memberGrade,
+    reviewCount,
+    statusMessage,
+  } = memberProfile ?? {}
 
-export default function MyPageProfile({
-  userName,
-  userProfileImage,
-  grade,
-  description,
-  reviewCount,
-  followingCount,
-  followerCount,
-}: MyPageProfileProps) {
-  const gradeName = getMemberGradeName(grade)
-  const gradeIcon = getMemberGradeIcon(grade)
-  const gradeColor = getMemberGradeColor(grade)
+  const gradeName = getMemberGradeName(memberGrade ?? 'NEWCOMER')
+  const gradeIcon = getMemberGradeIcon(memberGrade ?? 'NEWCOMER')
+  const gradeColor = getMemberGradeColor(memberGrade ?? 'NEWCOMER')
 
   return (
     <div className="flex-1 flex flex-col items-center bg-white">
       <div className="-mt-[63px] relative z-10 w-[125px] h-[125px] rounded-full overflow-hidden">
-        {userProfileImage ? (
+        {profileImageUrl ? (
           <Image
-            src={userProfileImage}
-            alt={userName}
+            src={profileImageUrl ?? ''}
+            alt={nickname ?? ''}
             fill
             className="object-cover"
             sizes="125px"
@@ -45,7 +36,7 @@ export default function MyPageProfile({
         )}
       </div>
       <div className="flex items-center gap-0.5 mt-[21px]">
-        <h1 className="text-base leading-[16px] font-bold">{userName}</h1>
+        <h1 className="text-base leading-[16px] font-bold">{nickname}</h1>
         <Image src="/images/mypage/icon-pen.png" alt="pencil" width={18} height={16} />
       </div>
       <div className="flex items-center gap-1.5 mt-2">
@@ -60,21 +51,21 @@ export default function MyPageProfile({
         </div>
         <span className={`text-sm leading-[14px] font-bold ${gradeColor}`}>{gradeName}</span>
       </div>
-      {description && (
-        <p className="text-[13px] text-gray-500 text-center mt-3 px-8">{description}</p>
+      {statusMessage && (
+        <p className="text-sm leading-[14px] text-center mt-[15px] px-8">{statusMessage}</p>
       )}
-      <div className="flex items-center justify-center gap-10 mt-[53px]">
+      <div className="flex items-center justify-center gap-10 mt-[53px] mb-[30px]">
         <button className="flex items-center gap-1">
           <span className="text-xs leading-[12px]">리뷰</span>
           <span className="text-xs leading-[12px] font-bold">{reviewCount}</span>
         </button>
         <button className="flex items-center gap-1">
           <span className="text-xs leading-[12px]">팔로잉</span>
-          <span className="text-xs leading-[12px] font-bold">{followingCount}</span>
+          <span className="text-xs leading-[12px] font-bold">{0}</span>
         </button>
         <button className="flex items-center gap-1">
           <span className="text-xs leading-[12px]">팔로워</span>
-          <span className="text-xs leading-[12px] font-bold">{followerCount}</span>
+          <span className="text-xs leading-[12px] font-bold">{0}</span>
         </button>
       </div>
     </div>
