@@ -13,7 +13,7 @@ import MyPagePaymentItem from './MyPagePaymentItem'
 import MyPagePlaceCard from './MyPagePlaceCard'
 import MyPageProfile from './MyPageProfile'
 
-type TabValue = 'reviews' | 'payments' | 'places'
+type TabValue = 'reviews' | 'payments' | 'bookmarks'
 
 // 임시 더미 데이터
 const userData = {
@@ -131,15 +131,92 @@ const dummyPayments: {
     status: 'CANCELLED',
     storeImage: '/images/sample/place/place-image3.png',
   },
+  {
+    id: 4,
+    storeName: '테스트 가게',
+    productName: '테스트 상품',
+    price: 10000,
+    date: '2026-01-01',
+    status: 'CANCELLED',
+    storeImage: '/images/sample/place/place-image4.png',
+  },
+  {
+    id: 5,
+    storeName: '테스트 가게',
+    productName: '테스트 상품',
+    price: 10000,
+    date: '2026-01-01',
+    status: 'CANCELLED',
+    storeImage: '/images/sample/place/place-image5.png',
+  },
+  {
+    id: 6,
+    storeName: '테스트 가게',
+    productName: '테스트 상품',
+    price: 10000,
+    date: '2026-01-01',
+    status: 'CANCELLED',
+    storeImage: '/images/sample/place/place-image6.png',
+  },
 ]
 
-const dummyPlaces: {
+const dummyBookmarks: {
   id: number
   placeImage: string
   region: string
   placeName: string
   rating: number
-}[] = []
+  isBookmarked: boolean
+}[] = [
+  {
+    id: 1,
+    placeImage: '/images/sample/place/place-image1.png',
+    region: '서울',
+    placeName: '테스트 가게',
+    rating: 4.5,
+    isBookmarked: false,
+  },
+  {
+    id: 2,
+    placeImage: '/images/sample/place/place-image2.png',
+    region: '서울',
+    placeName: '테스트 가게',
+    rating: 4.5,
+    isBookmarked: true,
+  },
+  {
+    id: 3,
+    placeImage: '/images/sample/place/place-image3.png',
+    region: '서울',
+    placeName: '테스트 가게',
+    rating: 4.5,
+    isBookmarked: true,
+  },
+  {
+    id: 4,
+    placeImage: '/images/sample/place/place-image4.png',
+    region: '서울',
+    placeName: '테스트 가게',
+    rating: 4.5,
+    isBookmarked: true,
+  },
+  {
+    id: 5,
+    placeImage: '/images/sample/place/place-image1.png',
+    region: '서울',
+    placeName: '테스트 가게',
+    rating: 4.5,
+    isBookmarked: true,
+  },
+  {
+    id: 6,
+    placeImage: '/images/sample/place/place-image2.png',
+    region: '서울',
+    placeName: '테스트 가게',
+    rating: 4.5,
+    isBookmarked: true,
+  },
+]
 
 const TAB_TRIGGER_CLASS =
   'flex-1 h-full rounded-none border-0 border-b border-[#eeeeee] shadow-none cursor-pointer data-[state=active]:shadow-none data-[state=active]:border-b-2 data-[state=active]:border-main'
@@ -195,7 +272,7 @@ export default function MyPageContent({ initialTab }: MyPageContentProps) {
             </TabsTrigger>
             <TabsTrigger value="bookmarks" className={TAB_TRIGGER_CLASS}>
               <Image
-                src={`/images/mypage/icon-bookmark-${initialTab === 'places' ? 'on' : 'off'}.png`}
+                src={`/images/mypage/icon-place-bookmark-${initialTab === 'bookmarks' ? 'on' : 'off'}.png`}
                 alt="저장"
                 width={27}
                 height={25}
@@ -205,7 +282,7 @@ export default function MyPageContent({ initialTab }: MyPageContentProps) {
           <TabsContent value="reviews" className="mt-0 flex-1 bg-[#f9f9f9]">
             {dummyReviews.length > 0 ? (
               <>
-                <div className="pt-[1px]">
+                <div className="py-[1px]">
                   <div className="grid grid-cols-3 gap-[1.5px]">
                     {dummyReviews.map((review) => (
                       <Link
@@ -240,7 +317,7 @@ export default function MyPageContent({ initialTab }: MyPageContentProps) {
           <TabsContent value="payments" className="mt-0 flex-1 bg-[#f9f9f9]">
             {dummyPayments.length > 0 ? (
               <>
-                <div className="px-[15px] pt-[5px] bg-white divide-y divide-[#eeeeee]">
+                <div className="px-[15px] py-[5px] bg-white divide-y divide-[#eeeeee]">
                   {dummyPayments.map((payment) => (
                     <MyPagePaymentItem
                       key={payment.id}
@@ -268,18 +345,23 @@ export default function MyPageContent({ initialTab }: MyPageContentProps) {
             )}
           </TabsContent>
           <TabsContent value="bookmarks" className="mt-0 flex-1 bg-[#f9f9f9]">
-            {dummyPlaces.length > 0 ? (
-              <div className="pb-[70px]">
-                {dummyPlaces.map((place) => (
-                  <MyPagePlaceCard
-                    key={place.id}
-                    placeImage={place.placeImage}
-                    region={place.region}
-                    placeName={place.placeName}
-                    rating={place.rating}
-                  />
-                ))}
-              </div>
+            {dummyBookmarks.length > 0 ? (
+              <>
+                <div className="flex flex-col gap-2.5 px-[15px] py-[20px]">
+                  {dummyBookmarks.map((bookmark) => (
+                    <MyPagePlaceCard
+                      key={bookmark.id}
+                      placeId={bookmark.id}
+                      placeImage={bookmark.placeImage}
+                      region={bookmark.region}
+                      placeName={bookmark.placeName}
+                      rating={bookmark.rating}
+                      isBookmarked={bookmark.isBookmarked}
+                    />
+                  ))}
+                </div>
+                <div className="h-[70px]"></div>
+              </>
             ) : (
               <div className="flex flex-col items-center justify-center h-full pb-[70px]">
                 <div className="relative w-[35px] h-[40px]">
