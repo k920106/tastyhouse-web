@@ -34,6 +34,7 @@ export function getTimeDifference(end: string | Date): TimeDifference {
  */
 export type DateFormat =
   | 'YYYY.MM.DD'
+  | 'YY.MM.DD'
   | 'MM.DD'
   | 'YYYY-MM-DD'
   | 'MM-DD'
@@ -45,6 +46,7 @@ export type DateFormat =
  */
 interface DateComponents {
   year: number
+  yearShort: string
   month: string
   monthWithoutZero: string
   day: string
@@ -69,6 +71,7 @@ function extractDateComponents(date: Date): DateComponents {
 
   return {
     year,
+    yearShort: String(year).slice(-2),
     month,
     monthWithoutZero: month.replace(/^0/, ''),
     day,
@@ -83,6 +86,7 @@ function extractDateComponents(date: Date): DateComponents {
  */
 const formatFormatters: Record<DateFormat, (components: DateComponents) => string> = {
   'YYYY.MM.DD': ({ year, month, day }) => `${year}.${month}.${day}`,
+  'YY.MM.DD': ({ yearShort, month, day }) => `${yearShort}.${month}.${day}`,
   'MM.DD': ({ month, day }) => `${month}.${day}`,
   'YYYY-MM-DD': ({ year, month, day }) => `${year}-${month}-${day}`,
   'MM-DD': ({ month, day }) => `${month}-${day}`,
