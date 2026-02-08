@@ -1,3 +1,5 @@
+import { PaymentStatus } from '../payment'
+
 export type MemberGradeCode = 'NEWCOMER' | 'ACTIVE' | 'INSIDER' | 'GOURMET' | 'TEHA'
 
 export type MemberInfo = {
@@ -41,7 +43,17 @@ export type MyReviewListItemResponse = {
   imageUrl: string
 }
 
-// Cart types
+export type MyPaymentListItemResponse = {
+  paymentId: number
+  placeName: string
+  placeThumbnailImageUrl: string
+  firstProductName: string
+  totalItemCount: number
+  amount: number
+  paymentStatus: PaymentStatus
+  paymentDate: string
+}
+
 export interface CartItem {
   id: number
   name: string
@@ -53,7 +65,6 @@ export interface CartItem {
   placeName: string
 }
 
-// Coupon types
 export interface Coupon {
   id: number
   couponName: string
@@ -71,7 +82,6 @@ export interface CouponListResponse {
   totalCount: number
 }
 
-// Point types
 export interface PointHistory {
   id: number
   description: string
@@ -86,7 +96,6 @@ export interface PointBalance {
   expiringDate: string | null
 }
 
-// Auth types
 export type LoginParams = {
   username: string
   password: string

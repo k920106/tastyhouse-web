@@ -2,10 +2,10 @@ import { memberService } from '@/domains/member/member.service'
 import { PaymentStatus } from '@/domains/payment'
 import Image from 'next/image'
 import MyPageHeader from './MyPageHeader'
-import MyPagePaymentItem from './MyPagePaymentItem'
 import MyPagePlaceCard from './MyPagePlaceCard'
 import MyPageProfile from './MyPageProfile'
 import MyPageTabs from './MyPageTabs'
+import PaymentList from './PaymentList'
 import ReviewList from './ReviewList'
 
 export type MyPageTabValue = 'reviews' | 'payments' | 'bookmarks'
@@ -143,35 +143,41 @@ export default async function MyPageContent({ initialTab }: MyPageContentProps) 
   const hasMoreReviews = (reviewsResponse.data?.pagination?.totalElements ?? 0) > 9
   const reviewsContent = <ReviewList reviews={reviews} hasMoreReviews={hasMoreReviews} />
 
-  const paymentsContent =
-    dummyPayments.length > 0 ? (
-      <>
-        <div className="px-[15px] py-[5px] bg-white divide-y divide-[#eeeeee]">
-          {dummyPayments.map((payment) => (
-            <MyPagePaymentItem
-              key={payment.id}
-              id={payment.id}
-              storeName={payment.storeName}
-              productName={payment.productName}
-              price={payment.price}
-              date={payment.date}
-              paymentStatus={payment.status}
-              storeImage={payment.storeImage}
-            />
-          ))}
-        </div>
-        <div className="h-[70px]"></div>
-      </>
-    ) : (
-      <div className="flex flex-col items-center justify-center h-full pb-[70px]">
-        <div className="relative w-[35px] h-[40px]">
-          <Image src="/images/mypage/logo-gray.png" alt="로고" width={35} height={40} />
-        </div>
-        <div className="mt-[15px]">
-          <p className="text-sm leading-[14px] text-[#aaaaaa]">결제 내역이 없습니다.</p>
-        </div>
-      </div>
-    )
+  // 결제 목록 조회
+  const paymentsResponse = await memberService.getMyPayments(0, 10)
+  const payments = paymentsResponse.data?.data || []
+  const hasMorePayments = (paymentsResponse.data?.pagination?.totalElements ?? 0) > 10
+  const paymentsContent = <PaymentList payments={payments} hasMorePayments={hasMorePayments} />
+
+  // const paymentsContent =
+  //   dummyPayments.length > 0 ? (
+  //     <>
+  //       <div className="px-[15px] py-[5px] bg-white divide-y divide-[#eeeeee]">
+  //         {dummyPayments.map((payment) => (
+  //           <MyPagePaymentItem
+  //             key={payment.id}
+  //             id={payment.id}
+  //             storeName={payment.storeName}
+  //             productName={payment.productName}
+  //             price={payment.price}
+  //             date={payment.date}
+  //             paymentStatus={payment.status}
+  //             storeImage={payment.storeImage}
+  //           />
+  //         ))}
+  //       </div>
+  //       <div className="h-[70px]"></div>
+  //     </>
+  //   ) : (
+  //     <div className="flex flex-col items-center justify-center h-full pb-[70px]">
+  //       <div className="relative w-[35px] h-[40px]">
+  //         <Image src="/images/mypage/logo-gray.png" alt="로고" width={35} height={40} />
+  //       </div>
+  //       <div className="mt-[15px]">
+  //         <p className="text-sm leading-[14px] text-[#aaaaaa]">결제 내역이 없습니다.</p>
+  //       </div>
+  //     </div>
+  //   )
 
   const bookmarksContent =
     dummyBookmarks.length > 0 ? (

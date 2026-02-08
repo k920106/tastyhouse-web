@@ -8,6 +8,7 @@ import {
   AccordionTrigger,
 } from '@/components/ui/shadcn/accordion'
 import { formatNumber } from '@/lib/number'
+import { formatOrderSummary } from '@/lib/order'
 
 interface OrderItem {
   name: string
@@ -36,8 +37,7 @@ export default function OrderInfoSection({
           <div className="flex-1 flex items-center justify-between gap-2">
             <h2 className="text-base leading-[16px]">{placeName}</h2>
             <span className="text-xs leading-[12px] text-[#aaaaaa]">
-              {firstProductName}
-              {totalItemCount > 1 ? ` 외 ${totalItemCount - 1}건` : ' 1건'}
+              {formatOrderSummary(firstProductName, totalItemCount)}
             </span>
           </div>
         </AccordionTrigger>
