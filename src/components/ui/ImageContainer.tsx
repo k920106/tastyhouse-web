@@ -5,10 +5,17 @@ interface ImageContainerProps {
   src: string
   alt: string
   size: 50 | 60 | 65 | 75
+  rounded?: 'none' | '1px' | '2.5px'
   className?: string
 }
 
-export default function ImageContainer({ src, alt, size = 75, className }: ImageContainerProps) {
+export default function ImageContainer({
+  src,
+  alt,
+  size = 75,
+  rounded = 'none',
+  className,
+}: ImageContainerProps) {
   const sizeClass =
     size === 50
       ? 'w-[50px] h-[50px]'
@@ -20,7 +27,14 @@ export default function ImageContainer({ src, alt, size = 75, className }: Image
   const sizeValue = `${size}px`
 
   return (
-    <div className={cn('relative flex-shrink-0 overflow-hidden', sizeClass, className)}>
+    <div
+      className={cn(
+        'relative flex-shrink-0 overflow-hidden',
+        sizeClass,
+        className,
+        rounded === '2.5px' && 'rounded-[2.5px]',
+      )}
+    >
       <Image src={src} alt={alt} fill className="object-cover" sizes={sizeValue} />
     </div>
   )
