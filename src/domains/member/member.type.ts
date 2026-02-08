@@ -2,6 +2,10 @@ export type MemberGradeCode = 'NEWCOMER' | 'ACTIVE' | 'INSIDER' | 'GOURMET' | 'T
 
 export type MemberInfo = {
   id: number
+  nickname: string
+  grade: MemberGradeCode
+  reviewCount: number
+  statusMessage: string | null
   profileImageUrl: string | null
 }
 

@@ -1,9 +1,12 @@
 'use client'
 
+import Avatar from '@/components/ui/Avatar'
 import { Skeleton } from '@/components/ui/shadcn/skeleton'
+import { useMemberProfile } from '@/hooks/useMemberProfile'
 import { PAGE_PATHS } from '@/lib/paths'
 import { useRouter } from 'next/navigation'
-import React, { ReactNode, useCallback, useEffect, useRef } from 'react'
+import React, { useCallback, useEffect, useRef } from 'react'
+import CommentSubmitButtonClient from './CommentSubmitButtonClient'
 import { useReply } from './ReplyContext'
 
 export function CommentInputSkeleton() {
@@ -17,16 +20,12 @@ export function CommentInputSkeleton() {
 
 interface CommentInputProps {
   isLoggedIn: boolean
-  avatar: ReactNode
-  commentSubmitButton?: ReactNode
+  reviewId: number
 }
 
-export default function CommentInput({
-  isLoggedIn,
-  avatar,
-  commentSubmitButton,
-}: CommentInputProps) {
+export default function CommentInput({ isLoggedIn, reviewId }: CommentInputProps) {
   const router = useRouter()
+  const { memberProfile } = useMemberProfile()
 
   const containerRef = useRef<HTMLDivElement>(null)
 
@@ -78,7 +77,7 @@ export default function CommentInput({
 
   return (
     <div ref={containerRef} className="flex items-center gap-[7px] flex-1">
-      {avatar}
+      <Avatar src={memberProfile?.profileImageUrl ?? null} alt="내 프로필" />
       <div className="flex-1 px-4 py-2.5 border border-[#eeeeee] box-border rounded-[20px] grid">
         <textarea
           ref={textareaRef}
@@ -91,7 +90,7 @@ export default function CommentInput({
           className="min-w-0 text-sm leading-normal bg-transparent outline-none resize-none overflow-y-hidden placeholder:text-[#aaaaaa] [field-sizing:content]"
         />
       </div>
-      {showButton && commentSubmitButton}
+      {showButton && isLoggedIn && <CommentSubmitButtonClient reviewId={reviewId} />}
     </div>
   )
 }

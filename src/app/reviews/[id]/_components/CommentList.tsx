@@ -30,10 +30,9 @@ function CommentListItemSkeleton() {
 
 interface CommentListProps {
   comments: ReviewComment[]
-  currentMemberId: number
 }
 
-export default async function CommentList({ comments, currentMemberId }: CommentListProps) {
+export default async function CommentList({ comments }: CommentListProps) {
   if (comments.length === 0) {
     return (
       <div className="flex flex-col gap-1">
@@ -45,7 +44,5 @@ export default async function CommentList({ comments, currentMemberId }: Comment
     )
   }
 
-  return comments.map((comment) => (
-    <CommentItem key={comment.id} comment={comment} currentMemberId={currentMemberId} />
-  ))
+  return comments.map((comment) => <CommentItem key={comment.id} comment={comment} />)
 }

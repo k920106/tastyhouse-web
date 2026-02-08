@@ -8,6 +8,7 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from '@/components/ui/shadcn/drawer'
+import { useMemberProfile } from '@/hooks/useMemberProfile'
 import { PAGE_PATHS } from '@/lib/paths'
 import { copyToClipboard, share } from '@/lib/share'
 import Link from 'next/link'
@@ -18,7 +19,6 @@ import ReviewOptionButton from './ReviewOptionButton'
 interface ReviewOptionDrawerProps {
   reviewId: number
   memberId: number
-  currentMemberId: number | null
   memberNickname: string
   content: string
 }
@@ -26,10 +26,11 @@ interface ReviewOptionDrawerProps {
 export default function ReviewOptionDrawer({
   reviewId,
   memberId,
-  currentMemberId,
   memberNickname,
   content,
 }: ReviewOptionDrawerProps) {
+  const { memberProfile } = useMemberProfile()
+  const currentMemberId = memberProfile?.id ?? null
   const isMyReview = currentMemberId !== null && currentMemberId === memberId
 
   const getShareUrl = useCallback(() => {

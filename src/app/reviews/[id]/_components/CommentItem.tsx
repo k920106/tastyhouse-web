@@ -11,6 +11,7 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from '@/components/ui/shadcn/drawer'
+import { useMemberProfile } from '@/hooks/useMemberProfile'
 import Link from 'next/link'
 import { FiMoreVertical } from 'react-icons/fi'
 import { useReply } from './ReplyContext'
@@ -40,11 +41,12 @@ type Comment = {
 
 interface CommentItemProps {
   comment: Comment
-  currentMemberId: number | null
 }
 
-export default function CommentItem({ comment, currentMemberId }: CommentItemProps) {
+export default function CommentItem({ comment }: CommentItemProps) {
   const { triggerReply } = useReply()
+  const { memberProfile } = useMemberProfile()
+  const currentMemberId = memberProfile?.id ?? null
 
   const isMyComment = currentMemberId !== null && comment.memberId === currentMemberId
 
