@@ -3,7 +3,6 @@
 import { getMemberGradeColor, getMemberGradeIcon, getMemberGradeName } from '@/constants/member'
 import { MemberGradeCode } from '@/domains/member'
 import Image from 'next/image'
-import { FiEdit2 } from 'react-icons/fi'
 
 interface MyPageProfileProps {
   userName: string
@@ -39,14 +38,12 @@ export default function MyPageProfile({
           </div>
         )}
       </div>
-      <div className="flex items-center gap-1.5 mt-3">
-        <h1 className="text-[16px] font-bold">{userName}</h1>
-        <button className="p-0.5">
-          <FiEdit2 size={14} className="text-gray-500" />
-        </button>
+      <div className="flex items-center gap-0.5 mt-[21px]">
+        <h1 className="text-base leading-[16px] font-bold">{userName}</h1>
+        <Image src="/images/mypage/icon-pen.png" alt="pencil" width={18} height={16} />
       </div>
-      <div className="flex items-center gap-1 mt-1">
-        <div className="relative w-[16px] h-[16px]">
+      <div className="flex items-center gap-1.5 mt-2">
+        <div className="relative w-[14px] h-[14px]">
           <Image
             src={`/images/rank/icon-level-${gradeIcon}-40.png`}
             alt={gradeName}
@@ -55,7 +52,7 @@ export default function MyPageProfile({
             sizes="16px"
           />
         </div>
-        <span className={`text-[14px] leading-[14px] ${gradeColor}`}>{gradeName}</span>
+        <span className={`text-sm leading-[14px] font-bold ${gradeColor}`}>{gradeName}</span>
       </div>
       {description && (
         <p className="text-[13px] text-gray-500 text-center mt-3 px-8">{description}</p>

@@ -5,11 +5,11 @@ import { MemberGradeCode } from '@/domains/member'
 import Image from 'next/image'
 import { usePathname, useRouter } from 'next/navigation'
 import { useCallback } from 'react'
-import MyPageHeader from './MyPageHeader'
 import MyPagePaymentItem from './MyPagePaymentItem'
 import MyPagePlaceCard from './MyPagePlaceCard'
 import MyPageProfile from './MyPageProfile'
 import MyPageStats from './MyPageStats'
+import MyPageHeader from './MyPageHeader'
 
 type TabValue = 'reviews' | 'payments' | 'places'
 

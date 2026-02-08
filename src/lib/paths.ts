@@ -63,6 +63,9 @@ export const PAGE_PATHS = {
   MY_COUPONS: '/mypage/coupons',
   MY_REVIEWS: '/mypage/reviews',
 
+  // 설정
+  SETTING: '/setting',
+
   // 회원
   MEMBERS: '/members',
   MEMBER_DETAIL: (id: string | number) => `/members/${id}`,
