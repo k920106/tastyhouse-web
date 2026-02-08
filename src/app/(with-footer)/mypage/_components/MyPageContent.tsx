@@ -2,7 +2,9 @@
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/shadcn/tabs'
 import { MemberGradeCode } from '@/domains/member'
+import { PAGE_PATHS } from '@/lib/paths'
 import Image from 'next/image'
+import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
 import { useCallback } from 'react'
 import MyPageHeader from './MyPageHeader'
@@ -149,12 +151,24 @@ export default function MyPageContent({ initialTab }: MyPageContentProps) {
           </TabsList>
           <TabsContent value="reviews" className="mt-0 flex-1 bg-[#f9f9f9]">
             {dummyReviews.length > 0 ? (
-              <div className="grid grid-cols-3 gap-[1.5px] pb-[70px]">
-                {dummyReviews.map((review) => (
-                  <div key={review.id} className="relative aspect-square">
-                    <Image src={review.imagePath} alt="리뷰 이미지" fill sizes="33vw" className="object-cover" />
-                  </div>
-                ))}
+              <div className="pt-[1px] pb-[70px]">
+                <div className="grid grid-cols-3 gap-[1.5px]">
+                  {dummyReviews.map((review) => (
+                    <Link
+                      key={review.id}
+                      href={PAGE_PATHS.REVIEW_DETAIL(review.id)}
+                      className="relative aspect-square"
+                    >
+                      <Image
+                        src={review.imagePath}
+                        alt="리뷰 이미지"
+                        fill
+                        sizes="33vw"
+                        className="object-cover"
+                      />
+                    </Link>
+                  ))}
+                </div>
               </div>
             ) : (
               <div className="flex flex-col items-center justify-center h-full pb-[70px]">
