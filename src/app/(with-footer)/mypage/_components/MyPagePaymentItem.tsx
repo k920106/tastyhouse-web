@@ -1,49 +1,52 @@
 'use client'
 
-import Image from 'next/image'
+import ImageContainer from '@/components/ui/ImageContainer'
+import { getPaymentStatusColor, getPaymentStatusName } from '@/constants/payment'
+import { PaymentStatus } from '@/domains/payment'
+import { formatNumber } from '@/lib/number'
+import { PAGE_PATHS } from '@/lib/paths'
+import Link from 'next/link'
 
 interface MyPagePaymentItemProps {
+  id: number
   storeName: string
   productName: string
   price: number
   date: string
-  status: '결제완료' | '사용완료' | '결제취소'
+  paymentStatus: PaymentStatus
   storeImage: string
 }
 
 export default function MyPagePaymentItem({
+  id,
   storeName,
   productName,
   price,
   date,
-  status,
+  paymentStatus,
   storeImage,
 }: MyPagePaymentItemProps) {
-  const statusColor =
-    status === '결제완료'
-      ? 'text-green-600'
-      : status === '사용완료'
-        ? 'text-gray-500'
-        : 'text-red-600'
+  const statusColor = getPaymentStatusColor(paymentStatus)
+  const statusName = getPaymentStatusName(paymentStatus)
 
   return (
-    <div className="bg-white border-b border-gray-100 px-4 py-4">
-      <div className="flex gap-4">
-        <div className="relative w-[80px] h-[80px] rounded-lg overflow-hidden flex-shrink-0">
-          <Image src={storeImage} alt={storeName} fill className="object-cover" />
-        </div>
-        <div className="flex-1 flex flex-col justify-between">
-          <div>
-            <p className="text-[13px] text-gray-500 mb-1">{storeName}</p>
-            <p className="text-[15px] font-bold mb-2">{productName}</p>
-            <p className="text-[16px] font-bold">{price.toLocaleString()}원</p>
+    <Link href={PAGE_PATHS.PAYMENT_DETAIL(id)} className="block">
+      <div className="flex items-center justify-between py-[15px]">
+        <div className="flex items-center gap-[15px]">
+          <ImageContainer src={storeImage} alt={storeName} size={60} />
+          <div className="flex-1 flex flex-col min-w-0">
+            <p className="text-[11px] leading-[11px] text-[#888888] truncate">{storeName}</p>
+            <p className="text-sm leading-[14px] mt-[7px]">{productName}</p>
+            <p className="text-sm leading-[14px] mt-2.5">{formatNumber(price)}원</p>
           </div>
         </div>
-        <div className="flex flex-col items-end justify-between">
-          <p className="text-[13px] text-gray-500">{date}</p>
-          <p className={`text-[13px] ${statusColor}`}>{status}</p>
+        <div className="flex flex-col items-end gap-[7px] justify-between">
+          <p className="text-[11px] leading-[11px] text-[#aaaaaa]">{date}</p>
+          <p className="text-[11px] leading-[11px]" style={{ color: statusColor }}>
+            {statusName}
+          </p>
         </div>
       </div>
-    </div>
+    </Link>
   )
 }

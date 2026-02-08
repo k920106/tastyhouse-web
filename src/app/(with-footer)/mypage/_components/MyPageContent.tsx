@@ -2,6 +2,7 @@
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/shadcn/tabs'
 import { MemberGradeCode } from '@/domains/member'
+import { PaymentStatus } from '@/domains/payment'
 import { PAGE_PATHS } from '@/lib/paths'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -68,6 +69,30 @@ const dummyReviews: {
     id: 10,
     imagePath: '/images/sample/food/food-image2.png',
   },
+  {
+    id: 11,
+    imagePath: '/images/sample/food/food-image3.png',
+  },
+  {
+    id: 12,
+    imagePath: '/images/sample/food/food-image4.png',
+  },
+  {
+    id: 13,
+    imagePath: '/images/sample/food/food-image5.png',
+  },
+  {
+    id: 14,
+    imagePath: '/images/sample/food/food-image6.png',
+  },
+  {
+    id: 15,
+    imagePath: '/images/sample/food/food-image7.png',
+  },
+  {
+    id: 16,
+    imagePath: '/images/sample/food/food-image8.png',
+  },
 ]
 
 const dummyPayments: {
@@ -76,9 +101,37 @@ const dummyPayments: {
   productName: string
   price: number
   date: string
-  status: '결제완료' | '사용완료' | '결제취소'
+  status: PaymentStatus
   storeImage: string
-}[] = []
+}[] = [
+  {
+    id: 1,
+    storeName: '테스트 가게',
+    productName: '테스트 상품',
+    price: 10000,
+    date: '2026-01-01',
+    status: 'COMPLETED',
+    storeImage: '/images/sample/place/place-image1.png',
+  },
+  {
+    id: 2,
+    storeName: '테스트 가게',
+    productName: '테스트 상품',
+    price: 10000,
+    date: '2026-01-01',
+    status: 'COMPLETED',
+    storeImage: '/images/sample/place/place-image2.png',
+  },
+  {
+    id: 3,
+    storeName: '테스트 가게',
+    productName: '테스트 상품',
+    price: 10000,
+    date: '2026-01-01',
+    status: 'CANCELLED',
+    storeImage: '/images/sample/place/place-image3.png',
+  },
+]
 
 const dummyPlaces: {
   id: number
@@ -151,25 +204,28 @@ export default function MyPageContent({ initialTab }: MyPageContentProps) {
           </TabsList>
           <TabsContent value="reviews" className="mt-0 flex-1 bg-[#f9f9f9]">
             {dummyReviews.length > 0 ? (
-              <div className="pt-[1px] pb-[70px]">
-                <div className="grid grid-cols-3 gap-[1.5px]">
-                  {dummyReviews.map((review) => (
-                    <Link
-                      key={review.id}
-                      href={PAGE_PATHS.REVIEW_DETAIL(review.id)}
-                      className="relative aspect-square"
-                    >
-                      <Image
-                        src={review.imagePath}
-                        alt="리뷰 이미지"
-                        fill
-                        sizes="33vw"
-                        className="object-cover"
-                      />
-                    </Link>
-                  ))}
+              <>
+                <div className="pt-[1px]">
+                  <div className="grid grid-cols-3 gap-[1.5px]">
+                    {dummyReviews.map((review) => (
+                      <Link
+                        key={review.id}
+                        href={PAGE_PATHS.REVIEW_DETAIL(review.id)}
+                        className="relative aspect-square"
+                      >
+                        <Image
+                          src={review.imagePath}
+                          alt="리뷰 이미지"
+                          fill
+                          sizes="33vw"
+                          className="object-cover"
+                        />
+                      </Link>
+                    ))}
+                  </div>
                 </div>
-              </div>
+                <div className="h-[70px]"></div>
+              </>
             ) : (
               <div className="flex flex-col items-center justify-center h-full pb-[70px]">
                 <div className="relative w-[35px] h-[40px]">
@@ -183,19 +239,23 @@ export default function MyPageContent({ initialTab }: MyPageContentProps) {
           </TabsContent>
           <TabsContent value="payments" className="mt-0 flex-1 bg-[#f9f9f9]">
             {dummyPayments.length > 0 ? (
-              <div className="pb-[70px]">
-                {dummyPayments.map((payment) => (
-                  <MyPagePaymentItem
-                    key={payment.id}
-                    storeName={payment.storeName}
-                    productName={payment.productName}
-                    price={payment.price}
-                    date={payment.date}
-                    status={payment.status}
-                    storeImage={payment.storeImage}
-                  />
-                ))}
-              </div>
+              <>
+                <div className="px-[15px] pt-[5px] bg-white divide-y divide-[#eeeeee]">
+                  {dummyPayments.map((payment) => (
+                    <MyPagePaymentItem
+                      key={payment.id}
+                      id={payment.id}
+                      storeName={payment.storeName}
+                      productName={payment.productName}
+                      price={payment.price}
+                      date={payment.date}
+                      paymentStatus={payment.status}
+                      storeImage={payment.storeImage}
+                    />
+                  ))}
+                </div>
+                <div className="h-[70px]"></div>
+              </>
             ) : (
               <div className="flex flex-col items-center justify-center h-full pb-[70px]">
                 <div className="relative w-[35px] h-[40px]">
