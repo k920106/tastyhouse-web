@@ -19,12 +19,9 @@ export default function MyPagePlaceCard({
   return (
     <div className="bg-white border-b border-gray-100 px-4 py-4">
       <div className="flex gap-4">
-        {/* 장소 이미지 */}
         <div className="relative w-[100px] h-[100px] rounded-lg overflow-hidden flex-shrink-0">
           <Image src={placeImage} alt={placeName} fill className="object-cover" />
         </div>
-
-        {/* 장소 정보 */}
         <div className="flex-1 flex flex-col justify-between py-1">
           <div>
             <p className="text-[13px] text-gray-500 mb-1">{region}</p>
@@ -32,8 +29,6 @@ export default function MyPagePlaceCard({
           </div>
           <p className="text-[20px] font-bold text-main">{rating.toFixed(1)}</p>
         </div>
-
-        {/* 북마크 아이콘 */}
         <div className="flex items-start pt-1">
           <IoBookmark size={24} className="text-main" />
         </div>

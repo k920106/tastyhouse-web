@@ -12,18 +12,18 @@ export default function MyPageStats({
   followerCount,
 }: MyPageStatsProps) {
   return (
-    <div className="flex items-center justify-center gap-12 py-6 bg-white border-b-[8px] border-gray-100">
-      <button className="flex flex-col items-center gap-1">
-        <span className="text-[16px]">리뷰</span>
-        <span className="text-[20px] font-bold">{reviewCount}</span>
+    <div className="flex items-center justify-center gap-10 py-5 border-b border-[#eeeeee]">
+      <button className="flex items-center gap-1">
+        <span className="text-[14px]">리뷰</span>
+        <span className="text-[14px] font-bold">{reviewCount}</span>
       </button>
-      <button className="flex flex-col items-center gap-1">
-        <span className="text-[16px]">팔로잉</span>
-        <span className="text-[20px] font-bold">{followingCount}</span>
+      <button className="flex items-center gap-1">
+        <span className="text-[14px]">팔로잉</span>
+        <span className="text-[14px] font-bold">{followingCount}</span>
       </button>
-      <button className="flex flex-col items-center gap-1">
-        <span className="text-[16px]">팔로워</span>
-        <span className="text-[20px] font-bold">{followerCount}</span>
+      <button className="flex items-center gap-1">
+        <span className="text-[14px]">팔로워</span>
+        <span className="text-[14px] font-bold">{followerCount}</span>
       </button>
     </div>
   )

@@ -38,9 +38,7 @@ export default function MyPageReviewItem({
           <IoPersonAddOutline size={24} className="text-gray-600" />
         </button>
       </div>
-
-      {/* 이미지 그리드 */}
-      <div className="grid grid-cols-3 gap-[2px]">
+      <div className="grid grid-cols-3 gap-[1.5px]">
         {images.slice(0, 7).map((image, index) => (
           <div key={index} className="relative aspect-square bg-gray-100">
             <Image src={image} alt={`리뷰 이미지 ${index + 1}`} fill className="object-cover" />
