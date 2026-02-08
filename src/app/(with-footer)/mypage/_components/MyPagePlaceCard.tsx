@@ -1,10 +1,13 @@
 'use client'
 
+import { toast } from '@/components/ui/AppToaster'
 import ImageContainer from '@/components/ui/ImageContainer'
 import Rating from '@/components/ui/Rating'
 import { PAGE_PATHS } from '@/lib/paths'
+import { togglePlaceBookmark } from '@/services/place'
 import Image from 'next/image'
 import Link from 'next/link'
+import { useState, useTransition } from 'react'
 
 interface MyPagePlaceCardProps {
   placeId: number
@@ -21,11 +24,32 @@ export default function MyPagePlaceCard({
   region,
   placeName,
   rating,
-  isBookmarked,
+  isBookmarked: initialIsBookmarked,
 }: MyPagePlaceCardProps) {
+  const [isBookmarked, setIsBookmarked] = useState(initialIsBookmarked)
+  const [isPending, startTransition] = useTransition()
+
+  const handleBookmarkClick = (e: React.MouseEvent) => {
+    e.preventDefault()
+    e.stopPropagation()
+
+    if (isPending) return
+
+    startTransition(async () => {
+      const { error, data } = await togglePlaceBookmark(placeId)
+
+      if (error || !data || !data.success || !data.data) {
+        toast(error || '북마크 처리에 실패했습니다.')
+        return
+      }
+
+      setIsBookmarked(data.data.bookmarked)
+    })
+  }
+
   return (
     <Link href={PAGE_PATHS.PLACE_DETAIL(placeId)} className="block">
-      <div className="p-2.5 bg-white border border-[#eeeeee] box-border shadow-2xs rounded-[2.5px]">
+      <div className="relative p-2.5 bg-white border border-[#eeeeee] box-border shadow-2xs rounded-[2.5px]">
         <div className="flex items-center gap-4">
           <ImageContainer src={placeImage} alt={placeName} size={75} rounded="2.5px" />
           <div className="flex-1 flex flex-col justify-between py-1">
@@ -33,14 +57,23 @@ export default function MyPagePlaceCard({
             <p className="text-lg leading-[18px] mt-2 truncate">{placeName}</p>
             <Rating value={rating} className="mt-[15px]" />
           </div>
-          <div className="flex items-start pt-1">
-            {isBookmarked ? (
-              <Image src="/images/mypage/icon-bookmark-on.png" alt="찜" width={24} height={24} />
-            ) : (
-              <Image src="/images/mypage/icon-bookmark-off.png" alt="찜" width={24} height={24} />
-            )}
-          </div>
         </div>
+        <button
+          type="button"
+          onClick={handleBookmarkClick}
+          className="absolute"
+          style={{
+            right: '15px',
+            top: '-3px',
+          }}
+          disabled={isPending}
+        >
+          {isBookmarked ? (
+            <Image src="/images/mypage/icon-bookmark-on.png" alt="찜" width={16} height={24} />
+          ) : (
+            <Image src="/images/mypage/icon-bookmark-off.png" alt="찜" width={16} height={24} />
+          )}
+        </button>
       </div>
     </Link>
   )
