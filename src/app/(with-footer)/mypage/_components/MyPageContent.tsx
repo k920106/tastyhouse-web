@@ -1,17 +1,13 @@
-'use client'
-
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/shadcn/tabs'
 import { MemberGradeCode } from '@/domains/member'
 import { PaymentStatus } from '@/domains/payment'
 import { PAGE_PATHS } from '@/lib/paths'
 import Image from 'next/image'
 import Link from 'next/link'
-import { usePathname, useRouter } from 'next/navigation'
-import { useCallback } from 'react'
 import MyPageHeader from './MyPageHeader'
 import MyPagePaymentItem from './MyPagePaymentItem'
 import MyPagePlaceCard from './MyPagePlaceCard'
 import MyPageProfile from './MyPageProfile'
+import MyPageTabs from './MyPageTabs'
 
 export type MyPageTabValue = 'reviews' | 'payments' | 'bookmarks'
 
@@ -147,7 +143,7 @@ const dummyPayments: {
     price: 10000,
     date: '2026-01-01',
     status: 'CANCELLED',
-    storeImage: '/images/sample/place/place-image5.png',
+    storeImage: '/images/sample/place/place-image1.png',
   },
   {
     id: 6,
@@ -218,25 +214,104 @@ const dummyBookmarks: {
   },
 ]
 
-const TAB_TRIGGER_CLASS =
-  'flex-1 h-full rounded-none border-0 border-b border-[#eeeeee] shadow-none cursor-pointer data-[state=active]:shadow-none data-[state=active]:border-b-2 data-[state=active]:border-main'
-
 interface MyPageContentProps {
   initialTab: MyPageTabValue
 }
 
 export default function MyPageContent({ initialTab }: MyPageContentProps) {
-  const router = useRouter()
-  const pathname = usePathname()
+  const reviewsContent =
+    dummyReviews.length > 0 ? (
+      <>
+        <div className="py-[1px]">
+          <div className="grid grid-cols-3 gap-[1.5px]">
+            {dummyReviews.map((review) => (
+              <Link
+                key={review.id}
+                href={PAGE_PATHS.REVIEW_DETAIL(review.id)}
+                className="relative aspect-square"
+              >
+                <Image
+                  src={review.imagePath}
+                  alt="리뷰 이미지"
+                  fill
+                  sizes="33vw"
+                  className="object-cover"
+                />
+              </Link>
+            ))}
+          </div>
+        </div>
+        <div className="h-[70px]"></div>
+      </>
+    ) : (
+      <div className="flex flex-col items-center justify-center h-full pb-[70px]">
+        <div className="relative w-[35px] h-[40px]">
+          <Image src="/images/mypage/logo-gray.png" alt="로고" width={35} height={40} />
+        </div>
+        <div className="mt-[15px]">
+          <p className="text-sm leading-[14px] text-[#aaaaaa]">등록된 리뷰가 없습니다.</p>
+        </div>
+      </div>
+    )
 
-  const handleTabChange = useCallback(
-    (value: string) => {
-      const params = new URLSearchParams()
-      params.set('tab', value)
-      router.push(`${pathname}?${params.toString()}`, { scroll: false })
-    },
-    [router, pathname],
-  )
+  const paymentsContent =
+    dummyPayments.length > 0 ? (
+      <>
+        <div className="px-[15px] py-[5px] bg-white divide-y divide-[#eeeeee]">
+          {dummyPayments.map((payment) => (
+            <MyPagePaymentItem
+              key={payment.id}
+              id={payment.id}
+              storeName={payment.storeName}
+              productName={payment.productName}
+              price={payment.price}
+              date={payment.date}
+              paymentStatus={payment.status}
+              storeImage={payment.storeImage}
+            />
+          ))}
+        </div>
+        <div className="h-[70px]"></div>
+      </>
+    ) : (
+      <div className="flex flex-col items-center justify-center h-full pb-[70px]">
+        <div className="relative w-[35px] h-[40px]">
+          <Image src="/images/mypage/logo-gray.png" alt="로고" width={35} height={40} />
+        </div>
+        <div className="mt-[15px]">
+          <p className="text-sm leading-[14px] text-[#aaaaaa]">결제 내역이 없습니다.</p>
+        </div>
+      </div>
+    )
+
+  const bookmarksContent =
+    dummyBookmarks.length > 0 ? (
+      <>
+        <div className="flex flex-col gap-2.5 px-[15px] py-[20px]">
+          {dummyBookmarks.map((bookmark) => (
+            <MyPagePlaceCard
+              key={bookmark.id}
+              placeId={bookmark.id}
+              placeImage={bookmark.placeImage}
+              region={bookmark.region}
+              placeName={bookmark.placeName}
+              rating={bookmark.rating}
+              isBookmarked={bookmark.isBookmarked}
+            />
+          ))}
+        </div>
+        <div className="h-[70px]"></div>
+      </>
+    ) : (
+      <div className="flex flex-col items-center justify-center h-full pb-[70px]">
+        <div className="relative w-[35px] h-[40px]">
+          <Image src="/images/mypage/logo-gray.png" alt="로고" width={35} height={40} />
+        </div>
+        <div className="mt-[15px]">
+          <p className="text-sm leading-[14px] text-[#aaaaaa]">저장된 즐겨찾기가 없습니다.</p>
+        </div>
+      </div>
+    )
 
   return (
     <div className="flex flex-col min-h-dvh bg-white">
@@ -251,132 +326,12 @@ export default function MyPageContent({ initialTab }: MyPageContentProps) {
           followerCount={userData.followerCount}
         />
       </div>
-      <div className="flex-1 flex flex-col border-t border-[#eeeeee]">
-        <Tabs value={initialTab} onValueChange={handleTabChange} className="gap-0 min-h-[50dvh]">
-          <TabsList className="sticky top-0 w-full h-[50px] rounded-none bg-white z-40 p-0">
-            <TabsTrigger value="reviews" className={TAB_TRIGGER_CLASS}>
-              <Image
-                src={`/images/mypage/icon-review-${initialTab === 'reviews' ? 'on' : 'off'}.png`}
-                alt="리뷰"
-                width={22}
-                height={25}
-              />
-            </TabsTrigger>
-            <TabsTrigger value="payments" className={TAB_TRIGGER_CLASS}>
-              <Image
-                src={`/images/mypage/icon-order-${initialTab === 'payments' ? 'on' : 'off'}.png`}
-                alt="결제"
-                width={34}
-                height={25}
-              />
-            </TabsTrigger>
-            <TabsTrigger value="bookmarks" className={TAB_TRIGGER_CLASS}>
-              <Image
-                src={`/images/mypage/icon-place-bookmark-${initialTab === 'bookmarks' ? 'on' : 'off'}.png`}
-                alt="저장"
-                width={27}
-                height={25}
-              />
-            </TabsTrigger>
-          </TabsList>
-          <TabsContent value="reviews" className="mt-0 flex-1 bg-[#f9f9f9]">
-            {dummyReviews.length > 0 ? (
-              <>
-                <div className="py-[1px]">
-                  <div className="grid grid-cols-3 gap-[1.5px]">
-                    {dummyReviews.map((review) => (
-                      <Link
-                        key={review.id}
-                        href={PAGE_PATHS.REVIEW_DETAIL(review.id)}
-                        className="relative aspect-square"
-                      >
-                        <Image
-                          src={review.imagePath}
-                          alt="리뷰 이미지"
-                          fill
-                          sizes="33vw"
-                          className="object-cover"
-                        />
-                      </Link>
-                    ))}
-                  </div>
-                </div>
-                <div className="h-[70px]"></div>
-              </>
-            ) : (
-              <div className="flex flex-col items-center justify-center h-full pb-[70px]">
-                <div className="relative w-[35px] h-[40px]">
-                  <Image src="/images/mypage/logo-gray.png" alt="로고" width={35} height={40} />
-                </div>
-                <div className="mt-[15px]">
-                  <p className="text-sm leading-[14px] text-[#aaaaaa]">등록된 리뷰가 없습니다.</p>
-                </div>
-              </div>
-            )}
-          </TabsContent>
-          <TabsContent value="payments" className="mt-0 flex-1 bg-[#f9f9f9]">
-            {dummyPayments.length > 0 ? (
-              <>
-                <div className="px-[15px] py-[5px] bg-white divide-y divide-[#eeeeee]">
-                  {dummyPayments.map((payment) => (
-                    <MyPagePaymentItem
-                      key={payment.id}
-                      id={payment.id}
-                      storeName={payment.storeName}
-                      productName={payment.productName}
-                      price={payment.price}
-                      date={payment.date}
-                      paymentStatus={payment.status}
-                      storeImage={payment.storeImage}
-                    />
-                  ))}
-                </div>
-                <div className="h-[70px]"></div>
-              </>
-            ) : (
-              <div className="flex flex-col items-center justify-center h-full pb-[70px]">
-                <div className="relative w-[35px] h-[40px]">
-                  <Image src="/images/mypage/logo-gray.png" alt="로고" width={35} height={40} />
-                </div>
-                <div className="mt-[15px]">
-                  <p className="text-sm leading-[14px] text-[#aaaaaa]">결제 내역이 없습니다.</p>
-                </div>
-              </div>
-            )}
-          </TabsContent>
-          <TabsContent value="bookmarks" className="mt-0 flex-1 bg-[#f9f9f9]">
-            {dummyBookmarks.length > 0 ? (
-              <>
-                <div className="flex flex-col gap-2.5 px-[15px] py-[20px]">
-                  {dummyBookmarks.map((bookmark) => (
-                    <MyPagePlaceCard
-                      key={bookmark.id}
-                      placeId={bookmark.id}
-                      placeImage={bookmark.placeImage}
-                      region={bookmark.region}
-                      placeName={bookmark.placeName}
-                      rating={bookmark.rating}
-                      isBookmarked={bookmark.isBookmarked}
-                    />
-                  ))}
-                </div>
-                <div className="h-[70px]"></div>
-              </>
-            ) : (
-              <div className="flex flex-col items-center justify-center h-full pb-[70px]">
-                <div className="relative w-[35px] h-[40px]">
-                  <Image src="/images/mypage/logo-gray.png" alt="로고" width={35} height={40} />
-                </div>
-                <div className="mt-[15px]">
-                  <p className="text-sm leading-[14px] text-[#aaaaaa]">
-                    저장된 즐겨찾기가 없습니다.
-                  </p>
-                </div>
-              </div>
-            )}
-          </TabsContent>
-        </Tabs>
-      </div>
+      <MyPageTabs
+        initialTab={initialTab}
+        reviewsContent={reviewsContent}
+        paymentsContent={paymentsContent}
+        bookmarksContent={bookmarksContent}
+      />
     </div>
   )
 }
