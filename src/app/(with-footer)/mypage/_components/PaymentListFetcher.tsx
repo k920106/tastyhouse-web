@@ -7,6 +7,16 @@ import { getMyPayments } from '@/services/member'
 import { useQuery } from '@tanstack/react-query'
 import PaymentList from './PaymentList'
 
+function PaymentListSkeleton() {
+  return (
+    <div className="px-[15px] py-[5px] bg-white divide-y divide-[#eeeeee]">
+      {Array.from({ length: 3 }).map((_, index) => (
+        <PaymentListItemSkeleton key={index} />
+      ))}
+    </div>
+  )
+}
+
 function PaymentListItemSkeleton() {
   return (
     <div className="flex items-center justify-between py-[15px]">
@@ -22,16 +32,6 @@ function PaymentListItemSkeleton() {
         <Skeleton className="h-[11px] w-[55px]" />
         <Skeleton className="h-[11px] w-[45px]" />
       </div>
-    </div>
-  )
-}
-
-function PaymentListSkeleton() {
-  return (
-    <div className="px-[15px] py-[5px] bg-white divide-y divide-[#eeeeee]">
-      {Array.from({ length: 3 }).map((_, index) => (
-        <PaymentListItemSkeleton key={index} />
-      ))}
     </div>
   )
 }
