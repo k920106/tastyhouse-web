@@ -4,9 +4,6 @@ export const memberService = {
   async getMemberMe() {
     return await memberRepository.getMemberMe()
   },
-  async getMyContact() {
-    return await memberRepository.getMyContact()
-  },
   async getMyAvailableCoupons() {
     return await memberRepository.getMyAvailableCoupons()
   },

@@ -1,8 +1,4 @@
-import {
-  getMemberAvailableCoupons,
-  getMemberContact,
-  getMemberUsablePoint,
-} from '@/services/member'
+import { getMemberAvailableCoupons, getMemberMe, getMemberUsablePoint } from '@/services/member'
 import { getPlaceName } from '@/services/place'
 import OrderCheckoutSection from './_components/OrderCheckoutSection'
 
@@ -17,15 +13,15 @@ export default async function OrderCheckoutPage({ params }: OrderCheckoutPagePro
 
   const placeId = Number(id)
 
-  const [placeNameResult, contactResult, couponsResult, usablePointResult] = await Promise.all([
+  const [placeNameResult, memberResult, couponsResult, usablePointResult] = await Promise.all([
     getPlaceName(placeId),
-    getMemberContact(),
+    getMemberMe(),
     getMemberAvailableCoupons(),
     getMemberUsablePoint(),
   ])
 
   const placeName = placeNameResult.data?.data?.name ?? ''
-  const customerInfo = contactResult.data?.data ?? null
+  const memberInfo = memberResult.data?.data ?? null
   const availableCoupons = couponsResult.data?.data ?? []
   const usablePoints = usablePointResult.data?.data?.usablePoints ?? 0
 
@@ -33,7 +29,7 @@ export default async function OrderCheckoutPage({ params }: OrderCheckoutPagePro
     <OrderCheckoutSection
       placeId={placeId}
       placeName={placeName}
-      customerInfo={customerInfo}
+      memberInfo={memberInfo}
       availableCoupons={availableCoupons}
       usablePoints={usablePoints}
     />

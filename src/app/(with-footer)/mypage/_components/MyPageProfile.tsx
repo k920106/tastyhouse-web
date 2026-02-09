@@ -6,13 +6,7 @@ import Image from 'next/image'
 
 export default function MyPageProfile() {
   const { memberProfile } = useMemberProfile()
-  const {
-    nickname,
-    profileImageUrl,
-    grade: memberGrade,
-    reviewCount,
-    statusMessage,
-  } = memberProfile ?? {}
+  const { nickname, profileImageUrl, grade: memberGrade, statusMessage } = memberProfile ?? {}
 
   const gradeName = getMemberGradeName(memberGrade ?? 'NEWCOMER')
   const gradeIcon = getMemberGradeIcon(memberGrade ?? 'NEWCOMER')
@@ -57,7 +51,8 @@ export default function MyPageProfile() {
       <div className="flex items-center justify-center gap-10 mt-[53px] mb-[30px]">
         <button className="flex items-center gap-1">
           <span className="text-xs leading-[12px]">리뷰</span>
-          <span className="text-xs leading-[12px] font-bold">{reviewCount}</span>
+          {/* <span className="text-xs leading-[12px] font-bold">{reviewCount}</span> */}
+          <span className="text-xs leading-[12px] font-bold">0</span>
         </button>
         <button className="flex items-center gap-1">
           <span className="text-xs leading-[12px]">팔로잉</span>

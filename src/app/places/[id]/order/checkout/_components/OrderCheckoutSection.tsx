@@ -5,7 +5,7 @@ import { BackButton } from '@/components/layouts/header-parts'
 import { toast } from '@/components/ui/AppToaster'
 import BorderedSection from '@/components/ui/BorderedSection'
 import SectionStack from '@/components/ui/SectionStack'
-import type { MemberContactResponse, MemberCouponListItemResponse } from '@/domains/member'
+import type { MemberCouponListItemResponse, MemberInfo } from '@/domains/member'
 import type { PaymentMethod } from '@/domains/payment'
 import { useCartInfo } from '@/hooks/useCartInfo'
 import { useTossPayments } from '@/hooks/useTossPayments'
@@ -26,7 +26,7 @@ import PaymentSummarySection from './PaymentSummarySection'
 interface OrderCheckoutSectionProps {
   placeId: number
   placeName: string
-  customerInfo: MemberContactResponse | null
+  memberInfo: MemberInfo | null
   availableCoupons: MemberCouponListItemResponse[]
   usablePoints: number
 }
@@ -34,7 +34,7 @@ interface OrderCheckoutSectionProps {
 export default function OrderCheckoutSection({
   placeId,
   placeName,
-  customerInfo,
+  memberInfo: customerInfo,
   availableCoupons,
   usablePoints,
 }: OrderCheckoutSectionProps) {

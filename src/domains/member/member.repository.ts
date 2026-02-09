@@ -1,7 +1,6 @@
 import { api } from '@/lib/api'
 import { ApiResponse, PaginationParams } from '@/types/common'
 import {
-  MemberContactResponse,
   MemberCouponListItemResponse,
   MemberInfo,
   MyBookmarkedPlaceListItemResponse,
@@ -13,15 +12,13 @@ import {
 const ENDPOINT = '/api/members'
 
 export const memberRepository = {
+  // 내 프로필 조회
   async getMemberMe() {
     return api.get<ApiResponse<MemberInfo>>(`${ENDPOINT}/v1/me`)
   },
-  // async getMemberMe() {
-  //   return api.get<ApiResponse<MemberInfo>>(`${ENDPOINT}/v1/me`)
-  // },
-  async getMyContact() {
-    return api.get<ApiResponse<MemberContactResponse>>(`${ENDPOINT}/v1/me/contact`)
-  },
+  // 내 리뷰 통계 조회
+
+  // 사용 가능한 쿠폰 목록 조회
   async getMyAvailableCoupons() {
     return api.get<ApiResponse<MemberCouponListItemResponse[]>>(
       `${ENDPOINT}/v1/me/coupons/available`,
