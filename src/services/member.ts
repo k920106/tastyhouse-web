@@ -17,3 +17,7 @@ export async function getMemberAvailableCoupons() {
 export async function getMemberUsablePoint() {
   return await memberService.getMyUsablePoint()
 }
+
+export async function getMyReviews(page: number = 0, size: number = 9) {
+  return await memberService.getMyReviews(page, size)
+}

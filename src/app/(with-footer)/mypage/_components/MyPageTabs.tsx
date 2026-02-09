@@ -5,20 +5,19 @@ import Image from 'next/image'
 import { usePathname, useRouter } from 'next/navigation'
 import { useCallback, type ReactNode } from 'react'
 import { type MyPageTabValue } from './MyPageContent'
+import ReviewListFetcher from './ReviewListFetcher'
 
 const TAB_TRIGGER_CLASS =
   'flex-1 h-full rounded-none border-0 border-b border-[#eeeeee] shadow-none cursor-pointer data-[state=active]:shadow-none data-[state=active]:border-b-2 data-[state=active]:border-main'
 
 interface MyPageTabsProps {
   initialTab: MyPageTabValue
-  reviewsContent: ReactNode
   paymentsContent: ReactNode
   bookmarksContent: ReactNode
 }
 
 export default function MyPageTabs({
   initialTab,
-  reviewsContent,
   paymentsContent,
   bookmarksContent,
 }: MyPageTabsProps) {
@@ -64,7 +63,7 @@ export default function MyPageTabs({
           </TabsTrigger>
         </TabsList>
         <TabsContent value="reviews" className="mt-0 flex-1 bg-[#f9f9f9]">
-          {reviewsContent}
+          <ReviewListFetcher />
         </TabsContent>
         <TabsContent value="payments" className="mt-0 flex-1 bg-[#f9f9f9]">
           {paymentsContent}
