@@ -6,6 +6,7 @@ import {
   MyBookmarkedPlaceListItemResponse,
   MyPaymentListItemResponse,
   MyReviewListItemResponse,
+  MyReviewStatsResponse,
   UsablePointResponse,
 } from './member.type'
 
@@ -17,7 +18,9 @@ export const memberRepository = {
     return api.get<ApiResponse<MemberInfo>>(`${ENDPOINT}/v1/me`)
   },
   // 내 리뷰 통계 조회
-
+  async getMyReviewStats() {
+    return api.get<ApiResponse<MyReviewStatsResponse>>(`${ENDPOINT}/v1/me/review-stats`)
+  },
   // 사용 가능한 쿠폰 목록 조회
   async getMyAvailableCoupons() {
     return api.get<ApiResponse<MemberCouponListItemResponse[]>>(

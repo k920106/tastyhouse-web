@@ -6,6 +6,10 @@ export async function getMemberMe() {
   return await memberService.getMemberMe()
 }
 
+export async function getMyReviewStats() {
+  return await memberService.getMyReviewStats()
+}
+
 export async function getMemberAvailableCoupons() {
   return await memberService.getMyAvailableCoupons()
 }

@@ -2,10 +2,12 @@
 
 import { getMemberGradeColor, getMemberGradeIcon, getMemberGradeName } from '@/constants/member'
 import { useMemberProfile } from '@/hooks/useMemberProfile'
+import { useMyReviewStats } from '@/hooks/useMyReviewStats'
 import Image from 'next/image'
 
 export default function MyPageProfile() {
   const { memberProfile } = useMemberProfile()
+  const { totalReviewCount } = useMyReviewStats()
   const { nickname, profileImageUrl, grade: memberGrade, statusMessage } = memberProfile ?? {}
 
   const gradeName = getMemberGradeName(memberGrade ?? 'NEWCOMER')
@@ -51,8 +53,7 @@ export default function MyPageProfile() {
       <div className="flex items-center justify-center gap-10 mt-[53px] mb-[30px]">
         <button className="flex items-center gap-1">
           <span className="text-xs leading-[12px]">리뷰</span>
-          {/* <span className="text-xs leading-[12px] font-bold">{reviewCount}</span> */}
-          <span className="text-xs leading-[12px] font-bold">0</span>
+          <span className="text-xs leading-[12px] font-bold">{totalReviewCount}</span>
         </button>
         <button className="flex items-center gap-1">
           <span className="text-xs leading-[12px]">팔로잉</span>

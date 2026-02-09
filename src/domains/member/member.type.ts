@@ -39,6 +39,10 @@ export type MyReviewListItemResponse = {
   imageUrl: string
 }
 
+export type MyReviewStatsResponse = {
+  totalReviewCount: number
+}
+
 export type MyPaymentListItemResponse = {
   paymentId: number
   placeName: string
