@@ -1,13 +1,52 @@
 'use client'
 
 import { getMemberGradeColor, getMemberGradeIcon, getMemberGradeName } from '@/constants/member'
+import { Skeleton } from '@/components/ui/shadcn/skeleton'
 import { useMemberProfile } from '@/hooks/useMemberProfile'
 import { useMyReviewStats } from '@/hooks/useMyReviewStats'
 import Image from 'next/image'
 
+function MyPageProfileSkeleton() {
+  return (
+    <div className="flex-1 flex flex-col items-center bg-white">
+      <div className="-mt-[63px] relative z-10">
+        <Skeleton className="w-[125px] h-[125px] rounded-full" />
+      </div>
+      <div className="flex items-center gap-0.5 mt-[21px]">
+        <Skeleton className="h-[16px] w-[80px]" />
+        <Skeleton className="w-[18px] h-[16px]" />
+      </div>
+      <div className="flex items-center gap-1.5 mt-2">
+        <Skeleton className="w-[14px] h-[14px] rounded-full" />
+        <Skeleton className="h-[14px] w-[50px]" />
+      </div>
+      <Skeleton className="h-[14px] w-[160px] mt-[15px]" />
+      <div className="flex items-center justify-center gap-10 mt-[53px] mb-[30px]">
+        <div className="flex items-center gap-1">
+          <span className="text-xs leading-[12px]">리뷰</span>
+          <Skeleton className="h-[12px] w-[16px]" />
+        </div>
+        <div className="flex items-center gap-1">
+          <span className="text-xs leading-[12px]">팔로잉</span>
+          <Skeleton className="h-[12px] w-[16px]" />
+        </div>
+        <div className="flex items-center gap-1">
+          <span className="text-xs leading-[12px]">팔로워</span>
+          <Skeleton className="h-[12px] w-[16px]" />
+        </div>
+      </div>
+    </div>
+  )
+}
+
 export default function MyPageProfile() {
-  const { memberProfile } = useMemberProfile()
-  const { totalReviewCount } = useMyReviewStats()
+  const { memberProfile, isLoading: isProfileLoading } = useMemberProfile()
+  const { totalReviewCount, isLoading: isReviewStatsLoading } = useMyReviewStats()
+
+  if (isProfileLoading || isReviewStatsLoading) {
+    return <MyPageProfileSkeleton />
+  }
+
   const { nickname, profileImageUrl, grade: memberGrade, statusMessage } = memberProfile ?? {}
 
   const gradeName = getMemberGradeName(memberGrade ?? 'NEWCOMER')
