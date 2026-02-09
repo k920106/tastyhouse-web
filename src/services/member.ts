@@ -21,3 +21,11 @@ export async function getMemberUsablePoint() {
 export async function getMyReviews(page: number = 0, size: number = 9) {
   return await memberService.getMyReviews(page, size)
 }
+
+export async function getMyPayments(page: number = 0, size: number = 10) {
+  return await memberService.getMyPayments(page, size)
+}
+
+export async function getMyBookmarks(page: number = 0, size: number = 10) {
+  return await memberService.getMyBookmarks(page, size)
+}

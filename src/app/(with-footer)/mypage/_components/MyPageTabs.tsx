@@ -3,24 +3,22 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/shadcn/tabs'
 import Image from 'next/image'
 import { usePathname, useRouter } from 'next/navigation'
-import { useCallback, type ReactNode } from 'react'
+import { useCallback } from 'react'
+import BookmarkListFetcher from './BookmarkListFetcher'
 import { type MyPageTabValue } from './MyPageContent'
+import PaymentListFetcher from './PaymentListFetcher'
 import ReviewListFetcher from './ReviewListFetcher'
 
 const TAB_TRIGGER_CLASS =
   'flex-1 h-full rounded-none border-0 border-b border-[#eeeeee] shadow-none cursor-pointer data-[state=active]:shadow-none data-[state=active]:border-b-2 data-[state=active]:border-main'
 
+const TAB_CONTENT_CLASS = 'mt-0 flex-1 bg-[#f9f9f9]'
+
 interface MyPageTabsProps {
   initialTab: MyPageTabValue
-  paymentsContent: ReactNode
-  bookmarksContent: ReactNode
 }
 
-export default function MyPageTabs({
-  initialTab,
-  paymentsContent,
-  bookmarksContent,
-}: MyPageTabsProps) {
+export default function MyPageTabs({ initialTab }: MyPageTabsProps) {
   const router = useRouter()
   const pathname = usePathname()
 
@@ -62,14 +60,14 @@ export default function MyPageTabs({
             />
           </TabsTrigger>
         </TabsList>
-        <TabsContent value="reviews" className="mt-0 flex-1 bg-[#f9f9f9]">
+        <TabsContent value="reviews" className={TAB_CONTENT_CLASS}>
           <ReviewListFetcher />
         </TabsContent>
-        <TabsContent value="payments" className="mt-0 flex-1 bg-[#f9f9f9]">
-          {paymentsContent}
+        <TabsContent value="payments" className={TAB_CONTENT_CLASS}>
+          <PaymentListFetcher />
         </TabsContent>
-        <TabsContent value="bookmarks" className="mt-0 flex-1 bg-[#f9f9f9]">
-          {bookmarksContent}
+        <TabsContent value="bookmarks" className={TAB_CONTENT_CLASS}>
+          <BookmarkListFetcher />
         </TabsContent>
       </Tabs>
     </div>
