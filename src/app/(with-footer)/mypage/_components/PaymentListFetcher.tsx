@@ -7,14 +7,30 @@ import { getMyPayments } from '@/services/member'
 import { useQuery } from '@tanstack/react-query'
 import PaymentList from './PaymentList'
 
+function PaymentListItemSkeleton() {
+  return (
+    <div className="flex items-center justify-between py-[15px]">
+      <div className="flex items-center gap-[15px]">
+        <Skeleton className="w-[60px] h-[60px] rounded-md" />
+        <div className="flex flex-col">
+          <Skeleton className="h-[11px] w-[60px]" />
+          <Skeleton className="h-[14px] w-[120px] mt-[7px]" />
+          <Skeleton className="h-[14px] w-[80px] mt-2.5" />
+        </div>
+      </div>
+      <div className="flex flex-col items-end gap-[7px]">
+        <Skeleton className="h-[11px] w-[55px]" />
+        <Skeleton className="h-[11px] w-[45px]" />
+      </div>
+    </div>
+  )
+}
+
 function PaymentListSkeleton() {
   return (
-    <div className="space-y-4 p-4">
+    <div className="px-[15px] py-[5px] bg-white divide-y divide-[#eeeeee]">
       {Array.from({ length: 3 }).map((_, index) => (
-        <div key={index} className="space-y-2">
-          <Skeleton className="h-6 w-32" />
-          <Skeleton className="h-20 w-full" />
-        </div>
+        <PaymentListItemSkeleton key={index} />
       ))}
     </div>
   )
