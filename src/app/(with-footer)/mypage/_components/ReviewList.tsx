@@ -4,6 +4,19 @@ import { PAGE_PATHS } from '@/lib/paths'
 import Image from 'next/image'
 import Link from 'next/link'
 
+interface ReviewListItemProps {
+  id: number
+  imageUrl: string
+}
+
+function ReviewListItem({ id, imageUrl }: ReviewListItemProps) {
+  return (
+    <Link key={id} href={PAGE_PATHS.REVIEW_DETAIL(id)} className="relative aspect-square">
+      <Image src={imageUrl ?? ''} alt="리뷰 이미지" fill sizes="33vw" className="object-cover" />
+    </Link>
+  )
+}
+
 interface ReviewListProps {
   reviews: MyReviewListItemResponse[]
   hasMoreReviews: boolean
@@ -28,19 +41,7 @@ export default function ReviewList({ reviews, hasMoreReviews }: ReviewListProps)
       <div className="py-[1px]">
         <div className="grid grid-cols-3 gap-[1.5px]">
           {reviews.map((review) => (
-            <Link
-              key={review.id}
-              href={PAGE_PATHS.REVIEW_DETAIL(review.id)}
-              className="relative aspect-square"
-            >
-              <Image
-                src={review.imageUrl ?? ''}
-                alt="리뷰 이미지"
-                fill
-                sizes="33vw"
-                className="object-cover"
-              />
-            </Link>
+            <ReviewListItem key={review.id} id={review.id} imageUrl={review.imageUrl} />
           ))}
         </div>
         {hasMoreReviews && (

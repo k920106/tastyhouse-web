@@ -7,7 +7,7 @@ import { PAGE_PATHS } from '@/lib/paths'
 import Image from 'next/image'
 import Link from 'next/link'
 
-interface MyPagePlaceCardProps {
+interface BookmarkListItemProps {
   placeId: number
   placeImage: string
   region: string
@@ -16,14 +16,14 @@ interface MyPagePlaceCardProps {
   isBookmarked: boolean
 }
 
-export default function MyPagePlaceCard({
+export default function BookmarkListItem({
   placeId,
   placeImage,
   region,
   placeName,
   rating,
   isBookmarked: initialIsBookmarked,
-}: MyPagePlaceCardProps) {
+}: BookmarkListItemProps) {
   const { isBookmarked, isPending, toggleBookmark } = usePlaceBookmark({
     placeId,
     initialIsBookmarked,

@@ -19,4 +19,7 @@ export const memberService = {
   async getMyPayments(page: number = 0, size: number = 10) {
     return await memberRepository.getMyPayments({ page, size })
   },
+  async getMyBookmarks(page: number = 0, size: number = 10) {
+    return await memberRepository.getMyBookmarks({ page, size })
+  },
 }

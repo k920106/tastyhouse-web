@@ -54,6 +54,16 @@ export type MyPaymentListItemResponse = {
   paymentDate: string
 }
 
+export type MyBookmarkedPlaceListItemResponse = {
+  placeId: number
+  bookmarkId: number
+  placeName: string
+  stationName: string
+  rating: number
+  imageUrl: string
+  isBookmarked: boolean
+}
+
 export interface CartItem {
   id: number
   name: string

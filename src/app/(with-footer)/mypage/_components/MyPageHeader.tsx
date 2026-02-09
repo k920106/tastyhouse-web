@@ -1,5 +1,3 @@
-'use client'
-
 import Header, { HeaderRight } from '@/components/layouts/Header'
 import { PAGE_PATHS } from '@/lib/paths'
 import Image from 'next/image'

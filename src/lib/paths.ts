@@ -63,6 +63,7 @@ export const PAGE_PATHS = {
   MY_COUPONS: '/mypage/coupons',
   MY_REVIEWS: '/mypage/reviews',
   MY_PAYMENTS: '/mypage/payments',
+  MY_BOOKMARKS: '/mypage/bookmarks',
 
   // 설정
   SETTING: '/setting',
