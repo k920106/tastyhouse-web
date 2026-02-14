@@ -1,5 +1,6 @@
 'use client'
 
+import ProfileImage from '@/components/account/profile/ProfileImage'
 import { Skeleton } from '@/components/ui/shadcn/skeleton'
 import { getMemberGradeColor, getMemberGradeIcon, getMemberGradeName } from '@/constants/member'
 import { useMemberProfile } from '@/hooks/useMemberProfile'
@@ -56,14 +57,8 @@ export default function MyPageProfile() {
 
   return (
     <div className="flex-1 flex flex-col items-center bg-white">
-      <div className="-mt-[63px] relative z-10 w-[125px] h-[125px] rounded-full overflow-hidden">
-        <Image
-          src={profileImageUrl ?? '/images/account/profile/profile-random.png'}
-          alt="프로필 이미지"
-          fill
-          className="object-cover"
-          sizes="125px"
-        />
+      <div className="-mt-[63px] relative z-10">
+        <ProfileImage profileImageUrl={profileImageUrl} />
       </div>
       <div className="flex items-center gap-0.5 mt-[21px]">
         <h1 className="text-base leading-[16px] font-bold">{nickname}</h1>
