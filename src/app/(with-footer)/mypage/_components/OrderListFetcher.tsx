@@ -3,21 +3,21 @@
 import ErrorMessage from '@/components/ui/ErrorMessage'
 import { Skeleton } from '@/components/ui/shadcn/skeleton'
 import { COMMON_ERROR_MESSAGES } from '@/lib/constants'
-import { getMyPayments } from '@/services/member'
+import { getOrderList } from '@/services/order'
 import { useQuery } from '@tanstack/react-query'
-import PaymentList from './PaymentList'
+import OrderList from './OrderList'
 
-function PaymentListSkeleton() {
+function OrderListSkeleton() {
   return (
     <div className="px-[15px] py-[5px] bg-white divide-y divide-[#eeeeee]">
       {Array.from({ length: 3 }).map((_, index) => (
-        <PaymentListItemSkeleton key={index} />
+        <OrderListItemSkeleton key={index} />
       ))}
     </div>
   )
 }
 
-function PaymentListItemSkeleton() {
+function OrderListItemSkeleton() {
   return (
     <div className="flex items-center justify-between py-[15px]">
       <div className="flex items-center gap-[15px]">
@@ -36,26 +36,26 @@ function PaymentListItemSkeleton() {
   )
 }
 
-export default function PaymentListFetcher() {
+export default function OrderListFetcher() {
   const { data, isLoading, error } = useQuery({
-    queryKey: ['mypage', 'payments'],
+    queryKey: ['mypage', 'orders'],
     queryFn: async () => {
-      const response = await getMyPayments(0, 10)
+      const response = await getOrderList(0, 10)
       return {
-        payments: response.data?.data || [],
-        hasMorePayments: (response.data?.pagination?.totalElements ?? 0) > 10,
+        orders: response.data?.data || [],
+        hasMoreOrders: (response.data?.pagination?.totalElements ?? 0) > 10,
       }
     },
   })
 
   if (isLoading) {
-    return <PaymentListSkeleton />
+    return <OrderListSkeleton />
   }
 
   if (error) {
     return (
       <ErrorMessage
-        message={COMMON_ERROR_MESSAGES.FETCH_ERROR('결제 내역')}
+        message={COMMON_ERROR_MESSAGES.FETCH_ERROR('주문 내역')}
         className="py-10 bg-white"
       />
     )
@@ -64,11 +64,11 @@ export default function PaymentListFetcher() {
   if (!data) {
     return (
       <ErrorMessage
-        message={COMMON_ERROR_MESSAGES.FETCH_ERROR('결제 내역')}
+        message={COMMON_ERROR_MESSAGES.FETCH_ERROR('주문 내역')}
         className="py-10 bg-white"
       />
     )
   }
 
-  return <PaymentList payments={data.payments} hasMorePayments={data.hasMorePayments} />
+  return <OrderList orders={data.orders} hasMoreOrders={data.hasMoreOrders} />
 }

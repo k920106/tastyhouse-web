@@ -6,7 +6,7 @@ import { usePathname, useRouter } from 'next/navigation'
 import { useCallback } from 'react'
 import BookmarkListFetcher from './BookmarkListFetcher'
 import { type MyPageTabValue } from './MyPageContent'
-import PaymentListFetcher from './PaymentListFetcher'
+import OrderListFetcher from './OrderListFetcher'
 import ReviewListFetcher from './ReviewListFetcher'
 
 const TAB_TRIGGER_CLASS =
@@ -64,7 +64,7 @@ export default function MyPageTabs({ initialTab }: MyPageTabsProps) {
           <ReviewListFetcher />
         </TabsContent>
         <TabsContent value="payments" className={TAB_CONTENT_CLASS}>
-          <PaymentListFetcher />
+          <OrderListFetcher />
         </TabsContent>
         <TabsContent value="bookmarks" className={TAB_CONTENT_CLASS}>
           <BookmarkListFetcher />

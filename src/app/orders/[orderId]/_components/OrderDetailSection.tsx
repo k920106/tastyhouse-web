@@ -9,13 +9,13 @@ import PaymentInformationAccordion from '@/components/order/PaymentInformationAc
 import RefundPolicySection from '@/components/order/RefundPolicySection'
 import BorderedSection from '@/components/ui/BorderedSection'
 import SectionStack from '@/components/ui/SectionStack'
-import type { OrderDetailResponse } from '@/domains/order'
+import { OrderDetailResponse } from '@/domains/order'
 
-interface OrderCompleteSectionProps {
+interface OrderDetailSectionProps {
   orderDetail: OrderDetailResponse
 }
 
-export default function OrderCompleteSection({ orderDetail }: OrderCompleteSectionProps) {
+export default function OrderDetailSection({ orderDetail }: OrderDetailSectionProps) {
   const {
     orderNumber,
     paymentStatus,

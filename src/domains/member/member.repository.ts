@@ -4,7 +4,6 @@ import {
   MemberCouponListItemResponse,
   MemberInfo,
   MyBookmarkedPlaceListItemResponse,
-  MyPaymentListItemResponse,
   MyReviewListItemResponse,
   MyReviewStatsResponse,
   UsablePointResponse,
@@ -32,11 +31,6 @@ export const memberRepository = {
   },
   async getMyReviews(params: PaginationParams) {
     return api.get<ApiResponse<MyReviewListItemResponse[]>>(`${ENDPOINT}/v1/me/reviews`, {
-      params,
-    })
-  },
-  async getMyPayments(params: PaginationParams) {
-    return api.get<ApiResponse<MyPaymentListItemResponse[]>>(`${ENDPOINT}/v1/me/payments`, {
       params,
     })
   },

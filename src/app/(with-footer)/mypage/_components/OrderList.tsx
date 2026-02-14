@@ -1,7 +1,7 @@
 import ImageContainer from '@/components/ui/ImageContainer'
 import ViewMoreButton from '@/components/ui/ViewMoreButton'
 import { getPaymentStatusColor, getPaymentStatusName } from '@/constants/payment'
-import { MyPaymentListItemResponse } from '@/domains/member/member.type'
+import { OrderListResponse } from '@/domains/order'
 import { PaymentStatus } from '@/domains/payment/payment.type'
 import { formatDate } from '@/lib/date'
 import { formatNumber } from '@/lib/number'
@@ -10,8 +10,8 @@ import { PAGE_PATHS } from '@/lib/paths'
 import Image from 'next/image'
 import Link from 'next/link'
 
-interface PaymentListItemProps {
-  paymentId: number
+interface OrderListItemProps {
+  id: number
   placeThumbnailImageUrl: string
   placeName: string
   firstProductName: string
@@ -21,8 +21,8 @@ interface PaymentListItemProps {
   paymentStatus: PaymentStatus
 }
 
-function PaymentListItem({
-  paymentId,
+function OrderListItem({
+  id,
   placeThumbnailImageUrl,
   placeName,
   firstProductName,
@@ -30,13 +30,13 @@ function PaymentListItem({
   price,
   date,
   paymentStatus,
-}: PaymentListItemProps) {
+}: OrderListItemProps) {
   const statusColor = getPaymentStatusColor(paymentStatus)
   const statusName = getPaymentStatusName(paymentStatus)
   const formattedDate = formatDate(date, 'YY.MM.DD')
 
   return (
-    <Link href={PAGE_PATHS.PAYMENT_DETAIL(paymentId)} className="block">
+    <Link href={PAGE_PATHS.ORDER_DETAIL(id)} className="block">
       <div className="flex items-center justify-between py-[15px]">
         <div className="flex items-center gap-[15px]">
           <ImageContainer src={placeThumbnailImageUrl} alt={placeName} size={60} />
@@ -59,12 +59,13 @@ function PaymentListItem({
   )
 }
 
-interface PaymentListProps {
-  payments: MyPaymentListItemResponse[]
-  hasMorePayments: boolean
+interface OrderListProps {
+  orders: OrderListResponse
+  hasMoreOrders: boolean
 }
-export default function PaymentList({ payments, hasMorePayments }: PaymentListProps) {
-  if (payments.length === 0) {
+
+export default function OrderList({ orders, hasMoreOrders }: OrderListProps) {
+  if (orders.length === 0) {
     return (
       <div className="flex flex-col items-center justify-center h-full pb-[70px]">
         <div className="relative w-[35px] h-[40px]">
@@ -80,10 +81,10 @@ export default function PaymentList({ payments, hasMorePayments }: PaymentListPr
   return (
     <>
       <div className="px-[15px] py-[5px] bg-white divide-y divide-[#eeeeee]">
-        {payments.map((payment) => (
-          <PaymentListItem
-            key={payment.paymentId}
-            paymentId={payment.paymentId}
+        {orders.map((payment) => (
+          <OrderListItem
+            key={payment.id}
+            id={payment.id}
             placeThumbnailImageUrl={payment.placeThumbnailImageUrl}
             placeName={payment.placeName}
             firstProductName={payment.firstProductName}
@@ -94,9 +95,9 @@ export default function PaymentList({ payments, hasMorePayments }: PaymentListPr
           />
         ))}
       </div>
-      {hasMorePayments && (
+      {hasMoreOrders && (
         <div className="flex justify-center py-5">
-          <ViewMoreButton href={PAGE_PATHS.MY_PAYMENTS} label="더 보러가기" />
+          <ViewMoreButton href={PAGE_PATHS.ORDERS} label="더 보러가기" />
         </div>
       )}
       <div className="h-[70px]"></div>

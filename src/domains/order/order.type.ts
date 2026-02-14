@@ -74,6 +74,19 @@ export interface PaymentSummaryResponse {
   cardNumber?: string
 }
 
+export type OrderListResponse = OrderListItemResponse[]
+
+type OrderListItemResponse = {
+  id: number
+  placeName: string
+  placeThumbnailImageUrl: string
+  firstProductName: string
+  totalItemCount: number
+  amount: number
+  paymentStatus: PaymentStatus
+  paymentDate: string
+}
+
 export interface OrderDetailResponse {
   id: number
   orderNumber: string

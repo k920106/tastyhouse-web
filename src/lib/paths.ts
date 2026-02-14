@@ -24,12 +24,11 @@ export const PAGE_PATHS = {
     `/places/${placeId}/order/menus/${menuId}`,
   ORDER_CART: (placeId: string | number) => `/places/${placeId}/order/cart`,
   ORDER_CHECKOUT: (placeId: string | number) => `/places/${placeId}/order/checkout`,
-  ORDER_DETAIL: (placeId: string | number, orderId: string | number) =>
-    `/places/${placeId}/order/${orderId}`,
+  ORDERS: '/orders',
+  ORDER_DETAIL: (orderId: string | number) => `/orders/${orderId}`,
   ORDER_COMPLETE: (orderId: string | number) => `/orders/${orderId}/complete`,
 
   // 결제
-  PAYMENT_DETAIL: (id: string | number) => `/payments/${id}`,
   PAYMENT_SUCCESS: '/payments/success',
   PAYMENT_FAIL: '/payments/fail',
 
@@ -62,7 +61,6 @@ export const PAGE_PATHS = {
   MY_POINTS: '/mypage/points',
   MY_COUPONS: '/mypage/coupons',
   MY_REVIEWS: '/mypage/reviews',
-  MY_PAYMENTS: '/mypage/payments',
   MY_BOOKMARKS: '/mypage/bookmarks',
 
   // 설정
