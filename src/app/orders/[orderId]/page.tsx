@@ -3,16 +3,14 @@ import OrderDetailSection from './_components/OrderDetailSection'
 
 interface OrderDetailPageProps {
   params: Promise<{
-    id: string
+    orderId: string
   }>
 }
 
 export default async function OrderDetailPage({ params }: OrderDetailPageProps) {
-  const { id } = await params
+  const { orderId } = await params
 
-  const orderId = Number(id)
-
-  const orderDetailResult = await getOrderDetail(orderId)
+  const orderDetailResult = await getOrderDetail(Number(orderId))
 
   const orderDetail = orderDetailResult.data?.data
 
