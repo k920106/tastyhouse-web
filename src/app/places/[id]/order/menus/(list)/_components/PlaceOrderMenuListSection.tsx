@@ -1,4 +1,5 @@
 import Header, { HeaderCenter, HeaderLeft } from '@/components/layouts/Header'
+import { HeaderTitle } from '@/components/layouts/HeaderTitle'
 import { BackButton } from '@/components/layouts/header-parts'
 import MenuCategoryItem from '@/components/menus/MenuCategoryItem'
 import MenuItem from '@/components/menus/MenuItem'
@@ -27,7 +28,7 @@ export default function PlaceOrderMenuListSection({
           <BackButton />
         </HeaderLeft>
         <HeaderCenter>
-          <h1 className="text-[17px] leading-[17px]">바로 주문하기</h1>
+          <HeaderTitle>바로 주문하기</HeaderTitle>
         </HeaderCenter>
       </Header>
       <SectionStack>

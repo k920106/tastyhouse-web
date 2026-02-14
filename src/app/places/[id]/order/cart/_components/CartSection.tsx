@@ -1,6 +1,7 @@
 'use client'
 
 import Header, { HeaderCenter, HeaderLeft } from '@/components/layouts/Header'
+import { HeaderTitle } from '@/components/layouts/HeaderTitle'
 import { BackButton } from '@/components/layouts/header-parts'
 import BorderedSection from '@/components/ui/BorderedSection'
 import SectionStack from '@/components/ui/SectionStack'
@@ -97,7 +98,7 @@ export default function CartSection({ placeId }: CartSectionProps) {
             <BackButton />
           </HeaderLeft>
           <HeaderCenter>
-            <h1 className="text-[17px] leading-[17px]">장바구니</h1>
+            <HeaderTitle>장바구니</HeaderTitle>
           </HeaderCenter>
         </Header>
         <div className="flex-1 flex items-center justify-center">
@@ -114,7 +115,7 @@ export default function CartSection({ placeId }: CartSectionProps) {
           <BackButton />
         </HeaderLeft>
         <HeaderCenter>
-          <h1 className="text-[17px] leading-[17px]">장바구니</h1>
+          <HeaderTitle>장바구니</HeaderTitle>
         </HeaderCenter>
       </Header>
       <SectionStack>

@@ -1,4 +1,5 @@
 import Header, { HeaderCenter, HeaderLeft } from '@/components/layouts/Header'
+import { HeaderTitle } from '@/components/layouts/HeaderTitle'
 import { BackButton } from '@/components/layouts/header-parts'
 import CancelOrderButton from '@/components/order/CancelOrderButton'
 import OrderStatusHeader from '@/components/order/OrderStatusHeader'
@@ -41,7 +42,7 @@ export default function OrderDetailSection({ orderDetail }: OrderDetailSectionPr
           <BackButton />
         </HeaderLeft>
         <HeaderCenter>
-          <h1 className="text-[17px] leading-[17px]">결제내역</h1>
+          <HeaderTitle>결제내역</HeaderTitle>
         </HeaderCenter>
       </Header>
       <SectionStack>

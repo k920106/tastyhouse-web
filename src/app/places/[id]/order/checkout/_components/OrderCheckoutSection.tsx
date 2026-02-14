@@ -1,6 +1,7 @@
 'use client'
 
 import Header, { HeaderCenter, HeaderLeft } from '@/components/layouts/Header'
+import { HeaderTitle } from '@/components/layouts/HeaderTitle'
 import { BackButton } from '@/components/layouts/header-parts'
 import { toast } from '@/components/ui/AppToaster'
 import BorderedSection from '@/components/ui/BorderedSection'
@@ -164,7 +165,7 @@ export default function OrderCheckoutSection({
           <BackButton />
         </HeaderLeft>
         <HeaderCenter>
-          <h1 className="text-[17px] leading-[17px]">결제하기</h1>
+          <HeaderTitle>결제하기</HeaderTitle>
         </HeaderCenter>
       </Header>
       <SectionStack>

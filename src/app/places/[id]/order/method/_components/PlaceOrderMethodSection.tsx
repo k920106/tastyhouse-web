@@ -1,6 +1,7 @@
 'use client'
 
 import Header, { HeaderCenter, HeaderLeft } from '@/components/layouts/Header'
+import { HeaderTitle } from '@/components/layouts/HeaderTitle'
 import { BackButton } from '@/components/layouts/header-parts'
 import AppButton from '@/components/ui/AppButton'
 import type { OrderMethod, OrderMethodItem } from '@/domains/order'
@@ -73,7 +74,7 @@ export default function PlaceOrderMethodSection({
             <BackButton />
           </HeaderLeft>
           <HeaderCenter>
-            <h1 className="text-[17px] leading-[17px]">주문방법 선택</h1>
+            <HeaderTitle>주문방법 선택</HeaderTitle>
           </HeaderCenter>
         </Header>
         <div className="flex-1 flex flex-col justify-center px-[15px]">
