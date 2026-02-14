@@ -1,10 +1,11 @@
 'use client'
 
-import { getMemberGradeColor, getMemberGradeIcon, getMemberGradeName } from '@/constants/member'
 import { Skeleton } from '@/components/ui/shadcn/skeleton'
+import { getMemberGradeColor, getMemberGradeIcon, getMemberGradeName } from '@/constants/member'
 import { useMemberProfile } from '@/hooks/useMemberProfile'
 import { useMyReviewStats } from '@/hooks/useMyReviewStats'
 import Image from 'next/image'
+import Link from 'next/link'
 
 function MyPageProfileSkeleton() {
   return (
@@ -56,23 +57,19 @@ export default function MyPageProfile() {
   return (
     <div className="flex-1 flex flex-col items-center bg-white">
       <div className="-mt-[63px] relative z-10 w-[125px] h-[125px] rounded-full overflow-hidden">
-        {profileImageUrl ? (
-          <Image
-            src={profileImageUrl ?? ''}
-            alt={nickname ?? ''}
-            fill
-            className="object-cover"
-            sizes="125px"
-          />
-        ) : (
-          <div className="w-full h-full flex items-center justify-center bg-gray-200">
-            <div className="w-16 h-16 rounded-full bg-white" />
-          </div>
-        )}
+        <Image
+          src={profileImageUrl ?? '/images/account/profile/profile-random.png'}
+          alt="프로필 이미지"
+          fill
+          className="object-cover"
+          sizes="125px"
+        />
       </div>
       <div className="flex items-center gap-0.5 mt-[21px]">
         <h1 className="text-base leading-[16px] font-bold">{nickname}</h1>
-        <Image src="/images/mypage/icon-pen.png" alt="pencil" width={18} height={16} />
+        <Link href="/account/profile">
+          <Image src="/images/mypage/icon-pen.png" alt="pencil" width={18} height={16} />
+        </Link>
       </div>
       <div className="flex items-center gap-1.5 mt-2">
         <div className="relative w-[14px] h-[14px]">
