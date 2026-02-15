@@ -1,4 +1,5 @@
 import { memberRepository } from './member.repository'
+import { UpdateProfileRequest } from './member.type'
 
 export const memberService = {
   async getMemberMe() {
@@ -18,5 +19,8 @@ export const memberService = {
   },
   async getMyBookmarks(page: number = 0, size: number = 10) {
     return await memberRepository.getMyBookmarks({ page, size })
+  },
+  async updateMyProfile(data: UpdateProfileRequest) {
+    return await memberRepository.updateMyProfile(data)
   },
 }

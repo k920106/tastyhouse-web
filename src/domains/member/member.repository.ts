@@ -6,6 +6,7 @@ import {
   MyBookmarkedPlaceListItemResponse,
   MyReviewListItemResponse,
   MyReviewStatsResponse,
+  UpdateProfileRequest,
   UsablePointResponse,
 } from './member.type'
 
@@ -41,5 +42,9 @@ export const memberRepository = {
         params,
       },
     )
+  },
+  // 프로필 수정
+  async updateMyProfile(data: UpdateProfileRequest) {
+    return api.put<ApiResponse<void>>(`${ENDPOINT}/v1/me/profile`, data)
   },
 }

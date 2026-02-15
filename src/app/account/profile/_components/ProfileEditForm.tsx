@@ -2,8 +2,14 @@
 
 import AppButton from '@/components/ui/AppButton'
 import AppFormField from '@/components/ui/AppFormField'
+import AppInputText from '@/components/ui/AppInputText'
+import { toast } from '@/components/ui/AppToaster'
+import { Spinner } from '@/components/ui/shadcn/spinner'
+import { MEMBER_PROFILE_QUERY_KEY, useMemberProfile } from '@/hooks/useMemberProfile'
+import { updateMemberProfile } from '@/services/member'
+import { useQueryClient } from '@tanstack/react-query'
 import { useRouter } from 'next/navigation'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { z } from 'zod'
 import ProfileImageEditor from './ProfileImageEditor'
 
@@ -11,7 +17,8 @@ const profileSchema = z.object({
   nickname: z
     .string()
     .min(1, '닉네임을 입력해주세요.')
-    .max(20, '닉네임은 최대 20자까지 가능합니다.'),
+    .max(20, '닉네임은 최대 20자까지 가능합니다.')
+    .refine((val) => !/\s/.test(val), '닉네임에 공백을 포함할 수 없습니다.'),
   statusMessage: z.string().max(30, '상태메세지는 최대 30자까지 가능합니다.'),
 })
 
@@ -22,10 +29,23 @@ type ProfileErrors = {
 
 export default function ProfileEditForm() {
   const router = useRouter()
+  const queryClient = useQueryClient()
+  const { memberProfile, isLoading } = useMemberProfile()
+
   const [nickname, setNickname] = useState('')
   const [statusMessage, setStatusMessage] = useState('')
   const [profileImageUrl, setProfileImageUrl] = useState<string | null>(null)
   const [errors, setErrors] = useState<ProfileErrors>({})
+  const [isSubmitting, setIsSubmitting] = useState(false)
+
+  // 프로필 정보로 초기값 설정
+  useEffect(() => {
+    if (memberProfile) {
+      setNickname(memberProfile.nickname || '')
+      setStatusMessage(memberProfile.statusMessage || '')
+      setProfileImageUrl(memberProfile.profileImageUrl || null)
+    }
+  }, [memberProfile])
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
@@ -55,34 +75,72 @@ export default function ProfileEditForm() {
 
   const handleSubmit = async () => {
     if (!validate()) return
-    // TODO: 프로필 수정 API 호출
-    router.back()
+
+    setIsSubmitting(true)
+    try {
+      const response = await updateMemberProfile({
+        nickname,
+        statusMessage,
+        profileImageUrl: profileImageUrl || undefined,
+      })
+
+      if (response?.data?.success) {
+        // 프로필 캐시 무효화하여 최신 데이터 다시 가져오기
+        await queryClient.invalidateQueries({ queryKey: MEMBER_PROFILE_QUERY_KEY })
+        toast('프로필이 변경됐습니다.')
+        router.back()
+      } else {
+        toast('프로필 수정에 실패했습니다.')
+      }
+    } catch (error) {
+      console.error('프로필 수정 실패:', error)
+      toast('프로필 수정 중 오류가 발생했습니다.')
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
   return (
     <div>
       <ProfileImageEditor profileImageUrl={profileImageUrl} onImageChange={handleImageChange} />
       <div className="flex flex-col gap-5 px-[15px]">
-        <AppFormField
-          label="닉네임"
-          value={nickname}
-          onChange={(e) => setNickname(e.target.value)}
-          placeholder="닉네임을 입력해주세요"
-          maxLength={20}
-          error={errors.nickname}
-        />
-        <AppFormField
-          label="상태메세지"
-          value={statusMessage}
-          onChange={(e) => setStatusMessage(e.target.value)}
-          placeholder="상태메세지는 공백을 포함한 최대 30자까지 가능합니다."
-          maxLength={30}
-          error={errors.statusMessage}
-        />
+        <AppFormField label="닉네임" required error={errors.nickname}>
+          {({ className }) => (
+            <AppInputText
+              value={nickname}
+              onChange={(e) => setNickname(e.target.value.replace(/\s/g, ''))}
+              placeholder="닉네임은 공백을 포함하지 않는 최대 20자까지 가능합니다."
+              maxLength={20}
+              className={className}
+            />
+          )}
+        </AppFormField>
+        <AppFormField label="상태메세지" error={errors.statusMessage}>
+          {({ className }) => (
+            <AppInputText
+              value={statusMessage}
+              onChange={(e) => setStatusMessage(e.target.value)}
+              placeholder="상태메세지는 공백을 포함한 최대 30자까지 가능합니다."
+              maxLength={30}
+              className={className}
+            />
+          )}
+        </AppFormField>
       </div>
       <div className="px-[15px] mt-[30px]">
-        <AppButton onClick={handleSubmit} className="text-white bg-[#a91201]">
-          완료
+        <AppButton
+          onClick={handleSubmit}
+          disabled={isSubmitting || isLoading}
+          className="text-white bg-[#a91201]"
+        >
+          {isSubmitting ? (
+            <>
+              변경 중
+              <Spinner />
+            </>
+          ) : (
+            '완료'
+          )}
         </AppButton>
       </div>
     </div>

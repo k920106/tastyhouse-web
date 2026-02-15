@@ -123,3 +123,9 @@ export type LoginResponse = {
   refreshToken: string
   tokenType: string
 }
+
+export type UpdateProfileRequest = {
+  nickname?: string
+  statusMessage?: string
+  profileImageUrl?: string
+}

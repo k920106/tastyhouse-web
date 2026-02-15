@@ -1,32 +1,25 @@
-import AppInputText from './AppInputText'
-
 interface AppFormFieldProps {
   label: string
-  value: string
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void
-  placeholder?: string
-  maxLength?: number
+  required?: boolean
   error?: string
+  children: (props: { className?: string }) => React.ReactNode
 }
 
-export default function AppFormField({
-  label,
-  value,
-  onChange,
-  placeholder,
-  maxLength,
-  error,
-}: AppFormFieldProps) {
+export default function AppFormField({ label, required, error, children }: AppFormFieldProps) {
+  const inputClassName = error ? 'border-[#bc4040] focus-visible:border-[#bc4040]' : undefined
+
   return (
-    <div>
-      <h3 className="text-xs leading-[12px] mb-2.5">{label}</h3>
-      <AppInputText
-        value={value}
-        onChange={onChange}
-        placeholder={placeholder}
-        maxLength={maxLength}
-      />
-      {error && <p className="text-xs text-red-500 mt-1.5">{error}</p>}
+    <div className="flex flex-col gap-2.5">
+      <h3 className="flex items-center text-xs h-3 overflow-hidden">
+        {label}
+        {required && (
+          <span className="text-[17px] leading-3 text-[#bc4040] ml-[5px]">
+            *
+          </span>
+        )}
+      </h3>
+      {children({ className: inputClassName })}
+      {error && <p className="text-xs leading-[12px] text-[#bc4040]">{error}</p>}
     </div>
   )
 }
